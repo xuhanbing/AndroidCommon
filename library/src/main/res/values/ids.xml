@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- titlebar -->
+    <item name="iv_titlebar_back" type="id"></item>
+    <item name="tv_titlebar_title" type="id"></item>
+    <item name="tv_titlebar_left" type="id"></item>
+    <item name="tv_titlebar_right" type="id"></item>
+
+    <!--  -->
+    <item name="viewpager" type="id"></item>
+    <item name="increment" type="id"/>
+    <item name="decrement" type="id"/>
+
+</resources>

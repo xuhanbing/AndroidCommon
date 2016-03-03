@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Copy one of these attributes to your own theme (choose either dark or light).
+        <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
+        <item name="numberPickerStyle">@style/NPWidget.Holo.Light.NumberPicker</item>
+    -->
+
+    <!-- Don't touch this -->
+    <attr name="numberPickerStyle" format="reference" />
+
+    <declare-styleable name="NumberPicker">
+        <!-- @hide Color for the solid color background if such for optimized rendering. -->
+        <attr name="solidColor" format="color|reference" />
+        <!-- @hide The divider for making the selection area. -->
+        <attr name="selectionDivider" format="reference" />
+        <!-- @hide The height of the selection divider. -->
+        <attr name="selectionDividerHeight" format="dimension" />
+        <!-- @hide The distance between the two selection dividers. -->
+        <attr name="selectionDividersDistance" format="dimension" />
+        <!-- @hide The min height of the NumberPicker. -->
+        <attr name="internalMinHeight" format="dimension" />
+        <!-- @hide The max height of the NumberPicker. -->
+        <attr name="internalMaxHeight" format="dimension" />
+        <!-- @hide The min width of the NumberPicker. -->
+        <attr name="internalMinWidth" format="dimension" />
+        <!-- @hide The max width of the NumberPicker. -->
+        <attr name="internalMaxWidth" format="dimension" />
+        <!-- @hide The layout of the number picker. -->
+        <attr name="internalLayout" format="reference" />
+        <!-- @hide The drawable for pressed virtual (increment/decrement) buttons. -->
+        <attr name="virtualButtonPressedDrawable" format="reference" />
+        <!-- textcolor -->
+        <attr name="textColor" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundImageView">
+        <!-- The width of border, or 0 if you do not want -->
+        <attr name="borderSize" format="dimension"></attr>
+        <!--The color of border -->
+        <attr name="borderColor" format="color"></attr>
+        <!--The type of round image view. u can use it as a circle image view if you set type as circle-->
+        <attr name="type" format="enum">
+            <enum name="CIRCLE" value="0"></enum>
+            <enum name="ROUND" value="1"></enum>
+        </attr>
+        <!-- The radius of round corner, or 0 if you do not want-->
+        <attr name="radius" format="dimension"></attr>
+
+    </declare-styleable>
+</resources>
