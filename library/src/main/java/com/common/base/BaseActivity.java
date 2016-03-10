@@ -6,13 +6,14 @@ package com.common.base;
 import org.xutils.x;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 
 /**
  * @author hanbing
  * 
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends FragmentActivity {
 
 	/*
 	 * (non-Javadoc)
