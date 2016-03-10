@@ -29,11 +29,10 @@ public class PhoneNumberUtils {
 		 * 去掉+86或86
 		 */
 		if (phoneNumber.startsWith("+86")) {
-			phoneNumber.replaceFirst("+86", "");
+			phoneNumber = phoneNumber.replace("+86", "");
 		} else if (phoneNumber.startsWith("86")) {
-			phoneNumber.replaceFirst("86", "");
+			phoneNumber = phoneNumber.replaceFirst("86", "");
 		}
-
 		String telRegex = "[1][3578]\\d{9}";
 		if (TextUtils.isEmpty(phoneNumber))
 			return false;

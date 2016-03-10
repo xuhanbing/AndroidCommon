@@ -21,7 +21,7 @@ import android.view.inputmethod.InputMethodManager;
  * @author hanbing
  * @date 2015-7-21
  */
-public class SystemUtils {
+public class SystemUtils extends OtherUtils {
 
 	/**
 	 * 获取显示信息

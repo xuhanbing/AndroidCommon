@@ -55,7 +55,7 @@ public class TimeUtils {
 	}
 
 	/**
-	 * 获取制定时间
+	 * 获取指定时间
 	 * 
 	 * @param format
 	 * @param time
@@ -72,7 +72,7 @@ public class TimeUtils {
 	 * @param time
 	 * @return
 	 */
-	public static long getLong(String format, String time) {
+	public static long getTimeInMillis(String format, String time) {
 		Calendar c = Calendar.getInstance();
 		try {
 			c.setTime(new SimpleDateFormat(format).parse(time));
@@ -82,6 +82,18 @@ public class TimeUtils {
 		}
 
 		return c.getTimeInMillis();
+	}
+
+	/**
+	 * 改变时间格式
+	 * @param time
+	 * @param oldFormat
+	 * @param newFormat
+	 * @return
+	 */
+	public static String changeFormat(String time, String oldFormat, String newFormat)
+	{
+		return getTime(newFormat, getTimeInMillis(oldFormat, time));
 	}
 
 	/**

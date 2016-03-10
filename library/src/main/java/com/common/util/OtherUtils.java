@@ -88,6 +88,70 @@ public class OtherUtils {
 		context.startActivity(intent);
 	}
 
+	public static void share(Context context, String title, String subject, String text)
+	{
+		Intent intent = new Intent(Intent.ACTION_SEND);
+
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+		intent.putExtra(Intent.EXTRA_TEXT, text);
+		context.startActivity(Intent.createChooser(intent, title));
+
+	}
+
+	/**
+	 * 分享图片
+	 * @param context
+	 * @param title
+	 * @param subject
+	 * @param imagePath
+	 */
+	public static void shareImage(Context context, String title, String subject, String imagePath)
+	{
+		Intent intent = new Intent(Intent.ACTION_SEND);
+
+		intent.setType("image/*");
+		intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+		intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(imagePath)));
+		context.startActivity(Intent.createChooser(intent, title));
+
+	}
+
+	/**
+	 * 分享文件
+	 * @param context
+	 * @param title
+	 * @param subject
+	 * @param filePath
+	 */
+	public static void shareFile(Context context, String title, String subject, String filePath)
+	{
+		Intent intent = new Intent(Intent.ACTION_SEND);
+
+		intent.setType("*/*");
+		intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+		intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
+		context.startActivity(Intent.createChooser(intent, title));
+
+	}
+
+	public static void mail(Context context, String to, String title, String subject, String content)
+	{
+//		Intent intent = new Intent(Intent.ACTION_SENDTO);
+//
+//		intent.setData(Uri.parse("mailto:" + to));
+//		intent.putExtra(Intent.EXTRA_TEXT, content);
+//		intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+//
+//		context.startActivity(intent);
+
+		Intent data=new Intent(Intent.ACTION_SENDTO);
+		data.setData(Uri.parse("mailto:qq10000@qq.com"));
+		data.putExtra(Intent.EXTRA_SUBJECT, "这是标题");
+		data.putExtra(Intent.EXTRA_TEXT, "这是内容");
+		context.startActivity(data);
+	}
+
 	/**
 	 * 拍照
 	 * 
@@ -138,6 +202,17 @@ public class OtherUtils {
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.setDataAndType(Uri.fromFile(new File(appLocalPath)),
 				"application/vnd.android.package-archive");
+		context.startActivity(intent);
+	}
+
+	/**
+	 * 卸载app
+	 * @param context
+	 * @param packageName app的包名
+	 */
+	public static void uninstallApp(Context context, String packageName)
+	{
+		Intent intent = new Intent(Intent.ACTION_DELETE, Uri.parse("package:" + packageName));
 		context.startActivity(intent);
 	}
 	
