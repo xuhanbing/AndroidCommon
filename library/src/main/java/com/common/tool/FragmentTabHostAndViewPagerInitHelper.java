@@ -110,9 +110,7 @@ public class FragmentTabHostAndViewPagerInitHelper implements ViewPager.OnPageCh
 		this.mOnPageChangeListener = onPageChangeListener;
 		this.mOnTabChangeListener = onTabChangeListener;
 
-		if (null == viewFactory) {
-			viewFactory = generateDefaultViewFactory();
-		}
+
 	}
 
 	private ViewFactory generateDefaultViewFactory() {
@@ -136,6 +134,10 @@ public class FragmentTabHostAndViewPagerInitHelper implements ViewPager.OnPageCh
 
 		if (null == mContext || null == mTags || null == mFragmentTabHost || null == mViewPager)
 			return;
+
+		if (null == mViewFactory) {
+			mViewFactory = generateDefaultViewFactory();
+		}
 
 		int containerId = mViewPager.getId();
 

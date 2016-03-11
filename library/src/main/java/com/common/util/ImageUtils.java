@@ -766,7 +766,7 @@ public class ImageUtils {
 	 * @param drawable
 	 * @return
 	 */
-	public static Bitmap DrawableToBitmap(Drawable drawable) {
+	public static Bitmap drawableToBitmap(Drawable drawable) {
 		Bitmap bm = null;
 		if (null == drawable) {
 
