@@ -1,24 +1,27 @@
 package com.common.widget.recyclerview.animator;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+
+import com.common.widget.recyclerview.animator.bean.TranslationValuePair;
+import com.common.widget.recyclerview.animator.bean.ValuePair;
 
 /**
  * Created by hanbing on 2016/3/11.
  */
-public class SlideInBottomItemAnimator extends BaseTranslationItemAnimator {
-
+public class SlideInBottomItemAnimator extends BaseSimpleItemAnimator {
 
     @Override
-    protected void initValues(RecyclerView.ViewHolder holder) {
-        super.initValues(holder);
+    protected void initAnimation(RecyclerView.ViewHolder holder) {
 
-        View view = holder.itemView;
+        int width = holder.itemView.getWidth();
+        int height = holder.itemView.getHeight();
 
-        mAddFromX = mRemoveToX = 0;
-        mAddToX = mRemoveFromX = 0;
+        TranslationValuePair add = new TranslationValuePair();
+        TranslationValuePair remove = new TranslationValuePair();
 
-        mAddFromY = mRemoveToY = view.getHeight();
-        mAddToY = mRemoveToY = 0;
+        add.y = new ValuePair(height, 0);
+        remove.y = new ValuePair(0, height, 0);
+
+        translate(add, remove);
     }
 }

@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.support.v4.animation.AnimatorCompatHelper;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewCompat;
@@ -167,6 +168,26 @@ public class ViewUtils {
 //            view.setAlpha(alpha);
 //        }
         ViewCompat.setAlpha(view, alpha);
+    }
+
+    public static void clear(View view)
+    {
+        if (null == view)
+            return;
+
+        ViewCompat.setAlpha(view, 1);
+        ViewCompat.setScaleY(view, 1);
+        ViewCompat.setScaleX(view, 1);
+        ViewCompat.setTranslationY(view, 0);
+        ViewCompat.setTranslationX(view, 0);
+        ViewCompat.setRotation(view, 0);
+        ViewCompat.setRotationY(view, 0);
+        ViewCompat.setRotationX(view, 0);
+        // @TODO https://code.google.com/p/android/issues/detail?id=80863
+//        ViewCompat.setPivotY(v, v.getMeasuredHeight() / 2);
+        view.setPivotY(view.getMeasuredHeight() / 2);
+        ViewCompat.setPivotX(view, view.getMeasuredWidth() / 2);
+        AnimatorCompatHelper.clearInterpolator(view);
     }
 
 
