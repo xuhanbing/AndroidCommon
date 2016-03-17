@@ -5,6 +5,7 @@ package com.common.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -245,14 +246,40 @@ public class FileUtils {
 		}
 	}
 
+
+	public static String getRootPathIn(Context context) {
+		return context.getFilesDir().getParent() + File.separator;
+	}
+
+	public static String getRootPathExt(Context context) {
+		if (Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED)) {
+			return Environment.getExternalStorageDirectory().getAbsolutePath()
+					+ File.separator;
+		}
+
+		return "";
+	}
+
 	/**
 	 * 如果没有根路径，自动添加根路径 根路径+子路径
 	 * 
 	 * @param context
-	 * @param subPath
-	 *            子路径
+	 * @param subPath 子路径
 	 */
 	public static String addRootIfNeed(Context context, String subPath) {
+		String rootIn = getRootPathIn(context);
+		String rootExt = getRootPathExt(context);
+
+
+		/**
+		 * 如果已经是内容部存储路径或者外部存储路径
+		 */
+		if (subPath.startsWith(rootIn)
+				|| (!TextUtils.isEmpty(rootExt) && subPath.startsWith(rootExt))) {
+			return subPath;
+		}
+
 		String root = getRootPath(context);
 		/**
 		 * 添加默认的根路径
@@ -419,5 +446,84 @@ public class FileUtils {
 		File newFile = new File(newPath);
 
 		return oldFile.renameTo(newFile);
+	}
+
+	/**
+	 * 写入文件
+	 * @param context
+	 * @param path
+	 * @param data
+	 * @return
+	 */
+	public static boolean writeToFile(Context context, String path, byte[] data)
+	{
+
+		boolean success = false;
+		if (!TextUtils.isEmpty(path) || null != data)
+		{
+			File file = new File(path);
+
+			File parent =file.getParentFile();
+
+			if (!parent.exists())
+			{
+				createDir(context, parent.getAbsolutePath());
+			}
+
+			try {
+				FileOutputStream os = new FileOutputStream(file);
+
+				os.write(data);
+
+				os.flush();
+				os.close();
+
+				success = true;
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return success;
+	}
+
+	/**
+	 * 读取文件倒流
+	 * @param path
+	 * @return
+	 */
+	public static byte[] readFromFile(String path)
+	{
+		if (FileUtils.isExist(path))
+		{
+			try {
+				FileInputStream is = new FileInputStream(path);
+
+				int totalLen = is.available();
+
+
+				byte[] buffer = new byte[totalLen];
+
+				int readLength = 0;
+
+				while ((readLength = is.read(buffer, readLength, totalLen - readLength)) != -1)
+				{
+					totalLen += readLength;
+				}
+
+				is.close();
+
+				return buffer;
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return null;
 	}
 }

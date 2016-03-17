@@ -10,6 +10,7 @@ import android.view.View;
 public class RotationValuePair extends AnimationValuePair{
     public ValuePair x = new ValuePair();
     public ValuePair y = new ValuePair();
+    public ValuePair z = new ValuePair();
 
     @Override
     public void before(View view) {
@@ -21,6 +22,9 @@ public class RotationValuePair extends AnimationValuePair{
 
         if (null != y)
             ViewCompat.setRotationY(view, y.before);
+
+        if (null != z)
+            ViewCompat.setRotation(view, z.before);
     }
 
     @Override
@@ -33,6 +37,9 @@ public class RotationValuePair extends AnimationValuePair{
 
         if (null != y)
             ViewCompat.setRotationY(view, y.after);
+
+        if (null != z)
+            ViewCompat.setRotation(view, z.after);
     }
 
     @Override
@@ -46,5 +53,8 @@ public class RotationValuePair extends AnimationValuePair{
 
         if (null != y)
             animation.rotationY(y.to);
+
+        if (null != z)
+            animation.rotation(z.to);
     }
 }

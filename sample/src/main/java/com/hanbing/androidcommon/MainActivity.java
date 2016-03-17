@@ -18,9 +18,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.common.base.BaseAppCompatActivity;
@@ -29,6 +32,19 @@ import com.common.listener.OnItemClickListener;
 import com.common.util.SystemUtils;
 import com.common.util.ToastUtils;
 import com.common.util.ViewUtils;
+import com.common.widget.recyclerview.animator.BaseSimpleItemAnimator;
+import com.common.widget.recyclerview.animator.FadeInItemAnimator;
+import com.common.widget.recyclerview.animator.FlipInBottomItemAnimator;
+import com.common.widget.recyclerview.animator.FlipInLeftItemAnimator;
+import com.common.widget.recyclerview.animator.FlipInRightItemAnimator;
+import com.common.widget.recyclerview.animator.FlipInTopItemAnimator;
+import com.common.widget.recyclerview.animator.LandingItemAnimator;
+import com.common.widget.recyclerview.animator.RotateItemAnimator;
+import com.common.widget.recyclerview.animator.ScaleInBottomItemAnimator;
+import com.common.widget.recyclerview.animator.ScaleInCenterItemAnimator;
+import com.common.widget.recyclerview.animator.ScaleInLeftItemAnimator;
+import com.common.widget.recyclerview.animator.ScaleInRightItemAnimator;
+import com.common.widget.recyclerview.animator.ScaleInTopItemAnimator;
 import com.common.widget.recyclerview.animator.SlideInBottomItemAnimator;
 import com.common.widget.recyclerview.animator.SlideInRightItemAnimator;
 import com.common.widget.recyclerview.animator.SlideInTopItemAnimator;
@@ -68,6 +84,12 @@ public class MainActivity extends BaseAppCompatActivity {
 
     @ViewInject(R.id.tv_item_count)
     TextView itemCountTextView;
+
+    @ViewInject(R.id.spinner)
+    Spinner spinner;
+
+    @ViewInject(R.id.tv_animator)
+    TextView animator;
 
     @Event(value = {R.id.rg_orientation, R.id.rg_style}, type = RadioGroup.OnCheckedChangeListener.class)
     private void onCheckedChange(RadioGroup group, int checkedId) {
@@ -148,6 +170,8 @@ public class MainActivity extends BaseAppCompatActivity {
 
     int itemCount = 50;
     int spanCount = 4;
+
+    static int addItemCount = 0;
 
     boolean horizontal = false;
     int type = TYPE_0;
@@ -313,11 +337,13 @@ public class MainActivity extends BaseAppCompatActivity {
         };
 
         ViewUtils.bindOnItemClickListener(recyclerView, new OnItemClickListener(){
+
+
             @Override
             public void onItemClick(RecyclerView recyclerView, View view, int position) {
                 ToastUtils.showToast(getApplicationContext(), "onItemClick " + position);
 
-                String title = items.get(position) + "-a";
+                String title = "add item " + addItemCount++;
                 items.add(position + 1, title);
 
                 recyclerView.getAdapter().notifyItemInserted(position+1);
@@ -355,7 +381,116 @@ public class MainActivity extends BaseAppCompatActivity {
 
         recyclerView.setAdapter(adaper);
 
+
+        initSpinner();
+
+
         reset();
+
+
+    }
+
+
+
+    RecyclerView.ItemAnimator itemAnimator;
+    private void initSpinner() {
+
+
+        final List<Class<? extends  RecyclerView.ItemAnimator>> list = new ArrayList<>();
+        list.add(FadeInItemAnimator.class);
+        list.add(SlideInLeftItemAnimator.class);
+        list.add(SlideInRightItemAnimator.class);
+        list.add(SlideInTopItemAnimator.class);
+        list.add(SlideInBottomItemAnimator.class);
+        list.add(ScaleInCenterItemAnimator.class);
+        list.add(ScaleInLeftItemAnimator.class);
+        list.add(ScaleInRightItemAnimator.class);
+        list.add(ScaleInTopItemAnimator.class);
+        list.add(ScaleInBottomItemAnimator.class);
+        list.add(FlipInLeftItemAnimator.class);
+        list.add(FlipInRightItemAnimator.class);
+        list.add(FlipInTopItemAnimator.class);
+        list.add(FlipInBottomItemAnimator.class);
+        list.add(LandingItemAnimator.class);
+        list.add(RotateItemAnimator.class);
+
+
+        spinner.setAdapter(new BaseAdapter() {
+
+            @Override
+            public int getCount() {
+                return list.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return null;
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return 0;
+            }
+
+            @Override
+            public boolean hasStableIds() {
+                return false;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+
+                TextView textView = new TextView(getApplicationContext());
+
+                textView.setText(list.get(position).getSimpleName());
+
+                return textView;
+            }
+
+            @Override
+            public int getItemViewType(int position) {
+                return 0;
+            }
+
+            @Override
+            public int getViewTypeCount() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Class<? extends RecyclerView.ItemAnimator> clazz = list.get(position);
+
+                try {
+                    itemAnimator = clazz.newInstance();
+                    recyclerView.setItemAnimator(itemAnimator);
+
+                    animator.setText(clazz.getSimpleName());
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        itemAnimator = new DefaultItemAnimator();
+        recyclerView.setItemAnimator(itemAnimator);
+
+        animator.setText(BaseSimpleItemAnimator.class.getSimpleName());
 
     }
 
