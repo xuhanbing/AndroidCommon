@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <TextView 
+        android:id="@+id/tv_player_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:maxWidth="200dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:text="Player 1"/>
+    
+    <TextView 
+        android:id="@+id/tv_player_actor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/tv_player_name"
+        android:layout_toRightOf="@+id/tv_player_name"
+        android:singleLine="true"
+        android:textSize="16sp"
+        android:text="庄"/>
+    
+    <LinearLayout 
+        android:id="@+id/layout_player_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_player_name">
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="筹码："/>
+        <TextView 
+        android:id="@+id/tv_player_chip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:maxWidth="150dp"
+        android:textStyle="bold"
+        android:text="1000"/>
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="本局赌注："/>
+        <TextView 
+        android:id="@+id/tv_player_wager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:maxWidth="150dp"
+        android:textStyle="bold"
+        android:text="1000"/>
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/layout_player_poker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_player_center"
+        android:orientation="horizontal"
+        />
+
+</RelativeLayout>

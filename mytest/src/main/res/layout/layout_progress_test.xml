@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res/com.xhb.mytest">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical" >
+        
+<!--         <com.xhb.mytest.view.ProgressView  -->
+<!--             android:layout_width="match_parent" -->
+<!--             android:layout_height="50dp" -->
+<!--             app:useRing="false" -->
+<!--             app:progressStyle="SWEEP"/> -->
+<!--         <com.xhb.mytest.view.ProgressView  -->
+<!--             android:layout_width="match_parent" -->
+<!--             android:layout_height="50dp" -->
+<!--             app:useRing="true" -->
+<!--             app:progressStyle="RING"/> -->
+        
+<!--         <com.xhb.mytest.view.ProgressView  -->
+<!--             android:layout_width="match_parent" -->
+<!--             android:layout_height="50dp" -->
+<!--             app:fillColor="#00ffff" -->
+<!--             app:ringColor="#ff00ff" -->
+<!--             app:progressColor="#000000" -->
+<!--             app:ringWidth="10dp" -->
+<!--             app:startAngle="90" -->
+<!--             app:useRing="true" -->
+<!--             app:progressStyle="RECT_PROGRESS_OUT_RIGHT"/> -->
+        
+        
+<!--         <com.xhb.mytest.view.ProgressView  -->
+<!-- 	        android:id="@+id/iv_post_image_progress" -->
+<!-- 	        android:layout_width="50dp" -->
+<!-- 	        android:layout_height="50dp" -->
+<!-- 	        android:visibility="visible" -->
+<!-- 	        app:useRing="true" -->
+<!-- 	        app:ringColor="#cfecfa" -->
+<!-- 	        app:ringWidth="10dp" -->
+<!-- 	        app:fillColor="#ffffff" -->
+<!-- 	        app:progressColor="#50c2e7" -->
+<!-- 	        app:progressStyle="RING" -->
+<!-- 	        app:progress="50" -->
+<!--         /> -->
+        
+        <com.hanbing.mytest.view.Progress5_0
+            android:layout_width="200dp"
+            android:layout_height="200dp"/>
+    </LinearLayout>
+    
+
+</ScrollView>

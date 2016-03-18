@@ -1,0 +1,53 @@
+ <!DOCTYPE html>  
+<head>  
+<meta charset="utf-8">
+<title>js交互android</title>  
+<mce:script type="text/javascript"><!--  
+      
+    function show(){  
+    var a = document.getElementById("text").value;  
+    alert(a);  
+      
+    }  
+// --></mce:script>  
+
+<script type="text/javascript" src="1.js">
+
+</script>
+</head>  
+<body style="width: 100%">  
+<form action="">  
+    <input type="text" id="text" value=""/>  
+    <input type="file" id="file" value="local">
+    <input type="button" id="button" onclick="window.test.show()" value="clickme"/>  
+  
+</form>  
+
+<h1>数据库测试</h1>
+<button id="add" onclick="insertData()">添加数据</button>
+<button id="droptable" onclick="ddeleteTables()">删除表</button>
+<br/>
+<div>
+<table id="table" border="1">
+<tr>
+<td>id</td>
+<td>name</td>
+<td>desc</td>
+<td>time</td>
+</tr>
+</table>
+</div>
+
+<h1>textarea测试</h1>
+<textarea id="textarea" cols="3" style="width: 100%;height:200px">
+</textarea>
+<br />
+<h1>经纬度测试</h1>
+<div>
+<p id="Longitude">longitude</p>
+<p id="Latitude">latitude</p>
+<p id="City">city</p>
+</div>
+  
+</body>  
+</html> 

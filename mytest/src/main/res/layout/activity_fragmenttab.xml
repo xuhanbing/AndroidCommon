@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <FrameLayout 
+        android:layout_above="@+id/tabhost"
+        android:layout_alignParentTop="true"
+	        android:id="@+id/realcontent"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent">
+	        
+	    </FrameLayout>
+	    
+    <android.support.v4.app.FragmentTabHost
+        android:id="@+id/tabhost"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+	    	
+	    <TabWidget 
+	        android:id="@android:id/tabs"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"/>
+    
+        
+    </android.support.v4.app.FragmentTabHost>
+    
+    
+    
+
+</RelativeLayout>

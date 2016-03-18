@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hanbing.mytest"
+    android:versionCode="1"
+    android:versionName="1.0">
+
+    <uses-sdk android:minSdkVersion="11" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_OWNER_DATA" />
+    <uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 用于调用 JNI -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:installLocation="preferExternal"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.hanbing.mytest.activity.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/MainTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestSlideListView"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestExpandableList">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestGridView">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestCustomEditText">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestRoundImageView">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestMapView">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.view.TestSectionListView"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestScrollView"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestListView"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestViewPager"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestPhoneCall"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestDrawerLayout"></activity>
+        <activity
+            android:name="com.hanbing.mytest.activity.view.TestPicSelector"
+            android:launchMode="standard"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestPageText"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestSlideLayout"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestLargeText"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestGridView2"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestGifActivity"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestProgress"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestPhotoGallery"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestQQWaterDrop"></activity>
+        <activity android:name="com.hanbing.mytest.activity.view.TestViewFlipper"></activity>
+        <activity
+            android:name="com.hanbing.mytest.activity.view.TestDraw"
+            android:launchMode="standard"
+            android:theme="@style/AnimFade2" />
+        <activity
+            android:name="com.hanbing.mytest.activity.view.TestBookReader"
+            android:launchMode="standard" />
+        <activity
+            android:name="com.hanbing.mytest.activity.view.TestSideBar"
+            android:launchMode="standard" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestKeywordView" />
+        <activity
+            android:name="com.hanbing.mytest.activity.view.TestCropPictureReal"
+            android:launchMode="standard" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestPullToRefreshView" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestPinnedSectionListView" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestNumberPicker" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestShaderView" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestMatrix" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestSwipeRefreshLayout" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestWebView" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestAutoCompleteText" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestDrawable" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestListView2" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestScrollView2" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestRecyclerView" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestRecyclerView2" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestArcMenu" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestChart" />
+        <activity android:name="com.hanbing.mytest.activity.view.TestMaterialDesign" />
+        <activity
+            android:name="com.hanbing.mytest.activity.action.TestMediaRecorder"
+            android:launchMode="standard"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestImageCompress"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestNotification"></activity>
+        <activity
+            android:name=".activity.action.TestDpExchange"
+            android:launchMode="standard"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestVolley"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestTcp"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestCalcTax"></activity>
+        <activity
+            android:name="com.hanbing.mytest.activity.action.TestQRCode"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"></activity>
+        <activity
+            android:name="com.hanbing.mytest.activity.action.TestQRCode2"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestShortcut">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestMediaPlayer"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestAppWindow">
+            <intent-filter>
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hanbing.mytest.activity.action.TestKeyguard"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestKeyboard"></activity>
+        <activity
+            android:name="com.hanbing.mytest.activity.action.TestKeyboardDialog"
+            android:theme="@style/DialogTransparent"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestCropPicture"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestSettings"></activity>
+        <activity
+            android:name="com.hanbing.mytest.activity.action.TestRestart"
+            android:launchMode="singleInstance"></activity>
+        <activity android:name=".activity.action.TestSocialLogin"></activity>
+        <activity android:name=".activity.action.TestSocialShare"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestAsyncTask"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestTextToSpeech"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestUpload"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestGetPicture"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestTouch"></activity>
+        <activity android:name="com.hanbing.mytest.activity.action.TestActionBar"></activity>
+        <activity
+            android:name="com.thirdparty.social.weibo.WeiboShareRespActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.hanbing.mytest.activity.fragment.TestFragment"></activity>
+        <activity android:name="com.hanbing.mytest.activity.fragment.TestFragmentTab"></activity>
+        <activity android:name="com.hanbing.mytest.activity.game.NewNew"></activity>
+
+        <service android:name="com.hanbing.mytest.service.PhoneCallService"></service>
+        <service android:name="com.hanbing.mytest.service.TestService"></service>
+
+        <receiver android:name="com.hanbing.mytest.activity.TestAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info"></meta-data>
+        </receiver>
+
+        <activity android:name="com.hanbing.mytest.activity.view.TestViewInject"
+            ></activity>
+    </application>
+
+</manifest>

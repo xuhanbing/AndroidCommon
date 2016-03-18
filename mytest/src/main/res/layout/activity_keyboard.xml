@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <FrameLayout 
+        android:id="@+id/layout_top"
+            android:layout_width="match_parent"
+            android:background="#ff00ff"
+            android:layout_height="200dp">
+            <ImageView 
+        android:id="@+id/iv_top"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@color/red"
+        android:src="@drawable/a"/>
+    </FrameLayout>
+
+    
+    
+    <LinearLayout 
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:background="#ffff00"
+        android:orientation="vertical">
+        <ImageView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher"/>
+        <ImageView 
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:src="@drawable/icon"/>
+        <EditText 
+        android:id="@+id/et_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#00ffff"
+        android:minHeight="100dp"
+        android:maxHeight="200dp"/>
+    </LinearLayout>
+    
+</RelativeLayout>
