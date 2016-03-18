@@ -1,4 +1,4 @@
-package com.hanbing.androidcommon;
+package com.hanbing.mytest.activity.view;
 
 import android.annotation.TargetApi;
 import android.graphics.Color;
@@ -14,9 +14,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -46,12 +46,13 @@ import com.common.widget.recyclerview.animator.ScaleInLeftItemAnimator;
 import com.common.widget.recyclerview.animator.ScaleInRightItemAnimator;
 import com.common.widget.recyclerview.animator.ScaleInTopItemAnimator;
 import com.common.widget.recyclerview.animator.SlideInBottomItemAnimator;
+import com.common.widget.recyclerview.animator.SlideInLeftItemAnimator;
 import com.common.widget.recyclerview.animator.SlideInRightItemAnimator;
 import com.common.widget.recyclerview.animator.SlideInTopItemAnimator;
 import com.common.widget.recyclerview.decoration.BaseItemDecoration;
 import com.common.widget.recyclerview.decoration.GridItemDecoration;
 import com.common.widget.recyclerview.decoration.LineItemDecoration;
-import com.common.widget.recyclerview.animator.SlideInLeftItemAnimator;
+import com.hanbing.mytest.R;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -61,8 +62,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@ContentView(R.layout.activity_main)
-public class MainActivity extends BaseAppCompatActivity {
+@ContentView(R.layout.activity_recyclerview2)
+public class TestRecyclerView2 extends BaseAppCompatActivity {
 
     static  final int TYPE_0 = 0;
     static final int TYPE_1 = 1;
@@ -180,8 +181,16 @@ public class MainActivity extends BaseAppCompatActivity {
 
 
     @Override
+    protected void initViews() {
+        super.initViews();
+        RecyclerView recyclerView = this.recyclerView;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        RecyclerView recyclerView = this.recyclerView;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -257,9 +266,9 @@ public class MainActivity extends BaseAppCompatActivity {
             public void onBindViewHolderImpl(ViewHolder holder, int position) {
 
 
-                int[] res = {R.drawable.logo_custom_58, R.drawable.logo_custom_oppo,
-                        R.drawable.logo_custom_pingan, R.drawable.logo_custom_qner, R.drawable.logo_custom_qq,
-                        R.drawable.logo_custom_sina, R.drawable.logo_custom_tmall, R.drawable.logo_custom_volvo};
+//                int[] res = {R.drawable.logo_custom_58, R.drawable.logo_custom_oppo,
+//                        R.drawable.logo_custom_pingan, R.drawable.logo_custom_qner, R.drawable.logo_custom_qq,
+//                        R.drawable.logo_custom_sina, R.drawable.logo_custom_tmall, R.drawable.logo_custom_volvo};
                 int[] colors = {R.color.lightblue, R.color.lightgray, R.color.lightsalmon};
                 int color = getResources().getColor(colors[position % colors.length]);
 
@@ -511,7 +520,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
         }
         builder.setColor(Color.GREEN)
-                .setDrawableRes(R.drawable.logo_custom_sina)
+//                .setDrawableRes(R.drawable.logo_custom_sina)
                 .setOrientation(orientation).setSize(10);
 
 
@@ -541,7 +550,7 @@ public class MainActivity extends BaseAppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_recyclerview2, menu);
         return true;
     }
 
