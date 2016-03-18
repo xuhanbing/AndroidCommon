@@ -4,6 +4,8 @@
 package com.common.util;
 
 import java.lang.reflect.Method;
+import java.util.Locale;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AppOpsManager;
@@ -188,5 +190,20 @@ public class SystemUtils extends OtherUtils {
 	public static void hideKeyboard(Context context, View view) {
 		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+	}
+
+	/**
+	 * 系统语言是否是中文
+	 * @param context
+	 * @return
+	 */
+	public static boolean isSystemCn(Context context)
+	{
+		Locale locale = context.getResources().getConfiguration().locale;
+		String language = locale.getLanguage();
+		if (language.endsWith("zh"))
+			return true;
+		else
+			return false;
 	}
 }

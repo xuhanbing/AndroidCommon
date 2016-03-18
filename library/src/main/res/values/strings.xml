@@ -1,10 +1,4 @@
 <resources>
 
-    <string name="app_name">ThirdParty</string>
 
-    <string name="msg_success">分享成功</string>
-    <string name="msg_failed">分享失败</string>
-	<string name="msg_cancel">分享取消</string>
-	<string name="msg_deny">分享被拒绝</string>
-	<string name="msg_unknown">分享返回</string>
 </resources>

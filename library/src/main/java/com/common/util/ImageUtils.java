@@ -6,6 +6,7 @@ package com.common.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +24,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
@@ -30,6 +32,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
@@ -772,6 +775,12 @@ public class ImageUtils {
 
 			return bm;
 		} else {
+
+			if (drawable instanceof BitmapDrawable)
+			{
+				return ((BitmapDrawable) drawable).getBitmap();
+			}
+
 			int width = drawable.getIntrinsicWidth();
 			int height = drawable.getIntrinsicHeight();
 			bm = Bitmap.createBitmap(width, height, Config.RGB_565);
@@ -781,6 +790,148 @@ public class ImageUtils {
 			return bm;
 		}
 
+	}
+
+	/**
+	 * bitmap转drawable
+	 * @param bitmap
+	 * @return
+	 */
+	public static Drawable bitmapToDrawable(Bitmap bitmap)
+	{
+		if (null == bitmap)
+			return null;
+
+		return new BitmapDrawable(bitmap);
+	}
+
+
+	/**
+	 * 保存到sd卡
+	 * @param bitmap
+	 * @param path
+	 * @param quality
+	 * @return
+	 */
+	public static boolean saveBitmap(Bitmap bitmap, String path, int quality) {
+		boolean ret = false;
+		if (true) {
+
+			File photoFile = new File(path);
+
+			FileUtils.createDir(path);
+
+			FileOutputStream fileOutputStream = null;
+			try {
+				fileOutputStream = new FileOutputStream(photoFile);
+				if (bitmap != null) {
+					if (bitmap.compress(Bitmap.CompressFormat.JPEG, quality,
+							fileOutputStream)) {
+						fileOutputStream.flush();
+						// fileOutputStream.close();
+						ret = true;
+					}
+				}
+
+			} catch (FileNotFoundException e) {
+				photoFile.delete();
+				e.printStackTrace();
+			} catch (IOException e) {
+				photoFile.delete();
+				e.printStackTrace();
+			} finally {
+				try {
+					fileOutputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return ret;
+	}
+
+	/**
+	 *
+	 * @param path
+	 * @return
+	 */
+	public static int readPictureDegree(String path)
+	{
+		int degree  = 0;
+		try {
+			ExifInterface exifInterface = new ExifInterface(path);
+			int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+			System.out.println("orientation=" + orientation);
+			switch(orientation)
+			{
+				case ExifInterface.ORIENTATION_ROTATE_90:
+					degree = 90;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_180:
+					degree = 180;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_270:
+					degree = 270;
+					break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return degree;
+	}
+
+	/**
+	 * 旋转图片
+	 * @param roughBitmap
+	 * @param degrees
+	 * @param recycleSrc
+	 * @return
+	 */
+	private static Bitmap rotateBitmap(Bitmap roughBitmap, float degrees, boolean recycleSrc)
+	{
+		if (null == roughBitmap)
+		{
+			return null;
+		}
+
+
+		if (degrees % 360 == 0)
+		{
+			return roughBitmap;
+		}
+
+		Matrix matrix = new Matrix();
+		matrix.postRotate(degrees);
+
+		Bitmap bm = Bitmap.createBitmap(roughBitmap, 0, 0,
+				roughBitmap.getWidth(), roughBitmap.getHeight(),
+				matrix, false);
+
+		if (recycleSrc)
+		{
+			roughBitmap.recycle();
+			roughBitmap = null;
+		}
+
+
+
+		return bm;
+	}
+
+	/**
+	 * 让Gallery上能马上看到该图
+	 */
+	public static void scanPhoto(Context context, String imagePath) {
+		File file = new File(imagePath);
+		Uri contentUri = Uri.fromFile(file);
+		Intent mediaScanIntent = new Intent(
+				Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri);
+		try {
+			context.sendBroadcast(mediaScanIntent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

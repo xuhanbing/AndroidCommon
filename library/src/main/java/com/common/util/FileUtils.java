@@ -247,10 +247,20 @@ public class FileUtils {
 	}
 
 
+	/**
+	 * app路径
+	 * @param context
+	 * @return
+	 */
 	public static String getRootPathIn(Context context) {
 		return context.getFilesDir().getParent() + File.separator;
 	}
 
+	/**
+	 * 扩展sd卡中app路径
+	 * @param context
+	 * @return
+	 */
 	public static String getRootPathExt(Context context) {
 		if (Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED)) {
@@ -262,8 +272,9 @@ public class FileUtils {
 	}
 
 	/**
-	 * 如果没有根路径，自动添加根路径 根路径+子路径
-	 * 
+	 * 自动添加根路径
+	 *  如果存在扩展sd卡，有限使用扩展sd卡中app的路径
+	 *  否则使用内置sd卡中app路径
 	 * @param context
 	 * @param subPath 子路径
 	 */
@@ -315,13 +326,22 @@ public class FileUtils {
 	 */
 	public static String createDir(Context context, String dir) {
 		dir = addRootIfNeed(context, dir);
+		return createDir(dir);
+	}
 
-		File file = new File(dir);
 
-		if (!file.exists())
-			file.mkdirs();
+	/**
+	 * 创建文件
+	 *
+	 * @param context
+	 * @param path
+	 * @return
+	 */
+	public static String createFile(Context context, String path)
+	{
+		path = addRootIfNeed(context, path);
 
-		return dir;
+		return createFile(path);
 	}
 
 	/**
@@ -335,20 +355,49 @@ public class FileUtils {
 	public static String createFile(Context context, String dir, String fileName) {
 		dir = addRootIfNeed(context, dir);
 
-		File file = new File(dir + fileName);
+		return createFile(dir, fileName);
+	}
 
-		if (!file.exists()) {
-			createDir(context, dir);
+	/**
+	 * 创建目录
+	 * @param dir
+	 * @return
+	 */
+	public static String createDir(String dir)
+	{
+		File file = new File(dir);
 
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if (!file.exists())
+			file.mkdirs();
+		return dir;
+	}
+
+	/**
+	 * 创建文件
+	 * @param path
+	 * @return
+	 */
+	public static String createFile(String path)
+	{
+
+		File file = new File(path);
+
+		createDir(file.getParent());
+
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return path;
+	}
 
-		return file.getAbsolutePath();
+	public  static String createFile(String dir, String fileName)
+	{
+		String path = dir + "/" + fileName;
+
+		return createFile(path);
 	}
 
 	/**
