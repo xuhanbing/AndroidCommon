@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <changeBounds/>
+
+    <changeTransform>
+        <targets>
+            <target android:targetId="@+id/iv_search_icon" />
+            <target android:targetId="@+id/et_search_text" />
+        </targets>
+    </changeTransform>
+
+</transitionSet>

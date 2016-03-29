@@ -14,10 +14,11 @@ import android.view.ViewGroup;
 /**
  * @author hanbing
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
 	View mCacheView;
 
+	boolean mIsViewCreated = false;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -26,19 +27,39 @@ public class BaseFragment extends Fragment {
 	 * android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 
 		if (null != mCacheView)
 			return mCacheView;
 
-		View view = x.view().inject(this, inflater, container);
+
+		View view = null;
+
+		view = x.view().inject(this, inflater, container);
+
+		if (null == view)
+		{
+			view = onCreateViewImpl(inflater, container, savedInstanceState);
+		}
 
 		initViews(view);
 
 		mCacheView = view;
 		return view;
 	}
+
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+
+		mIsViewCreated = true;
+
+		onViewCreatedOrVisible();
+	}
+
+	protected  abstract View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
 	/**
 	 * @param view
@@ -48,4 +69,20 @@ public class BaseFragment extends Fragment {
 
 	}
 
+	/**
+	 * view is created
+	 * or fragment real visiable to user and
+	 */
+	protected abstract void onViewCreatedOrVisible();
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+
+		if (mIsViewCreated
+				&& isVisibleToUser)
+		{
+			onViewCreatedOrVisible();
+		}
+	}
 }

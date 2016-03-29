@@ -1,9 +1,6 @@
 package com.common.util;
 
-import android.content.Context;
-
 import com.common.tool.PinyinParser;
-import com.common.tool.py.ChineseToPinyinHelper;
 
 /**
  * Created by hanbing on 2016/3/18.

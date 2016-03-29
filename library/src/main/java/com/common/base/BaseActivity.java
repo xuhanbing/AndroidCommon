@@ -3,17 +3,14 @@
  */
 package com.common.base;
 
-import org.xutils.x;
-
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
-import android.widget.BaseAdapter;
 
 import com.common.tool.SystemBarTintManager;
+
+import org.xutils.x;
 
 /**
  * @author hanbing
@@ -69,7 +66,7 @@ public class BaseActivity extends FragmentActivity {
 	 */
 	protected boolean enableStatusBarTint()
 	{
-		return true;
+		return false;
 	}
 
 

@@ -10,6 +10,6 @@ package com.common.http.callback;
  * @author hanbing
  * @date 2015-8-24
  */
-public interface HttpSimpleProgressCallback extends HttpSimpleCallback, HttpProgressCallback{
+public abstract class HttpSimpleProgressCallback extends HttpSimpleCallback implements HttpProgressCallback{
 
 }

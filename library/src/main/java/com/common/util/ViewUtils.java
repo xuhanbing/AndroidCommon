@@ -23,7 +23,7 @@ import android.widget.TabHost;
 
 import com.common.listener.OnItemClickListener;
 import com.common.tool.FragmentTabHostAndViewPagerInitHelper;
-import com.common.view.TabWidget;
+import com.common.widget.tab.TabWidget;
 import com.common.widget.recyclerview.RecyclerViewWithHeaderOrFooter;
 
 /**
@@ -37,6 +37,20 @@ public class ViewUtils {
      */
     public ViewUtils() {
         // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * inflate view
+     *
+     * @param context
+     * @param resource
+     * @return
+     */
+    public static View inflate(Context context, int resource) {
+        if (null == context)
+            return null;
+
+        return inflate(LayoutInflater.from(context), resource, null, false);
     }
 
     /**

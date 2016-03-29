@@ -13,7 +13,7 @@ import android.widget.TextView;
 /**
  * @author hanbing
  */
-public class BaseTitleBarFragment extends BaseFragment implements View.OnClickListener{
+public abstract class BaseTitleBarFragment extends BaseFragment implements View.OnClickListener{
 
 	TextView mCenterTitle;
 

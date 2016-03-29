@@ -3,6 +3,8 @@
  */
 package com.common;
 
+import android.text.TextUtils;
+
 /**
  * @author hanbing
  * @date 2015-9-1
@@ -21,28 +23,35 @@ public class Constants {
 	 * @date 2015-8-4
 	 */
 	public static enum Gender {
-		DEFAULT(-1, "未知"), FEMALE(0,"女"), MALE(1, "男"),;
+		DEFAULT(-1, "未知", "Unknown"), FEMALE(0,"女", "Female"), MALE(1, "男", "Male"),;
 
 		int value = 0;
-		String name = "";
+		String cnName = "";
+		String enName;
 
-		private Gender(int value, String name) {
+		private Gender(int value, String cnName, String enName) {
 			this.value = value;
-			this.name = name;
+			this.cnName = cnName;
+			this.enName = enName;
 		}
 
 		public int getValue() {
 			return this.value;
 		}
 
-		public String getName() {
-			return this.name;
+		public String getCnName() {
+			return this.cnName;
+		}
+
+		public String getEnName()
+		{
+			return this.enName;
 		}
 		
 		@Override
 		public String toString() {
 			// TODO Auto-generated method stub
-			return name;
+			return cnName;
 		}
 
 		/**
@@ -53,8 +62,12 @@ public class Constants {
 		 */
 		public static Gender toGender(String name) {
 
+			if (TextUtils.isEmpty(name))
+				return DEFAULT;
+
 			for (Gender gender : Gender.values()) {
-				if (gender.getName().equals(name)) {
+				if (gender.getCnName().equals(name)
+						|| gender.getEnName().toUpperCase().equals(name.toUpperCase())) {
 					return  gender;
 				}
 			}
@@ -64,7 +77,6 @@ public class Constants {
 		/**
 		 * 获取名称
 		 * 
-		 * @param context
 		 * @param value
 		 * @return
 		 */
