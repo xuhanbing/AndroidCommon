@@ -6,7 +6,7 @@
 
     <uses-sdk android:minSdkVersion="11" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -54,7 +54,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.hanbing.mytest.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/MainTheme">
             <intent-filter>
@@ -63,120 +63,120 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestSlideListView"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestExpandableList">
+        <activity android:name=".activity.view.TestSlideListView" />
+        <activity android:name=".activity.view.TestExpandableList">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestGridView">
+        <activity android:name=".activity.view.TestGridView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestCustomEditText">
+        <activity android:name=".activity.view.TestCustomEditText">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestRoundImageView">
+        <activity android:name=".activity.view.TestRoundImageView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestMapView">
+        <activity android:name=".activity.view.TestMapView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.view.TestSectionListView"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestScrollView"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestListView"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestViewPager"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestPhoneCall"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestDrawerLayout"></activity>
+        <activity android:name=".activity.view.TestSectionListView" />
+        <activity android:name=".activity.view.TestScrollView" />
+        <activity android:name=".activity.view.TestListView" />
+        <activity android:name=".activity.view.TestViewPager" />
+        <activity android:name=".activity.view.TestPhoneCall" />
+        <activity android:name=".activity.view.TestDrawerLayout" />
         <activity
-            android:name="com.hanbing.mytest.activity.view.TestPicSelector"
-            android:launchMode="standard"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestPageText"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestSlideLayout"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestLargeText"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestGridView2"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestGifActivity"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestProgress"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestPhotoGallery"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestQQWaterDrop"></activity>
-        <activity android:name="com.hanbing.mytest.activity.view.TestViewFlipper"></activity>
+            android:name=".activity.view.TestPicSelector"
+            android:launchMode="standard" />
+        <activity android:name=".activity.view.TestPageText" />
+        <activity android:name=".activity.view.TestSlideLayout" />
+        <activity android:name=".activity.view.TestLargeText" />
+        <activity android:name=".activity.view.TestGridView2" />
+        <activity android:name=".activity.view.TestGifActivity" />
+        <activity android:name=".activity.view.TestProgress" />
+        <activity android:name=".activity.view.TestPhotoGallery" />
+        <activity android:name=".activity.view.TestQQWaterDrop" />
+        <activity android:name=".activity.view.TestViewFlipper" />
         <activity
-            android:name="com.hanbing.mytest.activity.view.TestDraw"
+            android:name=".activity.view.TestDraw"
             android:launchMode="standard"
             android:theme="@style/AnimFade2" />
         <activity
-            android:name="com.hanbing.mytest.activity.view.TestBookReader"
+            android:name=".activity.view.TestBookReader"
             android:launchMode="standard" />
         <activity
-            android:name="com.hanbing.mytest.activity.view.TestSideBar"
+            android:name=".activity.view.TestSideBar"
             android:launchMode="standard" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestKeywordView" />
+        <activity android:name=".activity.view.TestKeywordView" />
         <activity
-            android:name="com.hanbing.mytest.activity.view.TestCropPictureReal"
+            android:name=".activity.view.TestCropPictureReal"
             android:launchMode="standard" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestPullToRefreshView" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestPinnedSectionListView" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestNumberPicker" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestShaderView" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestMatrix" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestSwipeRefreshLayout" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestWebView" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestAutoCompleteText" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestDrawable" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestListView2" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestScrollView2" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestRecyclerView" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestRecyclerView2" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestArcMenu" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestChart" />
-        <activity android:name="com.hanbing.mytest.activity.view.TestMaterialDesign" />
+        <activity android:name=".activity.view.TestPullToRefreshView" />
+        <activity android:name=".activity.view.TestPinnedSectionListView" />
+        <activity android:name=".activity.view.TestNumberPicker" />
+        <activity android:name=".activity.view.TestShaderView" />
+        <activity android:name=".activity.view.TestMatrix" />
+        <activity android:name=".activity.view.TestSwipeRefreshLayout" />
+        <activity android:name=".activity.view.TestWebView" />
+        <activity android:name=".activity.view.TestAutoCompleteText" />
+        <activity android:name=".activity.view.TestDrawable" />
+        <activity android:name=".activity.view.TestListView2" />
+        <activity android:name=".activity.view.TestScrollView2" />
+        <activity android:name=".activity.view.TestRecyclerView" />
+        <activity android:name=".activity.view.TestRecyclerView2" />
+        <activity android:name=".activity.view.TestArcMenu" />
+        <activity android:name=".activity.view.TestChart" />
+        <activity android:name=".activity.view.TestMaterialDesign" />
         <activity
-            android:name="com.hanbing.mytest.activity.action.TestMediaRecorder"
-            android:launchMode="standard"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestImageCompress"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestNotification"></activity>
+            android:name=".activity.action.TestMediaRecorder"
+            android:launchMode="standard" />
+        <activity android:name=".activity.action.TestImageCompress" />
+        <activity android:name=".activity.action.TestNotification" />
         <activity
             android:name=".activity.action.TestDpExchange"
-            android:launchMode="standard"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestVolley"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestTcp"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestCalcTax"></activity>
+            android:launchMode="standard" />
+        <activity android:name=".activity.action.TestVolley" />
+        <activity android:name=".activity.action.TestTcp" />
+        <activity android:name=".activity.action.TestCalcTax" />
         <activity
-            android:name="com.hanbing.mytest.activity.action.TestQRCode"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"></activity>
+            android:name=".activity.action.TestQRCode"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
         <activity
-            android:name="com.hanbing.mytest.activity.action.TestQRCode2"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestShortcut">
+            android:name=".activity.action.TestQRCode2"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity android:name=".activity.action.TestShortcut">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestMediaPlayer"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestAppWindow">
+        <activity android:name=".activity.action.TestMediaPlayer" />
+        <activity android:name=".activity.action.TestAppWindow">
             <intent-filter>
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.hanbing.mytest.activity.action.TestKeyguard"
+            android:name=".activity.action.TestKeyguard"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -184,23 +184,23 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestKeyboard"></activity>
+        <activity android:name=".activity.action.TestKeyboard" />
         <activity
-            android:name="com.hanbing.mytest.activity.action.TestKeyboardDialog"
-            android:theme="@style/DialogTransparent"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestCropPicture"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestSettings"></activity>
+            android:name=".activity.action.TestKeyboardDialog"
+            android:theme="@style/DialogTransparent" />
+        <activity android:name=".activity.action.TestCropPicture" />
+        <activity android:name=".activity.action.TestSettings" />
         <activity
-            android:name="com.hanbing.mytest.activity.action.TestRestart"
-            android:launchMode="singleInstance"></activity>
-        <activity android:name=".activity.action.TestSocialLogin"></activity>
-        <activity android:name=".activity.action.TestSocialShare"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestAsyncTask"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestTextToSpeech"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestUpload"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestGetPicture"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestTouch"></activity>
-        <activity android:name="com.hanbing.mytest.activity.action.TestActionBar"></activity>
+            android:name=".activity.action.TestRestart"
+            android:launchMode="singleInstance" />
+        <activity android:name=".activity.action.TestSocialLogin" />
+        <activity android:name=".activity.action.TestSocialShare" />
+        <activity android:name=".activity.action.TestAsyncTask" />
+        <activity android:name=".activity.action.TestTextToSpeech" />
+        <activity android:name=".activity.action.TestUpload" />
+        <activity android:name=".activity.action.TestGetPicture" />
+        <activity android:name=".activity.action.TestTouch" />
+        <activity android:name=".activity.action.TestActionBar" />
         <activity
             android:name="com.thirdparty.social.weibo.WeiboShareRespActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -211,25 +211,25 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hanbing.mytest.activity.fragment.TestFragment"></activity>
-        <activity android:name="com.hanbing.mytest.activity.fragment.TestFragmentTab"></activity>
-        <activity android:name="com.hanbing.mytest.activity.game.NewNew"></activity>
+        <activity android:name=".activity.fragment.TestFragment" />
+        <activity android:name=".activity.fragment.TestFragmentTab" />
+        <activity android:name=".activity.game.NewNew" />
 
-        <service android:name="com.hanbing.mytest.service.PhoneCallService"></service>
-        <service android:name="com.hanbing.mytest.service.TestService"></service>
+        <service android:name=".service.PhoneCallService" />
+        <service android:name=".service.TestService" />
 
-        <receiver android:name="com.hanbing.mytest.activity.TestAppWidget">
+        <receiver android:name=".activity.TestAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info"></meta-data>
+                android:resource="@xml/widget_info" />
         </receiver>
 
-        <activity android:name="com.hanbing.mytest.activity.view.TestViewInject"
-            ></activity>
+        <activity android:name=".activity.view.TestViewInject" />
+        <activity android:name=".activity.view.TestText"></activity>
     </application>
 
 </manifest>

@@ -12,7 +12,6 @@ import com.common.view.DefaultTabViewPager;
 import com.common.view.TabViewPager;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.fragment.NumFragment;
-import com.hanbing.mytest.fragment.PullToRefreshFragment;
 import com.hanbing.mytest.listener.MulitPointTouchListener;
 import com.hanbing.mytest.view.CustomImageView;
 import com.hanbing.mytest.view.TabsAdapter;
@@ -264,7 +263,7 @@ public class TestViewPager extends FragmentActivity {
 		@Override
 		public Fragment getItem(int arg0) {
 			// TODO Auto-generated method stub
-			return new PullToRefreshFragment();
+			return new Fragment();
 		}
 
 		@Override

@@ -16,11 +16,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -275,6 +277,9 @@ public class TurnPlate extends View {
             _paint.setTextAlign(Align.CENTER);
             _paint.setColor(Color.BLACK);
             _paint.setTextSize(textSize);
+
+//            LinearGradient gradient = new LinearGradient(x, y, x+200, y, Color.RED, Color.GREEN, Shader.TileMode.CLAMP);
+//            _paint.setShader(gradient);
             String text = "item " + i;
             canvas.drawText(text, x, y, _paint);
         }
