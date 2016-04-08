@@ -107,15 +107,15 @@
 
     <declare-styleable name="FloatLayout">
         <!-- each child padding, will override below values -->
-        <attr name="contentPadding" format="dimension"></attr>
+        <attr name="floatPadding" format="dimension"></attr>
 
         <!-- horizontal padding  -->
-        <attr name="contentPaddingHorizontal" format="dimension"></attr>
+        <attr name="floatPaddingHorizontal" format="dimension"></attr>
 
         <!-- vertical padding -->
-        <attr name="contentPaddingVertical" format="dimension"></attr>
+        <attr name="floatPaddingVertical" format="dimension"></attr>
 
-        <attr name="contentGravity">
+        <attr name="floatGravity">
             <flag name="left" value="0x01"></flag>
             <flag name="right" value="0x02"></flag>
             <flag name="top" value="0x04"></flag>
