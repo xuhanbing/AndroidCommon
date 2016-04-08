@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.androidcommon.R;
+import com.common.util.LogUtils;
 
 /**
  * tabwidget with a strip
@@ -50,7 +51,7 @@ public class UnderlineTabWidget extends TabStripWidget {
 	/**
 	 * strip background color
 	 */
-	protected int mStripBackgroundColor = Color.TRANSPARENT;
+	protected int mStripBackgroundColor = Color.BLACK;
 
 	protected Drawable mStripBackground;
 	/**
@@ -126,7 +127,7 @@ public class UnderlineTabWidget extends TabStripWidget {
 	}
 
 	@Override
-	protected void onUpdateStrip(int left, int with) {
+	protected void onUpdateStrip(int left, int width) {
 
 		int t = 0;
 		int b = 0;
@@ -159,7 +160,7 @@ public class UnderlineTabWidget extends TabStripWidget {
 
 			if (mStripEnabled) {
 				l = left;
-				r = l + with;
+				r = l + width;
 
 				l += padding;
 				r -= padding;

@@ -111,8 +111,19 @@ public class PagingManager extends LoadingManager{
         addTotalCount(count);
     }
 
+
     /**
-     * 刷新后调用
+     * 加载更多成功后，索引+1，并且设置总数量
+     * @param count
+     */
+    public void addIndexAfterLoadMore(int count)
+    {
+        addPageIndex();
+        setTotalCount(count);
+    }
+
+    /**
+     * 刷新后调用，设置索引和总数量
      * @param count 数据总量
      */
     public  void setIndexAfterRefresh(int count)
@@ -121,6 +132,17 @@ public class PagingManager extends LoadingManager{
         mTotalCount = count;
     }
 
+    /**
+     * 第一次请求成功后设置
+     * 设置分页和最大数量
+     * @param pageSize 每个分页数据量
+     * @param maxCount 数据总量
+     */
+    public void setInitValues(int pageSize, int maxCount)
+    {
+//        mPageIndex = getFirstPageIndex();
+        setMaxCount(pageSize, maxCount);
+    }
     /**
      * 设置最大数量
      * @param pageSize 每页数量
@@ -133,16 +155,14 @@ public class PagingManager extends LoadingManager{
         if (0 != mPageSize)
             //计算最大页数索引
         {
-
-            mPageIndex = (maxCount + mPageSize - 1) / mPageSize;
+            mMaxPageIndex = (maxCount + mPageSize - 1) / mPageSize - 1;
 
             if (!mIndexStartFromZero)
             {
-                mPageIndex = mPageIndex+1;
+                mMaxPageIndex = mMaxPageIndex+1;
             }
         }
     }
-
 
 
     /**
@@ -203,6 +223,14 @@ public class PagingManager extends LoadingManager{
 
             return mPageIndex;
         }
+    }
+
+    /**
+     * 最大索引
+     * @return
+     */
+    public int getMaxPageIndex(){
+        return mMaxPageIndex;
     }
 
     /**

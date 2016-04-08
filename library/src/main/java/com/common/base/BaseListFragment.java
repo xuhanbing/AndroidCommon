@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.common.listener.OnLoadListener;
 import com.common.tool.PagingManager;
+import com.common.util.LogUtils;
 
 /**
  * Created by hanbing on 2016/3/21.
@@ -65,6 +66,13 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
 
 
     /**
+     * 是否强制显示loadingview
+     * 如果为true，只要开始加载数据，就显示
+     * 否则，只有当getItemCount返回0时才显示
+     */
+    boolean mShowLoadingViewForeced = false;
+
+    /**
      * 是否一直显示加载更多
      * 默认false
      */
@@ -107,6 +115,8 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
     protected void initViews(View view) {
         super.initViews(view);
 
+        mPagingManager = createPagingManager();
+
         mListView = createListView();
         mListAdapter = createListAdapter();
         mEmptyView = createEmptyView();
@@ -114,10 +124,9 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
         mLoadMoreView = createLoadMoreView();
 
 
-        hideLoadingView();
-        hideEmptyView();
 
-        initHeadersAndFooters(mListView);
+
+
 
         /**
          * 如果有加载更多view，添加到最末尾
@@ -131,19 +140,25 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
                 }
             });
             mLoadMoreContainer = new LinearLayout(getContext());
-            mListView.addFooterView(mLoadMoreContainer);
             mLoadMoreContainer.addView(mLoadMoreView);
             if (mLoadMoreAlwaysShow)
             {
-                mLoadMoreView.setVisibility(View.VISIBLE);
+                showLoadMoreView();
             } else {
-                mLoadMoreView.setVisibility(View.GONE);
+                hideLoadMoreView();
             }
         }
 
         if (null != mListView)
         {
-            mListView.setAdapter(mListAdapter);
+            initHeadersAndFooters(mListView);
+
+            if (null != mLoadMoreContainer)
+            {
+                mListView.addFooterView(mLoadMoreContainer);
+            }
+
+            mListView.setEmptyView(mEmptyView);
             mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -153,43 +168,38 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
                 @Override
                 public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    /**
-                     * 所有item都展示，表示数据不够
-                     */
-                    if (visibleItemCount == totalItemCount) {
-                        //如果一直显示加载更多，隐藏
-                        if (!mLoadMoreAlwaysShow)
-                            hideLoadMoreView();
-                    } else {
-                        //最有一个item展示
-                        if (mLoadMoreEnabled
-                                &&firstVisibleItem + visibleItemCount == totalItemCount) {
-                            /**
-                             * 最有一个item展示了，显示加载更多
-                             * 显示点击加载更多
-                             */
-                            if (!mLoadMoreAlwaysShow)
-                                showLoadMoreView();
+                    //最有一个item展示
+                    if (mLoadMoreEnabled
+                            &&firstVisibleItem + visibleItemCount == totalItemCount) {
 
-                            onLoadMore();
-                        }
+                        onLoadMore();
                     }
                 }
             });
+
+            initListView(mListView);
         }
-        initListView(mListView);
-        setEmptyView();
 
-
+        hideLoadingView();
+        hideEmptyView();
     }
 
     @Override
-    protected void onViewCreatedOrVisible() {
+    protected void onViewVisiable(boolean isCreated) {
+        if (isCreated)
         onRefresh();
     }
 
     @Override
     public final void onLoadMore() {
+
+        //没有更多数据了
+        if (mPagingManager.isLastPage())
+        {
+
+            return;
+        }
+
 
         if (mPagingManager.lock())
         {
@@ -203,7 +213,6 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
     public final void onRefresh() {
         if (mPagingManager.lock())
         {
-
             /**
              * 获取当前listview的数据总量
              */
@@ -234,6 +243,10 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
         }
     }
 
+    public PagingManager createPagingManager(){
+        return new PagingManager();
+    }
+
 
     /**
      * 加载数据
@@ -242,7 +255,6 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
      */
     public  void onLoadData(boolean isRefresh, int pageIndex, int pageSize)
     {
-
 
     }
 
@@ -257,12 +269,18 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
 
 
     @Override
+    public void setShowLoadingViewForced(boolean forced) {
+
+        mShowLoadingViewForeced = forced;
+    }
+
+    @Override
     public void setLoadMoreAlwaysShow(boolean alwaysShow) {
         mLoadMoreAlwaysShow = alwaysShow;
 
         if (!mLoadMoreAlwaysShow)
         {
-            hideLoadMoreView();
+           hideLoadMoreView();
         } else {
             showLoadMoreView();
         }
@@ -323,21 +341,24 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
         mEmptyView = view;
     }
 
-    private void setEmptyView()
-    {
-        if (null != mListView)
-        {
-            mListView.setEmptyView(mEmptyView);
-        }
-    }
 
 
-    private void showLoadingView()
-    {
-        if (null != mLoadingView)
-        {
+    private void showLoadingView() {
+
+        if (null == mLoadingView)
+            return;
+
+        if (mShowLoadingViewForeced) {
             mLoadingView.setVisibility(View.VISIBLE);
+        } else {
+            if (getItemCount() <= 0)
+            {
+                mLoadingView.setVisibility(View.VISIBLE);
+            } else {
+                mLoadingView.setVisibility(View.GONE);
+            }
         }
+
     }
 
     private void hideLoadingView(){
@@ -369,6 +390,30 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
     @Override
     public void onLoadCompleted() {
         mPagingManager.unlock();
+        hideLoadingView();
+
+        //有数据，显示加载更多
+        if (getItemCount() > 0)
+        {
+            showLoadMoreView();
+        } else {
+            showEmptyView();
+        }
+
+    }
+
+    @Override
+    public void onLoadFailure(String msg) {
+        onLoadCompleted();
+    }
+
+    @Override
+    public void onLoadStart() {
+        showLoadingView();
+    }
+
+    @Override
+    public void onLoadSuccess() {
         if (mPagingManager.isRefresh())
         {
             mPagingManager.setIndexAfterRefresh(getItemCount());
@@ -377,28 +422,11 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
             mPagingManager.setTotalCount(getItemCount());
         }
 
-        hideLoadingView();
-
-    }
-
-    @Override
-    public void onLoadFailure(String msg) {
-
-    }
-
-    @Override
-    public void onLoadStart() {
-        showLoadingView();
-
-    }
-
-    @Override
-    public void onLoadSuccess() {
-
+        onLoadCompleted();
     }
 
     @Override
     public void onLoadSuccessNoData() {
-
+        onLoadCompleted();
     }
 }

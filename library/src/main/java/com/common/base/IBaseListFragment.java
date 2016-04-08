@@ -56,6 +56,13 @@ public interface IBaseListFragment {
      */
     public abstract void initHeadersAndFooters(ListView listView);
 
+    /**
+     * 是否强制显示loadingview
+     * 如果为true，只要开始加载数据，就显示
+     * 否则，只有当getItemCount返回0时才显示
+     */
+    public abstract void setShowLoadingViewForced(boolean forced);
+
 
     /**
      * 加载更多是否总是展示

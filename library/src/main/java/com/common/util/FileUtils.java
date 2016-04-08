@@ -434,6 +434,7 @@ public class FileUtils {
 					f.delete();
 				}
 			}
+			file.delete();
 		} else {
 			file.delete();
 		}
@@ -555,11 +556,13 @@ public class FileUtils {
 
 				byte[] buffer = new byte[totalLen];
 
+				int curLength = 0;
 				int readLength = 0;
 
-				while ((readLength = is.read(buffer, readLength, totalLen - readLength)) != -1)
+				while ((readLength = is.read(buffer, curLength, totalLen - curLength)) != -1 && (curLength < totalLen))
 				{
-					totalLen += readLength;
+					curLength += readLength;
+
 				}
 
 				is.close();
@@ -574,5 +577,31 @@ public class FileUtils {
 		}
 
 		return null;
+	}
+
+	/**
+	 * return external cache dir
+	 * @param context
+	 * @return
+	 */
+	public static String getCacheDirExt(Context context)
+	{
+		return context.getExternalCacheDir().toString();
+	}
+
+	/**
+	 * return inner cache dir
+	 * @param context
+	 * @return
+	 */
+	public static String getCacheDir(Context context)
+	{
+		return context.getCacheDir().toString();
+	}
+
+	public static void clearCache(Context context)
+	{
+		deleteDir(getCacheDir(context));
+		deleteDir(getCacheDirExt(context));
 	}
 }

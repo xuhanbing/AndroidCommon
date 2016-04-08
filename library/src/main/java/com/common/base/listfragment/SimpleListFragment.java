@@ -11,7 +11,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -46,7 +45,6 @@ public class SimpleListFragment extends BaseListFragment {
         layout.addView(mListView);
         layout.addView(mLoadingView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        setSupportCustomPageSize(true);
         return layout;
     }
 
@@ -57,36 +55,7 @@ public class SimpleListFragment extends BaseListFragment {
 
     @Override
     public BaseAdapter createListAdapter() {
-        adapter = new BaseAdapter() {
-            @Override
-            public int getCount() {
-                return mList.size();
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return null;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return 0;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-
-                TextView textView = new TextView(getActivity());
-                textView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
-                textView.setTextSize(25);
-
-                textView.setText(mList.get(position));
-                textView.setBackgroundResource(position % 2 == 0 ? R.color.brown : R.color.lightblue);
-
-                return textView;
-            }
-        };
-        return adapter;
+        return null;
     }
 
     @Override
@@ -102,26 +71,15 @@ public class SimpleListFragment extends BaseListFragment {
     @Override
     public View createLoadMoreView() {
 
-        MyView view = new MyView(getActivity());
-        view.setText("click");
-        return view;
+      return null;
     }
 
     @Override
     public void initListView(ListView listView) {
-        listView.setAdapter(adapter);
     }
 
     @Override
     public void initHeadersAndFooters(ListView listView) {
-        TextView header = new TextView(getActivity());
-        TextView footer = new TextView(getActivity());
-
-        header.setText("header");
-        footer.setText("footer");
-
-        listView.addHeaderView(header);
-        listView.addFooterView(footer);
     }
 
     @Override
@@ -131,72 +89,9 @@ public class SimpleListFragment extends BaseListFragment {
 
     @Override
     public void onLoadData(final boolean isRefresh, int pageIndex, final int pageSize) {
-        LogUtils.e("onLoadData isRefresh=" + isRefresh + ", pageIndex=" + pageIndex + ", pageSize=" + pageSize);
-        onLoadStart();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (isRefresh) {
-                    mList.clear();
 
-                    for (int i = 0; i < pageSize; i++) {
-                        mList.add("Refresh " + i);
-                    }
-
-                    adapter.notifyDataSetChanged();
-
-                } else {
-
-                    for (int i = 0; i < pageSize; i++) {
-                        mList.add("load more " + i);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-
-                onLoadCompleted();
-            }
-        },3000);
 
     }
 
-    class MyView extends TextView implements OnLoadListener{
 
-        public MyView(Context context) {
-            super(context);
-        }
-
-        public MyView(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        public MyView(Context context, AttributeSet attrs, int defStyleAttr) {
-            super(context, attrs, defStyleAttr);
-        }
-
-
-        @Override
-        public void onLoadStart() {
-            setText("onLoadStart");
-        }
-
-        @Override
-        public void onLoadSuccess() {
-            setText("onLoadSuccess");
-        }
-
-        @Override
-        public void onLoadSuccessNoData() {
-            setText("onLoadSuccessNoData");
-        }
-
-        @Override
-        public void onLoadFailure(String msg) {
-            setText("onLoadFailure：" + msg);
-        }
-
-        @Override
-        public void onLoadCompleted() {
-            setText("点击加载更多" );
-        }
-    }
 }

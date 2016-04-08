@@ -31,7 +31,7 @@ public class SwipeRefreshListFragment extends SimpleListFragment {
     }
 
     @Override
-    protected void onViewCreatedOrVisible() {
+    protected void onViewVisiable(boolean isCreated) {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {

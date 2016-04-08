@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class SrainPtrListFragment extends SimpleListFragment {
 
     PtrFrameLayout mPtrFrameLayout;
 
+    BaseAdapter mAdapter;
     @Override
     protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View child = super.onCreateViewImpl(inflater, container, savedInstanceState);
@@ -56,6 +59,12 @@ public class SrainPtrListFragment extends SimpleListFragment {
 
         return mPtrFrameLayout;
 
+    }
+
+
+    @Override
+    public void initListView(ListView listView) {
+        listView.setAdapter(mAdapter);
     }
 
     protected View createHeader()
@@ -101,10 +110,40 @@ public class SrainPtrListFragment extends SimpleListFragment {
 
     }
 
+    @Override
+    public BaseAdapter createListAdapter() {
+        return mAdapter = new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return 20;
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return null;
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return 0;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+
+                TextView textView = new TextView(getActivity());
+                textView.setText("position " + position);
+
+                return textView;
+            }
+        };
+
+    }
+
     PtrClassicDefaultHeader defaultHeader;
 
     @Override
-    protected void onViewCreatedOrVisible() {
+    protected void onViewVisiable(boolean isCreated) {
         mPtrFrameLayout.post(new Runnable() {
             @Override
             public void run() {

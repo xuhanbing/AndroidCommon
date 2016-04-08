@@ -68,27 +68,6 @@
             <enum name="fill" value="1"></enum>
         </attr>
 
-        <!-- if horizontal divider size is width and height is match_parent,vertical is opposite-->
-        <attr name="dividerSize" format="dimension"></attr>
-        <!-- if want custom size, set values bellow -->
-        <attr name="dividerWidth" format="dimension"></attr>
-        <attr name="dividerHeight" format="dimension"></attr>
-
-        <!--&lt;!&ndash; divider, color or drawable &ndash;&gt;-->
-        <!--<attr name="dividerDrawable" format="color|reference"></attr>-->
-
-        <!--&lt;!&ndash;if show dividers.Default is none &ndash;&gt;-->
-        <!--<attr name="showDividers" >-->
-            <!--<flag name="none" value="0"></flag>-->
-            <!--<flag name="beginning" value="1"></flag>-->
-            <!--<flag name="middle" value="2"></flag>-->
-            <!--<flag name="end" value="4"></flag>-->
-        <!--</attr>-->
-
-        <!--&lt;!&ndash;padding before and after divider&ndash;&gt;-->
-        <!--<attr name="dividerPadding" format="dimension"></attr>-->
-
-
 
     </declare-styleable>
 
@@ -124,5 +103,27 @@
             <enum name="start" value="0"></enum>
             <enum name="end" value="1"></enum>
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="FloatLayout">
+        <!-- each child padding, will override below values -->
+        <attr name="contentPadding" format="dimension"></attr>
+
+        <!-- horizontal padding  -->
+        <attr name="contentPaddingHorizontal" format="dimension"></attr>
+
+        <!-- vertical padding -->
+        <attr name="contentPaddingVertical" format="dimension"></attr>
+
+        <attr name="contentGravity">
+            <flag name="left" value="0x01"></flag>
+            <flag name="right" value="0x02"></flag>
+            <flag name="top" value="0x04"></flag>
+            <flag name="bottom" value="0x08"></flag>
+            <flag name="center_horizontal" value="0x10"></flag>
+            <flag name="center_vertical" value="0x20"></flag>
+            <flag name="center" value="0x30"></flag>
+        </attr>
+
     </declare-styleable>
 </resources>

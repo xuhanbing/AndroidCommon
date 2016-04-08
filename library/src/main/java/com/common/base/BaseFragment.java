@@ -36,8 +36,10 @@ public abstract class BaseFragment extends Fragment {
 
 		View view = null;
 
+		//使用注解方式生成view
 		view = x.view().inject(this, inflater, container);
 
+		//如果没有使用注解方式，使用默认的方式生成view
 		if (null == view)
 		{
 			view = onCreateViewImpl(inflater, container, savedInstanceState);
@@ -53,10 +55,8 @@ public abstract class BaseFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
 		mIsViewCreated = true;
-
-		onViewCreatedOrVisible();
+		onViewVisiable(true);
 	}
 
 	protected  abstract View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
@@ -72,8 +72,10 @@ public abstract class BaseFragment extends Fragment {
 	/**
 	 * view is created
 	 * or fragment real visiable to user and
+	 * @param isCreated first created or visable
 	 */
-	protected abstract void onViewCreatedOrVisible();
+	protected abstract void onViewVisiable(boolean isCreated);
+
 
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -82,7 +84,7 @@ public abstract class BaseFragment extends Fragment {
 		if (mIsViewCreated
 				&& isVisibleToUser)
 		{
-			onViewCreatedOrVisible();
+			onViewVisiable(false);
 		}
 	}
 }

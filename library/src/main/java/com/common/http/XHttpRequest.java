@@ -135,6 +135,7 @@ public class XHttpRequest extends HttpRequestBase {
 
                     message = responseMsg;
                     // ...
+
                 } else { // 其他错误
                     // ...
                 }
@@ -142,6 +143,7 @@ public class XHttpRequest extends HttpRequestBase {
                 if (null != callback) {
                     callback.onFailure(requestCode, requestUrl, message);
                 }
+
             }
 
             @Override

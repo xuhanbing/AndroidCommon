@@ -4,9 +4,7 @@
 package com.common.widget.tab;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -18,11 +16,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.Scroller;
 import android.widget.TextView;
 
-import com.androidcommon.R;
+import com.common.util.LogUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -214,15 +212,7 @@ public class TabWidget extends HorizontalScrollView implements OnClickListener,
      */
     ViewPager.OnPageChangeListener mOnPageChangeListener;
 
-    /**
-     *
-     */
-    Handler mHandler = new Handler();
 
-    /**
-     * scroll
-     */
-    Scroller mScroller = null;
 
     /**
      * @param context
@@ -303,52 +293,60 @@ public class TabWidget extends HorizontalScrollView implements OnClickListener,
         // TODO Auto-generated method stub
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-
         int innerChildCount = mInnerLayout.getChildCount();
-        /**
-         * if can not scroll, we set layout width the same as the scrollview's
-         */
-        if (!mInnerLayoutCanScroll) {
-            mInnerLayout
-                    .measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth(),
-                            MeasureSpec.EXACTLY), heightMeasureSpec);
-
-
-        } else {
-        }
+//        /**
+//         * if can not scroll, we set layout width the same as the scrollview's
+//         */
+//        if (!mInnerLayoutCanScroll) {
+//            mInnerLayout
+//                    .measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth(),
+//                            MeasureSpec.EXACTLY), heightMeasureSpec);
+//
+//
+//        } else {
+//        }
 
         /**
          * check if innelayout's content width is less than measure width if
          * true, then we set child view 's layoutparam with equal width
          */
-        mInnerLayoutContentWidth = 0;
+        mInnerLayoutContentWidth = mInnerLayout.getMeasuredWidth();
 
-        if (mInnerLayout.getChildCount() > 0) {
+        if (innerChildCount > 0) {
             int contentWidth = 0;
-            for (int i = 0; i < mInnerLayout.getChildCount(); i++) {
-                View child = mInnerLayout.getChildAt(i);
-
-                contentWidth += child.getMeasuredWidth();
-            }
+//            for (int i = 0; i < innerChildCount; i++) {
+//                View child = mInnerLayout.getChildAt(i);
+//
+//                contentWidth += child.getMeasuredWidth();
+//            }
 
             /**
              * can not fill
              */
-            if (contentWidth < getMeasuredWidth()) {
+            if (mInnerLayoutContentWidth < getMeasuredWidth()) {
+
+                int width = getMeasuredWidth() / innerChildCount;
+
+
                 mInnerLayoutCanScroll = false;
 
-                for (int i = 0; i < mInnerLayout.getChildCount(); i++) {
+                for (int i = 0; i < innerChildCount; i++) {
                     View child = mInnerLayout.getChildAt(i);
 
-                    setTabLayoutParams(child);
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) child.getLayoutParams();
+
+
+                    params.width =  Math.max(width, child.getMeasuredWidth());
+                    contentWidth += params.width;
+
+                    child.setLayoutParams(params);
                 }
+
+                mInnerLayoutCanScroll = contentWidth > getMeasuredWidth();
+                mInnerLayoutContentWidth = contentWidth;
             }
 
-            mInnerLayoutContentWidth = contentWidth;
-
-
         }
-
 
     }
 
@@ -551,6 +549,10 @@ public class TabWidget extends HorizontalScrollView implements OnClickListener,
 
         onTabSelected(mSelectedTab, position);
 
+
+        scrollIfNeed(position);
+
+
         mSelectedTab = position;
 
     }
@@ -617,7 +619,8 @@ public class TabWidget extends HorizontalScrollView implements OnClickListener,
             dx = x - (pr - width);
         }
 
-        smoothScrollBy(dx, 0);
+//        smoothScrollBy(dx, 0);
+        scrollBy(dx, 0);
     }
 
     /**
@@ -763,7 +766,7 @@ public class TabWidget extends HorizontalScrollView implements OnClickListener,
     }
 
     /**
-     * simple mode with viewpager
+     * simple mode without viewpager
      *
      * @return
      */

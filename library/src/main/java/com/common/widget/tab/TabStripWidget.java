@@ -2,11 +2,15 @@ package com.common.widget.tab;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
 
 import com.androidcommon.R;
+import com.common.util.LogUtils;
 
 /**
  * Created by hanbing on 2016/3/25.
@@ -40,8 +44,38 @@ public class TabStripWidget extends TabWidget {
     /**
      * scroll duration
      */
-    int mScrollDuration = 500;
+    int mScrollDuration = 1000;
 
+    /**
+     *
+     */
+    Handler mHandler = new Handler();
+
+    /**
+     * scroll
+     */
+    MyScroller mScroller = null;
+
+
+    class MyScroller extends Scroller {
+        int fromLeft;
+        int fromWidth;
+        int toLeft;
+        int toWidth;
+
+
+        public MyScroller(Context context) {
+            super(context);
+        }
+
+        public MyScroller(Context context, Interpolator interpolator) {
+            super(context, interpolator);
+        }
+
+        public MyScroller(Context context, Interpolator interpolator, boolean flywheel) {
+            super(context, interpolator, flywheel);
+        }
+    }
 
     public TabStripWidget(Context context) {
         super(context);
@@ -61,7 +95,7 @@ public class TabStripWidget extends TabWidget {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setStrip(mSelectedTab);
+            setStrip(mSelectedTab);
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -73,7 +107,7 @@ public class TabStripWidget extends TabWidget {
             mStripEnabled = a.getBoolean(R.styleable.TabStripWidget_showStrip, true);
             mScrollStripEnabled = a.getBoolean(R.styleable.TabStripWidget_enableStripScroll, true);
             mScrollStripFollowContent = a.getBoolean(R.styleable.TabStripWidget_enableStripScrollFollowContent, true);
-            mScrollDuration = a.getInt(R.styleable.TabStripWidget_scrollDuration, 500);
+            mScrollDuration = a.getInt(R.styleable.TabStripWidget_scrollDuration, mScrollDuration);
         }
     }
 
@@ -112,41 +146,62 @@ public class TabStripWidget extends TabWidget {
         {
             if (null == mScroller)
             {
-                mScroller = new Scroller(getContext());
+                mScroller = new MyScroller(getContext());
             } else if (!mScroller.isFinished()){
                 mScroller.forceFinished(true);
             }
+            mScroller.fromLeft = fromLeft;
+            mScroller.fromWidth = fromWidth;
+            mScroller.toLeft = toLeft;
+            mScroller.toWidth = toWidth;
 
             mScroller.startScroll(fromLeft, 0, toLeft - fromLeft, 0, mScrollDuration);
 
             mStripLeft = fromLeft;
             mStripWidth = fromWidth;
 
-            onUpdateStrip(mStripLeft,mStripWidth );
+            onUpdateStrip(mStripLeft,mStripWidth);
 
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (null != mScroller && mScroller.computeScrollOffset()) {
-                        mStripLeft = mScroller.getCurrX();
-                        float ratio = Math.abs(mStripLeft - fromLeft) * 1.0f / delta;
-                        mStripWidth = (int) (fromWidth + ratio * (toWidth - fromWidth));
-//                    requestLayout();
-                        onUpdateStrip(mStripLeft, mStripWidth);
-
-                        if (!mScroller.isFinished()) {
-                            postDelayed(this, 10);
-                        }
-                    }
-
-                }
-            }, 10);
+//            mHandler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (null != mScroller && mScroller.computeScrollOffset()) {
+//                        mStripLeft = mScroller.getCurrX();
+//                        float ratio = Math.abs(mStripLeft - fromLeft) * 1.0f / delta;
+//                        mStripWidth = (int) (fromWidth + ratio * (toWidth - fromWidth));
+////                    requestLayout();
+//                        LogUtils.e("mStripLeft=" + mStripLeft + ", mStripWidth=" + mStripWidth);
+//                        onUpdateStrip(mStripLeft, mStripWidth);
+//
+//                        if (!mScroller.isFinished()) {
+//                            mHandler.postDelayed(this, 10);
+//                        }
+//                    }
+//
+//                }
+//            }, 10);
         } else {
 
             setStrip(toIndex);
 
         }
 
+    }
+
+    @Override
+    public void computeScroll() {
+        if (null != mScroller && mScroller.computeScrollOffset()) {
+            mStripLeft = mScroller.getCurrX();
+            int fromLeft = mScroller.fromLeft;
+            int fromWidth = mScroller.fromWidth;
+            int toLeft = mScroller.toLeft;
+            int toWidth = mScroller.toWidth;
+
+            float ratio = Math.abs(mStripLeft - mScroller.fromLeft) * 1.0f /  Math.abs(fromLeft - toLeft);
+            mStripWidth = (int) (fromWidth + ratio * (toWidth - fromWidth));
+//                    requestLayout();
+            onUpdateStrip(mStripLeft, mStripWidth);
+        }
     }
 
     /**
@@ -211,7 +266,12 @@ public class TabStripWidget extends TabWidget {
 
     }
 
-    protected void onUpdateStrip(int left, int with)
+    private boolean isScrolling()
+    {
+        return null != mScroller && !mScroller.isFinished();
+    }
+
+    protected void onUpdateStrip(int left, int width)
     {
 
     }
@@ -220,14 +280,18 @@ public class TabStripWidget extends TabWidget {
     public void onPageScrolled(int arg0, float arg1, int arg2) {
         super.onPageScrolled(arg0, arg1, arg2);
 
+        if (mScrollStripFollowContent)
         scrollStripFollowViewPager(arg0, arg1, arg2);
     }
 
 
     @Override
     protected void onTabSelected(int last, int current) {
-        if (isSimpleMode())
+        //if in simple mode or scroll not follow content
+        if (isSimpleMode() || !mScrollStripFollowContent)
         scrollStripInSampleMode(last, current);
+
+
     }
 
     /**
@@ -236,13 +300,15 @@ public class TabStripWidget extends TabWidget {
      */
     protected void setStrip(int index)
     {
+        //if it is scrolling ,we do not set strip
+        if (isScrolling())
+            return;
 
         View child = getTab(index);
         if (null != child)
         {
             mStripLeft = child.getLeft();
             mStripWidth = child.getMeasuredWidth();
-
             onUpdateStrip(mStripLeft, mStripWidth);
         }
     }
