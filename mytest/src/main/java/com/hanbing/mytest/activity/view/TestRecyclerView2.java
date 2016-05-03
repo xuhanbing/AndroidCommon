@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.common.listener.OnItemClickListener;
 import com.common.util.SystemUtils;
 import com.common.util.ToastUtils;
 import com.common.util.ViewUtils;
+import com.common.widget.recyclerview.HeaderRecyclerView;
 import com.common.widget.recyclerview.animator.BaseSimpleItemAnimator;
 import com.common.widget.recyclerview.animator.FadeInItemAnimator;
 import com.common.widget.recyclerview.animator.FlipInBottomItemAnimator;
@@ -65,9 +67,9 @@ import java.util.List;
 @ContentView(R.layout.activity_recyclerview2)
 public class TestRecyclerView2 extends BaseAppCompatActivity {
 
-    static  final int TYPE_0 = 0;
-    static final int TYPE_1 = 1;
-    static final int TYPE_2 = 2;
+    static  final int TYPE_LINEARMANAGER = 0;
+    static final int TYPE_GRIDMANAGER = 1;
+    static final int TYPE_STAGGEREDMANAGER = 2;
 
     @ViewInject(R.id.rg_orientation)
     RadioGroup oriention;
@@ -101,58 +103,28 @@ public class TestRecyclerView2 extends BaseAppCompatActivity {
             {
                 case R.id.rb_linear:
                 {
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-                    linearLayoutManager.setOrientation(horizontal ? LinearLayoutManager.HORIZONTAL : LinearLayoutManager.VERTICAL);
-                    layoutManager = linearLayoutManager;
+
+                    type = TYPE_LINEARMANAGER;
                 }
                     break;
                 case R.id.rb_grid:
                 {
-                    GridLayoutManager linearLayoutManager = new GridLayoutManager(this, spanCount);
-                    linearLayoutManager.setOrientation(horizontal ? GridLayoutManager.HORIZONTAL : GridLayoutManager.VERTICAL);
-                    layoutManager = linearLayoutManager;
+
+                    type = TYPE_GRIDMANAGER;
                 }
                     break;
                 case R.id.rb_staggered:
                 {
-                    StaggeredGridLayoutManager linearLayoutManager = new StaggeredGridLayoutManager(spanCount,
-                            horizontal ? StaggeredGridLayoutManager.HORIZONTAL : StaggeredGridLayoutManager.VERTICAL);
-                    layoutManager = linearLayoutManager;
+                    type = TYPE_STAGGEREDMANAGER;
                 }
                     break;
             }
         } else {
-
             horizontal = checkedId == R.id.rb_horizontal;
-            if (null != layoutManager)
-            {
-                if (layoutManager instanceof  LinearLayoutManager)
-                {
-                    LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-                    linearLayoutManager.setOrientation(horizontal ? LinearLayoutManager.HORIZONTAL : LinearLayoutManager.VERTICAL);
-                    type = TYPE_0;
-                }
-
-                if (layoutManager instanceof  GridLayoutManager)
-                {
-                    GridLayoutManager linearLayoutManager = (GridLayoutManager) layoutManager;
-                    linearLayoutManager.setOrientation(horizontal ? GridLayoutManager.HORIZONTAL : GridLayoutManager.VERTICAL);
-                    type = TYPE_1;
-                }
-
-                if (layoutManager instanceof  StaggeredGridLayoutManager)
-                {
-                    StaggeredGridLayoutManager linearLayoutManager = (StaggeredGridLayoutManager) layoutManager;
-                    linearLayoutManager.setOrientation(horizontal ? StaggeredGridLayoutManager.HORIZONTAL : StaggeredGridLayoutManager.VERTICAL);
-                    type = TYPE_2;
-                }
-            }
         }
 
 
-        addItemDecoration(horizontal ? OrientationHelper.HORIZONTAL : OrientationHelper.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.getAdapter().notifyDataSetChanged();
+        reset();
     }
 
     @Event(value= R.id.sb_item_count, type = SeekBar.OnSeekBarChangeListener.class, method = "onStopTrackingTouch")
@@ -175,7 +147,7 @@ public class TestRecyclerView2 extends BaseAppCompatActivity {
     static int addItemCount = 0;
 
     boolean horizontal = false;
-    int type = TYPE_0;
+    int type = TYPE_LINEARMANAGER;
 
     List<String> items;
 
@@ -183,7 +155,6 @@ public class TestRecyclerView2 extends BaseAppCompatActivity {
     @Override
     protected void initViews() {
         super.initViews();
-        RecyclerView recyclerView = this.recyclerView;
     }
 
     @Override
@@ -209,47 +180,46 @@ public class TestRecyclerView2 extends BaseAppCompatActivity {
         itemCountSeekBar.setProgress(itemCount);
         itemCountTextView.setText(itemCount+"");
 
-//        RecyclerView recyclerView = ViewUtils.findViewById(this, R.id.recycleView);
 
-//        if (recyclerView instanceof RecyclerViewWithHeaderOrFooter)
-//        {
-//            RecyclerViewWithHeaderOrFooter rv = (RecyclerViewWithHeaderOrFooter) recyclerView;
-//
-//
-//            View view1 = LayoutInflater.from(this).inflate(R.layout.item_recycleview, null);
-//            View view2 = LayoutInflater.from(this).inflate(R.layout.item_recycleview, null);
-//            View view3 = LayoutInflater.from(this).inflate(R.layout.item_recycleview, null);
-//            View view4 = LayoutInflater.from(this).inflate(R.layout.item_recycleview, null);
-//
-//
-//            rv.addHeaderView(view1);
-//            rv.addHeaderView(view2);
-//
-//            rv.addFooterView(view3);
-//            rv.addFooterView(view4);
-//
-//            view1.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    ToastUtils.showToast(getApplicationContext(), "click view1");
-//                }
-//
-//            });
-//        }
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
-        linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
-
-        GridLayoutManager gridLayoutManager  = new GridLayoutManager(this, spanCount);
-
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL);
-        StaggeredGridLayoutManager staggeredGridLayoutManager2 = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL);
+        if (false && recyclerView instanceof HeaderRecyclerView)
+        {
+            HeaderRecyclerView rv = (HeaderRecyclerView) recyclerView;
 
 
-        layoutManager = linearLayoutManager;
-        recyclerView.setLayoutManager(layoutManager);
+            View view1 = LayoutInflater.from(this).inflate(R.layout.item_recycleview, null, false);
+            View view2 = LayoutInflater.from(this).inflate(R.layout.item_recycleview, null, false);
+            View view3 = LayoutInflater.from(this).inflate(R.layout.item_recycleview, null, false);
+            View view4 = LayoutInflater.from(this).inflate(R.layout.item_recycleview, null, false);
+
+
+            rv.addHeaderView(view1);
+            rv.addHeaderView(view2);
+
+            rv.addFooterView(view3);
+            rv.addFooterView(view4);
+
+            view1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    ToastUtils.showToast(getApplicationContext(), "click view1");
+                }
+
+            });
+        }
+
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
+//        linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+//
+//        GridLayoutManager gridLayoutManager  = new GridLayoutManager(this, spanCount);
+//
+//        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL);
+//        StaggeredGridLayoutManager staggeredGridLayoutManager2 = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL);
+//
+//
+//        layoutManager = linearLayoutManager;
+//        recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setItemAnimator(new SlideInTopItemAnimator());
 
@@ -257,93 +227,7 @@ public class TestRecyclerView2 extends BaseAppCompatActivity {
 //        addItemDecoration(OrientationHelper.VERTICAL);
 
 
-        final BaseRecycleViewAdaper adaper = new BaseRecycleViewAdaper<ViewHolder>() {
 
-
-
-            @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-            @Override
-            public void onBindViewHolderImpl(ViewHolder holder, int position) {
-
-
-//                int[] res = {R.drawable.logo_custom_58, R.drawable.logo_custom_oppo,
-//                        R.drawable.logo_custom_pingan, R.drawable.logo_custom_qner, R.drawable.logo_custom_qq,
-//                        R.drawable.logo_custom_sina, R.drawable.logo_custom_tmall, R.drawable.logo_custom_volvo};
-                int[] colors = {R.color.lightblue, R.color.lightgray, R.color.lightsalmon};
-                int color = getResources().getColor(colors[position % colors.length]);
-
-
-//                holder.imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//                holder.imageView.setImageResource(res[position % res.length]);
-//                holder.imageView.setBackgroundColor(getResources().getColor(color));
-
-//                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(holder.imageView, "alpha", 0.1f, 1.0f);
-//                objectAnimator.setDuration(1000);
-//
-//                ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(holder.imageView, "scaleX", 0.5f, 1.0f);
-//                objectAnimator1.setDuration(1000);
-//
-//                ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(holder.imageView, "scaleY", 0.5f, 1.0f);
-//                objectAnimator2.setDuration(1000);
-//
-//                PropertyValuesHolder propertyValuesHolder1 = PropertyValuesHolder.ofFloat("alpha",  0.1f, 1.0f);
-//                PropertyValuesHolder propertyValuesHolder2 = PropertyValuesHolder.ofFloat("scaleX",  0.1f, 1.0f);
-//                PropertyValuesHolder propertyValuesHolder3 = PropertyValuesHolder.ofFloat("scaleY",  0.1f, 1.0f);
-//                PropertyValuesHolder propertyValuesHolder4 = PropertyValuesHolder.ofFloat("translationX", -100f, 0);
-//
-//
-//                PropertyValuesHolder[] propertyValuesHolders = {propertyValuesHolder1, propertyValuesHolder2, propertyValuesHolder3, propertyValuesHolder4};
-//                objectAnimator = ObjectAnimator.ofPropertyValuesHolder(holder.imageView, propertyValuesHolders);
-//
-//                objectAnimator.setDuration(1000);
-//                objectAnimator.start();
-
-//                AnimatorSet set = new AnimatorSet();
-//                set.playTogether(objectAnimator, objectAnimator1, objectAnimator2);
-//
-//                set.start();
-
-                TextView textView = holder.textView;
-
-                textView.setGravity(Gravity.CENTER);
-                textView.setText(items.get(position));
-
-
-
-//                if (layoutManager instanceof StaggeredGridLayoutManager)
-//                {
-//                    int size = (int) (200 * Math.random() + 200);
-//
-//                    if (horizontal)
-//                        textView.setMinWidth(size);
-//                    else
-//                        textView.setMinHeight(size);
-//                } else {
-//
-//                    textView.setMinWidth(400);
-//                    textView.setMinWidth(400);
-//                }
-
-                holder.itemView.setMinimumWidth(200);
-                holder.itemView.setMinimumHeight(200);
-
-                holder.itemView.setBackgroundColor(color);
-            }
-
-            @Override
-            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-                return new ViewHolder(getLayoutInflater().inflate(R.layout.item_recycleview, parent, false));
-            }
-
-            @Override
-            public int getItemCount() {
-                return null == items ? 0 : items.size();
-            }
-
-
-
-        };
 
         ViewUtils.bindOnItemClickListener(recyclerView, new OnItemClickListener(){
 
@@ -353,17 +237,34 @@ public class TestRecyclerView2 extends BaseAppCompatActivity {
                 ToastUtils.showToast(getApplicationContext(), "onItemClick " + position);
 
                 String title = "add item " + addItemCount++;
-                items.add(position + 1, title);
+                int pos = position;
+
+                if (recyclerView instanceof HeaderRecyclerView)
+                {
+                    pos -= ((HeaderRecyclerView) recyclerView).getHeaderViewsCount();
+                }
+
+                items.add(pos + 1, title);
 
                 recyclerView.getAdapter().notifyItemInserted(position+1);
             }
 
             @Override
-            public void onItemLongClick(RecyclerView recyclerView, View view, int position) {
+            public boolean onItemLongClick(RecyclerView recyclerView, View view, int position) {
                 ToastUtils.showToast(getApplicationContext(), "onItemLongClick " + position);
-                items.remove(position);
+
+                int pos = position;
+
+                if (recyclerView instanceof HeaderRecyclerView)
+                {
+                    pos -= ((HeaderRecyclerView) recyclerView).getHeaderViewsCount();
+                }
+
+                items.remove(pos);
 
                 recyclerView.getAdapter().notifyItemRemoved(position);
+
+                return true;
             }
         });
 
@@ -387,9 +288,6 @@ public class TestRecyclerView2 extends BaseAppCompatActivity {
 //                return true;
 //            }
 //        });
-
-        recyclerView.setAdapter(adaper);
-
 
         initSpinner();
 
@@ -506,26 +404,28 @@ public class TestRecyclerView2 extends BaseAppCompatActivity {
     RecyclerView.ItemDecoration itemDecoration;
     private void addItemDecoration(int orientation) {
 
+
         BaseItemDecoration.Builder builder = null;
 
         switch (type)
         {
-            case TYPE_0:
+            case TYPE_LINEARMANAGER:
                 builder = new LineItemDecoration.Builder(this);
                 break;
-            case TYPE_1:
-            case TYPE_2:
+            case TYPE_GRIDMANAGER:
+            case TYPE_STAGGEREDMANAGER:
                 builder = new GridItemDecoration.Builder(this);
                 break;
 
         }
-        builder.setColor(Color.GREEN)
+        builder.setColor(Color.TRANSPARENT)
 //                .setDrawableRes(R.drawable.logo_custom_sina)
-                .setOrientation(orientation).setSize(10);
+                .setOrientation(orientation)
+                .setSize(20);
 
 
         if (null != itemDecoration)
-        recyclerView.removeItemDecoration(itemDecoration);
+            recyclerView.removeItemDecoration(itemDecoration);
         recyclerView.addItemDecoration(itemDecoration=builder.create());
 
     }
@@ -542,9 +442,90 @@ public class TestRecyclerView2 extends BaseAppCompatActivity {
     {
         initItems();
 
+        switch (type)
+        {
+            case TYPE_LINEARMANAGER:
+            {
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                layoutManager.setOrientation(horizontal ? LinearLayoutManager.HORIZONTAL : LinearLayoutManager.VERTICAL);
+                this.layoutManager = layoutManager;
+            }
+                break;
+            case TYPE_GRIDMANAGER:
+            {
+                GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), spanCount);
+                layoutManager.setOrientation(horizontal ? GridLayoutManager.HORIZONTAL : GridLayoutManager.VERTICAL);
+                this.layoutManager = layoutManager;
+            }
+                break;
+            case TYPE_STAGGEREDMANAGER:
+            {
+                StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(spanCount,
+                        horizontal ? StaggeredGridLayoutManager.HORIZONTAL : StaggeredGridLayoutManager.VERTICAL);
+
+                this.layoutManager = layoutManager;
+            }
+                break;
+        }
+
+        final BaseRecycleViewAdaper adapter = new BaseRecycleViewAdaper<ViewHolder>() {
+
+            @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+            @Override
+            public void onBindViewHolderImpl(ViewHolder holder, int position) {
+
+
+//                int[] res = {R.drawable.logo_custom_58, R.drawable.logo_custom_oppo,
+//                        R.drawable.logo_custom_pingan, R.drawable.logo_custom_qner, R.drawable.logo_custom_qq,
+//                        R.drawable.logo_custom_sina, R.drawable.logo_custom_tmall, R.drawable.logo_custom_volvo};
+                int[] colors = {R.color.lightblue, R.color.lightgray, R.color.lightsalmon};
+                int color = getResources().getColor(colors[position % colors.length]);
+
+
+                TextView textView = holder.textView;
+
+                textView.setGravity(Gravity.CENTER);
+                textView.setText(items.get(position));
+
+
+
+//                if (layoutManager instanceof StaggeredGridLayoutManager)
+//                {
+//                    int size = (int) (200 * Math.random() + 200);
+//
+//                    if (horizontal)
+//                        textView.setMinWidth(size);
+//                    else
+//                        textView.setMinHeight(size);
+//                } else {
+//
+//                    textView.setMinWidth(400);
+//                    textView.setMinWidth(400);
+//                }
+
+                holder.itemView.setMinimumWidth(200);
+                holder.itemView.setMinimumHeight(200);
+
+                holder.itemView.setBackgroundColor(color);
+            }
+
+            @Override
+            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+                return new ViewHolder(getLayoutInflater().inflate(R.layout.item_recycleview, parent, false));
+            }
+
+            @Override
+            public int getItemCount() {
+                return null == items ? 0 : items.size();
+            }
+
+
+
+        };
         addItemDecoration(horizontal ? OrientationHelper.HORIZONTAL : OrientationHelper.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.getAdapter().notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

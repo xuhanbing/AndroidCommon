@@ -5,6 +5,9 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.common.util.LogUtils;
+import com.common.widget.recyclerview.BaseRecyclerView;
+
 /**
  * Created by hanbing on 2016/3/11.
  */
@@ -19,7 +22,6 @@ public class LineItemDecoration extends BaseItemDecoration {
         @Override
         public BaseItemDecoration create() {
 
-            System.out.println("creat LineItemDecoration");
             LineItemDecoration lineItemDecoration = new LineItemDecoration(this);
 
             return lineItemDecoration;
@@ -31,33 +33,33 @@ public class LineItemDecoration extends BaseItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public Rect getDecorationRect(RecyclerView parent, View child) {
 
-        int position = parent.getChildAdapterPosition(view);
-        if (position == parent.getAdapter().getItemCount() - 1)
-            return;
+        int position = parent.getChildAdapterPosition(child);
+
+        Rect rect = new Rect();
+
+        //last one has no divider
+        if (null == parent.getAdapter()
+                || position == parent.getAdapter().getItemCount() - 1)
+            return rect;
+
+        if (parent instanceof BaseRecyclerView)
+        {
+            if (!((BaseRecyclerView) parent).drawItemDecoration(position))
+            {
+                return rect;
+            }
+        }
 
         if (isVertical())
         {
-            mMarginRect.bottom = mSize;
+            rect.bottom = mMarginRect.bottom;
         } else {
-            mMarginRect.right = mSize;
+            rect.right = mMarginRect.right;
         }
 
-        outRect.set(mMarginRect);
+        return  rect;
     }
 
-//    @Override
-//    protected void drawDecoration(Canvas c, View child) {
-//
-//        int size = mSize;
-//
-//        if (isVertical())
-//        {
-//            c.drawRect(child.getLeft(), child.getBottom(), child.getRight(), child.getBottom() + size, mPaint);
-//        } else {
-//            c.drawRect(child.getRight(), child.getTop(), child.getRight() + size, child.getBottom(), mPaint);
-//        }
-//
-//    }
 }

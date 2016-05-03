@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * Created by hanbing on 2016/3/11.
  */
-public class RecyclerViewWithHeaderOrFooter extends RecyclerView {
+public class HeaderRecyclerView extends BaseRecyclerView {
 
 
     class HeaderViewAdapter extends Adapter{
@@ -108,16 +109,11 @@ public class RecyclerViewWithHeaderOrFooter extends RecyclerView {
                 }
             }
 
-
-
-
         }
 
         @Override
         public int getItemCount() {
-            int count = null == mAdapter ? 0 : mAdapter.getItemCount();
-
-            return getHeaderViewsCount() + getFooterViewsCount() + count;
+            return getHeaderViewsCount() + getFooterViewsCount() + getRealItemCount();
         }
 
 
@@ -131,16 +127,23 @@ public class RecyclerViewWithHeaderOrFooter extends RecyclerView {
 
     HeaderViewAdapter mHeaderViewAdapter;
 
-    public RecyclerViewWithHeaderOrFooter(Context context) {
+
+    boolean mShowHeaderAndFooterDivider = true;
+
+    public HeaderRecyclerView(Context context) {
         super(context);
+        setLayoutManager(new LinearLayoutManager(context));
     }
 
-    public RecyclerViewWithHeaderOrFooter(Context context, AttributeSet attrs) {
+    public HeaderRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setLayoutManager(new LinearLayoutManager(context));
     }
 
-    public RecyclerViewWithHeaderOrFooter(Context context, AttributeSet attrs, int defStyle) {
+    public HeaderRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+
+        setLayoutManager(new LinearLayoutManager(context));
     }
 
 
@@ -189,7 +192,6 @@ public class RecyclerViewWithHeaderOrFooter extends RecyclerView {
             });
         } else if (layoutManager instanceof StaggeredGridLayoutManager)
         {
-            StaggeredGridLayoutManager gridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
 
 
         }
@@ -208,7 +210,7 @@ public class RecyclerViewWithHeaderOrFooter extends RecyclerView {
     public void removeHeaderView(View view)
     {
         if (null == mHeaders)
-            return;;
+            return;
 
         mHeaders.remove(view);
     }
@@ -227,6 +229,10 @@ public class RecyclerViewWithHeaderOrFooter extends RecyclerView {
             return;;
 
         mFooters.remove(view);
+    }
+
+    public int getItemCount(){
+        return getHeaderViewsCount() + getFooterViewsCount() + getRealItemCount();
     }
 
     public int getHeaderViewsCount()
@@ -259,6 +265,35 @@ public class RecyclerViewWithHeaderOrFooter extends RecyclerView {
         return position < getHeaderViewsCount() || position >= getHeaderViewsCount() + getRealItemCount();
     }
 
+
+    public void setShowDividerHeaderAndFooter(boolean show) {
+        this.mShowHeaderAndFooterDivider = show;
+    }
+
+    public boolean showHeaderAndFooterDivider() {
+        return mShowHeaderAndFooterDivider;
+    }
+
+    public boolean showDivider(int position)
+    {
+        if (position < getHeaderViewsCount() || position >= (getHeaderViewsCount() + getRealItemCount() - 1))
+        {
+            if (showHeaderAndFooterDivider())
+                return true;
+            else
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isClickable(int position)
+    {
+        if (isHeaderOrFooter(position))
+            return false;
+
+        return true;
+    }
+
     public int getRealItemPosition(int position)
     {
         if (isHeaderOrFooter(position))
@@ -267,4 +302,12 @@ public class RecyclerViewWithHeaderOrFooter extends RecyclerView {
         return position - getHeaderViewsCount();
     }
 
+    @Override
+    public boolean drawItemDecoration(int position) {
+
+        if (!showDivider(position))
+            return false;
+
+        return  true;
+    }
 }

@@ -92,9 +92,9 @@
     </LinearLayout>
 
 
-    <com.common.widget.recyclerview.RecyclerViewWithHeaderOrFooter
+    <com.common.widget.recyclerview.HeaderRecyclerView
         android:background="@color/yellow"
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.common.widget.recyclerview.RecyclerViewWithHeaderOrFooter>
+        android:layout_height="match_parent"></com.common.widget.recyclerview.HeaderRecyclerView>
 </LinearLayout>

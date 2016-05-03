@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -24,7 +25,7 @@ import android.widget.TabHost;
 import com.common.listener.OnItemClickListener;
 import com.common.tool.FragmentTabHostAndViewPagerInitHelper;
 import com.common.widget.tab.TabWidget;
-import com.common.widget.recyclerview.RecyclerViewWithHeaderOrFooter;
+import com.common.widget.recyclerview.HeaderRecyclerView;
 
 /**
  * @author hanbing
@@ -286,21 +287,30 @@ public class ViewUtils {
 
                 View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
 
-                if (null != child)
-                {
+                if (null != child) {
                     int position = recyclerView.getChildAdapterPosition(child);
 
-                    if (recyclerView instanceof RecyclerViewWithHeaderOrFooter)
-                    {
+                    if (recyclerView instanceof HeaderRecyclerView) {
 
-                        RecyclerViewWithHeaderOrFooter rv = (RecyclerViewWithHeaderOrFooter) recyclerView;
+                        HeaderRecyclerView rv = (HeaderRecyclerView) recyclerView;
 
 
-                        position = rv.getRealItemPosition(position);
+                        if (rv.isClickable(position))
+                        {
+
+                        } else {
+                            position = -1;
+                        }
                     }
 
+                    boolean handle = false;
                     if (position >= 0)
-                    onItemClickListener.onItemLongClick(recyclerView, child, position);
+                    {
+                        handle =  onItemClickListener.onItemLongClick(recyclerView, child, position);
+
+                    }
+
+
                 }
             }
         });
@@ -315,13 +325,15 @@ public class ViewUtils {
                         && gestureDetector.onTouchEvent(e)) {
                     int position = recyclerView.getChildAdapterPosition(child);
 
-                    if (rv instanceof RecyclerViewWithHeaderOrFooter)
+                    if (rv instanceof HeaderRecyclerView)
                     {
 
-                        RecyclerViewWithHeaderOrFooter rv2 = (RecyclerViewWithHeaderOrFooter) rv;
+                        HeaderRecyclerView rv2 = (HeaderRecyclerView) rv;
 
-
-                        position = rv2.getRealItemPosition(position);
+                        if (!rv2.isClickable(position))
+                        {
+                            position = -1;
+                        }
                     }
 
                     if (position >= 0)
@@ -337,6 +349,7 @@ public class ViewUtils {
             @Override
             public void onTouchEvent(RecyclerView rv, MotionEvent e) {
 
+                Log.e("123", "onTouchEvent " + e.getAction());
             }
 
             @Override

@@ -9,7 +9,7 @@ import android.view.View;
 public abstract class OnItemClickListener {
     public  abstract void onItemClick(RecyclerView recyclerView, View view, int position);
 
-    public  void onItemLongClick(RecyclerView recyclerView, View view, int position) {
-
+    public  boolean onItemLongClick(RecyclerView recyclerView, View view, int position) {
+        return false;
     }
 }

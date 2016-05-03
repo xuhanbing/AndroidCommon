@@ -351,11 +351,13 @@ public class TestRecyclerView extends BaseAppCompatActivity {
 			}
 
 			@Override
-			public void onItemLongClick(RecyclerView recyclerView, View view, int position) {
+			public boolean onItemLongClick(RecyclerView recyclerView, View view, int position) {
 				ToastUtils.showToast(getApplicationContext(), "onItemLongClick " + position);
 				items.remove(position);
 
 				recyclerView.getAdapter().notifyItemRemoved(position);
+
+				return true;
 			}
 		});
 

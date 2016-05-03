@@ -11,9 +11,11 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.common.util.ImageUtils;
+import com.common.util.LogUtils;
 
 /**
  * Created by hanbing on 2016/3/11.
@@ -84,6 +86,12 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         public Builder setSize(int size)
         {
             this.mSize = size;
+
+            if (size >= 0)
+            {
+                mMarginRect.set(size, size, size, size);
+            }
+
             return this;
         }
 
@@ -134,7 +142,6 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 
         public BaseItemDecoration create()
         {
-            System.out.println("creat base");
             BaseItemDecoration baseItemDecoration = new BaseItemDecoration(this);
             return baseItemDecoration;
         }
@@ -217,44 +224,38 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         {
             View child = parent.getChildAt(i);
 
-            drawDecoration(c, child);
+            drawDecoration(c, parent, child);
         }
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        if (mSize > 0)
-            mMarginRect.set(mSize, mSize, mSize, mSize);
-        outRect.set(mMarginRect);
+        Rect rect = getDecorationRect(parent, view);
+        outRect.set(rect);
+    }
+
+    public Rect getDecorationRect(RecyclerView parent, View child) {
+        return mMarginRect;
     }
 
     private Bitmap mBitmap;
 
-    protected void drawDecoration(Canvas c, View child) {
+    protected void drawDecoration(Canvas c, RecyclerView parent, View child) {
 
         int l = child.getLeft();
         int t = child.getTop();
         int r = child.getRight();
         int b = child.getBottom();
 
-        int ml = mMarginRect.left;
-        int mt = mMarginRect.top;
-        int mr = mMarginRect.right;
-        int mb = mMarginRect.bottom;
+        Rect rect = new Rect(getDecorationRect(parent, child));
 
-        if (null != mDrawable)
-        {
-            if (null == mBitmap)
-            {
-                mBitmap = ImageUtils.drawableToBitmap(mDrawable);
-
-            }
-        }
-
-        Rect rect = new Rect();
+        int ml = rect.left;
+        int mt = rect.top;
+        int mr = rect.right;
+        int mb = rect.bottom;
 
         rect.set(l - ml, t - mt, r, t);
-        draw(c, rect);;
+        draw(c, rect);
 
         rect.set(r, t - mt, r + mr, b);
         draw(c, rect);
@@ -268,6 +269,11 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 
     private void draw(Canvas c, Rect rect)
     {
+        if (null == mBitmap && null != mDrawable)
+        {
+            mBitmap = ImageUtils.drawableToBitmap(mDrawable);
+        }
+
         if (null != mBitmap)
             c.drawBitmap(mBitmap, null, rect, null);
         else
