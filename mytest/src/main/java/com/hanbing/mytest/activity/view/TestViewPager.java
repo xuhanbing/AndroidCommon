@@ -8,8 +8,7 @@ package com.hanbing.mytest.activity.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.common.view.DefaultTabViewPager;
-import com.common.view.TabViewPager;
+
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.fragment.NumFragment;
 import com.hanbing.mytest.listener.MulitPointTouchListener;
@@ -171,12 +170,12 @@ public class TestViewPager extends FragmentActivity {
 //        initViewPager2();
 //        layout.addView(viewPager);
 //        
-//        setContentView(layout);
+//        setContentView(layout);z
     }
     
     
     TabViewPager tabViewPager;
-    com.common.view.TabWidget tabWidget;
+	com.common.widget.tab.TabWidget tabWidget;
     int count = 5;
     
     private void initViewPager6()

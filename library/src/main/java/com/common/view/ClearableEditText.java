@@ -24,7 +24,7 @@ public class ClearableEditText extends EditText{
 
     Drawable mClearDrawable;
     
-    int mDftClearDrawableResId = android.R.drawable.ic_delete;
+    int mDftClearDrawableResId = android.R.drawable.ic_menu_close_clear_cancel;
 
     OnClearListener mOnClearListener;
     /**

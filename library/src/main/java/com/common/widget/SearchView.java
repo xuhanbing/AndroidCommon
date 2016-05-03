@@ -2,6 +2,7 @@ package com.common.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
@@ -23,8 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidcommon.R;
+import com.common.util.DipUtils;
 import com.common.util.SystemUtils;
 import com.common.util.ViewUtils;
+
 import com.common.view.ClearableEditText;
 
 /**
@@ -75,6 +78,7 @@ public class SearchView extends LinearLayout  implements TextView.OnEditorAction
 
     void init(Context context, AttributeSet attrs)
     {
+        Resources resources = context.getResources();
         mDefaultView =  ViewUtils.inflate(getContext(), R.layout.layout_searchview, this, false);
         mExpandView =  ViewUtils.inflate(getContext(), R.layout.layout_searchview_expand, this, false);
 
@@ -83,8 +87,8 @@ public class SearchView extends LinearLayout  implements TextView.OnEditorAction
             final TypedArray a = context.obtainStyledAttributes(
                     attrs, R.styleable.SearchView, 0, 0);
 
-            mSearchIconResId = a.getResourceId(R.styleable.SearchView_searchIcon, 0);
-            mClearIconResId = a.getResourceId(R.styleable.SearchView_clearIcon, 0);
+            mSearchIconResId = a.getResourceId(R.styleable.SearchView_searchIcon, android.R.drawable.ic_menu_search);
+            mClearIconResId = a.getResourceId(R.styleable.SearchView_clearIcon, android.R.drawable.ic_menu_close_clear_cancel);
             mSearchTextBackgroundResId = a.getResourceId(R.styleable.SearchView_searchTextBackground, 0);
 
             mText = a.getText(R.styleable.SearchView_searchText);
@@ -92,7 +96,7 @@ public class SearchView extends LinearLayout  implements TextView.OnEditorAction
 
             mSearchTextColor = a.getColor(R.styleable.SearchView_searchTextColor, Color.BLACK);
             mSearchTextColorHint = a.getColor(R.styleable.SearchView_searchTextColorHint, Color.LTGRAY);
-            mSearchTextSize =a.getDimensionPixelSize(R.styleable.SearchView_searchTextSize, 15);
+            mSearchTextSize = a.getDimensionPixelSize(R.styleable.SearchView_searchTextSize, DipUtils.dip2px(context, 15));
 
             a.recycle();
 

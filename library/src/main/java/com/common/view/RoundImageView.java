@@ -208,6 +208,8 @@ public class RoundImageView extends ImageView {
      * @return
      */
     private Bitmap drawableToBitamp(Drawable drawable) {
+        if (null == drawable)
+            return null;
 
         Bitmap bitmap = null;
 
