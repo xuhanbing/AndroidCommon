@@ -13,7 +13,7 @@ android {
             moduleName "libMyTest"
             ldLibs "log"
             cFlags  "-DFIXED_POINT -DUSE_KISS_FFT -DEXPORT=\"\" -UHAVE_CONFIG_H"
-            abiFilters "armeabi", "armeabi-v7a"
+            abiFilters "armeabi", "armeabi-v7a", "x86"
 
         }
     }

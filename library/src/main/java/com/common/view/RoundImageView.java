@@ -271,6 +271,7 @@ public class RoundImageView extends ImageView {
                 }
             }
 
+
             x = (w - bitmapWidth) / 2;
             y = (h - bitmapHeight) / 2;
 

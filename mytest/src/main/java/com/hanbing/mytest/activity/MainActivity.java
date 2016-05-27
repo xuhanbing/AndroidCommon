@@ -46,6 +46,7 @@ import com.common.util.ToastUtils;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.action.TestShortcut;
 import com.hanbing.mytest.activity.view.TestRecyclerView2;
+import com.hanbing.mytest.activity.view.TestScrollView3;
 import com.hanbing.mytest.fragment.NumFragment;
 import com.hanbing.mytest.module.TestJni;
 import com.hanbing.mytest.service.TestService;
@@ -69,7 +70,7 @@ import java.util.Timer;
 
 public class MainActivity extends BaseAppCompatActivity {
 
-	static final Class<?> DEFAULT_CLASS = TestRecyclerView2.class;
+	static final Class<?> DEFAULT_CLASS = TestScrollView3.class;
 
 	private static final String TAG = "123";
 	private static final int CONNECT_TIME_OUT = 3 * 1000;
@@ -86,7 +87,7 @@ public class MainActivity extends BaseAppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 
-		TestJni.print("hellow");
+		TestJni.print("");
 
 		DisplayMetrics dm = getResources().getDisplayMetrics();
 		super.onCreate(savedInstanceState);

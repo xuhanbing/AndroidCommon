@@ -1,11 +1,16 @@
 package com.hanbing.mytest.activity.view;
 
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +18,7 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +36,7 @@ import android.widget.TextView;
 import com.common.base.BaseAppCompatActivity;
 import com.common.base.BaseRecycleViewAdaper;
 import com.common.listener.OnItemClickListener;
+import com.common.util.LogUtils;
 import com.common.util.SystemUtils;
 import com.common.util.ToastUtils;
 import com.common.util.ViewUtils;
@@ -160,6 +167,7 @@ public class TestRecyclerView2 extends BaseAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         RecyclerView recyclerView = this.recyclerView;
 
@@ -422,6 +430,7 @@ public class TestRecyclerView2 extends BaseAppCompatActivity {
 //                .setDrawableRes(R.drawable.logo_custom_sina)
                 .setOrientation(orientation)
                 .setSize(20);
+
 
 
         if (null != itemDecoration)

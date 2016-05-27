@@ -229,7 +229,8 @@
         </receiver>
 
         <activity android:name=".activity.view.TestViewInject" />
-        <activity android:name=".activity.view.TestText"></activity>
+        <activity android:name=".activity.view.TestText" />
+        <activity android:name=".activity.view.TestScrollView3"></activity>
     </application>
 
 </manifest>

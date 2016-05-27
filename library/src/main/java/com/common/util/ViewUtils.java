@@ -171,7 +171,7 @@ public class ViewUtils {
 //        }
 
         ViewCompat.setScaleX(view, scaleX);
-        ViewCompat.setScaleX(view, scaleY);
+        ViewCompat.setScaleY(view, scaleY);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -325,19 +325,16 @@ public class ViewUtils {
                         && gestureDetector.onTouchEvent(e)) {
                     int position = recyclerView.getChildAdapterPosition(child);
 
-                    if (rv instanceof HeaderRecyclerView)
-                    {
+                    if (rv instanceof HeaderRecyclerView) {
 
                         HeaderRecyclerView rv2 = (HeaderRecyclerView) rv;
 
-                        if (!rv2.isClickable(position))
-                        {
+                        if (!rv2.isClickable(position)) {
                             position = -1;
                         }
                     }
 
-                    if (position >= 0)
-                    {
+                    if (position >= 0) {
                         onItemClickListener.onItemClick(rv, child, position);
                         return true;
                     }
@@ -358,6 +355,36 @@ public class ViewUtils {
             }
         });
 
+
+    }
+
+    /**
+     * 缩放透明度
+     *
+     * @param color
+     * @param scale
+     * @return
+     */
+    public static int scaleColorAlpha(int color, float scale) {
+
+        /**
+         * 取颜色值的alpha
+         */
+        int alpha = (color >> 24) & 0xff;
+        /**
+         * 取颜色值的rgb值
+         */
+        int rgb = color & 0x00ffffff;
+
+        if (scale < 0)
+            scale = 0;
+        else if (scale > 1)
+            scale = 1;
+
+        alpha *= scale;
+        color = ((alpha & 0xff) << 24) | rgb;
+
+        return color;
 
     }
 }
