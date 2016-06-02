@@ -15,8 +15,9 @@ td2.align = "center";
 var td3 = tr.insertCell(2);
 td3.align = "center";
 td1.innerHTML = jsonobjs[y].name; 
-td2.innerHTML = jsonobjs[y].amount; 
-td3.innerHTML = "<a href='javascript:contact.call("+ jsonobjs[y].phone+ ")'>"+ jsonobjs[y].phone+ "</a>"; 
+td2.innerHTML = jsonobjs[y].amount;
+
+td3.innerHTML = "<a href='javascript:contact.call("+ jsonobjs[y].phone.toString()+ ")'>"+ jsonobjs[y].phone+ "</a>";
 }
 }
 </script>

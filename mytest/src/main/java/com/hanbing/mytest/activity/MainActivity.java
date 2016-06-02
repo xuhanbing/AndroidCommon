@@ -52,6 +52,8 @@ import com.hanbing.mytest.module.TestJni;
 import com.hanbing.mytest.service.TestService;
 import com.hanbing.mytest.view.RoundDrawable;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
@@ -70,7 +72,7 @@ import java.util.Timer;
 
 public class MainActivity extends BaseAppCompatActivity {
 
-	static final Class<?> DEFAULT_CLASS = TestScrollView3.class;
+	static  Class<?> DEFAULT_CLASS = null;
 
 	private static final String TAG = "123";
 	private static final int CONNECT_TIME_OUT = 3 * 1000;
@@ -157,6 +159,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
 		initToolbar();
 
+		startService(new Intent(this, TestService.class));
 	}
 	
 	Toolbar toolbar;
@@ -448,6 +451,9 @@ public class MainActivity extends BaseAppCompatActivity {
 		Map<String, List<Class<?>>> tags = new HashMap<String, List<Class<?>>>();
 
 		PackageInfo packageInfo;
+
+
+
 		try {
 			packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
 
@@ -492,6 +498,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
 				list.add(clazz);
 
+
 			}
 
 		} catch (NameNotFoundException e) {
@@ -512,6 +519,9 @@ public class MainActivity extends BaseAppCompatActivity {
 		if (null != DEFAULT_CLASS)
 			startActivity(DEFAULT_CLASS);
 	}
+
+
+
 
 
 	private void addCategory(String key, List<Class<?>> list) {

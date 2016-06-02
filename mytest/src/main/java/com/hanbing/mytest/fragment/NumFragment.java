@@ -10,6 +10,7 @@ import com.hanbing.mytest.activity.view.TestCustomEditText;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -91,7 +92,9 @@ public class NumFragment extends Fragment{
         
 //        BitmapUtils bmu = new BitmapUtils(getActivity());
 //        bmu.display(text, "/storage/sdcard0/Samples/Pictures/Picture_A_Beach.jpg");
-        
+
+        view.setBackgroundColor(num % 2 == 0 ? Color.RED : Color.GREEN);
+        view.setTag(num);
         return view;//super.onCreateView(inflater, container, savedInstanceState);
     }
     

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Layout.Alignment;
 import android.util.AttributeSet;
@@ -62,19 +63,7 @@ public class ScrollbarTabWidget extends TabStripWidget {
 
 	}
 	
-	private void init(Context context, AttributeSet attrs) {
-		// TODO Auto-generated method stub
-		mTextDrawables = new TextDrawable[3];
-		for (int i = 0; i < mTextDrawables.length; i++)
-		{
-			mTextDrawables[i] = new TextDrawable(getContext());
-		}
-		
-		mIndicator = getContext().getResources().getDrawable(R.drawable.bg_tabwidget_scrollbar);
-		
-		
-	}
-	
+
 	@Override
 	public void draw(Canvas canvas) {
 		// TODO Auto-generated method stub
@@ -88,7 +77,7 @@ public class ScrollbarTabWidget extends TabStripWidget {
 
 			if (null == mIndicator)
 			{
-				mIndicator = getContext().getResources().getDrawable(R.drawable.bg_tabwidget_scrollbar);
+				mIndicator = new ColorDrawable(Color.TRANSPARENT);
 			}
 			
 			if (null != mIndicator)

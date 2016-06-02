@@ -8,6 +8,8 @@ package com.hanbing.mytest.activity.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.common.util.LogUtils;
+import com.common.util.ViewUtils;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.fragment.BaseFragment;
 import com.hanbing.mytest.fragment.NearGridFragment;
@@ -24,6 +26,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.view.MotionEvent;
 import android.view.View;
 
 
@@ -100,13 +103,57 @@ public class TestFragment extends FragmentActivity {
         viewPager.setBackgroundColor(Color.YELLOW);
         viewPager.setId(1);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-        
-        
+
+
+
+        viewPager.setPageTransformer(true, new ViewPager.PageTransformer() {
+            @Override
+            public void transformPage(View page, float position) {
+
+                int item = viewPager.getCurrentItem();
+                LogUtils.e(page.getTag() + ", position = " + position + ", item = " + item);
+
+
+                int width = page.getMeasuredWidth();
+                if (position <= -1.0) {
+
+
+                } else if (position >= 1.0) {
+                    page.setTranslationX(-width);
+                } else if (position > -1.0 && position < 0) {
+
+
+                } else if (position >= 0 && position < 1) {
+
+
+                    page.setTranslationX((int) (-width * position));
+                }
+
+
+            }
+        });
+
+
         setContentView(viewPager);
+
+        viewPager.setCurrentItem(0);
+
+        viewPager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int item = viewPager.getCurrentItem() + 1;
+
+                viewPager.setCurrentItem(item, true);
+            }
+        });
+
+
+
+
         
     }
 
-    int count = 4;
+    int count = 10;
     public void add(View view)
     {
         count++;

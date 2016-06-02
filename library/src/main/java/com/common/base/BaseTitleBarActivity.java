@@ -25,8 +25,7 @@ public class BaseTitleBarActivity extends BaseActivity implements View.OnClickLi
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see com.qiuba.common.BaseActivity#initViews()
+	 *
 	 */
 	@Override
 	protected void initViews() {

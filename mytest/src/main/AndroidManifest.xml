@@ -39,6 +39,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <!-- 用于调用 JNI -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
@@ -55,12 +56,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name"
             android:theme="@style/MainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".activity.view.TestSlideListView" />
@@ -230,7 +230,22 @@
 
         <activity android:name=".activity.view.TestViewInject" />
         <activity android:name=".activity.view.TestText" />
-        <activity android:name=".activity.view.TestScrollView3"></activity>
+        <activity android:name=".activity.view.TestScrollView3" />
+        <activity android:name=".activity.action.TestAnimation" />
+        <activity android:name=".activity.action.TestService" />
+
+        <service
+            android:name=".service.SimpleService"
+            android:process=":second" />
+
+        <activity android:name=".NewMainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.broadcast.TestBroadcast"></activity>
     </application>
 
 </manifest>

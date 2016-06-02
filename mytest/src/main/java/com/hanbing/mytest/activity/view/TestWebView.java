@@ -180,7 +180,7 @@ public class TestWebView extends BaseActivity {
 			    
 			    runOnUiThread(new Runnable() {
 				public void run() {
-				    String json = "[{\"name\":\"zxx\", \"amount\":\"9999999\", \"phone\":\"18600012345\"}]";
+				    String json = "[{\"name\":\"zxx\", \"amount\":\"9999999\", \"phone\":\"18600012345\"}, {\"name\":\"zxx\", \"amount\":\"9999999\", \"phone\":\"18600012345\"}]";
 				    // 调用JS中的方法
 				    webView.loadUrl("javascript:show('" + json + "')");
 				}
