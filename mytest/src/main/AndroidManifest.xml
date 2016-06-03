@@ -63,8 +63,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.view.TestSlideListView" />
-        <activity android:name=".activity.view.TestExpandableList">
+        <activity android:name=".activity.view.TestSlideListView" android:label="view/ListView/Slide ListView" />
+        <activity android:name=".activity.view.TestExpandableList" android:label="view/ListView/Expandable ListView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -101,7 +101,7 @@
         </activity>
         <activity android:name=".activity.view.TestSectionListView" />
         <activity android:name=".activity.view.TestScrollView" />
-        <activity android:name=".activity.view.TestListView" />
+        <activity android:name=".activity.view.TestListView" android:label="view/ListView/Simple ListView" />
         <activity android:name=".activity.view.TestViewPager" />
         <activity android:name=".activity.view.TestPhoneCall" />
         <activity android:name=".activity.view.TestDrawerLayout" />
@@ -131,8 +131,8 @@
         <activity
             android:name=".activity.view.TestCropPictureReal"
             android:launchMode="standard" />
-        <activity android:name=".activity.view.TestPullToRefreshView" />
-        <activity android:name=".activity.view.TestPinnedSectionListView" />
+        <activity android:name=".activity.view.TestPullToRefreshView" android:label="view/ListView/Pull To Refresh ListView"/>
+        <activity android:name=".activity.view.TestPinnedSectionListView" android:label="view/ListView/PinnedSection ListView" />
         <activity android:name=".activity.view.TestNumberPicker" />
         <activity android:name=".activity.view.TestShaderView" />
         <activity android:name=".activity.view.TestMatrix" />
@@ -140,7 +140,7 @@
         <activity android:name=".activity.view.TestWebView" />
         <activity android:name=".activity.view.TestAutoCompleteText" />
         <activity android:name=".activity.view.TestDrawable" />
-        <activity android:name=".activity.view.TestListView2" />
+        <activity android:name=".activity.view.TestListView2" android:label="view/ListView/Simple ListView 2"/>
         <activity android:name=".activity.view.TestScrollView2" />
         <activity android:name=".activity.view.TestRecyclerView" />
         <activity android:name=".activity.view.TestRecyclerView2" />
@@ -245,7 +245,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.broadcast.TestBroadcast"></activity>
+        <activity android:name=".activity.broadcast.TestBroadcast" />
+        <activity
+            android:name=".activity.view.TestCustomTitle"
+            android:theme="@style/CustomTitleTheme" />
+        <activity android:name=".activity.view.TestContinueScrollListView" android:label="VIEW/ListView/Continue Scroll ListView"></activity>
     </application>
 
 </manifest>

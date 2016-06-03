@@ -16,7 +16,7 @@ import com.common.util.LogUtils;
 import com.common.util.ViewUtils;
 import com.hanbing.mytest.R;
 
-public class BaseActivity extends BaseAppCompatActivity {
+public class BaseActivity extends com.common.base.BaseActivity {
 
 
 	float downX = 0;

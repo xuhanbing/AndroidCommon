@@ -8,14 +8,18 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.common.util.DipUtils;
 import com.common.util.LogUtils;
 import com.common.util.ViewUtils;
 import com.hanbing.mytest.activity.BaseActivity;
@@ -174,11 +178,12 @@ public class NewMainActivity extends BaseActivity {
                     }
 
 
-                }  else if (label.startsWith(key)) {
+                }  else if (label.toUpperCase().startsWith(key.toUpperCase())) {
 
 
-                    String s = label.replace(key + "/", "");
+                    String s = label.toUpperCase().replaceFirst(key.toUpperCase() + "/", "");
 
+                    s = label.substring(label.length() - s.length());
 
                     String[] arr = s.split("/");
 
@@ -206,8 +211,14 @@ public class NewMainActivity extends BaseActivity {
                     continue;
                 }
 
-                if (!dataList.contains(ce))
-                dataList.add(ce);
+                int index = dataList.indexOf(ce);
+                if (index < 0)
+                {
+                    ce.count = 1;
+                    dataList.add(ce);
+                } else {
+                    dataList.get(index).count++;
+                }
 
             }
 
@@ -238,21 +249,68 @@ public class NewMainActivity extends BaseActivity {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
 
-                TextView textView;
+
+                ViewHolder holder;
+
 
                 if (null != convertView) {
-                    textView = (TextView) convertView;
+                   holder = (ViewHolder) convertView.getTag();
                 } else {
-                    textView = new TextView(getApplicationContext());
+                    TextView textView = new TextView(getApplicationContext());
                     textView.setPadding(20, 20, 20, 20);
                     textView.setTextSize(14);
                     textView.setTextColor(Color.BLACK);
+
+
+                    ImageView arrow = new ImageView(getApplicationContext());
+                    arrow.setImageResource(R.drawable.n2);
+
+
+                    LinearLayout layout = new LinearLayout(getApplicationContext());
+
+                    layout.addView(textView, new LinearLayout.LayoutParams(-1, -2, 1));
+
+                    int width, height;
+                    width = height = DipUtils.dip2px(getApplicationContext(), 20);
+
+                    LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(width, height);
+                    lp2.gravity = Gravity.CENTER_VERTICAL;
+
+                    layout.addView(arrow, lp2);
+
+                    holder = new ViewHolder();
+                    holder.textView = textView;
+                    holder.arrow = arrow;
+
+
+
+
+                    convertView = layout;
+                    convertView.setTag(holder);
+
                 }
 
-                textView.setText(dataList.get(position).name);
+                CategoryEntity ce = dataList.get(position);
+                String text = ce.name;
+                text = (text.substring(0, 1).toUpperCase()) + text.substring(1);
+
+                if (null == ce.clazz) {
+                    text += "(" + ce.count + ")";
+                }
+
+                holder.textView.setText(text);
+
+                holder.arrow.setVisibility(null == ce.clazz ? View.VISIBLE : View.GONE);
 
 
-                return textView;
+                return convertView;
+            }
+
+
+            class ViewHolder {
+                TextView textView;
+                ImageView arrow;
+
             }
         };
         listView.setAdapter(adapter);
@@ -296,6 +354,7 @@ public class NewMainActivity extends BaseActivity {
     class CategoryEntity{
         String key;
         String name;
+        int count = 0;
         Class<?> clazz;
 
 
@@ -307,10 +366,10 @@ public class NewMainActivity extends BaseActivity {
                 CategoryEntity ce = (CategoryEntity) o;
 
 
-                boolean isEqual = null == key ? (null == ce.key) : (key.equals(ce.key));
+                boolean isEqual = null == key ? (null == ce.key) : (null != ce.key && key.toUpperCase().equals(ce.key.toUpperCase()));
 
 
-                isEqual &= null == clazz ? (null == ce.clazz) : (clazz.getName().equals(ce.clazz.getName()));
+                isEqual &= null == clazz ? (null == ce.clazz) : (null != ce.clazz && clazz.getName().equals(ce.clazz.getName()));
 
                 return isEqual;
             }
