@@ -63,8 +63,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.view.TestSlideListView" android:label="view/ListView/Slide ListView" />
-        <activity android:name=".activity.view.TestExpandableList" android:label="view/ListView/Expandable ListView">
+        <activity
+            android:name=".activity.view.TestSlideListView"
+            android:label="view/ListView/Slide ListView" />
+        <activity
+            android:name=".activity.view.TestExpandableList"
+            android:label="view/ListView/Expandable ListView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -99,9 +103,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.view.TestSectionListView" />
         <activity android:name=".activity.view.TestScrollView" />
-        <activity android:name=".activity.view.TestListView" android:label="view/ListView/Simple ListView" />
+        <activity
+            android:name=".activity.view.TestListView"
+            android:label="view/ListView/Simple ListView" />
         <activity android:name=".activity.view.TestViewPager" />
         <activity android:name=".activity.view.TestPhoneCall" />
         <activity android:name=".activity.view.TestDrawerLayout" />
@@ -131,8 +136,12 @@
         <activity
             android:name=".activity.view.TestCropPictureReal"
             android:launchMode="standard" />
-        <activity android:name=".activity.view.TestPullToRefreshView" android:label="view/ListView/Pull To Refresh ListView"/>
-        <activity android:name=".activity.view.TestPinnedSectionListView" android:label="view/ListView/PinnedSection ListView" />
+        <activity
+            android:name=".activity.view.TestPullToRefreshView"
+            android:label="view/ListView/Pull To Refresh ListView" />
+        <activity
+            android:name=".activity.view.TestPinnedSectionListView"
+            android:label="view/ListView/PinnedSection ListView" />
         <activity android:name=".activity.view.TestNumberPicker" />
         <activity android:name=".activity.view.TestShaderView" />
         <activity android:name=".activity.view.TestMatrix" />
@@ -140,10 +149,18 @@
         <activity android:name=".activity.view.TestWebView" />
         <activity android:name=".activity.view.TestAutoCompleteText" />
         <activity android:name=".activity.view.TestDrawable" />
-        <activity android:name=".activity.view.TestListView2" android:label="view/ListView/Simple ListView 2"/>
+        <activity
+            android:name=".activity.view.TestListView2"
+            android:label="view/ListView/Simple ListView 2" />
         <activity android:name=".activity.view.TestScrollView2" />
-        <activity android:name=".activity.view.TestRecyclerView" />
-        <activity android:name=".activity.view.TestRecyclerView2" />
+        <activity
+            android:name=".activity.view.TestRecyclerView"
+            android:label="view/RecyclerView/RecyclerView1"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.view.TestRecyclerView2"
+            android:label="view/RecyclerView/RecyclerView2"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.view.TestArcMenu" />
         <activity android:name=".activity.view.TestChart" />
         <activity android:name=".activity.view.TestMaterialDesign" />
@@ -152,9 +169,6 @@
             android:launchMode="standard" />
         <activity android:name=".activity.action.TestImageCompress" />
         <activity android:name=".activity.action.TestNotification" />
-        <activity
-            android:name=".activity.action.TestDpExchange"
-            android:launchMode="standard" />
         <activity android:name=".activity.action.TestVolley" />
         <activity android:name=".activity.action.TestTcp" />
         <activity android:name=".activity.action.TestCalcTax" />
@@ -193,24 +207,12 @@
         <activity
             android:name=".activity.action.TestRestart"
             android:launchMode="singleInstance" />
-        <activity android:name=".activity.action.TestSocialLogin" />
-        <activity android:name=".activity.action.TestSocialShare" />
         <activity android:name=".activity.action.TestAsyncTask" />
         <activity android:name=".activity.action.TestTextToSpeech" />
         <activity android:name=".activity.action.TestUpload" />
         <activity android:name=".activity.action.TestGetPicture" />
         <activity android:name=".activity.action.TestTouch" />
         <activity android:name=".activity.action.TestActionBar" />
-        <activity
-            android:name="com.thirdparty.social.weibo.WeiboShareRespActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity android:name=".activity.fragment.TestFragment" />
         <activity android:name=".activity.fragment.TestFragmentTab" />
         <activity android:name=".activity.game.NewNew" />
@@ -249,7 +251,10 @@
         <activity
             android:name=".activity.view.TestCustomTitle"
             android:theme="@style/CustomTitleTheme" />
-        <activity android:name=".activity.view.TestContinueScrollListView" android:label="VIEW/ListView/Continue Scroll ListView"></activity>
+        <activity
+            android:name=".activity.view.TestContinueScrollListView"
+            android:label="VIEW/ListView/Continue Scroll ListView" />
+        <activity android:name=".activity.fragment.TestListFragment"></activity>
     </application>
 
 </manifest>

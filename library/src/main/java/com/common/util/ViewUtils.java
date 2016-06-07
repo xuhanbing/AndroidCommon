@@ -24,6 +24,7 @@ import android.widget.TabHost;
 
 import com.common.listener.OnItemClickListener;
 import com.common.tool.FragmentTabHostAndViewPagerInitHelper;
+import com.common.widget.recyclerview.SimpleOnItemTouchListener;
 import com.common.widget.tab.TabWidget;
 import com.common.widget.recyclerview.HeaderRecyclerView;
 
@@ -276,85 +277,7 @@ public class ViewUtils {
                 || null == onItemClickListener)
             return;
 
-        final GestureDetector gestureDetector = new GestureDetector(recyclerView.getContext(), new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return true;
-            }
-
-            @Override
-            public void onLongPress(MotionEvent e) {
-
-                View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-
-                if (null != child) {
-                    int position = recyclerView.getChildAdapterPosition(child);
-
-                    if (recyclerView instanceof HeaderRecyclerView) {
-
-                        HeaderRecyclerView rv = (HeaderRecyclerView) recyclerView;
-
-
-                        if (rv.isClickable(position))
-                        {
-
-                        } else {
-                            position = -1;
-                        }
-                    }
-
-                    boolean handle = false;
-                    if (position >= 0)
-                    {
-                        handle =  onItemClickListener.onItemLongClick(recyclerView, child, position);
-
-                    }
-
-
-                }
-            }
-        });
-
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-                View child = rv.findChildViewUnder(e.getX(), e.getY());
-
-                if (null != child
-                        && gestureDetector.onTouchEvent(e)) {
-                    int position = recyclerView.getChildAdapterPosition(child);
-
-                    if (rv instanceof HeaderRecyclerView) {
-
-                        HeaderRecyclerView rv2 = (HeaderRecyclerView) rv;
-
-                        if (!rv2.isClickable(position)) {
-                            position = -1;
-                        }
-                    }
-
-                    if (position >= 0) {
-                        onItemClickListener.onItemClick(rv, child, position);
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-                Log.e("123", "onTouchEvent " + e.getAction());
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
-
+        recyclerView.addOnItemTouchListener(new SimpleOnItemTouchListener(recyclerView, onItemClickListener));
 
     }
 

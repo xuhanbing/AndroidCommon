@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,10 +30,6 @@ import java.util.List;
 public class SimpleListFragment extends BaseListFragment {
 
     ListView mListView;
-    List<String> mList = new ArrayList<>();
-    BaseAdapter adapter;
-    Handler mHandler = new Handler();
-
     View mLoadingView = null;
 
     @Override
@@ -40,11 +37,8 @@ public class SimpleListFragment extends BaseListFragment {
 
         RelativeLayout layout = new RelativeLayout(getActivity());
         mListView = new ListView(getActivity());
-        mLoadingView = ViewUtils.inflate(getActivity(), R.layout.layout_loading);
 
         layout.addView(mListView);
-        layout.addView(mLoadingView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
         return layout;
     }
 
@@ -53,10 +47,14 @@ public class SimpleListFragment extends BaseListFragment {
         return mListView;
     }
 
+
+
     @Override
     public BaseAdapter createListAdapter() {
         return null;
     }
+
+
 
     @Override
     public View createEmptyView() {

@@ -16,7 +16,7 @@ public class LoadingManager  {
      * 锁定，表示开始请求
      * @return 如果有未完成动作，将返回false否则返回true
      */
-    public  synchronized  boolean lock()
+    public  boolean lock()
     {
         synchronized (mLock)
         {

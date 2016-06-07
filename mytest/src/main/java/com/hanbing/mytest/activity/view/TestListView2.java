@@ -3,6 +3,7 @@
  */
 package com.hanbing.mytest.activity.view;
 
+import com.common.util.LogUtils;
 import com.hanbing.mytest.R;
 
 import android.app.Activity;
@@ -73,31 +74,41 @@ public class TestListView2 extends Activity{
         
         listView.setOnItemClickListener(new OnItemClickListener() {
 
-	    @Override
-	    public void onItemClick(AdapterView<?> parent, View view,
-		    int position, long id) {
-		// TODO Auto-generated method stub
-		
-		long[] checkedItemIds = listView.getCheckedItemIds();
-		SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
-		int pos = listView.getCheckedItemPosition();
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+									int position, long id) {
+				// TODO Auto-generated method stub
 
-		Log.e("", "item click " + position + ", select count=" + checkedItemIds.length + "/" + checkedItemPositions.size()
-			+ ",select pos=" + pos);
-		for (int i = 0; i < checkedItemPositions.size(); i++)
-		{
-		    int key = checkedItemPositions.keyAt(i);
-		    Log.e("", "check item " + key + "=" + checkedItemPositions.valueAt(i));
-		}
-		
-		for (int i = 0; i < checkedItemIds.length; i++)
-		{
-		    Log.e("", "check id=" + checkedItemIds[i]);
-		}
-		
-		adapter.notifyDataSetChanged();
-	    }
-	});
+//		long[] checkedItemIds = listView.getCheckedItemIds();
+//		SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
+//		int pos = listView.getCheckedItemPosition();
+//
+//		Log.e("", "item click " + position + ", select count=" + checkedItemIds.length + "/" + checkedItemPositions.size()
+//			+ ",select pos=" + pos);
+//		for (int i = 0; i < checkedItemPositions.size(); i++)
+//		{
+//		    int key = checkedItemPositions.keyAt(i);
+//		    Log.e("", "check item " + key + "=" + checkedItemPositions.valueAt(i));
+//		}
+//
+//		for (int i = 0; i < checkedItemIds.length; i++)
+//		{
+//		    Log.e("", "check id=" + checkedItemIds[i]);
+//		}
+//
+//		adapter.notifyDataSetChanged();
+				LogUtils.e("onItemClick pos = " + position);
+			}
+		});
+
+		listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				LogUtils.e("onItemLongClick pos = " + position);
+				return false;
+			}
+		});
+
         layout.addView(listView);
         setContentView(layout);
     }

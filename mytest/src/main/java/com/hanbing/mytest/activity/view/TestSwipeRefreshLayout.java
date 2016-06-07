@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,7 +41,10 @@ public class TestSwipeRefreshLayout extends BaseActivity {
 				android.R.color.holo_red_light,
 				android.R.color.holo_orange_light,
 				android.R.color.holo_green_light);
-		swipeRefreshLayout.addView(listView);
+
+		ViewGroup parent = new FrameLayout(getApplicationContext());
+		parent.addView(listView);
+		swipeRefreshLayout.addView(parent);
 		swipeRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
 
 			@Override

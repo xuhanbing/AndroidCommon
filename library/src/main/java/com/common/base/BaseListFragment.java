@@ -10,12 +10,11 @@ import android.widget.ListView;
 
 import com.common.listener.OnLoadListener;
 import com.common.tool.PagingManager;
-import com.common.util.LogUtils;
 
 /**
  * Created by hanbing on 2016/3/21.
  */
-public abstract class BaseListFragment extends BaseFragment implements IBaseListFragment,AdapterView.OnItemClickListener, OnLoadListener{
+public abstract class BaseListFragment extends BaseFragment implements IBaseListFragment,AdapterView.OnItemClickListener, OnLoadListener, AbsListView.OnScrollListener {
 
 
     /**
@@ -111,6 +110,12 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
      */
     PagingManager mPagingManager = new PagingManager();
 
+
+    /**
+     * 手动滚动
+     */
+    boolean mIsManScroll = false;
+
     @Override
     protected void initViews(View view) {
         super.initViews(view);
@@ -122,9 +127,6 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
         mEmptyView = createEmptyView();
         mLoadingView = createLoadingView();
         mLoadMoreView = createLoadMoreView();
-
-
-
 
 
 
@@ -159,23 +161,7 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
             }
 
             mListView.setEmptyView(mEmptyView);
-            mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-                }
-
-                @Override
-                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                    //最有一个item展示
-                    if (mLoadMoreEnabled
-                            &&firstVisibleItem + visibleItemCount == totalItemCount) {
-
-                        onLoadMore();
-                    }
-                }
-            });
+            mListView.setOnScrollListener(this);
 
             initListView(mListView);
         }
@@ -184,8 +170,15 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
         hideEmptyView();
     }
 
+    public ListView getListView () {
+        return mListView;
+    }
+    public BaseAdapter getListAdapter() {
+        return mListAdapter;
+    }
+
     @Override
-    protected void onViewVisiable(boolean isCreated) {
+    protected void onViewVisible(boolean isCreated) {
         if (isCreated)
         onRefresh();
     }
@@ -196,10 +189,8 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
         //没有更多数据了
         if (mPagingManager.isLastPage())
         {
-
             return;
         }
-
 
         if (mPagingManager.lock())
         {
@@ -428,5 +419,29 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
     @Override
     public void onLoadSuccessNoData() {
         onLoadCompleted();
+    }
+
+
+
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        if (SCROLL_STATE_TOUCH_SCROLL == scrollState || SCROLL_STATE_FLING == scrollState) {
+            mIsManScroll = true;
+        } else {
+            mIsManScroll = false;
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        int lastVisibleItem = firstVisibleItem + visibleItemCount;
+        //最有一个item展示
+        if (mLoadMoreEnabled && mIsManScroll
+                && lastVisibleItem == totalItemCount) {
+            onLoadMore();
+        }
     }
 }

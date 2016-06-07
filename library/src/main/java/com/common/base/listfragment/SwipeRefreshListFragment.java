@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 
 import com.common.util.ViewUtils;
 
@@ -31,7 +32,7 @@ public class SwipeRefreshListFragment extends SimpleListFragment {
     }
 
     @Override
-    protected void onViewVisiable(boolean isCreated) {
+    protected void onViewVisible(boolean isCreated) {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -55,5 +56,20 @@ public class SwipeRefreshListFragment extends SimpleListFragment {
     public void onLoadCompleted() {
         super.onLoadCompleted();
         mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        View first = view.getChildAt(firstVisibleItem);
+
+        //解决下拉冲突
+        if (0 == firstVisibleItem && (null == first || 0 == first.getTop())) {
+            mSwipeRefreshLayout.setEnabled(true);
+        } else {
+            mSwipeRefreshLayout.setEnabled(false);
+        }
+
+        super.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
     }
 }

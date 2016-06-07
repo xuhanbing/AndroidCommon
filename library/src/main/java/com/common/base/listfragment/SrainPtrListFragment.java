@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.common.util.LogUtils;
 
 import java.util.ArrayList;
 
@@ -26,7 +29,6 @@ public class SrainPtrListFragment extends SimpleListFragment {
 
     PtrFrameLayout mPtrFrameLayout;
 
-    BaseAdapter mAdapter;
     @Override
     protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View child = super.onCreateViewImpl(inflater, container, savedInstanceState);
@@ -64,23 +66,20 @@ public class SrainPtrListFragment extends SimpleListFragment {
 
     @Override
     public void initListView(ListView listView) {
-        listView.setAdapter(mAdapter);
     }
 
-    protected View createHeader()
-    {
+    protected View createHeader() {
         int type = 2;
 
-        if (0 == type)
-        {
+        if (0 == type) {
             StoreHouseHeader header = new StoreHouseHeader(getActivity());
             header.setBackgroundColor(Color.WHITE);
             header.setTextColor(Color.BLACK);
-            ArrayList<float[] > points = new ArrayList<>();
+            ArrayList<float[]> points = new ArrayList<>();
             points.add(new float[]{8, 0, 0, 8});
             points.add(new float[]{8, 4, 0, 12});
-            points.add(new float[]{6,6, 6, 20});
-            points.add(new float[]{16,0, 12, 12});
+            points.add(new float[]{6, 6, 6, 20});
+            points.add(new float[]{16, 0, 12, 12});
             points.add(new float[]{16, 0, 24, 12});
             points.add(new float[]{14, 8, 18, 8});
             points.add(new float[]{12, 12, 20, 12});
@@ -91,59 +90,26 @@ public class SrainPtrListFragment extends SimpleListFragment {
             header.initWithPointList(points);
 
             return header;
-        }
-        else if (1 == type)
-       {
-           MaterialHeader materialHeader = new MaterialHeader(getActivity());
+        } else if (1 == type) {
+            MaterialHeader materialHeader = new MaterialHeader(getActivity());
 
-           materialHeader.setPtrFrameLayout(mPtrFrameLayout);
-           materialHeader.setColorSchemeColors(new int[]{Color.RED, Color.GRAY, Color.BLUE, Color.GRAY});
+            materialHeader.setPtrFrameLayout(mPtrFrameLayout);
+            materialHeader.setColorSchemeColors(new int[]{Color.RED, Color.GRAY, Color.BLUE, Color.GRAY});
 
-           return materialHeader;
-       }else{
+            return materialHeader;
+        } else {
             PtrClassicDefaultHeader defaultHeader = new PtrClassicDefaultHeader(getActivity());
 
-          return defaultHeader;
+            return defaultHeader;
 
         }
 
-
     }
 
-    @Override
-    public BaseAdapter createListAdapter() {
-        return mAdapter = new BaseAdapter() {
-            @Override
-            public int getCount() {
-                return 20;
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return null;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return 0;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-
-                TextView textView = new TextView(getActivity());
-                textView.setText("position " + position);
-
-                return textView;
-            }
-        };
-
-    }
-
-    PtrClassicDefaultHeader defaultHeader;
 
     @Override
-    protected void onViewVisiable(boolean isCreated) {
+    protected void onViewVisible(boolean isCreated) {
+
         mPtrFrameLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -156,5 +122,18 @@ public class SrainPtrListFragment extends SimpleListFragment {
     public void onLoadCompleted() {
         super.onLoadCompleted();
         mPtrFrameLayout.refreshComplete();
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        View first = view.getChildAt(firstVisibleItem);
+        if (0 == firstVisibleItem && (null == first || 0 == first.getTop())) {
+            mPtrFrameLayout.setEnabled(true);
+        } else {
+            mPtrFrameLayout.setEnabled(false);
+        }
+
+        super.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
     }
 }

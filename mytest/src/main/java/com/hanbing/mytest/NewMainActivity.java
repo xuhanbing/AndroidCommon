@@ -122,7 +122,7 @@ public class NewMainActivity extends BaseActivity {
 
                 String label = activityInfo.loadLabel(pm).toString();
 
-                LogUtils.e("activity : " + name);
+//                LogUtils.e("activity : " + name);
 
                 if (name.equals(this.getClass().getName()) || !name.startsWith(pkgName))
                     continue;
@@ -150,7 +150,7 @@ public class NewMainActivity extends BaseActivity {
                 }
 
 
-                LogUtils.e("label : " + label);
+//                LogUtils.e("label : " + label);
 
 
                 CategoryEntity ce = new CategoryEntity();

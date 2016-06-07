@@ -32,10 +32,7 @@ public abstract class BaseTitleBarFragment extends BaseFragment implements View.
 
 	private void initTitleBar(View view) {
 
-		mCenterTitle = ViewUtils.findViewAndBindOnClick(view, R.id.tv_titlebar_title, this);
-		mLeftTitle = ViewUtils.findViewAndBindOnClick(view, R.id.tv_titlebar_left, this);
-		mRightTitle = ViewUtils.findViewAndBindOnClick(view, R.id.tv_titlebar_right, this);
-		mBack = ViewUtils.findViewAndBindOnClick(view, R.id.iv_titlebar_back, this);
+		findTitleBarViews();
 		
 		if (getCenterTitleResId() > 0)
 			setCenterTitle(getCenterTitleResId());
@@ -60,6 +57,10 @@ public abstract class BaseTitleBarFragment extends BaseFragment implements View.
 
 		if (null != mRightTitle)
 			mRightTitle.setVisibility(isShowRight() ? View.VISIBLE : View.GONE);
+	}
+
+	private void findTitleBarViews() {
+
 	}
 
 	protected void setCenterTitle(CharSequence text) {

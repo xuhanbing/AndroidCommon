@@ -56,7 +56,7 @@ public abstract class BaseFragment extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		mIsViewCreated = true;
-		onViewVisiable(true);
+		onViewVisible(true);
 	}
 
 	protected  abstract View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
@@ -74,7 +74,7 @@ public abstract class BaseFragment extends Fragment {
 	 * or fragment real visiable to user and
 	 * @param isCreated first created or visable
 	 */
-	protected abstract void onViewVisiable(boolean isCreated);
+	protected abstract void onViewVisible(boolean isCreated);
 
 
 	@Override
@@ -84,7 +84,7 @@ public abstract class BaseFragment extends Fragment {
 		if (mIsViewCreated
 				&& isVisibleToUser)
 		{
-			onViewVisiable(false);
+			onViewVisible(false);
 		}
 	}
 }

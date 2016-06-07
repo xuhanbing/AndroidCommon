@@ -66,7 +66,6 @@ public class FragmentTabHostAndViewPagerInitHelper implements ViewPager.OnPageCh
 	 * @param context
 	 * @param viewPager
 	 * @param fragmentManager
-	 * @param fragmentTagHost
 	 * @param tags;
 	 */
 	public FragmentTabHostAndViewPagerInitHelper(Context context, ViewPager viewPager, FragmentTabHost fragmentTabHost,

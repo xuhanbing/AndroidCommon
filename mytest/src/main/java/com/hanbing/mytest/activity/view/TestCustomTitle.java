@@ -18,7 +18,7 @@ public class TestCustomTitle extends Activity {
 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_test_custom_title);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.common_titlebar);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.layout_toolbar);
 
     }
 }

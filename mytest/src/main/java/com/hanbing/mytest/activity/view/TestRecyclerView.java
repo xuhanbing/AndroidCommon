@@ -13,6 +13,7 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 import com.common.base.BaseAppCompatActivity;
 import com.common.base.BaseRecycleViewAdaper;
 import com.common.listener.OnItemClickListener;
+import com.common.util.LogUtils;
 import com.common.util.SystemUtils;
 import com.common.util.ToastUtils;
 import com.common.util.ViewUtils;
@@ -343,19 +345,21 @@ public class TestRecyclerView extends BaseAppCompatActivity {
 			@Override
 			public void onItemClick(RecyclerView recyclerView, View view, int position) {
 				ToastUtils.showToast(getApplicationContext(), "onItemClick " + position);
+				LogUtils.e("onItemClick pos = " + position);
 
-				String title = "add item " + addItemCount++;
-				items.add(position + 1, title);
-
-				recyclerView.getAdapter().notifyItemInserted(position+1);
+//				String title = "add item " + addItemCount++;
+//				items.add(position + 1, title);
+//
+//				recyclerView.getAdapter().notifyItemInserted(position+1);
 			}
 
 			@Override
 			public boolean onItemLongClick(RecyclerView recyclerView, View view, int position) {
 				ToastUtils.showToast(getApplicationContext(), "onItemLongClick " + position);
-				items.remove(position);
-
-				recyclerView.getAdapter().notifyItemRemoved(position);
+				LogUtils.e("onItemLongClick pos = " + position);
+//				items.remove(position);
+//
+//				recyclerView.getAdapter().notifyItemRemoved(position);
 
 				return true;
 			}

@@ -37,11 +37,7 @@ public class BaseTitleBarActivity extends BaseActivity implements View.OnClickLi
 
 	private void initTitleBar() {
 		
-		mCenterTitle = ViewUtils.findViewAndBindOnClick(this, R.id.tv_titlebar_title, this);
-		mLeftTitle = ViewUtils.findViewAndBindOnClick(this, R.id.tv_titlebar_left, this);
-		mRightTitle = ViewUtils.findViewAndBindOnClick(this, R.id.tv_titlebar_right, this);
-		mBack = ViewUtils.findViewAndBindOnClick(this, R.id.iv_titlebar_back, this);
-		
+		findTitleBarViews();
 
 		if (getCenterTitleResId() > 0)
 			setCenterTitle(getCenterTitleResId());
@@ -67,6 +63,11 @@ public class BaseTitleBarActivity extends BaseActivity implements View.OnClickLi
 		if (null != mRightTitle)
 			mRightTitle.setVisibility(isShowRight() ? View.VISIBLE : View.GONE);
 	}
+
+	private void findTitleBarViews() {
+
+	}
+
 
 	protected void setCenterTitle(CharSequence text) {
 		if (null != mCenterTitle)

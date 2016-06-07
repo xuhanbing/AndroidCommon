@@ -22,6 +22,7 @@ public interface IBaseListFragment {
      */
     public abstract BaseAdapter createListAdapter();
 
+
     /**
      * 当没有数据时展示
      * 使用时需要在listview外嵌套一个RelativeLayout或者FrameLayout，然后在上面覆盖该View即可
