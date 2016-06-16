@@ -29,31 +29,20 @@ import java.util.List;
  */
 public class SimpleListFragment extends BaseListFragment {
 
-    ListView mListView;
-    View mLoadingView = null;
-
     @Override
     protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        RelativeLayout layout = new RelativeLayout(getActivity());
-        mListView = new ListView(getActivity());
-
-        layout.addView(mListView);
-        return layout;
+        return null;
     }
 
     @Override
     public ListView createListView() {
-        return mListView;
+        return null;
     }
-
-
 
     @Override
     public BaseAdapter createListAdapter() {
         return null;
     }
-
 
 
     @Override
@@ -63,7 +52,7 @@ public class SimpleListFragment extends BaseListFragment {
 
     @Override
     public View createLoadingView() {
-        return mLoadingView;
+        return null;
     }
 
     @Override

@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
-import com.common.util.ViewUtils;
-
 /**
  * Created by hanbing on 2016/3/29.
  */
@@ -24,15 +22,14 @@ public class SwipeRefreshListFragment extends SimpleListFragment {
 
         View child = super.onCreateViewImpl(inflater, container, savedInstanceState);
 
-        ViewUtils.removeFromParent(mLoadingView);
-
         mSwipeRefreshLayout.addView(child);
 
         return mSwipeRefreshLayout;
     }
 
     @Override
-    protected void onViewVisible(boolean isCreated) {
+    protected void onViewVisible(boolean isCreated, boolean isFirstCreated) {
+        if (isFirstCreated)
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {

@@ -148,13 +148,6 @@ public class BaseTitleBarActivity extends BaseActivity implements View.OnClickLi
 	}
 
 	public void onClick(View view) {
-		int id = view.getId();
-		if (id == R.id.tv_titlebar_left) {
-			onLeftClick();
-		} else if (id == R.id.tv_titlebar_right) {
-			onRightClick();
-		} else if (id == R.id.iv_titlebar_back) {
-			goBack();
-		}
+
 	}
 }

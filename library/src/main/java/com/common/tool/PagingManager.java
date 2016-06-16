@@ -48,6 +48,11 @@ public class PagingManager extends LoadingManager{
      */
     boolean mLoadMore = true;
 
+    /**
+     * 是否没有数据
+     */
+    boolean mNoMore = false;
+
     public PagingManager()
     {
         forceReset();
@@ -143,6 +148,11 @@ public class PagingManager extends LoadingManager{
 //        mPageIndex = getFirstPageIndex();
         setMaxCount(pageSize, maxCount);
     }
+
+    public void setMaxCount(int maxCount) {
+        setMaxCount(mPageSize, maxCount);
+    }
+
     /**
      * 设置最大数量
      * @param pageSize 每页数量
@@ -166,6 +176,13 @@ public class PagingManager extends LoadingManager{
 
 
     /**
+     * 没有更多数据
+     */
+    public void setNoMore(){
+        mNoMore = true;
+    }
+
+    /**
      * 判断是否是最后一页
      * 调用此方法前，最好设置 setMaxCount或者每次请求成功后，
      * 调用addPageIndexAndCount将分页索引和当前数量增加，否则判断会不准确
@@ -173,7 +190,8 @@ public class PagingManager extends LoadingManager{
      */
     public boolean isLastPage()
     {
-        return mTotalCount >= mMaxCount
+        return mNoMore
+                || mTotalCount >= mMaxCount
                 || mPageIndex >= mMaxPageIndex;
     }
 

@@ -1,12 +1,15 @@
 package com.common.view;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.EditText;
+
+import com.common.util.LogUtils;
 
 
 /**
@@ -18,7 +21,6 @@ public class ClearableEditText extends EditText{
     public static interface OnClearListener {
         public void onClear(String content);
     }
-
 
     boolean mAlwaysShow = false;
 
@@ -63,7 +65,7 @@ public class ClearableEditText extends EditText{
     private void init()
     {
         mClearDrawable = this.getCompoundDrawables()[2];
-        
+
         //set clear icon default
         if (null == mClearDrawable)
         {
@@ -92,16 +94,23 @@ public class ClearableEditText extends EditText{
             }
 
         });
+
+        showClear(false);
     }
-    
-    
-    
 
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
+        int contentHeight = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
 
+        if (null != mClearDrawable) {
+            mClearDrawable.setBounds(0, 0, contentHeight, contentHeight);
+        }
 
-    
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
@@ -187,6 +196,7 @@ public class ClearableEditText extends EditText{
 
     }
 
+
     public void setOnClearListener(OnClearListener listener)
     {
         this.mOnClearListener = listener;
@@ -195,4 +205,5 @@ public class ClearableEditText extends EditText{
     public void onClear() {
 
     }
+
 }

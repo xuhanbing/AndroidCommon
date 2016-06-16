@@ -14,7 +14,7 @@ import java.util.zip.ZipOutputStream;
  * Created by hanbing on 2016/4/25.
  */
 public class ZipUtils {
-    private static void zip(String srcFile, String zipFilePath)
+    public static void zip(String srcFile, String zipFilePath)
     {
         File file = new File(zipFilePath);
 
@@ -32,7 +32,7 @@ public class ZipUtils {
         }
     }
 
-    private static void zip(String parent, ZipOutputStream os, File file) throws IOException {
+    public static void zip(String parent, ZipOutputStream os, File file) throws IOException {
 
         if (file.isDirectory())
         {
@@ -67,7 +67,7 @@ public class ZipUtils {
         }
     }
 
-    private static void unzip(String zipFilePath, String dstDir)
+    public static void unzip(String zipFilePath, String dstDir)
     {
         try {
             ZipFile zipFile = new ZipFile(zipFilePath);

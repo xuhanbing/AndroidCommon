@@ -73,7 +73,7 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
 
     /**
      * 是否一直显示加载更多
-     * 默认false
+     * 默认false，只在有数据是显示
      */
     boolean mLoadMoreAlwaysShow = false;
 
@@ -121,13 +121,11 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
         super.initViews(view);
 
         mPagingManager = createPagingManager();
-
         mListView = createListView();
         mListAdapter = createListAdapter();
         mEmptyView = createEmptyView();
         mLoadingView = createLoadingView();
         mLoadMoreView = createLoadMoreView();
-
 
 
         /**
@@ -142,7 +140,7 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
                 }
             });
             mLoadMoreContainer = new LinearLayout(getContext());
-            mLoadMoreContainer.addView(mLoadMoreView);
+            mLoadMoreContainer.addView(mLoadMoreView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             if (mLoadMoreAlwaysShow)
             {
                 showLoadMoreView();
@@ -178,7 +176,7 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
     }
 
     @Override
-    protected void onViewVisible(boolean isCreated) {
+    protected void onViewVisible(boolean isCreated, boolean isFirstCreated) {
         if (isCreated)
         onRefresh();
     }
@@ -391,16 +389,27 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
             showEmptyView();
         }
 
+        if (mLoadMoreView instanceof OnLoadListener) {
+            ((OnLoadListener)mLoadMoreView).onLoadCompleted();
+        }
+
     }
 
     @Override
     public void onLoadFailure(String msg) {
+
+        if ( mLoadMoreView instanceof OnLoadListener) {
+            ((OnLoadListener)mLoadMoreView).onLoadFailure(msg);
+        }
         onLoadCompleted();
     }
 
     @Override
     public void onLoadStart() {
         showLoadingView();
+        if ( mLoadMoreView instanceof OnLoadListener) {
+            ((OnLoadListener)mLoadMoreView).onLoadStart();
+        }
     }
 
     @Override
@@ -413,11 +422,20 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
             mPagingManager.setTotalCount(getItemCount());
         }
 
+        if (mLoadMoreView instanceof OnLoadListener) {
+            ((OnLoadListener)mLoadMoreView).onLoadSuccess();
+        }
         onLoadCompleted();
     }
 
     @Override
     public void onLoadSuccessNoData() {
+
+        mPagingManager.setNoMore();
+
+        if (mLoadMoreView instanceof OnLoadListener) {
+            ((OnLoadListener)mLoadMoreView).onLoadSuccessNoData();
+        }
         onLoadCompleted();
     }
 

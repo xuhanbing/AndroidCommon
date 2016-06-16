@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.common.util.LogUtils;
+
 /**
  * @author hanbing
  */
@@ -18,7 +20,15 @@ public abstract class BaseFragment extends Fragment {
 
 	View mCacheView;
 
-	boolean mIsViewCreated = false;
+
+	/**
+	 * view创建
+	 */
+	boolean mViewCreated = true;
+	/**
+	 * view第一次创建，即第一次调用onCreateView
+	 */
+	boolean mViewFirstCreated = true;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -31,7 +41,10 @@ public abstract class BaseFragment extends Fragment {
 		// TODO Auto-generated method stub
 
 		if (null != mCacheView)
+		{
+			mViewFirstCreated = false;
 			return mCacheView;
+		}
 
 
 		View view = null;
@@ -48,6 +61,8 @@ public abstract class BaseFragment extends Fragment {
 		initViews(view);
 
 		mCacheView = view;
+		mViewFirstCreated = true;
+
 		return view;
 	}
 
@@ -55,8 +70,9 @@ public abstract class BaseFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		mIsViewCreated = true;
+		mViewCreated = true;
 		onViewVisible(true);
+
 	}
 
 	protected  abstract View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
@@ -69,19 +85,23 @@ public abstract class BaseFragment extends Fragment {
 
 	}
 
+	protected void onViewVisible(boolean isCreated) {
+		onViewVisible(isCreated, mViewFirstCreated);
+	}
 	/**
 	 * view is created
 	 * or fragment real visiable to user and
-	 * @param isCreated first created or visable
+	 * @param isCreated created or visable
+	 * @param isFirstCreated first created
 	 */
-	protected abstract void onViewVisible(boolean isCreated);
+	protected abstract void onViewVisible(boolean isCreated, boolean isFirstCreated);
 
 
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		super.setUserVisibleHint(isVisibleToUser);
 
-		if (mIsViewCreated
+		if (mViewCreated
 				&& isVisibleToUser)
 		{
 			onViewVisible(false);

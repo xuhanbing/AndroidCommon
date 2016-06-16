@@ -369,7 +369,7 @@ public class TabWidget extends HorizontalScrollView implements OnClickListener,
      *
      * @param title
      */
-    private TabWidget addTab(String title) {
+    public TabWidget addTab(String title) {
         TextView text = new TextView(getContext());
         text.setText(title);
 
@@ -383,7 +383,7 @@ public class TabWidget extends HorizontalScrollView implements OnClickListener,
      *
      * @param child
      */
-    private TabWidget addTab(View child) {
+    public TabWidget addTab(View child) {
         // TODO Auto-generated method stub
         child.setOnClickListener(this);
 
@@ -410,6 +410,18 @@ public class TabWidget extends HorizontalScrollView implements OnClickListener,
         view.setTag(tabSpec.tag);
         mTabSpecMap.put(tabSpec.tag, tabSpec);
         addTab(view);
+
+        return this;
+    }
+
+    /**
+     * remove all tab
+     * @return
+     */
+    public TabWidget removeAllTabs() {
+        if (null != mInnerLayout) {
+            mInnerLayout.removeAllViews();
+        }
 
         return this;
     }
@@ -442,8 +454,7 @@ public class TabWidget extends HorizontalScrollView implements OnClickListener,
      */
     public void initTabs(PagerAdapter pagerAdapter) {
 
-        if (null != mInnerLayout)
-            mInnerLayout.removeAllViews();
+        removeAllTabs();
         for (int i = 0; i < pagerAdapter.getCount(); i++) {
             CharSequence title = pagerAdapter.getPageTitle(i);
 
