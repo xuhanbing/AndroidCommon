@@ -500,30 +500,62 @@ public class FileUtils {
 
 	/**
 	 * 写入文件
-	 * @param context
 	 * @param path
 	 * @param data
 	 * @return
 	 */
-	public static boolean writeToFile(Context context, String path, byte[] data)
+	public static boolean writeToFile(String path, byte[] data)
 	{
 
 		boolean success = false;
-		if (!TextUtils.isEmpty(path) || null != data)
+		if (!TextUtils.isEmpty(path) && null != data)
 		{
 			File file = new File(path);
 
-			File parent =file.getParentFile();
-
-			if (!parent.exists())
-			{
-				createDir(context, parent.getAbsolutePath());
-			}
+			file.getParentFile().mkdirs();
 
 			try {
 				FileOutputStream os = new FileOutputStream(file);
 
 				os.write(data);
+
+				os.flush();
+				os.close();
+
+				success = true;
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return success;
+	}
+
+	/**
+	 *
+	 * @param path
+	 * @param inputStream
+	 * @return
+	 */
+	public static boolean writeToFile(String path, InputStream inputStream) {
+		boolean success = false;
+		if (!TextUtils.isEmpty(path) && null != inputStream)
+		{
+			File file = new File(path);
+
+			file.getParentFile().mkdirs();
+
+			byte[] data = new byte[1024];
+			try {
+				FileOutputStream os = new FileOutputStream(file);
+
+				int readLen;
+
+				while ((readLen = inputStream.read(data)) != -1) {
+					os.write(data, 0, readLen);
+				}
 
 				os.flush();
 				os.close();

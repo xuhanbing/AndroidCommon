@@ -19,7 +19,7 @@ import com.common.util.LogUtils;
  * @author hanbing
  * @Date 2015-7-8
  */
-public class PullScaleScrollView extends StrengthScrollView {
+public class PullScaleScrollView extends StrengthScrollView implements StrengthScrollView.OnPullListener {
 
 
     /**
@@ -28,6 +28,8 @@ public class PullScaleScrollView extends StrengthScrollView {
     View mScaleView;
 
     int mMaxMarginTop = 0;
+
+    OnPullListener mOnPullListener;
 
     /**
      * @param context
@@ -68,6 +70,8 @@ public class PullScaleScrollView extends StrengthScrollView {
 
         mCanMoveWhenPull = false;
         mMaxMarginTop = mMaxPullY;
+
+        setOnPullListener(null);
     }
 
     @Override
@@ -85,38 +89,8 @@ public class PullScaleScrollView extends StrengthScrollView {
     @Override
     public void setOnPullListener(final OnPullListener lsner) {
         // TODO Auto-generated method stub
-        super.setOnPullListener(new OnPullListener() {
-
-            @Override
-            public void onPull(float dy, float y, float max) {
-                // TODO Auto-generated method stub
-
-                /**
-                 * 向上移动时不回调
-                 */
-                if (y < 0)
-                    return;
-
-                animate(y, max);
-
-                if (null != lsner) {
-                    lsner.onPull(dy, y, max);
-                }
-            }
-
-            @Override
-            public void onMoveBack(float dy, float y, float max) {
-                // TODO Auto-generated method stub
-                if (y < 0)
-                    return;
-
-                animate(y, max);
-                if (null != lsner) {
-                    lsner.onMoveBack(dy, y, max);
-                }
-            }
-
-        });
+        mOnPullListener = lsner;
+        super.setOnPullListener(this);
     }
 
     /**
@@ -207,4 +181,30 @@ public class PullScaleScrollView extends StrengthScrollView {
     }
 
 
+    @Override
+    public void onPull(float dy, float y, float max) {
+        /**
+         * 向上移动时不回调
+         */
+        if (y < 0)
+            return;
+
+        animate(y, max);
+
+        if (null != mOnPullListener) {
+            mOnPullListener.onPull(dy, y, max);
+        }
+    }
+
+    @Override
+    public void onMoveBack(float dy, float y, float max) {
+        if (y < 0)
+            return;
+
+        animate(y, max);
+
+        if (null != mOnPullListener) {
+            mOnPullListener.onMoveBack(dy, y, max);
+        }
+    }
 }

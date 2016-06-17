@@ -21,7 +21,9 @@ import android.widget.TextView;
 import com.common.util.LogUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author hanbing
@@ -411,6 +413,24 @@ public class TabWidget extends HorizontalScrollView implements OnClickListener,
         mTabSpecMap.put(tabSpec.tag, tabSpec);
         addTab(view);
 
+        return this;
+    }
+
+    public TabWidget addTabs(List<String> tags) {
+        if (null != tags) {
+            for (int i = 0; i < tags.size(); i++) {
+                TabWidget.TabSpec tabSpec = new TabWidget.TabSpec(tags.get(i));
+
+                addTab(tabSpec);
+            }
+        }
+        return this;
+    }
+
+    public TabWidget addTabs(String[] tags) {
+        if (null != tags) {
+            return addTabs(Arrays.asList(tags));
+        }
         return this;
     }
 

@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.animation.AnimatorCompatHelper;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewCompat;
@@ -27,6 +28,10 @@ import com.common.tool.FragmentTabHostAndViewPagerInitHelper;
 import com.common.widget.recyclerview.SimpleOnItemTouchListener;
 import com.common.widget.tab.TabWidget;
 import com.common.widget.recyclerview.HeaderRecyclerView;
+
+import org.xutils.view.annotation.ContentView;
+
+import java.util.List;
 
 /**
  * @author hanbing

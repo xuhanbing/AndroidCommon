@@ -1,6 +1,7 @@
 package com.common.http;
 
-import com.common.http.callback.HttpSimpleCallback;
+import com.common.http.callback.HttpProgressCallback;
+import com.common.http.callback.HttpCallback;
 
 import java.util.Map;
 
@@ -13,21 +14,21 @@ import java.util.Map;
 public abstract class HttpRequestBase {
 
 
-	public void doRequest(String requestUrl, final Map<String, String> params, final HttpSimpleCallback callback) {
+	public void doRequest(String requestUrl, final Map<String, String> params, final HttpCallback callback) {
 		doRequest(0, requestUrl, null, params, null, callback);
 	}
 	
-	public void doRequest(final int requestCode, final String requestUrl, final HttpSimpleCallback callback) {
+	public void doRequest(final int requestCode, final String requestUrl, final HttpCallback callback) {
 		doRequest(requestCode, requestUrl, null, null, null, callback);
 	}
 
 	public void doRequest(final int requestCode, final String requestUrl, final Map<String, String> params,
-			final HttpSimpleCallback callback) {
+			final HttpCallback callback) {
 		doRequest(requestCode, requestUrl, null, params, null, callback);
 	}
 
 	/**
-	 * http 请求
+	 * http 请求 Post或Get, 返回String
 	 * 
 	 * @param requestCode
 	 *            请求code，代表某种请求
@@ -43,9 +44,16 @@ public abstract class HttpRequestBase {
 	 *            回调
 	 */
 	public abstract void doRequest(final int requestCode, final String requestUrl, final Map<String, String> headers,
-			final Map<String, String> params, final Map<String, Object> uploads, final HttpSimpleCallback callback);
+			final Map<String, String> params, final Map<String, Object> uploads, final HttpCallback callback);
 
 
+	/**
+	 * 下载
+	 * @param localPath  本地保存路径
+	 * @param downloadUrl 下载地址
+	 * @param callback 回调
+	 */
+	public abstract void download(String localPath, final String downloadUrl, final HttpCallback callback);
 
 
 

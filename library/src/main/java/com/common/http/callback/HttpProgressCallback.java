@@ -10,9 +10,19 @@ package com.common.http.callback;
 public interface HttpProgressCallback {
     /**
      * 更新进度
-     * @param url     请求的url
+     * @param key     下载是请求的url，上传时是key
      * @param total   总长度
      * @param current 当前长度
      */
-    public void onUpdateProgress(String url, long total, long current);
+    public void onUpdateProgress(String key, long total, long current);
+
+    /**
+     * 开始
+     */
+    public void onStarted();
+
+    /**
+     * 结束
+     */
+    public void onFinished();
 }
