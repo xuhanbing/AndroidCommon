@@ -7,7 +7,7 @@ package com.common.http;
 /**
  * @author hanbing
  */
-public class HttpResultError extends HttpResultBase<String> {
+public class HttpResultError extends HttpResult<String> {
 
 
     int errorCode;

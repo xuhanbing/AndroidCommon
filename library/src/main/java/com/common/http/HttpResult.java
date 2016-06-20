@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author hanbing
  * 
  */
-public class HttpResultBase<T extends Object> implements Serializable{
+public class HttpResult<T extends Object> implements Serializable{
 
 	/**
 	 * 

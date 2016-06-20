@@ -1,10 +1,15 @@
 package com.common.http;
 
+import android.text.TextUtils;
+
 import com.common.http.callback.HttpCallback;
-import com.common.util.FileUtils;
+import com.common.http.callback.HttpProgressCallback;
 import com.common.util.IOUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -19,11 +24,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.internal.Util;
+import okio.BufferedSink;
 
 /**
  * Created by hanbing on 2016/6/17.
  */
-public class OkHttpRequest extends HttpRequestBase {
+public class OkHttpRequest extends HttpRequest {
 
 
     OkHttpClient mOkHttpClient = null;
@@ -37,7 +44,7 @@ public class OkHttpRequest extends HttpRequestBase {
     @Override
     public void doRequest(final int requestCode, final String requestUrl, Map<String, String> headers, Map<String, String> params, Map<String, Object> uploads, final HttpCallback callback) {
 
-        Request request = createRequest(requestUrl, headers, params, uploads);
+        Request request = createRequest(requestUrl, headers, params, uploads,callback);
 
         Call call = mOkHttpClient.newCall(request);
 
@@ -81,7 +88,19 @@ public class OkHttpRequest extends HttpRequestBase {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 
-                FileUtils.writeToFile(localPath, response.body().byteStream());
+//                FileUtils.writeToFile(localPath, response.body().byteStream());
+
+                long totalLength = 0;
+                try {
+                    totalLength = Long.parseLong( response.header("Content-Length"));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+                HttpProgressCallback progressCallback = null;
+
+                if (callback instanceof HttpProgressCallback) progressCallback = (HttpProgressCallback) callback;
+
+                writeToFile(localPath, downloadUrl, response.body().byteStream(), totalLength, progressCallback);
 
                 if (null != callback) {
                     callback.onSuccess(0, downloadUrl, localPath);
@@ -93,7 +112,44 @@ public class OkHttpRequest extends HttpRequestBase {
         mCall = call;
     }
 
-    private Request createRequest(String requestUrl, Map<String, String> headers, Map<String, String> params, Map<String, Object> uploads) {
+    private void writeToFile(String localPath, String downloadUrl, InputStream inputStream, long totalLength, HttpProgressCallback callback) {
+
+        if (null != callback) callback.onStarted();
+
+        if (!TextUtils.isEmpty(localPath) && null != inputStream)
+        {
+            File file = new File(localPath);
+
+            file.getParentFile().mkdirs();
+
+            byte[] data = new byte[1024];
+            try {
+                FileOutputStream os = new FileOutputStream(file);
+
+                int readLen;
+                int curLen = 0;
+
+
+                while ((readLen = inputStream.read(data)) != -1) {
+                    os.write(data, 0, readLen);
+                    curLen += readLen;
+                    if (null != callback) callback.onUpdateProgress(downloadUrl, totalLength, curLen);
+                }
+
+                os.flush();
+                os.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }finally {
+                if (null != callback) callback.onFinished();
+            }
+        }
+    }
+
+    private Request createRequest(String requestUrl, Map<String, String> headers, Map<String, String> params, Map<String, Object> uploads, HttpCallback callback) {
         Request.Builder builder = new Request.Builder();
 
 
@@ -117,29 +173,25 @@ public class OkHttpRequest extends HttpRequestBase {
                 Object value = next.getValue();
                 if (null != value)
                 {
+                    MediaType mediaType = MediaType.parse("application/octet-scream");
+                    HttpProgressCallback progressCallback = (callback instanceof HttpProgressCallback) ? (HttpProgressCallback) callback : null;
+
+                    RequestBody requestBody = createUploadRequestBody(mediaType, value, key, progressCallback);
+
                     if (value instanceof String)
                     {
                         File file = new File(value.toString());
-                        if (file.exists())
-                            multipartBodyBuilder.addFormDataPart(key, file.getName(), RequestBody.create(MediaType.parse("application/octet-scream"), file));
+                        multipartBodyBuilder.addFormDataPart(key, file.getName(), requestBody);
 
                     } else if (value instanceof InputStream
                             || value instanceof byte[])
                     {
-                        byte[] buffer ;
-                        if (value instanceof InputStream) {
-                            buffer = IOUtils.read((InputStream) value);
-                            IOUtils.close((InputStream)value);
-                        } else {
-                            buffer = (byte[]) value;
-                        }
-                        if (null != buffer)
-                        multipartBodyBuilder.addFormDataPart(key, key, RequestBody.create(MediaType.parse("application/octet-scream"), buffer));
+                        multipartBodyBuilder.addFormDataPart(key, key, requestBody);
 
                     } else if (value instanceof File) {
                         File file = (File) value;
                         if (file.exists())
-                            multipartBodyBuilder.addFormDataPart(key, file.getName(), RequestBody.create(MediaType.parse("application/octet-scream"), file));
+                            multipartBodyBuilder.addFormDataPart(key, file.getName(), requestBody);
                     }
                 }
 
@@ -188,10 +240,125 @@ public class OkHttpRequest extends HttpRequestBase {
         return builder.build();
     }
 
+
+
+    /** Returns a new request body that transmits {@code content}. */
+    public static RequestBody create(final MediaType contentType, final byte[] content,String key, HttpProgressCallback callback) {
+        return create(contentType, content, 0, content.length, key, callback);
+    }
+
+    /** Returns a new request body that transmits {@code content}. */
+     static RequestBody create(final MediaType contentType, final byte[] content,
+                                     final int offset, final int byteCount, final String key, final HttpProgressCallback callback) {
+        if (content == null) throw new NullPointerException("content == null");
+        Util.checkOffsetAndCount(content.length, offset, byteCount);
+        return new RequestBody() {
+            @Override public MediaType contentType() {
+                return contentType;
+            }
+
+            @Override public long contentLength() {
+                return byteCount;
+            }
+
+            @Override public void writeTo(BufferedSink sink) throws IOException {
+                if (null == callback)
+                sink.write(content, offset, byteCount);
+                else {
+                    //each block size
+                    int block_size = 1024;
+                    int writeLen = 0;
+
+                    while (writeLen < byteCount) {
+
+                        int len = Math.min(block_size, byteCount - writeLen);
+                        sink.write(content, offset + writeLen, len);
+                        writeLen += len;
+
+                        callback.onUpdateProgress(key, byteCount, writeLen);
+                    }
+                }
+            }
+        };
+    }
+
+    /** Returns a new request body that transmits {@code content}. */
+    static RequestBody create(final MediaType contentType, final InputStream content,  long contentLength, final String key, final HttpProgressCallback callback) {
+        if (content == null) throw new NullPointerException("content == null");
+
+        final long realContentLength = (contentLength == -1) ? IOUtils.readStreamLength(content) : contentLength;
+
+        return new RequestBody() {
+            @Override public MediaType contentType() {
+                return contentType;
+            }
+
+            @Override public long contentLength() {
+                return realContentLength;
+            }
+
+            @Override public void writeTo(BufferedSink sink) throws IOException {
+
+                    //each block size
+                    int block_size = 1024;
+                    int writeLen = 0;
+                    int readLen = 0;
+                    byte[] buffer = new byte[block_size];
+
+                    while ((readLen = content.read(buffer)) != -1) {
+                        sink.write(buffer, 0, readLen);
+
+                        writeLen += readLen;
+
+                        if (null != callback) {
+                            callback.onUpdateProgress(key, realContentLength, writeLen);
+                        }
+                    }
+            }
+        };
+    }
+
+    /** Returns a new request body that transmits the content of {@code file}. */
+     static RequestBody create(final MediaType contentType, final File file, String key, final HttpProgressCallback callback) {
+        if (file == null) throw new NullPointerException("content == null");
+
+         try {
+             InputStream inputStream = new FileInputStream(file);
+             return create(contentType,inputStream, file.length(), key, callback);
+         } catch (FileNotFoundException e) {
+             throw new NullPointerException("file not found");
+         }
+    }
+
+    static RequestBody createUploadRequestBody(final MediaType contentType, Object content, String key, final HttpProgressCallback callback) {
+        if (null == content) return null;
+
+        if (content instanceof String) {
+
+            File file = new File((String) content);
+            if (file.exists() && file.length() > 0) {
+                return create(contentType, file, key, callback);
+            }
+        } else if (content instanceof File) {
+            File file = (File) content;
+            if (file.exists() && file.length() > 0)
+            return create(contentType, file, key, callback);
+        } else if (content instanceof InputStream) {
+            return create(contentType, (InputStream)content, -1,  key, callback);
+        } else if (content instanceof byte[]) {
+            return create(contentType, (byte[]) content, key, callback);
+        }
+
+        return null;
+    }
+
+
     @Override
     public void cancelRequest() {
         if (null != mCall) {
             mCall.cancel();
         }
     }
+
+
 }

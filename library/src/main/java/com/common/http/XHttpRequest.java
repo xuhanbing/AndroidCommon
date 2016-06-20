@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by hanbing on 2016/3/28.
  */
-public class XHttpRequest extends HttpRequestBase {
+public class XHttpRequest extends HttpRequest {
 
     Callback.Cancelable mCancelable;
     /*
@@ -75,22 +75,24 @@ public class XHttpRequest extends HttpRequestBase {
             while (iterator.hasNext()) {
                 Map.Entry<String, Object> next = iterator.next();
 
+                String key = next.getKey();
                 Object value = next.getValue();
                 if (null != value)
                 {
+
                     if (value instanceof String)
                     {
                         File file = new File(value.toString());
                         if (file.exists())
-                            requestParams.addBodyParameter(next.getKey(), file);
+                            requestParams.addBodyParameter(key, file);
                     } else if (value instanceof InputStream
                                 ||value instanceof byte[]) {
-                        requestParams.addBodyParameter(next.getKey(), value, "application/octet-stream", next.getKey());
+                        requestParams.addBodyParameter(key, value, "application/octet-stream", key);
                     }
                     else if (value instanceof File) {
                         File file = (File) value;
                         if(file.exists())
-                        requestParams.addBodyParameter(next.getKey(), file);
+                        requestParams.addBodyParameter(key, file);
                     }
                 }
 

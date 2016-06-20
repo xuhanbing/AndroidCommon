@@ -1,8 +1,8 @@
 package com.common.http;
 
-import com.common.http.callback.HttpProgressCallback;
 import com.common.http.callback.HttpCallback;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -11,8 +11,31 @@ import java.util.Map;
  * @author hanbing
  * @date 2016年1月18日
  */
-public abstract class HttpRequestBase {
+public abstract class HttpRequest {
 
+	enum Type{
+		OKHTTP,
+		XUTILS
+	}
+
+	static Map<Type, HttpRequest> mHttpRequests = new HashMap<>();
+	public static HttpRequest getInstance(Type type) {
+		HttpRequest mHttpRequest = mHttpRequests.get(type);
+		if (null == mHttpRequest)
+		{
+			switch (type) {
+				case XUTILS:
+					mHttpRequest = new XHttpRequest();
+					break;
+				default:
+					mHttpRequest = new OkHttpRequest();
+			}
+
+			mHttpRequests.put(type, mHttpRequest);
+		}
+
+		return mHttpRequest;
+	}
 
 	public void doRequest(String requestUrl, final Map<String, String> params, final HttpCallback callback) {
 		doRequest(0, requestUrl, null, params, null, callback);

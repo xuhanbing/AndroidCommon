@@ -20,6 +20,8 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
+import com.common.http.callback.HttpProgressCallback;
+
 /**
  * @author hanbing
  * @date 2015年6月16日

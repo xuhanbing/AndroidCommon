@@ -56,19 +56,32 @@ public class ScrollableViewTransitionController {
         // TODO Auto-generated constructor stub
     }
 
-    int startY;
-    int endY;
+
+    public static void setControlViews(final View scrollableView,
+    final View moveBaseView,
+    final View moveView,
+    final OnScrollListener lsner) {
+        setControlViews(scrollableView, moveBaseView, moveView, true, lsner);
+    }
 
     /**
+     * 实现移动+静止的效果组合
+     *
+     * 初始位置为最大值1
+     * 当moveBaseView为null，或者以自己为基准，当moveView的bottom到达初始Y时为0；
+     * 当moveBaseView不为null，当moveView的top到达moveBaseView的bottom时为0
+     *
      * @param scrollableView scrollableView
-     * @param moveBaseView   基准的view
-     * @param moveView       scrollableView中移动的view，当moveView的顶部到达moveBaseView的底部(当moveBaseView=null时为0)时，此时的移动比例为1，此view的高度需要比较稳定
+     * @param moveBaseView   moveBaseView
+     * @param moveView       scrollableView中移动的view
+     * @param baseOnTop      判断依赖，当moveBaseView!= null && moveBaseView != moveView时，
+     *                        true表示以moveView的顶部达到moveBaseView的底部为0，false表示以moveView的底部达到moveBaseView的底部为0
      * @param lsner          回调
      */
-
     public static void setControlViews(final View scrollableView,
                                        final View moveBaseView,
                                        final View moveView,
+                                       final boolean baseOnTop,
                                        final OnScrollListener lsner) {
 
         scrollableView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -87,8 +100,15 @@ public class ScrollableViewTransitionController {
                 moveView.getLocationOnScreen(loc2);
 
 
-                final int endY = loc1[1] + (null == moveBaseView ? 0 : moveBaseView.getMeasuredHeight());
+//                final int endY = loc1[1] + (null == moveBaseView ? 0 : moveBaseView.getMeasuredHeight());
+//                final int startY = loc2[1];
+
                 final int startY = loc2[1];
+                final int endY = (null == moveBaseView || moveBaseView == moveView)
+                        ? (startY - moveView.getMeasuredHeight())
+                        : (baseOnTop ? (loc1[1] + moveBaseView.getMeasuredHeight()): (loc1[1] + moveBaseView.getMeasuredHeight() - moveView.getMeasuredHeight()));
+
+                LogUtils.e("startY = " + startY + ", endY = " + endY + ", height = " + moveView.getMeasuredHeight());
 
                 if (null != lsner)
                     lsner.onScroll(0, 0);
@@ -99,7 +119,6 @@ public class ScrollableViewTransitionController {
                             @Override
                             public void onScrollChanged() {
                                 // TODO Auto-generated method stub
-
 
 
                                 int[] location1 = new int[2];
@@ -118,7 +137,7 @@ public class ScrollableViewTransitionController {
                                     scale = 0;
                                 } else if (moveY <= endY) {
                                     /**
-                                     * 向上缩,已经被moveBaseView覆盖
+                                     * 向上缩,已经被moveBaseView覆盖,或者达到阀值
                                      */
                                     scale = 1;
                                 } else {
