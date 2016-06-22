@@ -12,7 +12,7 @@ import in.srain.cube.views.ptr.PtrUIHandler;
 /**
  * Created by hanbing on 2016/3/29.
  */
-public abstract class SrainPtrListFragment extends ListFragment {
+public abstract class SrainPtrGridFragment extends GridFragment {
 
     PtrFrameLayout mPtrFrameLayout;
 

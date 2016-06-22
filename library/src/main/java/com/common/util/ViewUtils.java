@@ -24,6 +24,7 @@ import android.view.ViewParent;
 import android.widget.TabHost;
 
 import com.common.listener.OnItemClickListener;
+import com.common.listener.OnItemLongClickListener;
 import com.common.tool.FragmentTabHostAndViewPagerInitHelper;
 import com.common.widget.recyclerview.SimpleOnItemTouchListener;
 import com.common.widget.tab.TabWidget;
@@ -276,13 +277,15 @@ public class ViewUtils {
      * @param recyclerView
      * @param onItemClickListener
      */
-    public static void  bindOnItemClickListener(final RecyclerView recyclerView, final OnItemClickListener onItemClickListener)
+    public static void  bindOnItemClickListener(final RecyclerView recyclerView, final OnItemClickListener onItemClickListener, final OnItemLongClickListener onItemLongClickListener)
     {
-        if (null == recyclerView
-                || null == onItemClickListener)
+        if (null == recyclerView)
             return;
 
-        recyclerView.addOnItemTouchListener(new SimpleOnItemTouchListener(recyclerView, onItemClickListener));
+        if (null == onItemClickListener && null == onItemLongClickListener)
+            return;
+
+        recyclerView.addOnItemTouchListener(new SimpleOnItemTouchListener(recyclerView, onItemClickListener, onItemLongClickListener));
 
     }
 

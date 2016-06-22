@@ -31,11 +31,11 @@ public class HeaderRecyclerView extends BaseRecyclerView {
 
         @Override
         public int getItemViewType(int position) {
-            if (position < getHeaderViewsCount())
+            if (isHeader(position))
             {
                 return ITEM_VIEW_TYPE_HEADER;
 
-            } else if (position >= getHeaderViewsCount() + getRealItemCount()){
+            } else if (isFooter(position)){
 
                 return ITEM_VIEW_TYPE_FOOTER;
             }
@@ -55,9 +55,7 @@ public class HeaderRecyclerView extends BaseRecyclerView {
             {
 
                 FrameLayout frameLayout = new FrameLayout(parent.getContext());
-
-                frameLayout.setLayoutParams(new ViewGroup.LayoutParams(-1,-1));
-                frameLayout.setBackgroundColor(Color.GREEN);
+                frameLayout.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
                 return new ViewHolder(frameLayout) {
 
                 };
@@ -79,8 +77,9 @@ public class HeaderRecyclerView extends BaseRecyclerView {
             final int itemCount = getRealItemCount();
 
 
-
-            if (position < getHeaderViewsCount())
+            LayoutManager layoutManager = getLayoutManager();
+            ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+            if (isHeader(position))
             {
                 int index = position;
                 ViewGroup viewGroup = (ViewGroup) holder.itemView;
@@ -91,16 +90,22 @@ public class HeaderRecyclerView extends BaseRecyclerView {
 
                 viewGroup.addView(ViewUtils.removeFromParent(view));
 
+                if (layoutManager instanceof StaggeredGridLayoutManager) {
+                    viewGroup.setLayoutParams(generateFullSpanLayoutParams( layoutParams));
+                }
 
-
-            } else if (position >= getHeaderViewsCount() + getRealItemCount())
+            } else if (isFooter(position))
             {
 
                 int index = position - (getHeaderViewsCount() + getRealItemCount());
 
                 ViewGroup viewGroup = (ViewGroup) holder.itemView;
-                viewGroup.removeAllViews();;
+                viewGroup.removeAllViews();
                 viewGroup.addView(ViewUtils.removeFromParent(mFooters.get(index)));
+
+                if (layoutManager instanceof StaggeredGridLayoutManager) {
+                    viewGroup.setLayoutParams(generateFullSpanLayoutParams(layoutParams));
+                }
 
             } else {
                 if (null != mAdapter)
@@ -127,8 +132,7 @@ public class HeaderRecyclerView extends BaseRecyclerView {
 
     HeaderViewAdapter mHeaderViewAdapter;
 
-
-    boolean mShowHeaderAndFooterDivider = true;
+    boolean mShowHeaderAndFooterDivider = false;
 
     public HeaderRecyclerView(Context context) {
         super(context);
@@ -183,7 +187,7 @@ public class HeaderRecyclerView extends BaseRecyclerView {
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    if (position < getHeaderViewsCount() || position >= getHeaderViewsCount() + getRealItemCount()) {
+                    if (isHeaderOrFooter(position)) {
                         return spanCount;
                     } else {
                         return 1;
@@ -198,6 +202,30 @@ public class HeaderRecyclerView extends BaseRecyclerView {
 
         super.setLayoutManager(layout);
     }
+
+    StaggeredGridLayoutManager.LayoutParams generateFullSpanLayoutParams(ViewGroup.LayoutParams layoutParams) {
+
+
+        StaggeredGridLayoutManager.LayoutParams params = null;
+
+
+        if (null == layoutParams )
+        {
+            params = new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        else if (!(layoutParams instanceof StaggeredGridLayoutManager.LayoutParams)) {
+            params = new StaggeredGridLayoutManager.LayoutParams(layoutParams.width, layoutParams.height);
+        }
+        else {
+            params = (StaggeredGridLayoutManager.LayoutParams) layoutParams;
+        }
+
+        params.setFullSpan(true);
+
+        return params;
+    }
+
+
 
     public void addHeaderView(View view)
     {
@@ -235,6 +263,8 @@ public class HeaderRecyclerView extends BaseRecyclerView {
         return getHeaderViewsCount() + getFooterViewsCount() + getRealItemCount();
     }
 
+
+
     public int getHeaderViewsCount()
     {
         if (null == mHeaders)
@@ -242,6 +272,8 @@ public class HeaderRecyclerView extends BaseRecyclerView {
 
         return mHeaders.size();
     }
+
+
 
     public int getFooterViewsCount()
     {
@@ -259,10 +291,17 @@ public class HeaderRecyclerView extends BaseRecyclerView {
         return mAdapter.getItemCount();
     }
 
+    public boolean isHeader(int position) {
+        return position < getHeaderViewsCount();
+    }
+
+    public boolean isFooter(int position) {
+        return position >= (getHeaderViewsCount() + getRealItemCount());
+    }
 
     public boolean isHeaderOrFooter(int position)
     {
-        return position < getHeaderViewsCount() || position >= getHeaderViewsCount() + getRealItemCount();
+        return isHeader(position) || isFooter(position);
     }
 
 
@@ -276,7 +315,7 @@ public class HeaderRecyclerView extends BaseRecyclerView {
 
     public boolean showDivider(int position)
     {
-        if (position < getHeaderViewsCount() || position >= (getHeaderViewsCount() + getRealItemCount() - 1))
+        if (isHeaderOrFooter(position))
         {
             if (showHeaderAndFooterDivider())
                 return true;

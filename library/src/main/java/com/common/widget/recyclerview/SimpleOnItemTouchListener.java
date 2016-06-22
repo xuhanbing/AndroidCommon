@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.common.listener.OnItemClickListener;
+import com.common.listener.OnItemLongClickListener;
 import com.common.util.LogUtils;
 
 /**
@@ -15,6 +16,7 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
 
     GestureDetector mGestureDetector;
     OnItemClickListener mOnItemClickListener;
+    OnItemLongClickListener mOnItemLongClickListener;
     RecyclerView mRecyclerView;
 
     boolean mIsMove = false;
@@ -22,11 +24,11 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
     boolean mIsLongPressHandled = true;
 
 
-    public SimpleOnItemTouchListener(RecyclerView recyclerView, OnItemClickListener onItemClickListener) {
+    public SimpleOnItemTouchListener(RecyclerView recyclerView, OnItemClickListener onItemClickListener, OnItemLongClickListener onItemLongClickListener) {
         this.mRecyclerView = recyclerView;
         this.mOnItemClickListener = onItemClickListener;
+        this.mOnItemLongClickListener = onItemLongClickListener;
         this.mGestureDetector = new GestureDetector(recyclerView.getContext(), this);
-
     }
 
     @Override
@@ -88,7 +90,7 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
         int position = rv.getChildAdapterPosition(child);
 
         if (position >= 0 && checkClickable(rv, position)) {
-            mOnItemClickListener.onItemClick(rv, child, position);
+            if (null != mOnItemClickListener) mOnItemClickListener.onItemClick(rv, child, position);
         }
 
         return true;
@@ -109,7 +111,7 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
             boolean handled = false;
             if (position >= 0 && checkClickable(rv, position)) {
 
-                handled = mOnItemClickListener.onItemLongClick(mRecyclerView, child, position);
+                if (null != mOnItemLongClickListener) handled = mOnItemLongClickListener.onItemLongClick(mRecyclerView, child, position);
 
                 mIsLongPressHandled = handled;
             }

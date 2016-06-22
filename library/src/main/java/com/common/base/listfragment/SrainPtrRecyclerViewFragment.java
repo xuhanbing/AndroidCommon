@@ -12,7 +12,7 @@ import in.srain.cube.views.ptr.PtrUIHandler;
 /**
  * Created by hanbing on 2016/3/29.
  */
-public abstract class SrainPtrListFragment extends ListFragment {
+public abstract class SrainPtrRecyclerViewFragment extends RecyclerViewFragment {
 
     PtrFrameLayout mPtrFrameLayout;
 
@@ -67,20 +67,20 @@ public abstract class SrainPtrListFragment extends ListFragment {
         mPtrFrameLayout.refreshComplete();
     }
 
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-        if (null != mPtrFrameLayout)
-        {
-            View first = view.getChildAt(firstVisibleItem);
-            if (0 == firstVisibleItem && (null == first || 0 == first.getTop())) {
-                mPtrFrameLayout.setEnabled(true);
-            } else {
-                mPtrFrameLayout.setEnabled(false);
-            }
-        }
-
-
-        super.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-    }
+//    @Override
+//    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//
+//        if (null != mPtrFrameLayout)
+//        {
+//            View first = view.getChildAt(firstVisibleItem);
+//            if (0 == firstVisibleItem && (null == first || 0 == first.getTop())) {
+//                mPtrFrameLayout.setEnabled(true);
+//            } else {
+//                mPtrFrameLayout.setEnabled(false);
+//            }
+//        }
+//
+//
+//        super.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+//    }
 }

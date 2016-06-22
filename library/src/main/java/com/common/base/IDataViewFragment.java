@@ -1,27 +1,31 @@
 package com.common.base;
 
 import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
 
 /**
  *
  * Created by hanbing on 2016/3/28.
  */
-public interface IBaseListFragment {
+public interface IDataViewFragment<DataView extends View, DataAdapter> {
 
     /**
-     * 指定listview
+     * 指定绑定数据视图
      * @return
      */
-    public abstract ListView createListView();
+    public abstract DataView createDataView();
 
     /**
-     * 指定listadapter
+     * 指定适配器
      * @return
      */
-    public abstract BaseAdapter createListAdapter();
+    public abstract DataAdapter createAdapter();
 
+
+    /**
+     * 返回数据个数
+     * @return
+     */
+    public abstract int getItemCount();
 
     /**
      * 当没有数据时展示
@@ -46,16 +50,11 @@ public interface IBaseListFragment {
     public abstract View createLoadMoreView();
 
     /**
-     * 初始化listview，可以在此配置listview的一些属性
-     * @param listView
+     * 初始化数据视图
+     * @param view
      */
-    public abstract void initListView(ListView listView);
+    public abstract void initDataView(DataView view);
 
-    /**
-     * 初始化ListView的header和footer，该方法会在initListView之前调用
-     * @param listView
-     */
-    public abstract void initHeadersAndFooters(ListView listView);
 
     /**
      * 是否强制显示loadingview
@@ -75,16 +74,23 @@ public interface IBaseListFragment {
     public abstract void setLoadMoreAlwaysShow(boolean alwaysShow);
 
     /**
-     * 设置是否支持滑动到底部加载更多
+     * 设置是否支持加载更多
      * @param enabled
      */
     public abstract void setLoadMoreEnabled(boolean enabled);
 
     /**
-     * 设置是否支持下拉刷新
+     * 设置是否支持滑动到底部加载更多
      * @param enabled
      */
-    public abstract void setPullToRefreshEnabled(boolean enabled);
+    public abstract void setScrollLoadMoreEnabled(boolean enabled);
+
+    /**
+     * 设置是否支持点击加载更多
+     * @param enabled
+     */
+    public abstract void setClickLoadMoreEnabled(boolean enabled);
+
 
     /**
      * 刷新

@@ -11,7 +11,7 @@ import android.widget.AbsListView;
 /**
  * Created by hanbing on 2016/3/29.
  */
-public class SwipeRefreshListFragment extends SimpleListFragment {
+public class SwipeRefreshListFragment extends ListFragment {
 
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     @Override

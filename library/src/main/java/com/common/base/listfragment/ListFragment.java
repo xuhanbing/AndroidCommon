@@ -1,49 +1,30 @@
 package com.common.base.listfragment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.androidcommon.R;
-import com.common.base.BaseListFragment;
-import com.common.listener.OnLoadListener;
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.common.base.AbsListFragment;
 
 /**
  * Created by hanbing on 2016/3/29.
  */
-public class SimpleListFragment extends BaseListFragment {
+public class ListFragment extends AbsListFragment<ListView> {
 
+    ListView mListView;
     @Override
     protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return null;
+        return mListView = new ListView(getContext());
     }
 
     @Override
-    public ListView createListView() {
+    public BaseAdapter createAdapter() {
         return null;
     }
-
-    @Override
-    public BaseAdapter createListAdapter() {
-        return null;
-    }
-
 
     @Override
     public View createEmptyView() {
@@ -57,21 +38,46 @@ public class SimpleListFragment extends BaseListFragment {
 
     @Override
     public View createLoadMoreView() {
-
       return null;
     }
 
     @Override
-    public void initListView(ListView listView) {
+    public void initDataView(ListView listView) {
+
+        if (null != mListView)
+        {
+            initHeadersAndFooters(mListView);
+            addLoadMoreIfNeed();
+            setEmptyViewIfNeed();
+
+            mListView.setOnScrollListener(this);
+            mListView.setOnItemClickListener(this);
+            mListView.setOnItemLongClickListener(this);
+            initListView(mListView);
+        }
     }
 
     @Override
-    public void initHeadersAndFooters(ListView listView) {
+    public ListView createDataView() {
+        return mListView;
+    }
+
+    public  void initHeadersAndFooters(ListView dataView) {
+
+    }
+
+    public  void initListView(ListView listView) {
+
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        return false;
     }
 
     @Override

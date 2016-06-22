@@ -37,20 +37,20 @@ public class LineItemDecoration extends BaseItemDecoration {
 
         int position = parent.getChildAdapterPosition(child);
 
-        Rect rect = new Rect();
-
         //last one has no divider
         if (null == parent.getAdapter()
                 || position == parent.getAdapter().getItemCount() - 1)
-            return rect;
+            return null;
 
         if (parent instanceof BaseRecyclerView)
         {
             if (!((BaseRecyclerView) parent).drawItemDecoration(position))
             {
-                return rect;
+                return null;
             }
         }
+
+        Rect rect = new Rect();
 
         if (isVertical())
         {

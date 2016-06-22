@@ -231,7 +231,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         Rect rect = getDecorationRect(parent, view);
-        outRect.set(rect);
+        outRect.set(new Rect(rect));
     }
 
     public Rect getDecorationRect(RecyclerView parent, View child) {

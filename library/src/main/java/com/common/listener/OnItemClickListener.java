@@ -6,10 +6,6 @@ import android.view.View;
 /**
  * Created by hanbing on 2016/3/11.
  */
-public abstract class OnItemClickListener {
+public interface OnItemClickListener {
     public  abstract void onItemClick(RecyclerView recyclerView, View view, int position);
-
-    public  boolean onItemLongClick(RecyclerView recyclerView, View view, int position) {
-        return false;
-    }
 }

@@ -3,35 +3,27 @@ package com.common.base;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.common.listener.OnLoadListener;
 import com.common.tool.PagingManager;
+import com.common.widget.recyclerview.HeaderRecyclerView;
 
 /**
  * Created by hanbing on 2016/3/21.
  */
-public abstract class BaseListFragment extends BaseFragment implements IBaseListFragment,AdapterView.OnItemClickListener, OnLoadListener, AbsListView.OnScrollListener {
-
-
-    /**
-     * ListView的父容器
-     *
-     */
-    ViewGroup mParent;
+public abstract class DataViewFragment<DataView extends View, DataAdapter> extends BaseFragment implements IDataViewFragment<DataView, DataAdapter>,  OnLoadListener {
 
     /**
-     * ListView
+     * data view
      */
-    ListView mListView;
+    DataView mDataView;
 
     /**
-     *
+     * data adapter
      */
-    BaseAdapter mListAdapter;
+    DataAdapter mDataAdapter;
 
     /**
      * 没有数据时，覆盖ListView展示的View
@@ -41,11 +33,6 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
      * 该view只会在listview没有数据时才会展示
      */
     View mEmptyView;
-
-    /**
-     *
-     */
-    View mDefaultEmptyView;
 
     /**
      * 当加载数据时，覆盖ListView展示的view
@@ -63,29 +50,33 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
      */
     ViewGroup mLoadMoreContainer;
 
-
     /**
      * 是否强制显示loadingview
      * 如果为true，只要开始加载数据，就显示
      * 否则，只有当getItemCount返回0时才显示
      */
-    boolean mShowLoadingViewForeced = false;
+    boolean mForceShowLoadingView = false;
 
     /**
      * 是否一直显示加载更多
      * 默认false，只在有数据是显示
      */
-    boolean mLoadMoreAlwaysShow = false;
+    boolean mAlwaysShowLoadMoreView = false;
 
     /**
-     * 是否支持滑动到底部加载更多
+     * 是否支持加载更多
      */
     boolean mLoadMoreEnabled = true;
 
     /**
-     * 是否支持下拉刷新
+     * 是否支持滑动到底部加载更多
      */
-    boolean mPullToRefreshEnabled = true;
+    boolean mScrollLoadMoreEnabled = true;
+
+    /**
+     * 是否支持点击加载更多
+     */
+    boolean mClickLoadMoreEnabled = true;
 
     /**
      * 如果为true，刷新时请求当前数据条数，如果不足一页则请求第一页，需要支持自定义分页数mIsSupportCustomPageSize=true
@@ -105,43 +96,42 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
      */
     boolean mIsPageIndexStartFromZero = false;
 
+
+
+
     /**
      * 请求和分页管理
      */
     PagingManager mPagingManager = new PagingManager();
 
 
-    /**
-     * 手动滚动
-     */
-    boolean mIsManScroll = false;
+    View.OnClickListener mOnLoadMoreClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mClickLoadMoreEnabled) onLoadMore();
+        }
+    };
 
     @Override
     protected void initViews(View view) {
         super.initViews(view);
 
         mPagingManager = createPagingManager();
-        mListView = createListView();
-        mListAdapter = createListAdapter();
+        mDataView = createDataView();
         mEmptyView = createEmptyView();
         mLoadingView = createLoadingView();
         mLoadMoreView = createLoadMoreView();
-
 
         /**
          * 如果有加载更多view，添加到最末尾
          */
         if (null != mLoadMoreView)
         {
-            mLoadMoreView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onLoadMore();
-                }
-            });
+            if (mClickLoadMoreEnabled) mLoadMoreView.setOnClickListener(mOnLoadMoreClick);
+
             mLoadMoreContainer = new LinearLayout(getContext());
             mLoadMoreContainer.addView(mLoadMoreView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            if (mLoadMoreAlwaysShow)
+            if (mAlwaysShowLoadMoreView)
             {
                 showLoadMoreView();
             } else {
@@ -149,40 +139,48 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
             }
         }
 
-        if (null != mListView)
-        {
-            initHeadersAndFooters(mListView);
-
-            if (null != mLoadMoreContainer)
-            {
-                mListView.addFooterView(mLoadMoreContainer);
-            }
-
-            mListView.setEmptyView(mEmptyView);
-            mListView.setOnScrollListener(this);
-
-            initListView(mListView);
-        }
+        initDataView(mDataView);
 
         hideLoadingView();
         hideEmptyView();
     }
 
-    public ListView getListView () {
-        return mListView;
+    public DataView getDataView () {
+        return mDataView;
     }
-    public BaseAdapter getListAdapter() {
-        return mListAdapter;
+
+    public void setDataView(DataView dataView) {
+        this.mDataView = dataView;
+    }
+
+    public DataAdapter getDataAdapter(){
+        return mDataAdapter;
+    }
+
+    public void setDataAdapter(DataAdapter dataAdapter) {
+        this.mDataAdapter = dataAdapter;
+    }
+
+    public  void addLoadMoreIfNeed() {
+        if (mDataView instanceof ListView) ((ListView)mDataView).addFooterView(mLoadMoreContainer);
+        else if (mDataView instanceof HeaderRecyclerView) ((HeaderRecyclerView)mDataView).addFooterView(mLoadMoreContainer);
+    }
+
+    public void setEmptyViewIfNeed() {
+        if (mDataView instanceof AbsListView) ((AbsListView)mDataView).setEmptyView(mEmptyView);
     }
 
     @Override
     protected void onViewVisible(boolean isCreated, boolean isFirstCreated) {
-        if (isCreated)
+        if (isFirstCreated)
         onRefresh();
     }
 
     @Override
     public final void onLoadMore() {
+
+        if (!mLoadMoreEnabled)
+            return;
 
         //没有更多数据了
         if (mPagingManager.isLastPage())
@@ -247,27 +245,17 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
 
     }
 
-    /**
-     * 返回当前数据个数
-     * @return
-     */
-    private int getItemCount()
-    {
-        return null != mListAdapter ? mListAdapter.getCount() : 0;
-    }
-
 
     @Override
     public void setShowLoadingViewForced(boolean forced) {
-
-        mShowLoadingViewForeced = forced;
+        mForceShowLoadingView = forced;
     }
 
     @Override
     public void setLoadMoreAlwaysShow(boolean alwaysShow) {
-        mLoadMoreAlwaysShow = alwaysShow;
+        mAlwaysShowLoadMoreView = alwaysShow;
 
-        if (!mLoadMoreAlwaysShow)
+        if (!mAlwaysShowLoadMoreView)
         {
            hideLoadMoreView();
         } else {
@@ -276,26 +264,46 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
     }
 
     private void showLoadMoreView(){
-        if (null != mLoadMoreView)
-        {
-            mLoadMoreView.setVisibility(View.VISIBLE);
-        }
+        if (null != mLoadMoreView) mLoadMoreView.setVisibility(View.VISIBLE);
     }
     private void hideLoadMoreView(){
-        if (null != mLoadMoreView)
-        {
-            mLoadMoreView.setVisibility(View.GONE);
-        }
+        if (null != mLoadMoreView) mLoadMoreView.setVisibility(View.GONE);
     }
 
     @Override
     public void setLoadMoreEnabled(boolean enabled) {
         mLoadMoreEnabled = enabled;
+
+    }
+
+    public boolean isLoadMoreEnabled() {
+        return mLoadMoreEnabled;
     }
 
     @Override
-    public void setPullToRefreshEnabled(boolean enabled) {
-        mPullToRefreshEnabled = enabled;
+    public void setScrollLoadMoreEnabled(boolean enabled) {
+        mScrollLoadMoreEnabled = enabled;
+    }
+
+    public boolean isScrollLoadMoreEnabled() {
+        return mScrollLoadMoreEnabled;
+    }
+
+    @Override
+    public void setClickLoadMoreEnabled(boolean enabled) {
+        mClickLoadMoreEnabled = enabled;
+        if (null != mLoadMoreView)
+        {
+            if (enabled)
+                mLoadMoreView.setOnClickListener(mOnLoadMoreClick);
+            else
+                mLoadMoreView.setOnClickListener(null);
+        }
+
+    }
+
+    public boolean isClickLoadMoreEnabled() {
+        return mClickLoadMoreEnabled;
     }
 
     /**
@@ -337,7 +345,7 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
         if (null == mLoadingView)
             return;
 
-        if (mShowLoadingViewForeced) {
+        if (mForceShowLoadingView) {
             mLoadingView.setVisibility(View.VISIBLE);
         } else {
             if (getItemCount() <= 0)
@@ -351,24 +359,15 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
     }
 
     private void hideLoadingView(){
-        if (null != mLoadingView)
-        {
-            mLoadingView.setVisibility(View.GONE);
-        }
+        if (null != mLoadingView) mLoadingView.setVisibility(View.GONE);
     }
 
     private void showEmptyView(){
-        if (null != mEmptyView)
-        {
-            mEmptyView.setVisibility(View.VISIBLE);
-        }
+        if (null != mEmptyView)  mEmptyView.setVisibility(View.VISIBLE);
     }
 
     private void hideEmptyView(){
-        if (null != mEmptyView)
-        {
-            mEmptyView.setVisibility(View.GONE);
-        }
+        if (null != mEmptyView)  mEmptyView.setVisibility(View.GONE);
     }
 
     protected boolean isRefresh()
@@ -439,27 +438,4 @@ public abstract class BaseListFragment extends BaseFragment implements IBaseList
         onLoadCompleted();
     }
 
-
-
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-        if (SCROLL_STATE_TOUCH_SCROLL == scrollState || SCROLL_STATE_FLING == scrollState) {
-            mIsManScroll = true;
-        } else {
-            mIsManScroll = false;
-        }
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-        int lastVisibleItem = firstVisibleItem + visibleItemCount;
-        //最有一个item展示
-        if (mLoadMoreEnabled && mIsManScroll
-                && lastVisibleItem == totalItemCount) {
-            onLoadMore();
-        }
-    }
 }
