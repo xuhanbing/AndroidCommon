@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:id="@+id/layout_city_index"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_bg_color"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_city_index"
+            android:layout_marginLeft="@dimen/dip_10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dip_22"
+            android:gravity="center_vertical"
+            android:text="A"/>
+
+        <include
+            layout="@layout/common_line"></include>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_10"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_city_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/titlebar_height"
+
+            android:text="Beijing"
+            android:gravity="center_vertical"
+            />
+        <include
+            android:id="@+id/v_city_short_line"
+            layout="@layout/common_line">
+        </include>
+
+    </LinearLayout>
+
+
+    <include
+        android:id="@+id/v_city_full_line"
+        android:visibility="gone"
+        layout="@layout/common_line">
+    </include>
+
+</LinearLayout>

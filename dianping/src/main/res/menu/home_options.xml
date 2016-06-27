@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <group
+        >
+        <item
+            android:icon="@drawable/main_home_navibar_tips_icon_comment"
+            android:title="@string/home_option_comment"></item>
+
+        <item
+            android:icon="@drawable/main_home_navibar_tips_icon_store"
+            android:title="@string/home_option_store">
+
+        </item>
+
+        <item
+            android:icon="@drawable/main_home_navibar_tips_icon_scan"
+            android:title="@string/home_option_scan"></item>
+
+        <item
+            android:icon="@drawable/main_home_add_icon_pay"
+            android:title="@string/home_option_pay"></item>
+    </group>
+</menu>

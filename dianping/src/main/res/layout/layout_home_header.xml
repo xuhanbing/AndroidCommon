@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.hanbing.dianping.view.HomeShortCutLayout
+        android:id="@+id/layout_home_shortcut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.hanbing.dianping.view.HomeShortCutLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_home_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dip_10"
+            android:orientation="vertical"
+            android:background="#ff6d5a">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dip_8"
+                android:gravity="center">
+
+
+                <ImageView
+                    android:layout_width="@dimen/dip_15"
+                    android:layout_height="@dimen/dip_15"
+                    android:src="@drawable/main_home_navibar_tips_icon_store"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/textsize_first_title"
+                    android:layout_marginLeft="@dimen/dip_8"
+                    android:text="新人专区"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_home_content_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dip_4"
+                android:orientation="horizontal"
+                >
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_home_content_2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dip_10">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_home_content_3"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dip_10">
+
+        </LinearLayout>
+
+
+        <LinearLayout
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dip_10">
+
+            <LinearLayout
+                android:id="@+id/layout_home_content_special_top"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/titlebar_height"
+                android:gravity="center"
+                android:padding="@dimen/dip_8">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textsize_first_title"
+                    android:textStyle="bold"
+                    android:text="特色频道"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textsize_second_title"
+                    android:text="查看全部"/>
+
+                <ImageView
+                    android:layout_width="@dimen/dip_15"
+                    android:layout_height="@dimen/dip_15"
+                    android:src="@drawable/arrow"/>
+            </LinearLayout>
+
+            <GridView
+                android:id="@+id/gv_home_content_special"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="4"
+                ></GridView>
+
+        </LinearLayout>
+
+        <TextView
+            android:padding="@dimen/dip_8"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/titlebar_height"
+            android:textSize="@dimen/textsize_first_title"
+            android:gravity="center_vertical"
+            android:text="猜你喜欢"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,49 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/main_text_color</item>
+
+        <item name="android:progressBarStyle">@style/ProgressBar</item>
+        <item name="android:progressBarStyleSmall">@style/ProgressBar.Small</item>
+        <item name="android:progressBarStyleLarge">@style/ProgressBar.Large</item>
+
+        <!--<item name="android:popupWindowStyle">@style/PopupWindow</item>-->
+    </style>
+
+
+    <style name="ProgressBar" parent="@android:style/Widget.ProgressBar">
+        <item name="android:minWidth">@dimen/dip_25</item>
+        <item name="android:minHeight">@dimen/dip_25</item>
+        <item name="android:maxWidth">@dimen/dip_25</item>
+        <item name="android:maxHeight">@dimen/dip_25</item>
+        <item name="android:indeterminateDrawable">@drawable/progress</item>
+        <item name="android:indeterminateDuration">1000</item>
+    </style>
+    <style name="ProgressBar.Small" parent="ProgressBar">
+        <item name="android:minWidth">@dimen/dip_10</item>
+        <item name="android:minHeight">@dimen/dip_10</item>
+        <item name="android:maxWidth">@dimen/dip_10</item>
+        <item name="android:maxHeight">@dimen/dip_10</item>
+    </style>
+    <style name="ProgressBar.Large" parent="ProgressBar">
+        <item name="android:minWidth">@dimen/dip_40</item>
+        <item name="android:minHeight">@dimen/dip_40</item>
+        <item name="android:maxWidth">@dimen/dip_40</item>
+        <item name="android:maxHeight">@dimen/dip_40</item>
+    </style>
+
+    <style name="PopupWindow" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    
+</resources>
