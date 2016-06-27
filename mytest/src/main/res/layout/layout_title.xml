@@ -9,5 +9,5 @@ s
         android:layout_height="44dp"
         android:text="title"
         android:gravity="center"
-        android:background="#80aa2211"/>
+        android:background="@color/red"/>
 </LinearLayout>

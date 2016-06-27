@@ -3,6 +3,8 @@ package com.hanbing.mytest;
 import android.app.Application;
 import android.content.Intent;
 
+import org.xutils.x;
+
 
 /**
  */
@@ -15,6 +17,8 @@ public class MyTestApplication extends Application {
     public MyTestApplication() {
         // TODO Auto-generated constructor stub
         mInstance = this;
+
+
 
     }
     
@@ -33,4 +37,10 @@ public class MyTestApplication extends Application {
         startActivity(i);
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        x.Ext.init(this);
+    }
 }

@@ -6,6 +6,8 @@ package com.hanbing.mytest.activity.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.common.image.ImageLoader;
+import com.common.view.CircleImageView;
 import com.common.view.RoundImageView;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
@@ -54,8 +56,10 @@ public class TestArcMenu extends BaseActivity {
 			final int size = 70;
 			LayoutParams params = new LayoutParams(size, size);
 			for (int i = 0; i < resIds.length; i++) {
-				RoundImageView imageView = new RoundImageView(this);
-				imageView.setImageResource(resIds[i]);
+				CircleImageView imageView = new CircleImageView(this);
+
+				ImageLoader.getInstance(getApplicationContext()).displayImage(imageView, "drawable://" + resIds[i]);
+
 				imageView.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -69,12 +73,13 @@ public class TestArcMenu extends BaseActivity {
 				arcMenu.setBackgroundColor(Color.GRAY);
 			}
 
+			arcMenu.setBackgroundColor(((int)Math.random() * 0xffffff) & 0xff000000);
 			menus[index] = arcMenu;
 			arcMenu.setDirection(directions[index]);
 		}
 
 		{
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, -1);
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, -2);
 			params.weight = 1;
 			layout1.addView(menus[0], params);
 			layout1.addView(menus[1], params);
@@ -110,6 +115,8 @@ public class TestArcMenu extends BaseActivity {
 
 		boolean mEnableStrength = true;
 		int mSize = 0;
+
+		boolean mOpenned = false;
 
 		/**
 		 * @param context
@@ -191,6 +198,10 @@ public class TestArcMenu extends BaseActivity {
 						@Override
 						public void onClick(View v) {
 							// TODO Auto-generated method stub
+							if (mOpenned)
+								close();
+							else
+
 							open();
 						}
 					});
@@ -271,6 +282,8 @@ public class TestArcMenu extends BaseActivity {
 				break;
 			}
 			startAnimate(startX, endX, true);
+
+			mOpenned = true;
 		}
 
 		public void close() {
@@ -296,6 +309,8 @@ public class TestArcMenu extends BaseActivity {
 				break;
 			}
 			startAnimate(startX, endX, false);
+
+			mOpenned = false;
 		}
 
 		List<Scroller> mScrollers;

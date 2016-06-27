@@ -9,7 +9,6 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.BitmapFactory;
 import android.os.IBinder;
 
 public class TestService extends Service {
@@ -60,7 +59,7 @@ public class TestService extends Service {
 
 
 		Notification.Builder builder = new Notification.Builder(this);
-		builder.setSmallIcon(R.drawable.icon)
+		builder.setSmallIcon(R.drawable.icon_center)
 //				.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.a))
 				.setTicker("Ticker:Foreground Service")
 				.setContentTitle("Title:This is foreground service")

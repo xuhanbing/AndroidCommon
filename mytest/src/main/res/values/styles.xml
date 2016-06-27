@@ -1,8 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -35,19 +33,19 @@
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <!--<item name="android:windowAnimationStyle">@style/AnimFade2</item>  -->
-<!--         <item name="android:windowBackground">@android:color/transparent</item> -->
-<!--         <item name="android:windowIsTranslucent">true</item> -->
+        <!--         <item name="android:windowBackground">@android:color/transparent</item> -->
+        <!--         <item name="android:windowIsTranslucent">true</item> -->
 
-<!-- toolbar（actionbar）颜色 -->
+        <!-- toolbar（actionbar）颜色 -->
         <item name="colorPrimary">@color/goldenrod</item>
         <!-- 状态栏颜色 -->
         <item name="colorPrimaryDark">#3A5FCD</item>
         <!-- 窗口的背景颜色 -->
         <item name="android:windowBackground">@android:color/white</item>
         <!-- SearchView -->
-         <item name="searchViewStyle">@style/Widget.AppCompat.SearchView</item>
+        <item name="searchViewStyle">@style/Widget.AppCompat.SearchView</item>
     </style>
-    
+
     <style name="AnimFade2" parent="AppTheme">
         <item name="android:activityOpenEnterAnimation">@anim/in_from_right</item>
         <item name="android:activityOpenExitAnimation">@null</item>
@@ -60,15 +58,14 @@
         <item name="@android:windowEnterAnimation">@anim/anim_in_from_down</item>
         <item name="@android:windowExitAnimation">@anim/anim_out_to_down</item>
     </style> -->
-    
-    <style 
-        name="DialogAnim" parent ="AppTheme">
+
+    <style name="DialogAnim" parent="AppTheme">
         <item name="android:activityOpenEnterAnimation">@anim/anim_in_from_down</item>
         <item name="android:activityOpenExitAnimation">@anim/anim_in_from_down</item>
         <item name="android:activityCloseEnterAnimation">@anim/anim_out_to_down</item>
         <item name="android:activityCloseExitAnimation">@anim/anim_out_to_down</item>
     </style>
-    
+
     <style name="DialogTransparent" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/DialogAnim</item>
@@ -77,22 +74,21 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
-    
+
     <style name="EditTextStyle" parent="@android:style/TextAppearance">
         <item name="android:background">@drawable/bg_edittext</item>
         <item name="android:padding">2px</item>
     </style>
-    
-    <style name="TextViewStyle" parent="@android:style/TextAppearance">
-    </style>
-    
-     <!-- Copy one of these attributes to your own theme (choose either dark or light).
+
+    <style name="TextViewStyle" parent="@android:style/TextAppearance"></style>
+
+    <!-- Copy one of these attributes to your own theme (choose either dark or light).
         <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
         <item name="numberPickerStyle">@style/NPWidget.Holo.Light.NumberPicker</item>
     -->
 
     <!-- Don't touch this -->
-   <!-- <attr name="numberPickerStyle" format="reference" />
+    <!-- <attr name="numberPickerStyle" format="reference" />
  
     <declare-styleable name="NumberPicker">
         @hide Color for the solid color background if such for optimized rendering.
@@ -140,26 +136,30 @@
     <style name="NPWidget.Holo.Light.NumberPicker" parent="NPWidget.Holo.NumberPicker">
         <item name="virtualButtonPressedDrawable">@drawable/item_background_holo_light</item>
     </style> -->
-    
-    <style name="ProgressBar_Mini" parent="@android:style/Widget.ProgressBar.Horizontal">  
-       <item name="android:maxHeight">50dip</item>  
-       <item name="android:minHeight">8dip</item>  
-       <item name="android:indeterminateOnly">false</item>  
-       <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>  
-       <item name="android:progressDrawable">@drawable/progressbar_mini</item>  
-   </style> 
-   
-    
+
+    <style name="ProgressBar_Mini" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:maxHeight">50dip</item>
+        <item name="android:minHeight">8dip</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
+        <item name="android:progressDrawable">@drawable/progressbar_mini</item>
+    </style>
+
+
     <style name="MainTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-        
+
     </style>
-    
+
 
     <style name="CustomTitleTheme" parent="AppTheme">
         <item name="android:windowNoTitle">false</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowActionBarOverlay">false</item>
     </style>
-    
+
+    <style name="Rating" parent="@android:style/Widget.Holo.RatingBar"></style>
+
 </resources>

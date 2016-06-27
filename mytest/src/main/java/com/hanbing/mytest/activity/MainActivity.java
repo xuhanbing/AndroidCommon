@@ -41,19 +41,15 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.TextView;
 
-import com.common.base.BaseAppCompatActivity;
+import com.common.activity.BaseAppCompatActivity;
 import com.common.util.ToastUtils;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.action.TestShortcut;
-import com.hanbing.mytest.activity.view.TestRecyclerView2;
-import com.hanbing.mytest.activity.view.TestScrollView3;
 import com.hanbing.mytest.fragment.NumFragment;
 import com.hanbing.mytest.module.TestJni;
 import com.hanbing.mytest.service.TestService;
 import com.hanbing.mytest.view.RoundDrawable;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;

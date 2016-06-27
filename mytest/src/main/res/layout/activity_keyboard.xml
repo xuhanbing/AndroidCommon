@@ -34,7 +34,7 @@
         <ImageView 
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:src="@drawable/icon"/>
+            android:src="@drawable/icon_center"/>
         <EditText 
         android:id="@+id/et_input"
         android:layout_width="match_parent"

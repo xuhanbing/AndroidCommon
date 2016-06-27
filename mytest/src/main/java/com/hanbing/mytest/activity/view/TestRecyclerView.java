@@ -13,7 +13,6 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
@@ -27,13 +26,15 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.common.base.BaseAppCompatActivity;
-import com.common.base.BaseRecycleViewAdaper;
+import com.common.activity.BaseAppCompatActivity;
+import com.common.adapter.BaseRecycleViewAdaper;
 import com.common.listener.OnItemClickListener;
+import com.common.listener.OnItemLongClickListener;
 import com.common.util.LogUtils;
 import com.common.util.SystemUtils;
 import com.common.util.ToastUtils;
 import com.common.util.ViewUtils;
+import com.common.widget.recyclerview.HeaderRecyclerView;
 import com.common.widget.recyclerview.animator.BaseSimpleItemAnimator;
 import com.common.widget.recyclerview.animator.FadeInItemAnimator;
 import com.common.widget.recyclerview.animator.FlipInBottomItemAnimator;
@@ -154,6 +155,8 @@ public class TestRecyclerView extends BaseAppCompatActivity {
 
 		addItemDecoration(horizontal ? OrientationHelper.HORIZONTAL : OrientationHelper.VERTICAL);
 		recyclerView.setLayoutManager(layoutManager);
+
+
 		recyclerView.getAdapter().notifyDataSetChanged();
 	}
 
@@ -244,7 +247,21 @@ public class TestRecyclerView extends BaseAppCompatActivity {
 
 		layoutManager = linearLayoutManager;
 		recyclerView.setLayoutManager(layoutManager);
+		if (recyclerView instanceof HeaderRecyclerView) {
+			HeaderRecyclerView headerRecyclerView = (HeaderRecyclerView) recyclerView;
 
+			for (int i = 0; i < 3; i++) {
+				TextView header = new TextView(this);
+				header.setText("header " + i);
+				header.setGravity(Gravity.CENTER);
+				headerRecyclerView.addHeaderView(header);
+
+				TextView footer = new TextView(this);
+				footer.setText("footer " + i);
+				footer.setGravity(Gravity.CENTER);
+				headerRecyclerView.addFooterView(footer);
+			}
+		}
 		recyclerView.setItemAnimator(new SlideInTopItemAnimator());
 
 
@@ -304,19 +321,24 @@ public class TestRecyclerView extends BaseAppCompatActivity {
 
 
 
-//                if (layoutManager instanceof StaggeredGridLayoutManager)
-//                {
-//                    int size = (int) (200 * Math.random() + 200);
-//
-//                    if (horizontal)
-//                        textView.setMinWidth(size);
-//                    else
-//                        textView.setMinHeight(size);
-//                } else {
-//
-//                    textView.setMinWidth(400);
-//                    textView.setMinWidth(400);
-//                }
+                if (layoutManager instanceof StaggeredGridLayoutManager)
+                {
+                    int size = (int) (200 * Math.random() + 200);
+
+                    if (horizontal)
+						holder.itemView.setMinimumWidth(size);
+                    else
+						holder.itemView.setMinimumHeight(size);
+                }
+				else if (layoutManager instanceof LinearLayoutManager) {
+					if (horizontal)
+						holder.itemView.setLayoutParams(new ViewGroup.LayoutParams(400, ViewGroup.LayoutParams.MATCH_PARENT));
+					else
+						holder.itemView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 400));
+				} else
+				{
+
+				}
 
 				holder.itemView.setMinimumWidth(200);
 				holder.itemView.setMinimumHeight(200);
@@ -339,7 +361,7 @@ public class TestRecyclerView extends BaseAppCompatActivity {
 
 		};
 
-		ViewUtils.bindOnItemClickListener(recyclerView, new OnItemClickListener(){
+		ViewUtils.bindOnItemClickListener(recyclerView, new OnItemClickListener() {
 
 
 			@Override
@@ -353,6 +375,8 @@ public class TestRecyclerView extends BaseAppCompatActivity {
 //				recyclerView.getAdapter().notifyItemInserted(position+1);
 			}
 
+
+		}, new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(RecyclerView recyclerView, View view, int position) {
 				ToastUtils.showToast(getApplicationContext(), "onItemLongClick " + position);

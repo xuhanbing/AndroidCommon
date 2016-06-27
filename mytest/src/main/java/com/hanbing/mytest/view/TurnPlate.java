@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.common.util.LogUtils;
+import com.common.util.ViewUtils;
 import com.hanbing.mytest.R;
 
 import android.content.Context;
@@ -24,8 +26,12 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
 /**
@@ -52,7 +58,7 @@ public class TurnPlate extends View {
     /**
      * �Ƕȱ����������ٶ�
      */
-    double ANGLE_SCALE = 0.6;
+    double ANGLE_SCALE = 1;
     
     /**
      * ƫת�Ƕȣ�y������Ϊ0��
@@ -123,6 +129,7 @@ public class TurnPlate extends View {
     public TurnPlate(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
+        init();
     }
 
     /**
@@ -132,6 +139,7 @@ public class TurnPlate extends View {
     public TurnPlate(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO Auto-generated constructor stub
+        init();
     }
 
     /**
@@ -142,9 +150,13 @@ public class TurnPlate extends View {
     public TurnPlate(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         // TODO Auto-generated constructor stub
+        init();
     }
-    
-    
+
+
+    void init(){
+    }
+
     boolean isInit = false;
     private void initValues()
     {
@@ -180,7 +192,6 @@ public class TurnPlate extends View {
     
     
     /**
-     * ��ƫת�Ƕȵõ�����λ�����ĵ�����
      * @param angle
      * @return
      */
@@ -199,24 +210,32 @@ public class TurnPlate extends View {
     /* (non-Javadoc)
      * @see android.view.View#onDraw(android.graphics.Canvas)
      */
+
+
     @Override
     protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
         super.onDraw(canvas);
-        
         initValues();
-        
+
         drawContents(canvas);
-        
+
     }
     
     
     Bitmap _bm = null;
     private void drawContents(Canvas canvas)
     {
+
+        Shader shader = new LinearGradient(0, 0, getWidth(), 20, new int[] {Color.RED, Color.GREEN, Color.BLUE}, new float[]{0, 0.5f, 1}, Shader.TileMode.CLAMP);
+
+        _paint.setShader(shader);
+
+        canvas.drawRect(new Rect(0, 0, getWidth(), 20), _paint);
+        _paint.setShader(null);
         
 //        _paint.setStyle(Style.STROKE);
-        _paint.setColor(Color.BLACK);
+        _paint.setColor(Color.LTGRAY);
         canvas.drawCircle(_center.x, _center.y, _radiusOuter, _paint);
         _paint.setColor(Color.GRAY);
         canvas.drawCircle(_center.x, _center.y, _radiusRing, _paint);
@@ -225,7 +244,7 @@ public class TurnPlate extends View {
         
         _paint.setStyle(Style.FILL);
         int size = (int) ((_radiusOuter - _radiusInner) / Math.sqrt(2));
-        int[] colors = {Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
+        int[] colors = {0xc0ff0000, 0xc000ff00, 0xc00000ff};
         int[] imageResIds = {R.drawable.p1, R.drawable.p2, R.drawable.p3};
         
 //        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.p1);
@@ -237,60 +256,69 @@ public class TurnPlate extends View {
         
         for (int i = 0; i < _contentList.size(); i++)
         {
-            PointF center = getCenterPoint(_angle + i * _angleSpace);
+            canvas.save();
+
+            PointF center = getCenterPoint(0);
+
+            float angle = (float)(_angle + i * _angleSpace);
+            LogUtils.e("" + i + ", _angle = " + _angle );
+
+            canvas.rotate(angle, getWidth() / 2, getHeight() / 2);
             
             Rect r = new Rect();
             r.left = (int) (center.x - size / 2);
             r.right = (int) (center.x + size / 2);
             r.top = (int) (center.y - size / 2);
             r.bottom = (int) (center.y + size / 2);
-            
-            
+
+
             _paint.setColor(colors[i % colors.length]);
-            canvas.drawRect(r, _paint);
-            
-            
-//            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_turnplate, null);
+
+//            canvas.drawRect(r, _paint);
+
+
+//            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_turnplate, (ViewGroup) getParent());
 //            TextView text = (TextView) view.findViewById(R.id.tv_turnplate_info);
 //            text.setText("item " + i);
-//            
+//
 //            ImageView image = (ImageView) view.findViewById(R.id.tv_turnplate_icon);
-//            image.setImageResource(R.drawable.ic_launcher);
-//            
+//            image.setImageBitmap(_bm);
+//
 //            view.draw(canvas);
-            
-            
-            int textSize = 50;
-            int bmSize = size - textSize;
-            
-            Rect rect = new Rect();
-            rect.left = (int) (center.x - bmSize / 2);
-            rect.right = rect.left + bmSize;
-            rect.top = (int) (center.y - size / 2);
-            rect.bottom = rect.top + bmSize;
-            
-            canvas.drawBitmap(_bm, null, rect, _paint);
-            
-            int x = (int) center.x;
-            int y = (int) (center.y + (bmSize - size/2) + textSize /2 + textSize / 4);
-            
-            _paint.setTextAlign(Align.CENTER);
-            _paint.setColor(Color.BLACK);
-            _paint.setTextSize(textSize);
 
-//            LinearGradient gradient = new LinearGradient(x, y, x+200, y, Color.RED, Color.GREEN, Shader.TileMode.CLAMP);
-//            _paint.setShader(gradient);
-            String text = "item " + i;
-            canvas.drawText(text, x, y, _paint);
+
+//            int textSize = 50;
+//            int bmSize = size - textSize;
+//
+//            Rect rect = new Rect();
+//            rect.left = (int) (center.x - bmSize / 2);
+//            rect.right = rect.left + bmSize;
+//            rect.top = (int) (center.y - size / 2);
+//            rect.bottom = rect.top + bmSize;
+//
+//            canvas.drawBitmap(_bm, null, rect, _paint);
+//
+//            int x = (int) center.x;
+//            int y = (int) (center.y + (bmSize - size/2) + textSize /2 + textSize / 4);
+//
+//            _paint.setTextAlign(Align.CENTER);
+//            _paint.setColor(Color.BLACK);
+//            _paint.setTextSize(textSize);
+//
+////            LinearGradient gradient = new LinearGradient(x, y, x+200, y, Color.RED, Color.GREEN, Shader.TileMode.CLAMP);
+////            _paint.setShader(gradient);
+//            String text = "item " + i;
+//            canvas.drawText(text, x, y, _paint);
+
+            canvas.restore();
         }
         
         
         
     }
-    
+
     /**
-     * �Զ���ת
-     * @param isCw �Ƿ���˳ʱ��
+     * @param isCw
      */
     private void autoTurn(final boolean isCw)
     {
@@ -328,7 +356,6 @@ public class TurnPlate extends View {
     }
     
     /**
-     * ת���Ƕ�
      * @param angle
      */
     private void turn(double angle)
@@ -336,6 +363,8 @@ public class TurnPlate extends View {
         angle *= ANGLE_SCALE;
         
         _angle += angle;
+
+        _angle %= 360;
         
         this.postInvalidate();
     }
@@ -345,10 +374,17 @@ public class TurnPlate extends View {
     PointF _lastPoint;
     PointF _curPoint;
     PointF _downPoint;
-    long _downTime; 
+    long _downTime;
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return onTouchEvent(ev);
+    }
+
     /* (non-Javadoc)
-     * @see android.view.View#onTouchEvent(android.view.MotionEvent)
-     */
+         * @see android.view.View#onTouchEvent(android.view.MotionEvent)
+         */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
@@ -382,7 +418,6 @@ public class TurnPlate extends View {
     }
 
     /**
-     * ת��
      */
     private void move() {
         // TODO Auto-generated method stub
@@ -395,7 +430,6 @@ public class TurnPlate extends View {
     }
     
     /**
-     * �������Ҷ������нǣ�ͬʱ������˳ʱ�뻹����ʱ����ת
      * @return
      */
     private double calcAngle()
@@ -419,7 +453,6 @@ public class TurnPlate extends View {
     }
     
     /**
-     * �Ƿ���˳ʱ��
      * @return
      */
     private boolean isCwDiretion(PointF lastPoint, PointF curPoint)
@@ -455,15 +488,12 @@ public class TurnPlate extends View {
             isCw = false;
         }
         
-        log("angleLast=" + (int)Math.toDegrees(angleLast)
-           + ",angleCur=" + (int)Math.toDegrees(angleCur)
-           + ",cw=" + isCw);
+
         
         return isCw;
     }
     
     /**
-     * ������������
      * @param p0
      * @param p1
      * @return
@@ -478,7 +508,6 @@ public class TurnPlate extends View {
     
     
     /**
-     * ת������centerΪԭ�������ϵ
      * @param point
      * @return
      */
@@ -490,9 +519,5 @@ public class TurnPlate extends View {
         return p;
     }
     
-    private void log(String msg)
-    {
-        System.out.println(msg);
-    }
-    
+
 }

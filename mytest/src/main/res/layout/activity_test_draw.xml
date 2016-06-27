@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hanbing.mytest.view.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_container"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    >
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blueviolet"
+        android:layout_weight="1"></android.support.v4.view.ViewPager>
+
+
+        <LinearLayout
+            android:id="@+id/layout_rotate"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal"
+            android:background="@color/orange"
+            >
+                <com.hanbing.mytest.view.RotatePlate
+                    android:id="@+id/rotatePlate"
+                    android:padding="4dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:background="@drawable/circle"
+                    android:layout_gravity="bottom"
+                    >
+                </com.hanbing.mytest.view.RotatePlate>
+
+
+        </LinearLayout>
+
+</com.hanbing.mytest.view.LinearLayout>

@@ -32,7 +32,7 @@
       
         android:visibility="gone"
         android:layout_centerVertical="true"
-        style="@drawable/icon"
+        style="@drawable/icon_center"
         />
     <ImageView
         android:id="@+id/pull_to_refresh_image"

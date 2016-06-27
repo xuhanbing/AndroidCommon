@@ -3,19 +3,17 @@ package com.hanbing.mytest.activity.view;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 
-import com.common.tool.ScrollViewTransitionController;
+import com.common.tool.ScrollableViewTransitionController;
 import com.common.util.LogUtils;
 import com.common.util.ViewUtils;
 import com.common.view.PullScaleScrollView;
+import com.common.view.StrengthScrollView;
 import com.hanbing.mytest.R;
 
 public class TestScrollView3 extends AppCompatActivity {
-
-
 
 
 
@@ -40,23 +38,36 @@ public class TestScrollView3 extends AppCompatActivity {
         if (scrollView instanceof PullScaleScrollView)
         {
             ((PullScaleScrollView) scrollView).setScaleView(imageView);
+
         }
 
-        ScrollViewTransitionController.setControlViews(scrollView, view, moveView, new ScrollViewTransitionController.OnTransitionListener() {
+        ((StrengthScrollView) scrollView).setOnPullListener(new StrengthScrollView.OnPullListener() {
             @Override
-            public void onScaleMove(float moveY, float moveScale) {
+            public void onPull(float dy, float y, float max) {
+                LogUtils.e("onPull " + dy);
+            }
 
-                LogUtils.e("onScaleMove moveScale = " + moveScale);
+            @Override
+            public void onMoveBack(float dy, float y, float max) {
+                LogUtils.e("onMoveBack " + dy);
+            }
+        });
+
+        ScrollableViewTransitionController.setControlViews(scrollView, view, moveView, false, new ScrollableViewTransitionController.OnScrollListener() {
+            @Override
+            public void onScroll(float scrollY, float scrollScale) {
+
+                LogUtils.e("onScaleMove moveScale = " + scrollScale);
 
                 int color = getResources().getColor(R.color.blueviolet);
 
-                int newColor = ScrollViewTransitionController.scaleColorAlpha(color, moveScale);
+                int newColor = ScrollableViewTransitionController.scaleColorAlpha(color, scrollScale);
 
                 view.setBackgroundColor(newColor);
 
-                float scale = moveScale;
+                float scale = scrollScale;
 
-                if (moveScale >= 1.0) {
+                if (scrollScale >= 1.0) {
 
                     staticView.setVisibility(View.VISIBLE);
                 } else {
@@ -66,10 +77,9 @@ public class TestScrollView3 extends AppCompatActivity {
                 ViewUtils.setScale(view, scale, scale);
             }
 
-            @Override
-            public void onScalePull(float pullY, float pullScale) {
-
-            }
         });
+
+
+
     }
 }

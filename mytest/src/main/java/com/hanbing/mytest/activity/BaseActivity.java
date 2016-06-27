@@ -1,22 +1,14 @@
 package com.hanbing.mytest.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Scroller;
-import android.widget.TextView;
 
-import com.common.base.BaseAppCompatActivity;
 import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
-import com.hanbing.mytest.R;
 
-public class BaseActivity extends com.common.base.BaseActivity {
+public class BaseActivity extends com.common.activity.BaseActivity {
 
 
 	float downX = 0;

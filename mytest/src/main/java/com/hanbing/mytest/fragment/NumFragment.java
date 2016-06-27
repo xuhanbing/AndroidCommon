@@ -93,7 +93,8 @@ public class NumFragment extends Fragment{
 //        BitmapUtils bmu = new BitmapUtils(getActivity());
 //        bmu.display(text, "/storage/sdcard0/Samples/Pictures/Picture_A_Beach.jpg");
 
-        view.setBackgroundColor(num % 2 == 0 ? Color.RED : Color.GREEN);
+        int [] colors = {Color.RED, Color.GREEN, Color.YELLOW, Color.BLUE};
+        view.setBackgroundColor(colors[num % colors.length]);
         view.setTag(num);
         return view;//super.onCreateView(inflater, container, savedInstanceState);
     }

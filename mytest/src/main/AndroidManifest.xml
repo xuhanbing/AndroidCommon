@@ -48,9 +48,14 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+
     <application
+        android:name=".MyTestApplication"
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/icon_center"
         android:installLocation="preferExternal"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
@@ -146,7 +151,15 @@
         <activity android:name=".activity.view.TestShaderView" />
         <activity android:name=".activity.view.TestMatrix" />
         <activity android:name=".activity.view.TestSwipeRefreshLayout" />
-        <activity android:name=".activity.view.TestWebView" />
+        <activity android:name=".activity.view.TestWebView">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="http://" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.view.TestAutoCompleteText" />
         <activity android:name=".activity.view.TestDrawable" />
         <activity
@@ -210,7 +223,31 @@
         <activity android:name=".activity.action.TestAsyncTask" />
         <activity android:name=".activity.action.TestTextToSpeech" />
         <activity android:name=".activity.action.TestUpload" />
-        <activity android:name=".activity.action.TestGetPicture" />
+        <activity android:name=".activity.action.TestGetPicture">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.GET_CONTENT" /> -->
+            <!-- <category android:name="android.intent.category.OPENABLE" /> -->
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- <data android:mimeType="image/*" /> -->
+            <!-- <data android:mimeType="video/*" /> -->
+            <!-- </intent-filter> -->
+            <!--  -->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.PICK" /> -->
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- <data android:mimeType="image/*" /> -->
+            <!-- <data android:mimeType="video/*" /> -->
+            <!-- </intent-filter> -->
+
+        </activity>
         <activity android:name=".activity.action.TestTouch" />
         <activity android:name=".activity.action.TestActionBar" />
         <activity android:name=".activity.fragment.TestFragment" />
@@ -254,7 +291,43 @@
         <activity
             android:name=".activity.view.TestContinueScrollListView"
             android:label="VIEW/ListView/Continue Scroll ListView" />
-        <activity android:name=".activity.fragment.TestListFragment"></activity>
+        <activity android:name=".activity.fragment.TestListFragment" />
+        <activity
+            android:name=".activity.material.BlankActivity"
+            android:label="@string/title_activity_blank"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.material.LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".activity.material.ItemListActivity"
+            android:label="@string/title_item_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.material.ItemDetailActivity"
+            android:label="@string/title_item_detail"
+            android:parentActivityName=".activity.material.ItemListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hanbing.mytest.activity.material.ItemListActivity" />
+        </activity>
+        <activity
+            android:name=".activity.material.DrawerActivity"
+            android:label="@string/title_activity_drawer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.material.ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.material.SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".activity.view.TestFastLocateListView"
+            android:label="view/ListView/Fast Locate ListView" />
+        <activity android:name=".activity.action.TestHttp" />
+        <activity android:name=".activity.fragment.TestRecyclerViewFragment"></activity>
     </application>
 
 </manifest>

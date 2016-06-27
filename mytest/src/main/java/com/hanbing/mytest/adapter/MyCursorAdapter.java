@@ -117,7 +117,7 @@ public class MyCursorAdapter extends CursorAdapter {
         // TODO Auto-generated method stub
         
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_list, null, false);
+        View view = inflater.inflate(R.layout.item_list_simple, null, false);
         
         TextView name = (TextView) view.findViewById(R.id.tv_name);
         TextView age = (TextView) view.findViewById(R.id.tv_age);

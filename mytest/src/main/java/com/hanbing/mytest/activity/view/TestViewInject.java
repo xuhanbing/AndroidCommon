@@ -3,7 +3,7 @@ package com.hanbing.mytest.activity.view;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.common.base.BaseAppCompatActivity;
+import com.common.activity.BaseAppCompatActivity;
 import com.common.util.ViewUtils;
 import com.hanbing.mytest.R;
 
