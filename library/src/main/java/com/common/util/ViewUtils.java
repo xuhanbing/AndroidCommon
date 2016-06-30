@@ -167,7 +167,10 @@ public class ViewUtils {
         return view;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static  void setScale(View view, float scale) {
+        setScale(view, scale, scale);
+    }
+
     public static void setScale(View view, float scaleX, float scaleY) {
         if (null == view)
             return;
@@ -270,6 +273,15 @@ public class ViewUtils {
         FragmentTabHostAndViewPagerInitHelper helper = new FragmentTabHostAndViewPagerInitHelper(context, viewPager, fragmentTabHost, fragmentManager, viewFactory, tags, onPageChangeListener, onTabChangeListener);
 
         helper.init();
+    }
+
+
+    public static void bindOnItemClickListener(RecyclerView recyclerView, OnItemClickListener onItemClickListener) {
+        bindOnItemClickListener(recyclerView, onItemClickListener, null);
+    }
+
+    public static void bindOnItemLongClickListener(RecyclerView recyclerView, OnItemLongClickListener onItemLongClickListener) {
+        bindOnItemClickListener(recyclerView, null, onItemLongClickListener);
     }
 
     /**

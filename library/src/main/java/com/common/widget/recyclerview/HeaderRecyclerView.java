@@ -254,7 +254,7 @@ public class HeaderRecyclerView extends BaseRecyclerView {
     public void removeFooterView(View view)
     {
         if (null == mFooters)
-            return;;
+            return;
 
         mFooters.remove(view);
     }

@@ -371,8 +371,6 @@ public class RotatePlate extends ViewGroup implements ViewPager.OnPageChangeList
     }
     void autoRotate(final int angle, boolean fromInner) {
 
-        LogUtils.e("auto turn " + angle);
-
         if (null == mScroller) {
             mScroller = new RotateScroller(getContext());
         }

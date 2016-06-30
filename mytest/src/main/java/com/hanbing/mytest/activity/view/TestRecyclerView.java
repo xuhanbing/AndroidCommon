@@ -543,7 +543,7 @@ public class TestRecyclerView extends BaseAppCompatActivity {
 		}
 		builder.setColor(Color.GREEN)
 //				.setDrawableRes(R.drawable.logo_custom_sina)
-				.setOrientation(orientation).setSize(10);
+				.setSize(10);
 
 
 		if (null != itemDecoration)

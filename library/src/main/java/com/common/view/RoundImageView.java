@@ -11,12 +11,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Shader.TileMode;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.androidcommon.R;
@@ -37,12 +37,12 @@ public class RoundImageView extends ImageView {
     /**
      * 圆角大小的默认值
      */
-    private static final int BODER_RADIUS_DEFAULT = 10;
+    private static final int BORDER_RADIUS_DEFAULT = 10;
 
     /**
      * 边界大小
      */
-    private int mBorderWidth = 0;
+    private int mBorderSize = 0;
 
     /**
      * 边界颜色
@@ -50,21 +50,21 @@ public class RoundImageView extends ImageView {
     private int mBorderColor = Color.TRANSPARENT;
 
     /**
-     *
-     */
-    private Paint mBorderPaint = new Paint();
-
-    /**
      * 圆角的大小
      */
     private int mBorderRadius;
+
+    /**
+     *
+     */
+    private Paint mBorderPaint = new Paint();
 
     /**
      * 绘图的Paint
      */
     private Paint mBitmapPaint;
     /**
-     * 圆角的半径
+     * 圆的半径
      */
     private int mRadius;
     /**
@@ -120,7 +120,7 @@ public class RoundImageView extends ImageView {
 
         mType = a.getInt(R.styleable.RoundImageView_type, TYPE_ROUND);
 
-        mBorderWidth = a.getDimensionPixelSize(
+        mBorderSize = a.getDimensionPixelSize(
                 R.styleable.RoundImageView_borderSize, 0);
 
         mBorderColor = a.getColor(R.styleable.RoundImageView_borderColor,
@@ -128,14 +128,17 @@ public class RoundImageView extends ImageView {
 
 
         mBorderRadius = a.getDimensionPixelSize(
-                R.styleable.RoundImageView_radius, BODER_RADIUS_DEFAULT);
+                R.styleable.RoundImageView_radius, BORDER_RADIUS_DEFAULT);
 
         a.recycle();
 
         mBorderPaint.setColor(mBorderColor);
         mBorderPaint.setAntiAlias(true);
-        mBorderPaint.setStyle(Paint.Style.STROKE);
-        mBorderPaint.setStrokeWidth(mBorderWidth);
+        mBorderPaint.setStyle(Paint.Style.FILL);
+        mBorderPaint.setStrokeWidth(mBorderSize);
+
+        //center
+        setScaleType(ScaleType.CENTER);
     }
 
 
@@ -143,13 +146,9 @@ public class RoundImageView extends ImageView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        /**
-         * 如果类型是圆形，则强制改变view的宽高一致，以小值为准
-         */
         if (mType == TYPE_CIRCLE) {
             mWidth = Math.min(getMeasuredWidth(), getMeasuredHeight());
             mRadius = mWidth / 2;
-//            setMeasuredDimension(mWidth, mWidth);
         }
 
     }
@@ -163,7 +162,10 @@ public class RoundImageView extends ImageView {
             return;
         }
 
-        Bitmap bmp = drawableToBitamp(drawable);
+        if (null != mBitmapShader)
+            return;
+
+        Bitmap bmp = drawableToBitmap(drawable);
         // 将bmp作为着色器，就是在指定区域内绘制bmp
         mBitmapShader = new BitmapShader(bmp, TileMode.CLAMP, TileMode.CLAMP);
         int width = getWidth();
@@ -177,15 +179,16 @@ public class RoundImageView extends ImageView {
             // 拿到bitmap宽或高的小值
             int bSize = Math.min(bmp.getWidth(), bmp.getHeight());
 
-            contentWidth = contentHeight  = mWidth -  2 * mBorderWidth;
+            contentWidth = contentHeight  = mWidth -  2 * mBorderSize;
                     scale = contentHeight * 1.0f / bSize;
 
 
         } else if (mType == TYPE_ROUND) {
+            contentWidth = width - mBorderSize * 2;
+            contentHeight = height - mBorderSize * 2;
             // 如果图片的宽或者高与view的宽高不匹配，计算出需要缩放的比例；缩放后的图片的宽高，一定要大于我们view的宽高；所以我们这里取大值；
-            scale = Math.max(getWidth() * 1.0f / bmp.getWidth(), getHeight() * 1.0f / bmp.getHeight());
-            contentWidth = width - mBorderWidth * 2;
-            contentHeight = height - mBorderWidth * 2;
+            scale = Math.max(contentWidth * 1.0f / bmp.getWidth(), contentHeight * 1.0f / bmp.getHeight());
+
         }
         // shader的变换矩阵，我们这里主要用于放大或者缩小
         mMatrix.setScale(scale, scale);
@@ -207,7 +210,7 @@ public class RoundImageView extends ImageView {
      * @param drawable
      * @return
      */
-    private Bitmap drawableToBitamp(Drawable drawable) {
+    private Bitmap drawableToBitmap(Drawable drawable) {
         if (null == drawable)
             return null;
 
@@ -289,19 +292,27 @@ public class RoundImageView extends ImageView {
         }
         setUpShader();
 
+
         if (mType == TYPE_ROUND) {
 
-            if (mBorderWidth > 0) {
+            if (mBorderSize > 0) {
                 canvas.drawRoundRect(mBorderRoundRect, mBorderRadius, mBorderRadius, mBorderPaint);
-
             }
+
             canvas.drawRoundRect(mRoundRect, mBorderRadius, mBorderRadius, mBitmapPaint);
+
         } else {
             int centerX = getWidth() / 2;
             int centerY = getHeight() / 2;
-            if (mBorderWidth > 0)
-                canvas.drawCircle(centerX, centerY, mRadius - mBorderWidth / 2, mBorderPaint);
-            canvas.drawCircle(centerX, centerY, mRadius - mBorderWidth, mBitmapPaint);
+            if (mBorderSize > 0)
+            {
+                int offset = 0;
+                if (mBorderPaint.getStyle() == Paint.Style.STROKE) {
+                    offset = mBorderSize / 2;
+                }
+                canvas.drawCircle(centerX, centerY, mRadius - offset, mBorderPaint);
+            }
+            canvas.drawCircle(centerX, centerY, mRadius - mBorderSize, mBitmapPaint);
 
             // drawSomeThing(canvas);
         }
@@ -315,11 +326,18 @@ public class RoundImageView extends ImageView {
             mBorderRoundRect = new RectF(0, 0, getWidth(), getHeight());
             mRoundRect = new RectF(mBorderRoundRect);
 
-            if (mBorderWidth > 0) {
-                mRoundRect.left += mBorderWidth;
-                mRoundRect.right -= mBorderWidth;
-                mRoundRect.top += mBorderWidth;
-                mRoundRect.bottom -= mBorderWidth;
+            if (mBorderSize > 0) {
+
+                if (mBorderPaint.getStyle() == Paint.Style.STROKE)
+                {
+                    int offset = mBorderSize / 2;
+                    mBorderRoundRect.set(offset, offset, getWidth() - offset, getHeight() - offset);
+                }
+
+                mRoundRect.left += mBorderSize;
+                mRoundRect.right -= mBorderSize;
+                mRoundRect.top += mBorderSize;
+                mRoundRect.bottom -= mBorderSize ;
             }
         }
     }

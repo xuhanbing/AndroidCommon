@@ -23,6 +23,7 @@ import com.common.util.DipUtils;
 import com.common.util.LogUtils;
 import com.common.util.ViewUtils;
 import com.hanbing.mytest.activity.BaseActivity;
+import com.hanbing.mytest.activity.view.TestPtr;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +34,7 @@ import java.util.Map;
 
 public class NewMainActivity extends BaseActivity {
 
+    Class<?> DEFAULT_CLASS = TestPtr.class;
 
     String key;
 
@@ -43,7 +45,6 @@ public class NewMainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
 
         super.onCreate(savedInstanceState);
@@ -57,6 +58,10 @@ public class NewMainActivity extends BaseActivity {
         listView = ViewUtils.findViewById(this, R.id.listView);
 
         init(getIntent());
+
+        if (null != DEFAULT_CLASS) {
+            startActivity(new Intent(this, DEFAULT_CLASS));
+        }
     }
 
     @Override

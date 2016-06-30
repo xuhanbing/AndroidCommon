@@ -101,7 +101,6 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
 
         mIsLongPress = true;
 
-        LogUtils.e("long press : " + e.getAction());
         RecyclerView rv = mRecyclerView;
         View child = rv.findChildViewUnder(e.getX(), e.getY());
 

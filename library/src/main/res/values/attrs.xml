@@ -7,31 +7,31 @@
     -->
 
     <!-- Don't touch this -->
-    <attr name="numberPickerStyle" format="reference" />
+    <attr name="numberPickerStyle" format="reference"/>
 
     <declare-styleable name="NumberPicker">
         <!-- @hide Color for the solid color background if such for optimized rendering. -->
-        <attr name="solidColor" format="color|reference" />
+        <attr name="solidColor" format="color|reference"/>
         <!-- @hide The divider for making the selection area. -->
-        <attr name="selectionDivider" format="reference" />
+        <attr name="selectionDivider" format="reference"/>
         <!-- @hide The height of the selection divider. -->
-        <attr name="selectionDividerHeight" format="dimension" />
+        <attr name="selectionDividerHeight" format="dimension"/>
         <!-- @hide The distance between the two selection dividers. -->
-        <attr name="selectionDividersDistance" format="dimension" />
+        <attr name="selectionDividersDistance" format="dimension"/>
         <!-- @hide The min height of the NumberPicker. -->
-        <attr name="internalMinHeight" format="dimension" />
+        <attr name="internalMinHeight" format="dimension"/>
         <!-- @hide The max height of the NumberPicker. -->
-        <attr name="internalMaxHeight" format="dimension" />
+        <attr name="internalMaxHeight" format="dimension"/>
         <!-- @hide The min width of the NumberPicker. -->
-        <attr name="internalMinWidth" format="dimension" />
+        <attr name="internalMinWidth" format="dimension"/>
         <!-- @hide The max width of the NumberPicker. -->
-        <attr name="internalMaxWidth" format="dimension" />
+        <attr name="internalMaxWidth" format="dimension"/>
         <!-- @hide The layout of the number picker. -->
-        <attr name="internalLayout" format="reference" />
+        <attr name="internalLayout" format="reference"/>
         <!-- @hide The drawable for pressed virtual (increment/decrement) buttons. -->
-        <attr name="virtualButtonPressedDrawable" format="reference" />
+        <attr name="virtualButtonPressedDrawable" format="reference"/>
         <!-- textcolor -->
-        <attr name="textColor" format="color|reference" />
+        <attr name="textColor" format="color|reference"/>
     </declare-styleable>
 
     <declare-styleable name="RoundImageView">
@@ -129,9 +129,60 @@
 
 
     <declare-styleable name="SwitchButton">
-
         <attr name="thumbDrawable" format="reference"></attr>
         <attr name="openBackground" format="reference"></attr>
         <attr name="closeBackground" format="reference"></attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="PtrLayout">
+
+        <!-- Orientation -->
+        <attr name="ptrOrientation" format="enum">
+            <enum name="HORIZONTAL" value="0"></enum>
+            <enum name="VERTICAL" value="1"></enum>
+        </attr>
+
+        <!-- If pull from start is enabled-->
+        <attr name="ptrPullFromStartEnabled" format="boolean"></attr>
+
+        <!-- If pull from end is enabled -->
+        <attr name="ptrPullFromEndEnabled" format="boolean"></attr>
+
+        <!-- If child will receive touch event when refreshing -->
+        <attr name="ptrDispatchTouchEventWhenRefreshing" format="boolean"></attr>
+
+        <!-- Hold header or footer when refreshing -->
+        <attr name="ptrHoldHeaderWhenRefreshing" format="boolean"></attr>
+
+        <!-- Refresh immediately or after scroll finished -->
+        <attr name="ptrRefreshImmediately" format="boolean"></attr>
+
+        <!-- Total move max distance -->
+        <attr name="ptrMaxMoveDistance" format="dimension"></attr>
+
+        <!-- Each move max distance -->
+        <attr name="ptrMaxMoveDelta" format="dimension"></attr>
+
+        <!-- Ratio to refresh according to header or footer size -->
+        <attr name="ptrRatioToRefresh" format="float"></attr>
+
+        <!-- Scroll duration -->
+        <attr name="ptrScrollDuration" format="integer"></attr>
+
+        <!-- Insure min refresh duration -->
+        <attr name="ptrInsureMinimumRefreshDuration" format="boolean"></attr>
+
+        <!-- Min duration from refreshing start to end -->
+        <attr name="ptrMinimumRefreshDuration" format="integer"></attr>
+
+        <!-- HeaderView Id -->
+        <attr name="ptrHeaderViewId" format="integer"></attr>
+
+        <!-- FooterView Id -->
+        <attr name="ptrFooterViewId" format="integer"></attr>
+
+        <!-- ContentView Id-->
+        <attr name="ptrContentViewId" format="integer"></attr>
     </declare-styleable>
 </resources>

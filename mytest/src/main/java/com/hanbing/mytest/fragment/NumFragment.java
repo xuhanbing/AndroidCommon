@@ -96,6 +96,8 @@ public class NumFragment extends Fragment{
         int [] colors = {Color.RED, Color.GREEN, Color.YELLOW, Color.BLUE};
         view.setBackgroundColor(colors[num % colors.length]);
         view.setTag(num);
+
+
         return view;//super.onCreateView(inflater, container, savedInstanceState);
     }
     

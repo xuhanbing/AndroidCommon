@@ -327,7 +327,8 @@
             android:name=".activity.view.TestFastLocateListView"
             android:label="view/ListView/Fast Locate ListView" />
         <activity android:name=".activity.action.TestHttp" />
-        <activity android:name=".activity.fragment.TestRecyclerViewFragment"></activity>
+        <activity android:name=".activity.fragment.TestRecyclerViewFragment" />
+        <activity android:name=".activity.view.TestPtr"></activity>
     </application>
 
 </manifest>
