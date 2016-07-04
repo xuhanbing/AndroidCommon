@@ -2,12 +2,12 @@
  */
 package com.common.view;
 
+import android.content.Context;
+import android.util.AttributeSet;
+
 import java.io.IOException;
 import java.io.InputStream;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.ImageView;
 import pl.droidsonroids.gif.GifDrawable;
 
 /**

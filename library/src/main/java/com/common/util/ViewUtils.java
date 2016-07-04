@@ -6,6 +6,7 @@ package com.common.util;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.support.v4.animation.AnimatorCompatHelper;
 import android.support.v4.app.Fragment;
@@ -328,6 +329,33 @@ public class ViewUtils {
         color = ((alpha & 0xff) << 24) | rgb;
 
         return color;
+
+    }
+
+
+    /**
+     * measure view
+     * @param parent
+     * @param child
+     * @param parentWidthMeasureSpec
+     * @param parentHeightMeasureSpec
+     */
+    public static void measureChild(ViewGroup parent, View child, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
+        if (null == parent || null == child)
+            return;
+        ReflectUtils.invokeVoidMethod(parent, "measureChild", new Class[]{View.class, int.class, int.class}, new Object[]{child, parentWidthMeasureSpec, parentHeightMeasureSpec});
+    }
+
+    /**
+     * draw view
+     * @param parent
+     * @param child
+     * @param canvas
+     */
+    public static void drawChild(ViewGroup parent, View child, Canvas canvas) {
+        if (null == parent || null == child || null == canvas)
+            return;
+        ReflectUtils.invokeVoidMethod(parent, "drawChild", new Class[]{Canvas.class, View.class, long.class}, canvas, child, parent.getDrawingTime());
 
     }
 }

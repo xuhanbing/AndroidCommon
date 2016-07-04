@@ -1,6 +1,7 @@
-package com.common.widget;
+package com.common.widget.plugin;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -13,13 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.util.DipUtils;
+import com.common.util.ViewUtils;
 
 import java.util.List;
 
 /**
  * Created by hanbing on 2016/6/16.
  */
-public class FastLocateLayout extends LinearLayout {
+public class FastLocateLayout extends LinearLayout implements IPluginWrapper {
 
     public interface Adapter {
 
@@ -132,7 +134,7 @@ public class FastLocateLayout extends LinearLayout {
 
     OnSelectedListener mOnSelectedListener;
 
-    public boolean consumeTouchEvent(MotionEvent ev) {
+    public boolean interceptTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mTouchInside = isTouchInside(ev);
@@ -212,7 +214,7 @@ public class FastLocateLayout extends LinearLayout {
         mEqualChildHeight = equal;
     }
 
-    void init(Adapter adapter) {
+   public void init(Adapter adapter) {
 
         List<String> tags = adapter.getTags();
         this.mTags = tags;
@@ -273,22 +275,35 @@ public class FastLocateLayout extends LinearLayout {
 
     }
 
-    public void measure(ViewGroup parent) {
+    public void measure(ViewGroup parent, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
+        if (null == parent)
+            return;
+
+        ViewUtils.measureChild(parent, this, parentWidthMeasureSpec, parentHeightMeasureSpec);
+
+        int paddingLeft = parent.getPaddingLeft();
+        int paddingRight = parent.getPaddingRight();
+        int paddingTop = parent.getPaddingTop();
+        int paddingBottom = parent.getPaddingBottom();
 
         int width =  getMeasuredWidth();
         int height = getMeasuredHeight();
 
-        int right = parent.getMeasuredWidth() - parent.getPaddingRight();
+        int right = parent.getMeasuredWidth() - paddingRight;
         int left = right - width;
-        int top = parent.getPaddingTop();
+        int top = paddingTop;
         int bottom = top + height;
         mRect.set(left, top, right, bottom);
     }
 
-    public void layout() {
+    public void layout(ViewGroup parent) {
         layout(mRect.left, mRect.top, mRect.right, mRect.bottom);
-
     }
+
+    public void draw(ViewGroup parent, Canvas canvas) {
+        ViewUtils.drawChild(parent, this, canvas);
+    }
+
 
     public void setOnSelectedListener(OnSelectedListener listener) {
         this.mOnSelectedListener = listener;

@@ -7,6 +7,8 @@ import android.view.MotionEvent;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.common.widget.plugin.FastLocateLayout;
+
 /**
  * Created by hanbing on 2016/6/15.
  */
@@ -46,35 +48,27 @@ public class FastLocateListView extends ListView implements FastLocateLayout.OnS
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        if (null != mFastLocateLayout)
-        {
-            measureChild(mFastLocateLayout, widthMeasureSpec, heightMeasureSpec);
-            mFastLocateLayout.measure(this);
-        }
+        if (null != mFastLocateLayout) mFastLocateLayout.measure(this, widthMeasureSpec, heightMeasureSpec);
+
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        if (null != mFastLocateLayout)
-            mFastLocateLayout.layout();
+        if (null != mFastLocateLayout) mFastLocateLayout.layout(this);
+
     }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (null != mFastLocateLayout) {
-            drawChild(canvas, mFastLocateLayout, getDrawingTime());
-        }
+        if (null != mFastLocateLayout)  mFastLocateLayout.draw(this, canvas);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (null != mFastLocateLayout
-                && mFastLocateLayout.consumeTouchEvent(ev))
-        {
+        if (null != mFastLocateLayout && mFastLocateLayout.interceptTouchEvent(ev))
             return true;
-        }
 
         return super.dispatchTouchEvent(ev);
     }
