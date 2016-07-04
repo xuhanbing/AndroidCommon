@@ -1,5 +1,9 @@
 package com.hanbing.mytest.activity.view;
 
+import com.common.util.LogUtils;
+import com.common.util.ViewUtils;
+import com.common.widget.list.DrawerListView;
+import com.common.widget.plugin.DrawerItemWrapper;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.view.SlideListView;
 import com.hanbing.mytest.view.SlideListView.SlideListAdapter;
@@ -18,13 +22,14 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class TestSlideListView extends Activity {
 
 
-	SlideListView listView;
+	ListView listView;
 	int count = 20;
 	public TestSlideListView() {
 		// TODO Auto-generated constructor stub
@@ -34,25 +39,41 @@ public class TestSlideListView extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
-		listView = new SlideListView(this);
-		listView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		listView.setAdapter(new MyAdapter());
-		listView.setBackgroundColor(Color.GREEN);
-		listView.setOnItemClickListener(new OnItemClickListener() {
 
-		    @Override
-		    public void onItemClick(AdapterView<?> parent, View view,
-			    int position, long id) {
-			// TODO Auto-generated method stub
-			Toast.makeText(getApplicationContext(), "click " + position, Toast.LENGTH_SHORT).show();
-		    }
-		});
-		listView.setFastScrollEnabled(true);
+
+		{
+//			SlideListView listView = new SlideListView(this);
+			final DrawerListView listView = new DrawerListView(this);
+			listView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			listView.setAdapter(new MyAdapter());
+			listView.setBackgroundColor(Color.GREEN);
+			listView.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+										int position, long id) {
+					// TODO Auto-generated method stub
+					LogUtils.e("onItemClick " + position);
+
+
+				}
+			});
+			listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+					LogUtils.e("onItemLongClick " + position);
+					return true;
+				}
+			});
+			listView.setFastScrollEnabled(true);
+
+			this.listView = listView;
+		}
+
 		setContentView(listView);
 	}
 	
-	public class MyAdapter extends BaseAdapter implements SlideListAdapter
+	public class MyAdapter extends BaseAdapter implements SlideListAdapter, DrawerItemWrapper.Adapter
 	{
 
 		@Override
@@ -96,8 +117,14 @@ public class TestSlideListView extends Activity {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					Toast.makeText(getApplicationContext(), "click option " + position, Toast.LENGTH_SHORT).show();
-					listView.closeMenu();
+					LogUtils.e("click option " + position);
+
+					if (listView instanceof SlideListView) {
+						((SlideListView)listView).closeMenu();
+					} else if (listView instanceof DrawerListView){
+						((DrawerListView)listView).closeDrawer();
+					}
+
 				}
 			});
 			textExtra.setOnTouchListener(new OnTouchListener() {
@@ -130,7 +157,19 @@ public class TestSlideListView extends Activity {
 		    }
 		    return child.getMeasuredWidth() - child.getWidth();
 		}
-		
+
+		@Override
+		public int getMaxScroll(int position) {
+			View child = listView.getChildAt(position - listView.getFirstVisiblePosition());
+			if (null != child)
+			{
+				View menu = ViewUtils.findViewById(child, R.id.layout_menu);
+				return menu.getMeasuredWidth();
+			}
+
+			return 0;
+		}
+
 		class ViewHolder
 		{
 		}

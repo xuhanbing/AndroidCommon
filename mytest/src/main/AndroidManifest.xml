@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hanbing.mytest"
-    android:versionCode="1"
-    android:versionName="1.0">
+<manifest package="com.hanbing.mytest"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:versionCode="1"
+          android:versionName="1.0">
 
-    <uses-sdk android:minSdkVersion="11" />
+    <uses-sdk android:minSdkVersion="11"/>
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_OWNER_DATA" />
-    <uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_OWNER_DATA"/>
+    <uses-permission android:name="android.permission.WRITE_OWNER_DATA"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <!-- 用于调用 JNI -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"/>
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
 
     <application
         android:name=".MyTestApplication"
@@ -63,173 +63,173 @@
             android:name=".activity.MainActivity"
             android:theme="@style/MainTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.view.TestSlideListView"
-            android:label="view/ListView/Slide ListView" />
+            android:label="view/ListView/Slide ListView"/>
         <activity
             android:name=".activity.view.TestExpandableList"
             android:label="view/ListView/Expandable ListView">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name=".activity.view.TestGridView">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name=".activity.view.TestCustomEditText">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name=".activity.view.TestRoundImageView">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name=".activity.view.TestMapView">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.view.TestScrollView" />
+        <activity android:name=".activity.view.TestScrollView"/>
         <activity
             android:name=".activity.view.TestListView"
-            android:label="view/ListView/Simple ListView" />
-        <activity android:name=".activity.view.TestViewPager" />
-        <activity android:name=".activity.view.TestPhoneCall" />
-        <activity android:name=".activity.view.TestDrawerLayout" />
+            android:label="view/ListView/Simple ListView"/>
+        <activity android:name=".activity.view.TestViewPager"/>
+        <activity android:name=".activity.view.TestPhoneCall"/>
+        <activity android:name=".activity.view.TestDrawerLayout"/>
         <activity
             android:name=".activity.view.TestPicSelector"
-            android:launchMode="standard" />
-        <activity android:name=".activity.view.TestPageText" />
-        <activity android:name=".activity.view.TestSlideLayout" />
-        <activity android:name=".activity.view.TestLargeText" />
-        <activity android:name=".activity.view.TestGridView2" />
-        <activity android:name=".activity.view.TestGifActivity" />
-        <activity android:name=".activity.view.TestProgress" />
-        <activity android:name=".activity.view.TestPhotoGallery" />
-        <activity android:name=".activity.view.TestQQWaterDrop" />
-        <activity android:name=".activity.view.TestViewFlipper" />
+            android:launchMode="standard"/>
+        <activity android:name=".activity.view.TestPageText"/>
+        <activity android:name=".activity.view.TestSlideLayout"/>
+        <activity android:name=".activity.view.TestLargeText"/>
+        <activity android:name=".activity.view.TestGridView2"/>
+        <activity android:name=".activity.view.TestGifActivity"/>
+        <activity android:name=".activity.view.TestProgress"/>
+        <activity android:name=".activity.view.TestPhotoGallery"/>
+        <activity android:name=".activity.view.TestQQWaterDrop"/>
+        <activity android:name=".activity.view.TestViewFlipper"/>
         <activity
             android:name=".activity.view.TestDraw"
             android:launchMode="standard"
-            android:theme="@style/AnimFade2" />
+            android:theme="@style/AnimFade2"/>
         <activity
             android:name=".activity.view.TestBookReader"
-            android:launchMode="standard" />
+            android:launchMode="standard"/>
         <activity
             android:name=".activity.view.TestSideBar"
-            android:launchMode="standard" />
-        <activity android:name=".activity.view.TestKeywordView" />
+            android:launchMode="standard"/>
+        <activity android:name=".activity.view.TestKeywordView"/>
         <activity
             android:name=".activity.view.TestCropPictureReal"
-            android:launchMode="standard" />
+            android:launchMode="standard"/>
         <activity
             android:name=".activity.view.TestPullToRefreshView"
-            android:label="view/ListView/Pull To Refresh ListView" />
+            android:label="view/ListView/Pull To Refresh ListView"/>
         <activity
             android:name=".activity.view.TestPinnedSectionListView"
-            android:label="view/ListView/PinnedSection ListView" />
-        <activity android:name=".activity.view.TestNumberPicker" />
-        <activity android:name=".activity.view.TestShaderView" />
-        <activity android:name=".activity.view.TestMatrix" />
-        <activity android:name=".activity.view.TestSwipeRefreshLayout" />
+            android:label="view/ListView/PinnedSection ListView"/>
+        <activity android:name=".activity.view.TestNumberPicker"/>
+        <activity android:name=".activity.view.TestShaderView"/>
+        <activity android:name=".activity.view.TestMatrix"/>
+        <activity android:name=".activity.view.TestSwipeRefreshLayout"/>
         <activity android:name=".activity.view.TestWebView">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
 
-                <data android:scheme="http://" />
+                <data android:scheme="http://"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.view.TestAutoCompleteText" />
-        <activity android:name=".activity.view.TestDrawable" />
+        <activity android:name=".activity.view.TestAutoCompleteText"/>
+        <activity android:name=".activity.view.TestDrawable"/>
         <activity
             android:name=".activity.view.TestListView2"
-            android:label="view/ListView/Simple ListView 2" />
-        <activity android:name=".activity.view.TestScrollView2" />
+            android:label="view/ListView/Simple ListView 2"/>
+        <activity android:name=".activity.view.TestScrollView2"/>
         <activity
             android:name=".activity.view.TestRecyclerView"
             android:label="view/RecyclerView/RecyclerView1"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.view.TestRecyclerView2"
             android:label="view/RecyclerView/RecyclerView2"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.view.TestArcMenu" />
-        <activity android:name=".activity.view.TestChart" />
-        <activity android:name=".activity.view.TestMaterialDesign" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.view.TestArcMenu"/>
+        <activity android:name=".activity.view.TestChart"/>
+        <activity android:name=".activity.view.TestMaterialDesign"/>
         <activity
             android:name=".activity.action.TestMediaRecorder"
-            android:launchMode="standard" />
-        <activity android:name=".activity.action.TestImageCompress" />
-        <activity android:name=".activity.action.TestNotification" />
-        <activity android:name=".activity.action.TestVolley" />
-        <activity android:name=".activity.action.TestTcp" />
-        <activity android:name=".activity.action.TestCalcTax" />
+            android:launchMode="standard"/>
+        <activity android:name=".activity.action.TestImageCompress"/>
+        <activity android:name=".activity.action.TestNotification"/>
+        <activity android:name=".activity.action.TestVolley"/>
+        <activity android:name=".activity.action.TestTcp"/>
+        <activity android:name=".activity.action.TestCalcTax"/>
         <activity
             android:name=".activity.action.TestQRCode"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
         <activity
             android:name=".activity.action.TestQRCode2"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
         <activity android:name=".activity.action.TestShortcut">
             <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.action.TestMediaPlayer" />
+        <activity android:name=".activity.action.TestMediaPlayer"/>
         <activity android:name=".activity.action.TestAppWindow">
             <intent-filter>
-                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.HOME"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.action.TestKeyguard"
             android:launchMode="singleInstance">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.HOME"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.action.TestKeyboard" />
+        <activity android:name=".activity.action.TestKeyboard"/>
         <activity
             android:name=".activity.action.TestKeyboardDialog"
-            android:theme="@style/DialogTransparent" />
-        <activity android:name=".activity.action.TestCropPicture" />
-        <activity android:name=".activity.action.TestSettings" />
+            android:theme="@style/DialogTransparent"/>
+        <activity android:name=".activity.action.TestCropPicture"/>
+        <activity android:name=".activity.action.TestSettings"/>
         <activity
             android:name=".activity.action.TestRestart"
-            android:launchMode="singleInstance" />
-        <activity android:name=".activity.action.TestAsyncTask" />
-        <activity android:name=".activity.action.TestTextToSpeech" />
-        <activity android:name=".activity.action.TestUpload" />
+            android:launchMode="singleInstance"/>
+        <activity android:name=".activity.action.TestAsyncTask"/>
+        <activity android:name=".activity.action.TestTextToSpeech"/>
+        <activity android:name=".activity.action.TestUpload"/>
         <activity android:name=".activity.action.TestGetPicture">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
 
-                <data android:mimeType="image/*" />
+                <data android:mimeType="image/*"/>
             </intent-filter>
 
             <!-- <intent-filter> -->
@@ -248,61 +248,61 @@
             <!-- </intent-filter> -->
 
         </activity>
-        <activity android:name=".activity.action.TestTouch" />
-        <activity android:name=".activity.action.TestActionBar" />
-        <activity android:name=".activity.fragment.TestFragment" />
-        <activity android:name=".activity.fragment.TestFragmentTab" />
-        <activity android:name=".activity.game.NewNew" />
+        <activity android:name=".activity.action.TestTouch"/>
+        <activity android:name=".activity.action.TestActionBar"/>
+        <activity android:name=".activity.fragment.TestFragment"/>
+        <activity android:name=".activity.fragment.TestFragmentTab"/>
+        <activity android:name=".activity.game.NewNew"/>
 
-        <service android:name=".service.PhoneCallService" />
-        <service android:name=".service.TestService" />
+        <service android:name=".service.PhoneCallService"/>
+        <service android:name=".service.TestService"/>
 
         <receiver android:name=".activity.TestAppWidget">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
+                android:resource="@xml/widget_info"/>
         </receiver>
 
-        <activity android:name=".activity.view.TestViewInject" />
-        <activity android:name=".activity.view.TestText" />
-        <activity android:name=".activity.view.TestScrollView3" />
-        <activity android:name=".activity.action.TestAnimation" />
-        <activity android:name=".activity.action.TestService" />
+        <activity android:name=".activity.view.TestViewInject"/>
+        <activity android:name=".activity.view.TestText"/>
+        <activity android:name=".activity.view.TestScrollView3"/>
+        <activity android:name=".activity.action.TestAnimation"/>
+        <activity android:name=".activity.action.TestService"/>
 
         <service
             android:name=".service.SimpleService"
-            android:process=":second" />
+            android:process=":second"/>
 
         <activity android:name=".NewMainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.broadcast.TestBroadcast" />
+        <activity android:name=".activity.broadcast.TestBroadcast"/>
         <activity
             android:name=".activity.view.TestCustomTitle"
-            android:theme="@style/CustomTitleTheme" />
+            android:theme="@style/CustomTitleTheme"/>
         <activity
             android:name=".activity.view.TestContinueScrollListView"
-            android:label="VIEW/ListView/Continue Scroll ListView" />
-        <activity android:name=".activity.fragment.TestListFragment" />
+            android:label="VIEW/ListView/Continue Scroll ListView"/>
+        <activity android:name=".activity.fragment.TestListFragment"/>
         <activity
             android:name=".activity.material.BlankActivity"
             android:label="@string/title_activity_blank"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.material.LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login"/>
         <activity
             android:name=".activity.material.ItemListActivity"
             android:label="@string/title_item_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.material.ItemDetailActivity"
             android:label="@string/title_item_detail"
@@ -310,25 +310,31 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hanbing.mytest.activity.material.ItemListActivity" />
+                android:value="com.hanbing.mytest.activity.material.ItemListActivity"/>
         </activity>
         <activity
             android:name=".activity.material.DrawerActivity"
             android:label="@string/title_activity_drawer"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.material.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.material.SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"/>
         <activity
             android:name=".activity.view.TestFastLocateListView"
-            android:label="view/ListView/Fast Locate ListView" />
-        <activity android:name=".activity.action.TestHttp" />
-        <activity android:name=".activity.fragment.TestRecyclerViewFragment" />
-        <activity android:name=".activity.view.TestPtr"></activity>
+            android:label="view/ListView/Fast Locate ListView"/>
+        <activity android:name=".activity.action.TestHttp"/>
+        <activity android:name=".activity.fragment.TestRecyclerViewFragment"/>
+        <activity android:name=".activity.view.TestPtr"/>
+        <activity
+            android:name=".activity.view.TestPinnedSectionRecyclerView"
+            android:label="view/RecyclerView/Pinned Section RecyclerView">
+        </activity>
+        <activity android:name=".activity.view.TestSlideRecyclerView" android:label="view/RecyclerView/Slide To Delete RecyclerView">
+        </activity>
     </application>
 
 </manifest>

@@ -1,5 +1,8 @@
 package com;
 
+import android.text.TextUtils;
+
+import com.common.util.ReflectUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -11,6 +14,9 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.TypeAdapter;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 /**
@@ -74,20 +80,155 @@ public class Test {
 
     public static void main(String[] args) {
 
-        Gson gson = new Gson();
+       B b = new B();
 
-        String string = "{'name':'hanbing', 'extra':{'age':'22'}}";
+        int value = 20;
 
 
-        User user = gson.fromJson(string, User.class);
+        try {
 
-        System.out.println(user);
+            Method method = getMethod(b.getClass(), "get", new Class[]{int.class});
+
+            method.setAccessible(true);
+            int newValue = (int) method.invoke(b, 222);
+
+            b.print(newValue);
+
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+//        {
+//            String string = getValue(b, "name", "default name");
+//
+//            System.out.println("name1=" + string);
+//
+//            setValue(b, "name", "this is new name");
+//
+//            string = getValue(b, "name", "default name2");
+//
+//            System.out.println("name2=" + string);
+//
+//        }
+//
+//        {
+//            int age = getValue(b, "age", 0);
+//
+//            System.out.println("age1=" + age);
+//
+//            setValue(b, "age", 22);
+//
+//            age = getValue(b, "age", 0);
+//
+//            System.out.println("age2=" + age);
+//        }
+    }
+
+
+    public static <T> T getValue(Object object, String fieldName, T defaultValue) {
+
+        if (null == object)
+            return defaultValue;
+
+
+        try {
+            Field field = getField(object.getClass(), fieldName);
+
+            boolean accessible = field.isAccessible();
+
+            field.setAccessible(true);
+
+            T value = (T) field.get(object);
+
+            field.setAccessible(accessible);
+
+            return value;
+
+        }  catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+
+        return defaultValue;
+    }
+
+    public static void setValue(Object object, String fieldName,  Object newValue) {
+
+        if (null == object)
+            return ;
+
+        try {
+            Field field = getField(object.getClass(), fieldName);
+
+            boolean accessible = field.isAccessible();
+
+            field.setAccessible(true);
+
+            field.set(object, newValue);
+
+            field.setAccessible(accessible);
+
+        }catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
     }
+
+    public static Field getField(Class cls, String fieldName) {
+
+        if (null == cls)
+            return null;
+
+            try {
+                return  cls.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                return getField(cls.getSuperclass(), fieldName);
+            }
+
+    }
+
+    public static Method getMethod(Class cls, String methodName, Class... classes) {
+
+        if (null == cls)
+            return null;
+
+        try {
+            return  cls.getDeclaredMethod(methodName, classes);
+        } catch (NoSuchMethodException e) {
+            return getMethod(cls.getSuperclass(), methodName, classes);
+        }
+
+    }
+
 
     public static <T> T parse() {
 
 
         return (T) new Gson().fromJson("", Test.class);
+    }
+
+    static class A  {
+
+        String name = "hello";
+        int age = 10;
+
+        private  int get(String string) {
+            return 2110;
+        }
+
+        private  int get(int age) {
+            return age;
+        }
+
+    }
+
+    static class B extends A{
+
+
+        public void print(int value) {
+            System.out.println("" + value);
+        }
     }
 }

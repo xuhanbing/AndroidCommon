@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class NewMainActivity extends BaseActivity {
 
-    Class<?> DEFAULT_CLASS = TestPtr.class;
+    Class<?> DEFAULT_CLASS = null;
 
     String key;
 
