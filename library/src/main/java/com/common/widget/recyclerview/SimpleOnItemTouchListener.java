@@ -90,10 +90,22 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
         int position = rv.getChildAdapterPosition(child);
 
         if (position >= 0 && checkClickable(rv, position)) {
-            if (null != mOnItemClickListener) mOnItemClickListener.onItemClick(rv, child, position);
+
+            /**
+             * In some cases such us slide to delete RecyclerView,
+             * item's scrollX may not be 0 which means that item is opened,
+             * so we do not consume event here
+             */
+            if (child.getScrollX() != 0)
+                return false;
+
+            if (null != mOnItemClickListener) {
+                mOnItemClickListener.onItemClick(rv, child, position);
+                return true;
+            }
         }
 
-        return true;
+        return false;
     }
 
     @Override

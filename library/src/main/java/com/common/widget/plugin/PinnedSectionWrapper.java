@@ -1,11 +1,9 @@
 package com.common.widget.plugin;
 
 import android.graphics.Canvas;
-import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 
 import com.common.util.LogUtils;
 import com.common.util.ViewUtils;
@@ -13,7 +11,7 @@ import com.common.util.ViewUtils;
 /**
  * Created by hanbing
  */
-public class PinnedSectionWrapper<T extends ViewGroup> implements IPluginWrapper {
+public abstract class PinnedSectionWrapper<VG extends ViewGroup> implements IPluginWrapper {
 
 
     /**
@@ -80,9 +78,11 @@ public class PinnedSectionWrapper<T extends ViewGroup> implements IPluginWrapper
     /**
      * parent
      */
-    T mParent;
+    VG mParent;
 
-    public PinnedSectionWrapper(T parent) {
+    public PinnedSectionWrapper(VG parent) {
+        if (null == parent)
+            throw new IllegalArgumentException("Parent must not be null.");
         this.mParent = parent;
     }
 
@@ -99,8 +99,6 @@ public class PinnedSectionWrapper<T extends ViewGroup> implements IPluginWrapper
 
         mPinnedViewWidth = mPinnedView.getMeasuredWidth();
         mPinnedViewHeight = mPinnedView.getMeasuredHeight();
-
-        LogUtils.e("measure " + mPinnedViewWidth + ", " + mPinnedViewHeight);
 
     }
 
@@ -137,7 +135,7 @@ public class PinnedSectionWrapper<T extends ViewGroup> implements IPluginWrapper
         return -1;
     }
 
-    protected void onScroll(T viewGroup, int firstVisibleItem, int totalItemCount) {
+    protected void onScroll(VG viewGroup, int firstVisibleItem, int totalItemCount) {
 
         if (0 == totalItemCount) {
             mDrawPinnedView = false;
