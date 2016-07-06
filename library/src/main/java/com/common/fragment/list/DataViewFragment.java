@@ -9,8 +9,7 @@ import android.widget.ListView;
 import com.common.fragment.BaseFragment;
 import com.common.listener.OnLoadListener;
 import com.common.tool.PagingManager;
-import com.common.util.LogUtils;
-import com.common.widget.recyclerview.HeaderRecyclerView;
+import com.common.view.recycler.HeaderRecyclerView;
 
 /**
  * Created by hanbing on 2016/3/21.

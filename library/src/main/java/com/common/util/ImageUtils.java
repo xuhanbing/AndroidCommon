@@ -308,9 +308,9 @@ public class ImageUtils {
 	 * @param resId
 	 * @return
 	 */
-	public static Bitmap getBitmapResrouce(Context context, int resId)
+	public static Bitmap getBitmapResource(Context context, int resId)
 	{
-		return getBitmapResrouce(context, resId, RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
+		return getBitmapResource(context, resId, RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
 	}
 	
 	/**
@@ -321,7 +321,7 @@ public class ImageUtils {
 	 * @param height
 	 * @return
 	 */
-	public static Bitmap getBitmapResrouce(Context context, int resId, int width, int height)
+	public static Bitmap getBitmapResource(Context context, int resId, int width, int height)
 	{
 		Bitmap bm = null;
 

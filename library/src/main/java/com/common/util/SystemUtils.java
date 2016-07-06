@@ -3,21 +3,27 @@
  */
 package com.common.util;
 
-import java.lang.reflect.Method;
-import java.util.Locale;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AppOpsManager;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import java.lang.reflect.Method;
+import java.util.Locale;
+import java.util.UUID;
 
 /**
  * @author hanbing
@@ -205,5 +211,88 @@ public class SystemUtils extends OtherUtils {
 			return true;
 		else
 			return false;
+	}
+
+	/**
+	 * 获取一个唯一的设备id
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static String getDeviceId(Context context) {
+
+		String deviceId = null;
+
+		if (TextUtils.isEmpty(deviceId)) {
+			TelephonyManager tm = (TelephonyManager) context
+					.getSystemService(Context.TELEPHONY_SERVICE);
+
+			String imei = tm.getDeviceId();
+
+			String simSerialNumber = tm.getSimSerialNumber();
+
+			String androidId = android.provider.Settings.Secure.getString(
+
+					context.getContentResolver(),
+					android.provider.Settings.Secure.ANDROID_ID);
+
+			UUID deviceUuid = new UUID(androidId.hashCode(), imei.hashCode());
+
+			deviceId = deviceUuid.toString();
+		}
+
+		return deviceId;
+
+	}
+
+	/**
+	 * 判断网络是否可用
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static boolean isNetworkOk(Context context) {
+		ConnectivityManager cm = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		NetworkInfo info = cm.getActiveNetworkInfo();
+
+		if (null != info && info.isConnected()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * 判断wifi当前网络是否是wifi
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static boolean isWifiOn(Context context) {
+		ConnectivityManager cm = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		NetworkInfo info = cm.getActiveNetworkInfo();
+
+		if (null != info && info.getType() == ConnectivityManager.TYPE_WIFI) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * 判断wifi是否打开
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static boolean isWifiEnabled(Context context) {
+		WifiManager wm = (WifiManager) context
+				.getSystemService(Context.WIFI_SERVICE);
+
+		return wm.isWifiEnabled();
 	}
 }

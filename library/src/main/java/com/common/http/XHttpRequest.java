@@ -11,7 +11,9 @@ import org.xutils.x;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +21,8 @@ import java.util.Map;
  */
 public class XHttpRequest extends HttpRequest {
 
-    Callback.Cancelable mCancelable;
+
+    List<Callback.Cancelable> mCancelables = new ArrayList<>();
     /*
 	 * (non-Javadoc)
 	 *
@@ -106,8 +109,9 @@ public class XHttpRequest extends HttpRequest {
                 = HttpMethod.POST == method
                 ? x.http().post(requestParams, commonCallback)
                 : x.http().get(requestParams, commonCallback);
-
-        this.mCancelable = cancelable;
+        synchronized (mCancelables) {
+            mCancelables.add(cancelable);
+        }
     }
 
     @Override
@@ -125,14 +129,20 @@ public class XHttpRequest extends HttpRequest {
         Callback.Cancelable cancelable
                = x.http().get(params, downloadCallback);
 
-        this.mCancelable = cancelable;
+        synchronized (mCancelables) {
+            mCancelables.add(cancelable);
+        }
     }
 
     @Override
     public void cancelRequest() {
-        if (null != mCancelable)
+        synchronized (mCancelables)
         {
-            mCancelable.cancel();
+            for (Callback.Cancelable cancelable : mCancelables) {
+                cancelable.cancel();
+            }
+
+            mCancelables.clear();
         }
     }
 

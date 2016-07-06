@@ -7,13 +7,9 @@ import android.os.Build;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnScrollChangedListener;
-import android.widget.AbsListView;
 
 import com.common.util.LogUtils;
 import com.common.util.ViewUtils;
-import com.common.view.StrengthScrollView;
-
-import java.lang.reflect.Field;
 
 
 /**

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.common.util;
 
@@ -15,44 +15,42 @@ public class ToastUtils {
 
     /**
      * 显示toast
+     *
      * @param context
      * @param resId
      */
-    public static void showToast(Context context, int resId)
-    {
-	showToast(context, context.getResources().getString(resId));
+    public static void showToast(Context context, int resId) {
+        showToast(context, context.getResources().getString(resId));
     }
-    
+
     /**
      * 显示toast
+     *
      * @param context
      * @param text
      */
-    public static void showToast(Context context, String text)
-    {
-	if (null != context)
-	{
+    public static void showToast(Context context, String text) {
+        if (null != context) {
 
-        boolean isMainThread = isMainThread(context);
+            boolean isMainThread = isMainThread(context);
 
-        if (!isMainThread)
-            Looper.prepare();
+            if (!isMainThread)
+                Looper.prepare();
 
-	    Toast.makeText(context.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 
-        if (!isMainThread)
-        {
-            Looper.loop();
-        };
-	}
+            if (!isMainThread) {
+                Looper.loop();
+            }
+            ;
+        }
     }
 
-    public static boolean isMainThread(Context context)
-    {
+    public static boolean isMainThread(Context context) {
         if (null == context)
             return false;
 
-        return  Thread.currentThread() == context.getMainLooper().getThread();
+        return Thread.currentThread() == context.getMainLooper().getThread();
 
     }
 

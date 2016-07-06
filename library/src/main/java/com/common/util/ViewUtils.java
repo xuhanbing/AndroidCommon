@@ -9,31 +9,22 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.support.v4.animation.AnimatorCompatHelper;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.TabHost;
 
-import com.common.listener.OnItemClickListener;
-import com.common.listener.OnItemLongClickListener;
+import com.common.view.recycler.OnItemClickListener;
+import com.common.view.recycler.OnItemLongClickListener;
 import com.common.tool.FragmentTabHostAndViewPagerInitHelper;
-import com.common.widget.recyclerview.SimpleOnItemTouchListener;
-import com.common.widget.tab.TabWidget;
-import com.common.widget.recyclerview.HeaderRecyclerView;
-
-import org.xutils.view.annotation.ContentView;
-
-import java.util.List;
+import com.common.view.recycler.SimpleOnItemTouchListener;
+import com.common.view.tab.TabWidget;
 
 /**
  * @author hanbing

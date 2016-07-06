@@ -12,7 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -35,7 +37,7 @@ public class OkHttpRequest extends HttpRequest {
 
     OkHttpClient mOkHttpClient = null;
 
-    Call mCall;
+    List<Call> mCalls = new ArrayList<>();
 
     public OkHttpRequest() {
         mOkHttpClient =  new OkHttpClient.Builder().build();
@@ -66,7 +68,9 @@ public class OkHttpRequest extends HttpRequest {
 
         });
 
-        mCall = call;
+        synchronized (mCalls) {
+            mCalls.add(call);
+        }
 
     }
 
@@ -109,7 +113,9 @@ public class OkHttpRequest extends HttpRequest {
 
         });
 
-        mCall = call;
+        synchronized (mCalls) {
+            mCalls.add(call);
+        }
     }
 
     private void writeToFile(String localPath, String downloadUrl, InputStream inputStream, long totalLength, HttpProgressCallback callback) {
@@ -355,8 +361,12 @@ public class OkHttpRequest extends HttpRequest {
 
     @Override
     public void cancelRequest() {
-        if (null != mCall) {
-            mCall.cancel();
+        synchronized (mCalls) {
+            for (Call call : mCalls) {
+                call.cancel();
+            }
+
+            mCalls.clear();
         }
     }
 

@@ -57,11 +57,10 @@ public abstract class BaseFragment extends Fragment {
 			return mCacheView;
 		}
 
-
 		View view = null;
 
 		//使用注解方式生成view
-		view = x.view().inject(this, inflater, container);
+		view = injectView(inflater, container, savedInstanceState);
 
 		//如果没有使用注解方式，使用默认的方式生成view
 		if (null == view)
@@ -75,6 +74,17 @@ public abstract class BaseFragment extends Fragment {
 		mViewFirstCreated = true;
 
 		return view;
+	}
+
+	/**
+	 * 继承类可以提供自己的注入方式
+	 * @param inflater
+	 * @param container
+	 * @param savedInstanceState
+	 * @return
+	 */
+	protected View injectView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return null;
 	}
 
 

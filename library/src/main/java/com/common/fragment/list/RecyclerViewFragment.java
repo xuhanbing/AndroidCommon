@@ -9,12 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.common.listener.OnItemClickListener;
-import com.common.listener.OnItemLongClickListener;
+import com.common.view.recycler.OnItemClickListener;
+import com.common.view.recycler.OnItemLongClickListener;
 import com.common.util.ViewUtils;
-import com.common.widget.recyclerview.HeaderRecyclerView;
-import com.common.widget.recyclerview.animator.FadeInItemAnimator;
-import com.common.widget.recyclerview.decoration.LineItemDecoration;
+import com.common.view.recycler.HeaderRecyclerView;
+import com.common.view.recycler.animator.FadeInItemAnimator;
+import com.common.view.recycler.decoration.LineItemDecoration;
 
 /**
  * Created by hanbing
