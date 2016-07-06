@@ -4,21 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
     
-    <com.common.view.NumberPicker
+    <com.hanbing.library.android.view.NumberPicker
         android:id="@+id/np_year" 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="@style/NumberPickerStyle"
         android:layout_weight="1"/>
 
-    <com.common.view.NumberPicker
+    <com.hanbing.library.android.view.NumberPicker
         android:id="@+id/np_month" 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="@style/NumberPickerStyle"
         android:layout_weight="1"/>
     
-    <com.common.view.NumberPicker
+    <com.hanbing.library.android.view.NumberPicker
         android:id="@+id/np_day" 
         android:layout_width="0dp"
         android:layout_height="wrap_content"

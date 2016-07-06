@@ -12,7 +12,7 @@
         android:src="@android:drawable/ic_menu_search"
         android:layout_gravity="center_vertical"/>
 
-    <com.common.view.ClearableEditText
+    <com.hanbing.library.android.view.ClearableEditText
         android:id="@+id/et_search_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
