@@ -3,13 +3,16 @@
  */
 package com.common.image;
 
-import java.io.File;
-
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
+
+import java.io.File;
+
 
 /**
  * image loader
@@ -28,6 +31,46 @@ public class ImageLoader extends ImageLoaderInterface {
 	static ImageLoader mImageLoader;
 
 	ImageLoaderImpl mImageLoaderImpl;
+
+
+	ImageLoaderListener mDefaultImageLoaderListener = new ImageLoaderListener() {
+		@Override
+		public void onLoadStarted(View view, String uri) {
+
+		}
+
+		@Override
+		public void onLoading(View view, String uri, long total, long current) {
+
+		}
+
+		@Override
+		public void onLoadCompleted(final View view, final String uri, final Bitmap bm) {
+			view.post(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					if (view instanceof ImageView) {
+						((ImageView) view).setImageBitmap(bm);
+					} else {
+						view.setBackgroundDrawable(new BitmapDrawable(view
+								.getResources(), bm));
+					}
+				}
+			});
+		}
+
+		@Override
+		public void onLoadFailed(View view, String uri) {
+
+		}
+
+		@Override
+		public void onLoadCancelled(View view, String uri) {
+
+		}
+	};
 
 	public static ImageLoader getInstance(Context context) {
 		if (null == mImageLoader) {
@@ -73,7 +116,7 @@ public class ImageLoader extends ImageLoaderInterface {
 	public void displayImage(ImageView imageView, String uri, int width,
 			int height, int defaultResId) {
 		displayImage(imageView, uri, width, height, defaultResId,
-				new SimpleImageLoaderListener());
+				mDefaultImageLoaderListener);
 	}
 
 	public void displayImage(final ImageView imageView, String uri,
@@ -90,7 +133,7 @@ public class ImageLoader extends ImageLoaderInterface {
 			return;
 
 		final ImageLoaderListener listener = null != lsner ? lsner
-				: new SimpleImageLoaderListener();
+				: mDefaultImageLoaderListener;
 
 		mImageLoaderImpl.displayImage(imageView, uri, width, height,
 				defaultResId, listener);

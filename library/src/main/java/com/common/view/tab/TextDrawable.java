@@ -1,4 +1,4 @@
-package com.common.view;
+package com.common.view.tab;
 
 import android.content.Context;
 import android.content.res.ColorStateList;

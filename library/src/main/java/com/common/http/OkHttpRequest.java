@@ -1,5 +1,7 @@
 package com.common.http;
 
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 
 import com.common.http.callback.HttpCallback;
@@ -44,7 +46,9 @@ public class OkHttpRequest extends HttpRequest {
     }
 
     @Override
-    public void doRequest(final int requestCode, final String requestUrl, Map<String, String> headers, Map<String, String> params, Map<String, Object> uploads, final HttpCallback callback) {
+    public void doRequest(final int requestCode, final String requestUrl, Map<String, String> headers, Map<String, String> params, Map<String, Object> uploads, final HttpCallback cb) {
+
+        final HttpCallback callback = wrapHttpCallback(cb);
 
         Request request = createRequest(requestUrl, headers, params, uploads,callback);
 
@@ -52,18 +56,18 @@ public class OkHttpRequest extends HttpRequest {
 
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(Call call, final IOException e) {
 
                 if (null != callback) {
                     callback.onFailure(requestCode, requestUrl, e.getMessage());
                 }
+
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (null != callback) {
-                    callback.onSuccess(requestCode, requestUrl, response.body().string());
-                }
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (null != callback)
+                callback.onSuccess(requestCode, requestUrl, response.body().string());
             }
 
         });
@@ -75,14 +79,14 @@ public class OkHttpRequest extends HttpRequest {
     }
 
     @Override
-    public void download(final String localPath, final String downloadUrl, final HttpCallback callback) {
+    public void download(final String localPath, final String downloadUrl, final HttpCallback cb) {
 
-
+        final HttpCallback callback = wrapHttpCallback(cb);
         Call call = mOkHttpClient.newCall(new Request.Builder().url(downloadUrl).build());
 
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(Call call, final IOException e) {
 
                 if (null != callback) {
                     callback.onFailure(0, downloadUrl, e.getMessage());
@@ -91,9 +95,6 @@ public class OkHttpRequest extends HttpRequest {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
-//                FileUtils.writeToFile(localPath, response.body().byteStream());
-
                 long totalLength = 0;
                 try {
                     totalLength = Long.parseLong( response.header("Content-Length"));
@@ -120,7 +121,7 @@ public class OkHttpRequest extends HttpRequest {
 
     private void writeToFile(String localPath, String downloadUrl, InputStream inputStream, long totalLength, HttpProgressCallback callback) {
 
-        if (null != callback) callback.onStarted();
+        if (null != callback) callback.onStarted(downloadUrl);
 
         if (!TextUtils.isEmpty(localPath) && null != inputStream)
         {
@@ -150,7 +151,7 @@ public class OkHttpRequest extends HttpRequest {
                 e.printStackTrace();
 
             }finally {
-                if (null != callback) callback.onFinished();
+                if (null != callback) callback.onFinished(downloadUrl);
             }
         }
     }

@@ -18,11 +18,13 @@ public interface HttpProgressCallback {
 
     /**
      * 开始
+     * @param key
      */
-    public void onStarted();
+    public void onStarted(String key);
 
     /**
      * 结束
+     * @param key
      */
-    public void onFinished();
+    public void onFinished(String key);
 }

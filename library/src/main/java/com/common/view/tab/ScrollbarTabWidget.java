@@ -14,8 +14,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.common.view.TextDrawable;
-
 /**
  * @author hanbing
  * @date 2015-9-14

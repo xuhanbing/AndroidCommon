@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 23
         versionName "1.0.0"
         versionCode 1
@@ -31,13 +31,9 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:23.+'
     compile 'com.android.support:appcompat-v7:23.+'
-    /*
-                    compile files('libs/android-support-v7-cardview.jar')
-                    compile files('libs/android-support-v7-recyclerview.jar')*/
-    compile files('libs/libgif.jar')
-    compile files('libs/universal-image-loader-1.9.4-with-sources.jar')
-    compile files('libs/xutils-3.2.6.jar')
     compile 'com.android.support:design:23.1.1'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    compile 'org.xutils:xutils:3.3.36'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }

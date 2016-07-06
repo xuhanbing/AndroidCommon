@@ -168,7 +168,7 @@ public class XHttpRequest extends HttpRequest {
         @Override
         public void onStarted() {
             if (mCallback instanceof HttpProgressCallback) {
-                ((HttpProgressCallback) mCallback).onStarted();
+                ((HttpProgressCallback) mCallback).onStarted(mRequestUrl);
             }
         }
 
@@ -241,7 +241,7 @@ public class XHttpRequest extends HttpRequest {
         public void onFinished() {
 
             if (mCallback instanceof HttpProgressCallback) {
-                ((HttpProgressCallback) mCallback).onFinished();
+                ((HttpProgressCallback) mCallback).onFinished(mRequestUrl);
             }
 
             if (!hasError && result != null) {
@@ -273,17 +273,15 @@ public class XHttpRequest extends HttpRequest {
 
         @Override
         public void onStarted() {
-            if (null != mCallback
-                    && mCallback instanceof HttpProgressCallback) {
+            if (mCallback instanceof HttpProgressCallback) {
 
-                ((HttpProgressCallback)mCallback).onStarted();
+                ((HttpProgressCallback)mCallback).onStarted(mDownloadUrl);
             }
         }
 
         @Override
         public void onLoading(long total, long current, boolean isDownloading) {
-            if (null != mCallback
-                    && mCallback instanceof HttpProgressCallback) {
+            if ( mCallback instanceof HttpProgressCallback) {
 
                 ((HttpProgressCallback)mCallback).onUpdateProgress(mDownloadUrl, total, current);
             }
@@ -313,7 +311,7 @@ public class XHttpRequest extends HttpRequest {
         @Override
         public void onFinished() {
             if (mCallback instanceof HttpProgressCallback) {
-                ((HttpProgressCallback) mCallback).onFinished();
+                ((HttpProgressCallback) mCallback).onFinished(mDownloadUrl);
             }
         }
     }
