@@ -12,7 +12,7 @@ import org.xutils.x;
  * @author hanbing
  * 
  */
-public class BaseAppCompatActivity extends AppCompatActivity {
+public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
 	/*
 	 * (non-Javadoc)
@@ -24,18 +24,28 @@ public class BaseAppCompatActivity extends AppCompatActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 
-		x.view().inject(this);
-
+		setContentView();
+		bindViews(arg0);
 		initViews();
 	}
 
-
+	/**
+	 * You should call @{@link #setContentView} here
+	 */
+	protected abstract void setContentView();
 
 	/**
-	 * 
+	 * Bind views
+	 * @param savedInstanceState
+	 */
+	protected  void bindViews(Bundle savedInstanceState) {
+
+	}
+
+	/**
+	 * Initialize views
 	 */
 	protected void initViews() {
 		// TODO Auto-generated method stub
-
 	}
 }

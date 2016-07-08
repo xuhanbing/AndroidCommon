@@ -19,12 +19,12 @@ import java.util.Map;
  */
 public abstract class HttpRequest {
 
-	enum Type{
+	public enum Type{
 		OKHTTP,
 		XUTILS
 	}
 
-	interface Cancelable {
+	public interface Cancelable {
 		boolean isCanceled();
 		void cancel();
 	}

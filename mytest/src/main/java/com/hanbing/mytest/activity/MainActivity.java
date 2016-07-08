@@ -41,8 +41,8 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.TextView;
 
-import com.common.activity.BaseAppCompatActivity;
-import com.common.util.ToastUtils;
+import com.hanbing.library.android.activity.BaseAppCompatActivity;
+import com.hanbing.library.android.util.ToastUtils;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.action.TestShortcut;
 import com.hanbing.mytest.fragment.NumFragment;
@@ -157,7 +157,12 @@ public class MainActivity extends BaseAppCompatActivity {
 
 		startService(new Intent(this, TestService.class));
 	}
-	
+
+	@Override
+	protected void setContentView() {
+
+	}
+
 	Toolbar toolbar;
 
 	SearchView searchView;

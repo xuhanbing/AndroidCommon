@@ -7,7 +7,7 @@
               tools:context="com.hanbing.mytest.activity.view.TestPtr">
 
 
-    <com.common.widget.ptr.PtrLayout
+    <com.hanbing.library.android.view.ptr.PtrLayout
         android:id="@+id/ptrLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -45,6 +45,6 @@
                 android:text="@string/large_text"/>
         </HorizontalScrollView>
 
-    </com.common.widget.ptr.PtrLayout>
+    </com.hanbing.library.android.view.ptr.PtrLayout>
 
 </LinearLayout>

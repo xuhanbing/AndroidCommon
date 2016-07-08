@@ -204,7 +204,7 @@ public class StrengthScrollView extends ScrollView {
         if (mIsFirst) {
             if (getChildCount() > 0) {
                 mChild = getChildAt(0);
-                mChildOriginalTop = mChild.getPaddingTop();
+                mChildOriginalTop = getPaddingTop();
                 mIsFirst = false;
             }
         }
@@ -233,7 +233,7 @@ public class StrengthScrollView extends ScrollView {
                         if (null != mOnPullListener) {
                             mOnPullListener.onMoveBack(0, 0, mMaxPullY);
                         }
-                        ;
+
                         mScroller.abortAnimation();
                     }
                     mDownY = y;

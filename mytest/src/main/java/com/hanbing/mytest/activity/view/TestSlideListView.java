@@ -1,9 +1,9 @@
 package com.hanbing.mytest.activity.view;
 
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
-import com.common.widget.list.DrawerListView;
-import com.common.widget.plugin.DrawerItemWrapper;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
+import com.hanbing.library.android.view.list.DrawerListView;
+import com.hanbing.library.android.view.plugin.DrawerItemWrapper;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.view.SlideListView;
 import com.hanbing.mytest.view.SlideListView.SlideListAdapter;
@@ -24,7 +24,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class TestSlideListView extends Activity {
 

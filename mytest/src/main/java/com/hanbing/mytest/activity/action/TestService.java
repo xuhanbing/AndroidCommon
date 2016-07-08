@@ -1,20 +1,17 @@
 package com.hanbing.mytest.activity.action;
 
-import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 
-import com.common.util.LogUtils;
+import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.mytest.R;
-import com.hanbing.mytest.service.SimpleServiceBinder;
 import com.hanbing.mytest.service.SimpleService;
 import com.hanbing.mytest.utils.MyServiceAidl;
 

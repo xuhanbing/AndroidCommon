@@ -11,7 +11,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.common.util.GeoUtils;
+import com.hanbing.library.android.util.GeoUtils;
 
 
 /**

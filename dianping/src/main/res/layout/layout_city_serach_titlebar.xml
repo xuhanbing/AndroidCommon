@@ -10,7 +10,7 @@
     <include
         layout="@layout/layout_back"></include>
 
-    <com.common.widget.SearchEditText
+    <com.hanbing.library.android.view.SearchEditText
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_marginRight="@dimen/dip_12"
@@ -20,5 +20,5 @@
         android:background="@drawable/search_title_bar"
         android:textSize="@dimen/textsize"
         android:hint="输入内容"
-        android:layout_height="@dimen/dip_36"></com.common.widget.SearchEditText>
+        android:layout_height="@dimen/dip_36"></com.hanbing.library.android.view.SearchEditText>
 </LinearLayout>

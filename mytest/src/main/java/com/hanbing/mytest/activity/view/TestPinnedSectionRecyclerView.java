@@ -9,12 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.common.util.ViewUtils;
-import com.common.widget.plugin.PinnedSectionWrapper;
-import com.common.widget.recyclerview.PinnedSectionRecyclerView;
+import com.hanbing.library.android.util.ViewUtils;
+import com.hanbing.library.android.view.plugin.PinnedSectionWrapper;
+import com.hanbing.library.android.view.recycler.PinnedSectionRecyclerView;
 import com.hanbing.mytest.R;
 
-import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 

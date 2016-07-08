@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 
-import com.androidcommon.R;
+import com.hanbing.library.android.R;
 
 /**
  * tabwidget with a strip

@@ -3,16 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
-    <com.common.widget.viewpager.WrapContentViewPager
+    <com.hanbing.library.android.view.pager.WrapContentViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-    </com.common.widget.viewpager.WrapContentViewPager>
+    </com.hanbing.library.android.view.pager.WrapContentViewPager>
 
-    <com.common.widget.tab.TabWidget
+    <com.hanbing.library.android.view.tab.TabWidget
         android:id="@+id/tabWidget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"></com.common.widget.tab.TabWidget>
+        android:layout_gravity="center_horizontal"></com.hanbing.library.android.view.tab.TabWidget>
 </LinearLayout>

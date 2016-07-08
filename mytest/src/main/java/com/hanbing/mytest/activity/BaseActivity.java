@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
-import com.common.util.LogUtils;
+import com.hanbing.library.android.util.LogUtils;
 
-public class BaseActivity extends com.common.activity.BaseActivity {
+public class BaseActivity extends com.hanbing.library.android.activity.BaseActivity {
 
 
 	float downX = 0;
@@ -198,5 +198,8 @@ public class BaseActivity extends com.common.activity.BaseActivity {
 	}
 
 
+	@Override
+	protected void setContentView() {
 
+	}
 }

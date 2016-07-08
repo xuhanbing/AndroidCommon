@@ -3,15 +3,13 @@
  */
 package com.hanbing.mytest.activity.view;
 
-import com.common.util.LogUtils;
+import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.mytest.R;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;

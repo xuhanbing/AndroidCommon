@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.common.fragment.list.SrainPtrRecyclerViewFragment;
-import com.common.util.LogUtils;
+import com.hanbing.library.android.fragment.list.SrainPtrRecyclerViewFragment;
+import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.mytest.R;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;

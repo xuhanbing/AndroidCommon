@@ -6,13 +6,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.common.activity.BaseActivity;
-import com.common.adapter.BaseAdapter;
-import com.common.util.StringUtils;
-import com.common.util.ViewUtils;
-import com.common.widget.FastLocateLayout;
 import com.hanbing.dianping.R;
 import com.hanbing.dianping.common.city.City;
+import com.hanbing.library.android.adapter.BaseAdapter;
+import com.hanbing.library.android.util.IOUtils;
+import com.hanbing.library.android.util.ViewUtils;
+import com.hanbing.library.android.view.plugin.FastLocateLayout;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -26,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @ContentView(R.layout.activity_city)
-public class CityActivity extends BaseActivity {
+public class CityActivity extends com.hanbing.dianping.common.base.BaseActivity {
 
 
     @ViewInject(R.id.lv_city_list)
@@ -46,7 +45,7 @@ public class CityActivity extends BaseActivity {
     protected void initViews() {
         super.initViews();
 
-        String json = StringUtils.readStringFromRaw(this, R.raw.cities2);
+        String json = IOUtils.readStringFromRaw(this, R.raw.cities2);
 
         if (!TextUtils.isEmpty(json)) {
             mCities = City.getCitiesFromJson(json);

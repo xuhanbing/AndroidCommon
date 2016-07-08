@@ -7,10 +7,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.common.activity.BaseActivity;
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
-import com.common.widget.tab.TabWidget;
+import com.hanbing.dianping.common.base.BaseActivity;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
+import com.hanbing.library.android.view.tab.TabWidget;
 import com.hanbing.dianping.core.FindFragment;
 import com.hanbing.dianping.core.HomeFragment;
 import com.hanbing.dianping.core.MyFragment;

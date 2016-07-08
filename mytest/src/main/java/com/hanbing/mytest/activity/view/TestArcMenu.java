@@ -6,9 +6,8 @@ package com.hanbing.mytest.activity.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.common.image.ImageLoader;
-import com.common.view.CircleImageView;
-import com.common.view.RoundImageView;
+import com.hanbing.library.android.image.ImageLoader;
+import com.hanbing.library.android.view.CircleImageView;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 

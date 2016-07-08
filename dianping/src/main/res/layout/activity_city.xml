@@ -9,12 +9,12 @@
     <include
         layout="@layout/layout_city_serach_titlebar"></include>
     
-    <com.common.widget.FastLocateListView
+    <com.hanbing.library.android.view.list.FastLocateListView
         android:id="@+id/lv_city_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
         >
 
-    </com.common.widget.FastLocateListView>
+    </com.hanbing.library.android.view.list.FastLocateListView>
 </LinearLayout>

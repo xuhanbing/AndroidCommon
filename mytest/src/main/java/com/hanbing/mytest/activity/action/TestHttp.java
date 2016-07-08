@@ -7,15 +7,15 @@ import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.common.http.HttpRequest;
-import com.common.http.OkHttpRequest;
-import com.common.http.XHttpRequest;
-import com.common.http.callback.HttpSimpleCallback;
-import com.common.http.callback.HttpSimpleProgressCallback;
-import com.common.util.FileUtils;
-import com.common.util.IOUtils;
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
+import com.hanbing.library.android.http.HttpRequest;
+import com.hanbing.library.android.http.OkHttpRequest;
+import com.hanbing.library.android.http.XHttpRequest;
+import com.hanbing.library.android.http.callback.HttpSimpleCallback;
+import com.hanbing.library.android.http.callback.HttpSimpleProgressCallback;
+import com.hanbing.library.android.util.FileUtils;
+import com.hanbing.library.android.util.IOUtils;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.mytest.R;
 
 import java.io.File;
@@ -44,19 +44,19 @@ public class TestHttp extends AppCompatActivity {
         }
 
         @Override
-        public void onStarted() {
+        public void onStarted(String key) {
             LogUtils.e("onStart");
         }
 
         @Override
-        public void onFinished() {
+        public void onFinished(String key) {
             LogUtils.e("onFinished");
         }
 
         @Override
         public void onSuccess(int requestCode, String requestUrl, String result) {
             LogUtils.e("onSuccess " + result);
-            showResult(result);
+            showResult("success : \n\n" + result);
         }
 
         @Override
@@ -108,16 +108,18 @@ public class TestHttp extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        request.cancelRequest();
+        request.cancel();
     }
 
     private void showResult(final String result) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                textView.setText(result);
-            }
-        });
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                textView.setText(result);
+//            }
+//        });
+
+        textView.setText(result);
     }
 
     public void download(View view) {
@@ -154,7 +156,7 @@ public class TestHttp extends AppCompatActivity {
     }
 
     private String getPath() {
-        return "/sdcard/http/2.png";
+        return "/sdcard/http/1.rar";
     }
 
     private Map<String, String> getParams() {

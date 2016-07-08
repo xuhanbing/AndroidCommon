@@ -13,7 +13,8 @@ public abstract class BaseFragment extends Fragment {
 	
 	List<Object> list;
 	BaseAdapter adapter;
-	
+
+
 	OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
 		@Override

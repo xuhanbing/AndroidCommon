@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.common.util.FileUtils;
+import com.hanbing.library.android.util.FileUtils;
 //import com.lidroid.xutils.HttpUtils;
 //import com.lidroid.xutils.exception.HttpException;
 //import com.lidroid.xutils.http.RequestParams;

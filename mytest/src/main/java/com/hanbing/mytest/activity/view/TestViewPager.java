@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import com.common.widget.viewpager.DefaultTabViewPager;
-import com.common.widget.viewpager.TabViewPager;
+import com.hanbing.library.android.view.pager.DefaultTabViewPager;
+import com.hanbing.library.android.view.pager.TabViewPager;
+import com.hanbing.library.android.view.tab.UnderlineTabWidget;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.fragment.NumFragment;
 import com.hanbing.mytest.listener.MulitPointTouchListener;
@@ -177,7 +178,7 @@ public class TestViewPager extends FragmentActivity {
     
     
     TabViewPager tabViewPager;
-	com.common.widget.tab.TabWidget tabWidget;
+	com.hanbing.library.android.view.tab.TabWidget tabWidget;
     int count = 5;
     
     private void initViewPager6()
@@ -187,7 +188,7 @@ public class TestViewPager extends FragmentActivity {
     	MyPagerAdatper pageAdapter = new MyPagerAdatper();
     	viewPager.setAdapter(pageAdapter);
 
-		com.common.widget.tab.TabWidget customTabWidget = (com.common.widget.tab.TabWidget) findViewById(R.id.tabwidget);
+		com.hanbing.library.android.view.tab.TabWidget customTabWidget = (com.hanbing.library.android.view.tab.TabWidget) findViewById(R.id.tabwidget);
     	customTabWidget.initTabs(pageAdapter);
     	customTabWidget.setCanScroll(false);
     	customTabWidget.setViewPager(viewPager);
@@ -217,7 +218,7 @@ public class TestViewPager extends FragmentActivity {
 		
 		DefaultTabViewPager tabViewPager = (DefaultTabViewPager) findViewById(R.id.viewpager);
 		this.tabViewPager = tabViewPager;
-		com.common.widget.tab.UnderlineTabWidget tabWidget = (com.common.widget.tab.UnderlineTabWidget) tabViewPager.getTabWidget();
+		UnderlineTabWidget tabWidget = (UnderlineTabWidget) tabViewPager.getTabWidget();
 		tabWidget.setCanScroll(true);
 		tabWidget.setStripEnabled(true);
 		

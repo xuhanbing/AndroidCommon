@@ -11,7 +11,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.common.util.LogUtils;
+import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.mytest.activity.BaseActivity;
 
 /**

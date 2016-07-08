@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.androidcommon.R;
+import com.hanbing.library.android.R;
 
 import android.annotation.TargetApi;
 import android.content.Context;

@@ -8,15 +8,15 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.WindowManager;
 
+import com.hanbing.library.android.bind.ObjectBinder;
 import com.hanbing.library.android.tool.SystemBarTintManager;
 
-import org.xutils.x;
 
 /**
  * @author hanbing
  * 
  */
-public class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends FragmentActivity {
 
 	/*
 	 * (non-Javadoc)
@@ -42,22 +42,31 @@ public class BaseActivity extends FragmentActivity {
 			}
 		}
 
-
 		super.onCreate(arg0);
 
-		x.view().inject(this);
-
+		setContentView();
+		bindViews(arg0);
 		initViews();
 	}
 
-
+	/**
+	 * You should call @{@link #setContentView} here
+	 */
+	protected abstract void setContentView();
 
 	/**
-	 * 
+	 * Bind views
+	 * @param savedInstanceState
+	 */
+	protected  void bindViews(Bundle savedInstanceState) {
+		ObjectBinder.bind(this);
+	}
+
+	/**
+	 * Initialize views
 	 */
 	protected void initViews() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**

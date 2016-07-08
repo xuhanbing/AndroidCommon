@@ -6,9 +6,8 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 
-import com.common.util.LogUtils;
+import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.mytest.utils.MyServiceAidl;
-import com.hanbing.mytest.utils.MyServiceAidl.Stub;
 
 /**
  * Created by hanbing on 2016/6/1.

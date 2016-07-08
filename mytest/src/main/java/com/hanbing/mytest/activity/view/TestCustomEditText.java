@@ -22,8 +22,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.common.tool.PinyinParser;
-import com.common.util.PinyinUtils;
+import com.hanbing.library.android.tool.PinyinParser;
+import com.hanbing.library.android.util.PinyinUtils;
 import com.hanbing.mytest.activity.BaseActivity;
 import com.hanbing.mytest.view.ClearableEditText;
 

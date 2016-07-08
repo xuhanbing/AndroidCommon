@@ -5,20 +5,16 @@
  */
 package com.hanbing.mytest.activity.view;
 
-import com.common.util.ViewUtils;
+import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 import com.hanbing.mytest.fragment.NumFragment;
 import com.hanbing.mytest.view.RotatePlate;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 
 import java.util.ArrayList;
 import java.util.List;

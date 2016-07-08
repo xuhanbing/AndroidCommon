@@ -1,13 +1,9 @@
 package com.hanbing.dianping.view;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
-import com.common.widget.SearchEditText;
+import com.hanbing.library.android.view.SearchEditText;
 import com.hanbing.dianping.R;
 
 

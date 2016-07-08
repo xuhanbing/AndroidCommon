@@ -4,7 +4,6 @@
 package com.hanbing.mytest.activity.action;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -18,8 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.common.image.ImageLoader;
-import com.common.util.FileUtils;
+import com.hanbing.library.android.image.ImageLoader;
+import com.hanbing.library.android.util.FileUtils;
 import com.hanbing.mytest.activity.BaseActivity;
 
 import java.io.File;

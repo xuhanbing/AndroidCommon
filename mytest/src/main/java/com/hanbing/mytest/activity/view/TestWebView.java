@@ -24,7 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.common.util.LogUtils;
+import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.mytest.activity.BaseActivity;
 
 /**

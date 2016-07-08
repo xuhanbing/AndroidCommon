@@ -13,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.common.image.ImageLoader;
-import com.common.util.ViewUtils;
-import com.common.widget.tab.TabWidget;
+import com.hanbing.library.android.image.ImageLoader;
+import com.hanbing.library.android.util.ViewUtils;
+import com.hanbing.library.android.view.tab.TabWidget;
 import com.hanbing.dianping.R;
 import com.hanbing.dianping.model.ShortCut;
 

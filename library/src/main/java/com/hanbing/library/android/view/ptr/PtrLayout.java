@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 
-import com.androidcommon.R;
+import com.hanbing.library.android.R;
 import com.hanbing.library.android.util.LogUtils;
 
 import java.util.Arrays;

@@ -1,10 +1,7 @@
 package com.hanbing.mytest.view;
 
 import android.content.Context;
-import android.database.DatabaseUtils;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
@@ -19,16 +16,12 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.mytest.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by hanbing

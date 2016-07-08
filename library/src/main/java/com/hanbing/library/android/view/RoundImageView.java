@@ -18,7 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.androidcommon.R;
+import com.hanbing.library.android.R;
 
 /**
  * @author hanbing

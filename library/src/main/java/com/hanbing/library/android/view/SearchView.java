@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.androidcommon.R;
+import com.hanbing.library.android.R;
 import com.hanbing.library.android.util.DipUtils;
 import com.hanbing.library.android.util.SystemUtils;
 import com.hanbing.library.android.util.ViewUtils;

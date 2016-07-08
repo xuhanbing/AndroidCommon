@@ -1,11 +1,9 @@
 package com.hanbing.mytest.activity.fragment;
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,8 +17,8 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.mytest.R;
 
 import java.util.ArrayList;
@@ -34,7 +32,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 public class TestListFragment extends AppCompatActivity {
 
 
-    public static class ListFragment extends com.common.fragment.list.ListFragment {
+    public static class ListFragment extends com.hanbing.library.android.fragment.list.ListFragment {
 
 
         PtrFrameLayout mPtrFrameLayout;

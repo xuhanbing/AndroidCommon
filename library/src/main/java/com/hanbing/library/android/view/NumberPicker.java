@@ -64,7 +64,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import com.androidcommon.R;
+import com.hanbing.library.android.R;
 
 //import android.annotation.Widget;
 

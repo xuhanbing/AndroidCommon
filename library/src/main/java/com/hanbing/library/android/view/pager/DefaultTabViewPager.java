@@ -3,7 +3,7 @@
  */
 package com.hanbing.library.android.view.pager;
 
-import com.androidcommon.R;
+import com.hanbing.library.android.R;
 import com.hanbing.library.android.view.tab.UnderlineTabWidget;
 import com.hanbing.library.android.view.tab.TabWidget;
 

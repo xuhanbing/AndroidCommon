@@ -2,7 +2,6 @@ package com.hanbing.dianping.common.city;
 
 import android.text.TextUtils;
 
-import com.common.util.PinyinUtils;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 

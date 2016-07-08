@@ -11,7 +11,7 @@ import android.view.ViewConfiguration;
 import android.widget.CompoundButton;
 import android.widget.Scroller;
 
-import com.androidcommon.R;
+import com.hanbing.library.android.R;
 
 
 /**

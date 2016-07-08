@@ -1,25 +1,18 @@
 package com.hanbing.mytest.activity.action;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.BounceInterpolator;
 import android.widget.TextView;
 
-import com.common.util.LogUtils;
-import com.common.util.SystemUtils;
-import com.common.util.ViewUtils;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.mytest.R;
 
 public class TestAnimation extends AppCompatActivity {

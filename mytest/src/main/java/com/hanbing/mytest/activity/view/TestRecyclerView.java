@@ -26,35 +26,35 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.common.activity.BaseAppCompatActivity;
-import com.common.adapter.BaseRecycleViewAdaper;
-import com.common.listener.OnItemClickListener;
-import com.common.listener.OnItemLongClickListener;
-import com.common.util.LogUtils;
-import com.common.util.SystemUtils;
-import com.common.util.ToastUtils;
-import com.common.util.ViewUtils;
-import com.common.widget.recyclerview.HeaderRecyclerView;
-import com.common.widget.recyclerview.animator.BaseSimpleItemAnimator;
-import com.common.widget.recyclerview.animator.FadeInItemAnimator;
-import com.common.widget.recyclerview.animator.FlipInBottomItemAnimator;
-import com.common.widget.recyclerview.animator.FlipInLeftItemAnimator;
-import com.common.widget.recyclerview.animator.FlipInRightItemAnimator;
-import com.common.widget.recyclerview.animator.FlipInTopItemAnimator;
-import com.common.widget.recyclerview.animator.LandingItemAnimator;
-import com.common.widget.recyclerview.animator.RotateItemAnimator;
-import com.common.widget.recyclerview.animator.ScaleInBottomItemAnimator;
-import com.common.widget.recyclerview.animator.ScaleInCenterItemAnimator;
-import com.common.widget.recyclerview.animator.ScaleInLeftItemAnimator;
-import com.common.widget.recyclerview.animator.ScaleInRightItemAnimator;
-import com.common.widget.recyclerview.animator.ScaleInTopItemAnimator;
-import com.common.widget.recyclerview.animator.SlideInBottomItemAnimator;
-import com.common.widget.recyclerview.animator.SlideInRightItemAnimator;
-import com.common.widget.recyclerview.animator.SlideInTopItemAnimator;
-import com.common.widget.recyclerview.decoration.BaseItemDecoration;
-import com.common.widget.recyclerview.decoration.GridItemDecoration;
-import com.common.widget.recyclerview.decoration.LineItemDecoration;
-import com.common.widget.recyclerview.animator.SlideInLeftItemAnimator;
+import com.hanbing.library.android.activity.BaseAppCompatActivity;
+import com.hanbing.library.android.adapter.BaseRecycleViewAdaper;
+import com.hanbing.library.android.view.recycler.OnItemClickListener;
+import com.hanbing.library.android.view.recycler.OnItemLongClickListener;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.SystemUtils;
+import com.hanbing.library.android.util.ToastUtils;
+import com.hanbing.library.android.util.ViewUtils;
+import com.hanbing.library.android.view.recycler.HeaderRecyclerView;
+import com.hanbing.library.android.view.recycler.animator.BaseSimpleItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.FadeInItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.FlipInBottomItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.FlipInLeftItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.FlipInRightItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.FlipInTopItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.LandingItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.RotateItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.ScaleInBottomItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.ScaleInCenterItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.ScaleInLeftItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.ScaleInRightItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.ScaleInTopItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.SlideInBottomItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.SlideInRightItemAnimator;
+import com.hanbing.library.android.view.recycler.animator.SlideInTopItemAnimator;
+import com.hanbing.library.android.view.recycler.decoration.BaseItemDecoration;
+import com.hanbing.library.android.view.recycler.decoration.GridItemDecoration;
+import com.hanbing.library.android.view.recycler.decoration.LineItemDecoration;
+import com.hanbing.library.android.view.recycler.animator.SlideInLeftItemAnimator;
 import com.hanbing.mytest.R;
 
 import org.xutils.view.annotation.ContentView;
@@ -66,7 +66,7 @@ import java.util.List;
 
 
 @ContentView(R.layout.activity_recyclerview2)
-public class TestRecyclerView extends BaseAppCompatActivity {
+public class TestRecyclerView extends com.hanbing.mytest.activity.BaseAppCompatActivity {
 
 	static  final int TYPE_0 = 0;
 	static final int TYPE_1 = 1;

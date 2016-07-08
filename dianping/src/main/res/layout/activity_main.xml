@@ -19,12 +19,12 @@
 
     <include
         layout="@layout/common_line"></include>
-    <com.common.widget.tab.TabWidget
+    <com.hanbing.library.android.view.tab.TabWidget
         android:id="@+id/tab_main"
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height">
 
-    </com.common.widget.tab.TabWidget>
+    </com.hanbing.library.android.view.tab.TabWidget>
 
 
 </LinearLayout>

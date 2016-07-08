@@ -7,9 +7,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.common.listener.OnLoadListener;
-import com.common.tool.PagingManager;
-import com.common.util.ViewUtils;
+import com.hanbing.library.android.listener.OnLoadListener;
+import com.hanbing.library.android.tool.PagingManager;
+import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.dianping.R;
 
 /**

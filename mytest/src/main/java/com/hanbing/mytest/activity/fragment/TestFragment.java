@@ -8,8 +8,7 @@ package com.hanbing.mytest.activity.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
+import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.fragment.BaseFragment;
 import com.hanbing.mytest.fragment.NearGridFragment;
@@ -26,7 +25,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.view.MotionEvent;
 import android.view.View;
 
 

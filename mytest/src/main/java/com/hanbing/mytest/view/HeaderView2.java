@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
-import com.common.widget.ptr.IPtrHandler;
-import com.common.widget.ptr.PtrLayout;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
+import com.hanbing.library.android.view.ptr.IPtrHandler;
+import com.hanbing.library.android.view.ptr.PtrLayout;
 import com.hanbing.mytest.R;
 
 /**

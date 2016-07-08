@@ -7,7 +7,7 @@
     tools:context="com.hanbing.mytest.activity.view.TestScrollView3">
 
 
-    <com.common.view.PullScaleScrollView
+    <com.hanbing.library.android.view.scroll.PullScaleScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -77,7 +77,7 @@ s
                     android:layout_height="50dp"
                     android:gravity="center"
                     android:background="#80ffff00">
-                    <com.common.view.CircleImageView
+                    <com.hanbing.library.android.view.CircleImageView
                         android:id="@+id/portrait"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
@@ -94,7 +94,7 @@ s
                 android:layout_height="100dp"
                 android:background="@color/blue"></View>
         </LinearLayout>
-    </com.common.view.PullScaleScrollView>
+    </com.hanbing.library.android.view.scroll.PullScaleScrollView>
 
 
     <LinearLayout

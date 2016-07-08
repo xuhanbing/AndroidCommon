@@ -10,19 +10,16 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.common.listener.OnItemClickListener;
-import com.common.listener.OnItemLongClickListener;
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
-import com.common.widget.list.DrawerListView;
-import com.common.widget.plugin.DrawerItemWrapper;
-import com.common.widget.recyclerview.DrawerRecyclerView;
+import com.hanbing.library.android.view.recycler.OnItemClickListener;
+import com.hanbing.library.android.view.recycler.OnItemLongClickListener;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
+import com.hanbing.library.android.view.plugin.DrawerItemWrapper;
+import com.hanbing.library.android.view.recycler.DrawerRecyclerView;
 import com.hanbing.mytest.R;
-import com.hanbing.mytest.view.SlideListView;
 
 public class TestSlideRecyclerView extends AppCompatActivity {
 

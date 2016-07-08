@@ -6,11 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 
-import com.common.tool.ScrollableViewTransitionController;
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
-import com.common.view.PullScaleScrollView;
-import com.common.view.StrengthScrollView;
+import com.hanbing.library.android.tool.ScrollableViewTransitionController;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
+import com.hanbing.library.android.view.scroll.PullScaleScrollView;
+import com.hanbing.library.android.view.scroll.StrengthScrollView;
 import com.hanbing.mytest.R;
 
 public class TestScrollView3 extends AppCompatActivity {

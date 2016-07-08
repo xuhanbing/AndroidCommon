@@ -53,17 +53,9 @@ public abstract class BaseFragment extends Fragment {
 			return mCacheView;
 		}
 
-		View view = null;
+		View view = onCreateViewImpl(inflater, container, savedInstanceState);
 
-		//使用注解方式生成view
-		view = injectView(inflater, container, savedInstanceState);
-
-		//如果没有使用注解方式，使用默认的方式生成view
-		if (null == view)
-		{
-			view = onCreateViewImpl(inflater, container, savedInstanceState);
-		}
-
+		bindViews(view, savedInstanceState);
 		initViews(view);
 
 		mCacheView = view;
@@ -71,18 +63,6 @@ public abstract class BaseFragment extends Fragment {
 
 		return view;
 	}
-
-	/**
-	 * 继承类可以提供自己的注入方式
-	 * @param inflater
-	 * @param container
-	 * @param savedInstanceState
-	 * @return
-	 */
-	protected View injectView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return null;
-	}
-
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -99,7 +79,24 @@ public abstract class BaseFragment extends Fragment {
 
 	}
 
+	/**
+	 * 继承类可以通过注入或者传统方式生成view
+	 * @param inflater
+	 * @param container
+	 * @param savedInstanceState
+	 * @return
+	 */
 	protected  abstract View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+
+
+	/**
+	 *
+	 * @param view
+	 * @param savedInstanceState
+	 */
+	protected void bindViews(View view, Bundle savedInstanceState) {
+
+	}
 
 	/**
 	 * @param view

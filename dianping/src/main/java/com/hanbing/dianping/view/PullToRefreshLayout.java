@@ -10,7 +10,7 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.common.util.ViewUtils;
+import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.dianping.R;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;

@@ -1,10 +1,6 @@
 package com;
 
-import android.text.TextUtils;
-
-import com.common.util.ReflectUtils;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -12,10 +8,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.google.gson.TypeAdapter;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
@@ -80,51 +74,9 @@ public class Test {
 
     public static void main(String[] args) {
 
-       B b = new B();
 
-        int value = 20;
-
-
-        try {
-
-            Method method = getMethod(b.getClass(), "get", new Class[]{int.class});
-
-            method.setAccessible(true);
-            int newValue = (int) method.invoke(b, 222);
-
-            b.print(newValue);
-
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-//        {
-//            String string = getValue(b, "name", "default name");
-//
-//            System.out.println("name1=" + string);
-//
-//            setValue(b, "name", "this is new name");
-//
-//            string = getValue(b, "name", "default name2");
-//
-//            System.out.println("name2=" + string);
-//
-//        }
-//
-//        {
-//            int age = getValue(b, "age", 0);
-//
-//            System.out.println("age1=" + age);
-//
-//            setValue(b, "age", 22);
-//
-//            age = getValue(b, "age", 0);
-//
-//            System.out.println("age2=" + age);
-//        }
     }
+
 
 
     public static <T> T getValue(Object object, String fieldName, T defaultValue) {

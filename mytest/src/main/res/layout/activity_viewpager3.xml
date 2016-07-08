@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <com.common.view.UnderlineTabWidget
+    <com.android.view.UnderlineTabWidget
         android:id="@+id/tabwidget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
-import com.androidcommon.R;
+import com.hanbing.library.android.R;
 
 /**
  * Created by hanbing on 2016/3/25.
@@ -327,5 +327,33 @@ public class TabStripWidget extends TabWidget {
      */
     public void setStripScrollEnabled(boolean enable) {
         mScrollStripEnabled = enable;
+    }
+
+    public boolean isScrollStripEnabled() {
+        return mScrollStripEnabled;
+    }
+
+    public void setScrollStripEnabled(boolean scrollStripEnabled) {
+        mScrollStripEnabled = scrollStripEnabled;
+    }
+
+    public boolean isScrollStripFollowContent() {
+        return mScrollStripFollowContent;
+    }
+
+    public void setScrollStripFollowContent(boolean scrollStripFollowContent) {
+        mScrollStripFollowContent = scrollStripFollowContent;
+    }
+
+    public int getScrollDuration() {
+        return mScrollDuration;
+    }
+
+    public void setScrollDuration(int scrollDuration) {
+        mScrollDuration = scrollDuration;
+    }
+
+    public boolean isStripEnabled() {
+        return mStripEnabled;
     }
 }

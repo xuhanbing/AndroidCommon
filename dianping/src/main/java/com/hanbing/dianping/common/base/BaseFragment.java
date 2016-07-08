@@ -7,19 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.xutils.x;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class BaseFragment extends com.common.fragment.BaseFragment {
+public abstract class BaseFragment extends com.hanbing.library.android.fragment.BaseFragment {
 
 
     public BaseFragment() {
         // Required empty public constructor
     }
-
     @Override
     protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return null;
+        return x.view().inject(this, inflater, container);
     }
 
     @Override

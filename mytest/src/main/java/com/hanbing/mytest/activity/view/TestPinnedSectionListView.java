@@ -6,8 +6,8 @@ package com.hanbing.mytest.activity.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.common.widget.list.PinnedSectionListView;
-import com.common.widget.plugin.PinnedSectionWrapper;
+import com.hanbing.library.android.view.list.PinnedSectionListView;
+import com.hanbing.library.android.view.plugin.PinnedSectionWrapper;
 
 import android.app.Activity;
 import android.graphics.Color;

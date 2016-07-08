@@ -13,13 +13,13 @@ import android.support.v4.app.FragmentManager;
  */
 public class BaseFragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
-	List<Fragment> mFragments;
+	List<? extends Fragment> mFragments;
 	String[] mTitles;
 
 	/**
 	 * @param fm
 	 */
-	public BaseFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragments, String[] titles) {
+	public BaseFragmentPagerAdapter(FragmentManager fm, List<? extends Fragment> fragments, String[] titles) {
 		super(fm);
 		// TODO Auto-generated constructor stub
 

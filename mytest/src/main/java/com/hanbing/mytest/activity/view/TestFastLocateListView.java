@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.common.widget.plugin.FastLocateLayout;
-import com.common.widget.list.FastLocateListView;
+import com.hanbing.library.android.view.plugin.FastLocateLayout;
+import com.hanbing.library.android.view.list.FastLocateListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

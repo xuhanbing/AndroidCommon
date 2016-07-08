@@ -19,6 +19,7 @@ public class ListFragment extends AbsListFragment<ListView> {
         return mListView = new ListView(getContext());
     }
 
+    
     @Override
     public BaseAdapter createAdapter() {
         return null;
@@ -40,7 +41,7 @@ public class ListFragment extends AbsListFragment<ListView> {
     }
 
     @Override
-    public void initDataView(ListView listView) {
+    public final void initDataView(ListView listView) {
 
         if (null != listView)
         {

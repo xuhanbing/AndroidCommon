@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.androidcommon.R;
+import com.hanbing.library.android.R;
 
 import java.util.ArrayList;
 
@@ -233,7 +233,7 @@ public class FloatLayout extends RelativeLayout {
             switch (direction) {
                 case Gravity.LEFT: {
 
-                    if (contentWidth + childMeasureWidth + leftMargin  > contentMaxWidth)
+                    if (contentWidth + childMeasureWidth + leftMargin + mContentPaddingHorizontal  > contentMaxWidth)
                     {
                         contentHeight += maxHeight;
                         contentWidth = 0;
@@ -256,7 +256,7 @@ public class FloatLayout extends RelativeLayout {
                 }
                 break;
                 case Gravity.RIGHT: {
-                    if (contentWidth + childMeasureWidth + rightMargin > contentMaxWidth)
+                    if (contentWidth + childMeasureWidth + rightMargin + mContentPaddingHorizontal > contentMaxWidth)
                     {
                         contentHeight += maxHeight;
                         contentWidth = 0;
@@ -280,7 +280,7 @@ public class FloatLayout extends RelativeLayout {
                 break;
 
                 case Gravity.TOP: {
-                    if (contentHeight + childMeasureHeight + topMargin  > contentMaxHeight)
+                    if (contentHeight + childMeasureHeight + topMargin + mContentPaddingVertical  > contentMaxHeight)
                     {
                         contentWidth += maxWidth;
                         contentHeight = 0;
@@ -303,7 +303,7 @@ public class FloatLayout extends RelativeLayout {
                 }
                 break;
                 case Gravity.BOTTOM: {
-                    if (contentHeight + childMeasureHeight + bottomMargin > contentMaxHeight)
+                    if (contentHeight + childMeasureHeight + bottomMargin + mContentPaddingVertical > contentMaxHeight)
                     {
 
                         contentWidth += maxWidth;

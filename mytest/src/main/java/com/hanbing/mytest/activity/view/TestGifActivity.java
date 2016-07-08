@@ -1,6 +1,7 @@
 package com.hanbing.mytest.activity.view;
 
 
+import com.hanbing.library.android.image.ImageLoader;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.base.SlideRightFinishActivity;
 import com.hanbing.mytest.view.gif.AnimatedGifDrawable;
@@ -19,6 +20,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import pl.droidsonroids.gif.GifImageView;
 
 public class TestGifActivity extends SlideRightFinishActivity {
@@ -74,15 +76,19 @@ public class TestGifActivity extends SlideRightFinishActivity {
 //		com.xhb.mytest.view.gif3.GifView gv3 = new com.xhb.mytest.view.gif3.GifView(this);
 //		gv3.setInputStream(getResources().openRawResource(R.raw.a2));
 //		layout.addView(gv3);
-		
-		com.common.view.GifImageView gv1 = new com.common.view.GifImageView(this);
+
+		String url = "http://p.freebao.com:81/cartoon/4/4_1.gif";
+		final GifImageView gv1 = new GifImageView(this);
 //		gv3.setImageURI(Uri.parse("http://p.freebao.com:81/cartoon/4/4_1.gif"));
 		gv1.setImageResource(R.drawable.n1);
+
+		final ImageLoader instance = ImageLoader.getInstance(this);
+		instance.displayImage(gv1, url);
 		layout.addView(gv1);
 		
-		com.common.view.GifImageView gv3 = new com.common.view.GifImageView(this);
-//		gv3.setImageURI(Uri.parse("http://p.freebao.com:81/cartoon/4/4_1.gif"));
-		gv3.setInputStream(getResources().openRawResource(R.raw.a2));
+		GifImageView gv3 = new GifImageView(this);
+		gv3.setImageURI(Uri.parse("http://p.freebao.com:81/cartoon/4/4_1.gif"));
+//		gv3.setInputStream(getResources().openRawResource(R.raw.a2));
 		layout.addView(gv3);
 		
 		GifImageView gv4 = new GifImageView(this);

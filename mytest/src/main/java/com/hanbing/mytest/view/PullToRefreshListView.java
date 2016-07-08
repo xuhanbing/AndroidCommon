@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-import com.common.util.DipUtils;
+import com.hanbing.library.android.util.DipUtils;
 import com.hanbing.mytest.R;
 
 

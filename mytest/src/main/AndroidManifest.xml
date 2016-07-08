@@ -4,7 +4,7 @@
           android:versionCode="1"
           android:versionName="1.0">
 
-    <uses-sdk android:minSdkVersion="11"/>
+    <uses-sdk android:minSdkVersion="15"/>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -333,7 +333,15 @@
             android:name=".activity.view.TestPinnedSectionRecyclerView"
             android:label="view/RecyclerView/Pinned Section RecyclerView">
         </activity>
-        <activity android:name=".activity.view.TestSlideRecyclerView" android:label="view/RecyclerView/Slide To Delete RecyclerView">
+        <activity
+            android:name=".activity.view.TestSlideRecyclerView"
+            android:label="view/RecyclerView/Slide To Delete RecyclerView">
+        </activity>
+        <activity android:name=".activity.action.TestCountDownTimer">
+        </activity>
+        <activity android:name=".activity.view.TestFloatLayout">
+        </activity>
+        <activity android:name=".activity.view.TestStrengthScroll">
         </activity>
     </application>
 

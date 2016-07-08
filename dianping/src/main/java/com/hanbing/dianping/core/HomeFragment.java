@@ -19,10 +19,10 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.common.image.ImageLoader;
-import com.common.tool.ScrollableViewTransitionController;
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
+import com.hanbing.library.android.image.ImageLoader;
+import com.hanbing.library.android.tool.ScrollableViewTransitionController;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
 import com.google.gson.Gson;
 import com.hanbing.dianping.Data;
 import com.hanbing.dianping.R;
@@ -110,7 +110,7 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
         return mAdapter;
     }
 
-    public  class MyViewHolder extends com.common.adapter.BaseAdapter.ViewHolder {
+    public  class MyViewHolder extends com.hanbing.library.android.adapter.BaseAdapter.ViewHolder {
 
         @ViewInject(R.id.iv_home_may_favorite_picture)
         ImageView picture;
@@ -136,7 +136,7 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
             x.view().inject(this, itemView);
         }
     }
-    class MyAdapter extends com.common.adapter.BaseAdapter<MyViewHolder> {
+    class MyAdapter extends com.hanbing.library.android.adapter.BaseAdapter<MyViewHolder> {
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int position) {
 
@@ -330,7 +330,7 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
     }
 
 
-    class OptionViewHolder extends com.common.adapter.BaseAdapter.ViewHolder {
+    class OptionViewHolder extends com.hanbing.library.android.adapter.BaseAdapter.ViewHolder {
 
         @ViewInject(R.id.iv_home_option_icon)
         ImageView icon;
@@ -360,7 +360,7 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
                     {Option.SCAN, R.drawable.main_home_navibar_tips_icon_scan, R.string.home_option_scan},
                     {Option.PAY, R.drawable.main_home_add_icon_pay, R.string.home_option_pay}};
 
-            listView.setAdapter(new com.common.adapter.BaseAdapter<OptionViewHolder>() {
+            listView.setAdapter(new com.hanbing.library.android.adapter.BaseAdapter<OptionViewHolder>() {
                 @Override
                 public int getCount() {
                     return OPTION_ITEM_ARRAY.length;

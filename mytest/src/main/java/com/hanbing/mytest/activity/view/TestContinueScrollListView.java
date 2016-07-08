@@ -1,23 +1,14 @@
 package com.hanbing.mytest.activity.view;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.VelocityTracker;
-import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.Scroller;
 import android.widget.SimpleAdapter;
 
-import com.common.util.LogUtils;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 

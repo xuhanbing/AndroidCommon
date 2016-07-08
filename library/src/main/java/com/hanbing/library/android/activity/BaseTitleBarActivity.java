@@ -10,7 +10,7 @@ import android.widget.TextView;
 /**
  * @author hanbing
  */
-public class BaseTitleBarActivity extends BaseActivity implements View.OnClickListener{
+public abstract class BaseTitleBarActivity extends BaseActivity implements View.OnClickListener{
 
 	TextView mCenterTitle;
 

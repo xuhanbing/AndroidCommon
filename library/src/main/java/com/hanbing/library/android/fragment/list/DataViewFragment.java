@@ -37,7 +37,6 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
 
     /**
      * 当加载数据时，覆盖ListView展示的view
-     *
      */
     View mLoadingView;
 
@@ -98,8 +97,6 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
     boolean mIsPageIndexStartFromZero = false;
 
 
-
-
     /**
      * 请求和分页管理
      */
@@ -114,7 +111,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
     };
 
     @Override
-    protected  void initViews(View view) {
+    protected void initViews(View view) {
         super.initViews(view);
 
         mPagingManager = createPagingManager();
@@ -144,7 +141,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
         hideEmptyView();
     }
 
-    public DataView getDataView () {
+    public DataView getDataView() {
         return mDataView;
     }
 
@@ -152,7 +149,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
         this.mDataView = dataView;
     }
 
-    public DataAdapter getDataAdapter(){
+    public DataAdapter getDataAdapter() {
         if (null == mDataAdapter)
             mDataAdapter = createAdapter();
         return mDataAdapter;
@@ -162,19 +159,25 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
         this.mDataAdapter = dataAdapter;
     }
 
-    public  void addLoadMoreIfNeed() {
-            if (mDataView instanceof ListView) ((ListView)mDataView).addFooterView(mLoadMoreContainer);
-            else if (mDataView instanceof HeaderRecyclerView) ((HeaderRecyclerView)mDataView).addFooterView(mLoadMoreContainer);
+    public void addLoadMoreIfNeed() {
+        if (null == mLoadMoreContainer)
+            return;
+
+        if (mDataView instanceof ListView) ((ListView) mDataView).addFooterView(mLoadMoreContainer);
+        else if (mDataView instanceof HeaderRecyclerView)
+            ((HeaderRecyclerView) mDataView).addFooterView(mLoadMoreContainer);
     }
 
     public void setEmptyViewIfNeed() {
-        if (mDataView instanceof AbsListView) ((AbsListView)mDataView).setEmptyView(mEmptyView);
+        if (null == mEmptyView)
+            return;
+        if (mDataView instanceof AbsListView) ((AbsListView) mDataView).setEmptyView(mEmptyView);
     }
 
     @Override
     protected void onVisible(boolean isFirstVisibleToUser) {
         if (isFirstVisibleToUser)
-        onRefresh();
+            onRefresh();
     }
 
     @Override
@@ -184,13 +187,11 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
             return;
 
         //没有更多数据了
-        if (mPagingManager.isLastPage())
-        {
+        if (mPagingManager.isLastPage()) {
             return;
         }
 
-        if (mPagingManager.lock())
-        {
+        if (mPagingManager.lock()) {
             mPagingManager.loadMore();
             onLoadStart();
             onLoadData(false, mPagingManager.getNextPageIndex(), mPagingManager.getPageSize());
@@ -199,8 +200,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
 
     @Override
     public final void onRefresh() {
-        if (mPagingManager.lock())
-        {
+        if (mPagingManager.lock()) {
             /**
              * 获取当前listview的数据总量
              */
@@ -210,9 +210,8 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
             int pageSize = mPagingManager.getPageSize();
             if (mIsSupportCustomPageSize && mIsRefreshAll) {
 
-                if (itemCount < mPagingManager.getPageSize())
-                {
-                    pageIndex = mPagingManager.getPageIndexByTotalCount(itemCount)+1;
+                if (itemCount < mPagingManager.getPageSize()) {
+                    pageIndex = mPagingManager.getPageIndexByTotalCount(itemCount) + 1;
                 } else {
                     //刷新一页，数量为当前个数
                     pageIndex = mPagingManager.getFirstPageIndex();
@@ -231,18 +230,18 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
         }
     }
 
-    public PagingManager createPagingManager(){
+    public PagingManager createPagingManager() {
         return new PagingManager();
     }
 
 
     /**
      * 加载数据
+     *
      * @param pageIndex 分页索引（如果支持）
-     * @param pageSize 分页数量（如果支持）
+     * @param pageSize  分页数量（如果支持）
      */
-    public  void onLoadData(boolean isRefresh, int pageIndex, int pageSize)
-    {
+    public void onLoadData(boolean isRefresh, int pageIndex, int pageSize) {
 
     }
 
@@ -256,18 +255,18 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
     public void setLoadMoreAlwaysShow(boolean alwaysShow) {
         mAlwaysShowLoadMoreView = alwaysShow;
 
-        if (!mAlwaysShowLoadMoreView)
-        {
-           hideLoadMoreView();
+        if (!mAlwaysShowLoadMoreView) {
+            hideLoadMoreView();
         } else {
             showLoadMoreView();
         }
     }
 
-    protected void showLoadMoreView(){
+    protected void showLoadMoreView() {
         if (null != mLoadMoreView) mLoadMoreView.setVisibility(View.VISIBLE);
     }
-    protected void hideLoadMoreView(){
+
+    protected void hideLoadMoreView() {
         if (null != mLoadMoreView) mLoadMoreView.setVisibility(View.GONE);
     }
 
@@ -293,8 +292,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
     @Override
     public void setClickLoadMoreEnabled(boolean enabled) {
         mClickLoadMoreEnabled = enabled;
-        if (null != mLoadMoreView)
-        {
+        if (null != mLoadMoreView) {
             if (enabled)
                 mLoadMoreView.setOnClickListener(mOnLoadMoreClick);
             else
@@ -310,16 +308,17 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
     /**
      * 设置刷新时是否刷新当前数据条数
      * 默认为true，同时需要mIsSupportCustomPageSize=true
+     *
      * @param isRefreshAll
      */
-    public void setRefreshAll(boolean isRefreshAll)
-    {
+    public void setRefreshAll(boolean isRefreshAll) {
         this.mIsRefreshAll = isRefreshAll;
     }
 
     /**
      * 设置分页是否支持自定义每页数量
      * 根据服务器接口实现设置
+     *
      * @param isSupportCustomPageSize
      */
     public void setSupportCustomPageSize(boolean isSupportCustomPageSize) {
@@ -329,16 +328,16 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
     /**
      * 分页是否从0开始
      * 默认false，即从1开始
+     *
      * @param isPageIndexStartFromZero
      */
     public void setPageIndexStartFromZero(boolean isPageIndexStartFromZero) {
         this.mIsPageIndexStartFromZero = isPageIndexStartFromZero;
     }
 
-    public void setEmptyView(View view){
+    public void setEmptyView(View view) {
         mEmptyView = view;
     }
-
 
 
     protected void showLoadingView() {
@@ -349,8 +348,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
         if (mForceShowLoadingView) {
             mLoadingView.setVisibility(View.VISIBLE);
         } else {
-            if (getItemCount() <= 0)
-            {
+            if (getItemCount() <= 0) {
                 mLoadingView.setVisibility(View.VISIBLE);
             } else {
                 mLoadingView.setVisibility(View.GONE);
@@ -359,20 +357,19 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
 
     }
 
-    protected void hideLoadingView(){
+    protected void hideLoadingView() {
         if (null != mLoadingView) mLoadingView.setVisibility(View.GONE);
     }
 
-    protected void showEmptyView(){
-        if (null != mEmptyView)  mEmptyView.setVisibility(View.VISIBLE);
+    protected void showEmptyView() {
+        if (null != mEmptyView) mEmptyView.setVisibility(View.VISIBLE);
     }
 
-    protected void hideEmptyView(){
-        if (null != mEmptyView)  mEmptyView.setVisibility(View.GONE);
+    protected void hideEmptyView() {
+        if (null != mEmptyView) mEmptyView.setVisibility(View.GONE);
     }
 
-    protected boolean isRefresh()
-    {
+    protected boolean isRefresh() {
         return mPagingManager.isRefresh();
     }
 
@@ -382,8 +379,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
         hideLoadingView();
 
         //有数据，显示加载更多
-        if (getItemCount() > 0)
-        {
+        if (getItemCount() > 0) {
             showLoadMoreView();
             hideEmptyView();
         } else {
@@ -393,7 +389,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
 
 
         if (mLoadMoreView instanceof OnLoadListener) {
-            ((OnLoadListener)mLoadMoreView).onLoadCompleted();
+            ((OnLoadListener) mLoadMoreView).onLoadCompleted();
         }
 
     }
@@ -401,8 +397,8 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
     @Override
     public void onLoadFailure(String msg) {
 
-        if ( mLoadMoreView instanceof OnLoadListener) {
-            ((OnLoadListener)mLoadMoreView).onLoadFailure(msg);
+        if (mLoadMoreView instanceof OnLoadListener) {
+            ((OnLoadListener) mLoadMoreView).onLoadFailure(msg);
         }
         onLoadCompleted();
     }
@@ -410,15 +406,14 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
     @Override
     public void onLoadStart() {
         showLoadingView();
-        if ( mLoadMoreView instanceof OnLoadListener) {
-            ((OnLoadListener)mLoadMoreView).onLoadStart();
+        if (mLoadMoreView instanceof OnLoadListener) {
+            ((OnLoadListener) mLoadMoreView).onLoadStart();
         }
     }
 
     @Override
     public void onLoadSuccess() {
-        if (mPagingManager.isRefresh())
-        {
+        if (mPagingManager.isRefresh()) {
             mPagingManager.setIndexAfterRefresh(getItemCount());
         } else {
             mPagingManager.addPageIndex();
@@ -426,7 +421,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
         }
 
         if (mLoadMoreView instanceof OnLoadListener) {
-            ((OnLoadListener)mLoadMoreView).onLoadSuccess();
+            ((OnLoadListener) mLoadMoreView).onLoadSuccess();
         }
         onLoadCompleted();
     }
@@ -437,7 +432,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
         mPagingManager.setNoMore();
 
         if (mLoadMoreView instanceof OnLoadListener) {
-            ((OnLoadListener)mLoadMoreView).onLoadSuccessNoData();
+            ((OnLoadListener) mLoadMoreView).onLoadSuccessNoData();
         }
         onLoadCompleted();
     }

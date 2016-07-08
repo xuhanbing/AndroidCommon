@@ -2,10 +2,8 @@ package com.hanbing.dianping.common.base;
 
 import android.view.View;
 
-import com.common.fragment.list.SrainPtrListFragment;
+import com.hanbing.library.android.fragment.list.SrainPtrListFragment;
 import com.hanbing.dianping.view.LoadMoreView;
-
-import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * Created by hanbing on 2016/6/13.

@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -19,11 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.common.util.DipUtils;
-import com.common.util.LogUtils;
-import com.common.util.ViewUtils;
+import com.hanbing.library.android.util.DipUtils;
+import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.mytest.activity.BaseActivity;
-import com.hanbing.mytest.activity.view.TestPtr;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +42,6 @@ public class NewMainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
 

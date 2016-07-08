@@ -5,7 +5,7 @@
  */
 package com.hanbing.mytest.activity.view;
 
-import com.common.util.LogUtils;
+import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.view.MyScrollView;
 import com.hanbing.mytest.view.MyScrollView.RefreshListener;
