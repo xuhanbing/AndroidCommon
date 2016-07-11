@@ -49,6 +49,7 @@ public class Test {
         @Override
         public JsonElement serialize(User src, Type typeOfSrc, JsonSerializationContext context) {
             System.out.println("serialize");
+
             return null;
         }
 
