@@ -192,11 +192,9 @@ public class TestListFragment extends AppCompatActivity {
 
 
         @Override
-        public void initDataView(ListView view) {
-            super.initDataView(view);
+        public void initListView(ListView listView) {
             mAdapter = new MyListViewAdapter();
-            view.setAdapter(mAdapter);
-
+            listView.setAdapter(mAdapter);
         }
 
         @Override

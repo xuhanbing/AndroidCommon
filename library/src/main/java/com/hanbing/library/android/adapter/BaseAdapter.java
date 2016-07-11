@@ -1,5 +1,6 @@
 package com.hanbing.library.android.adapter;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,8 +14,7 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder> extends and
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        VH viewHolder;
-
+        VH viewHolder = null;
         if (null == convertView) {
 
             viewHolder = onCreateViewHolder(parent, getItemViewType(position));
@@ -22,9 +22,10 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder> extends and
             convertView = viewHolder.mItemView;
             convertView.setTag(viewHolder);
         } else {
-
             viewHolder = (VH) convertView.getTag();
         }
+
+
 
         onBindViewHolder(viewHolder, position);
 

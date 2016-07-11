@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * Created by hanbing on 2016/7/7
  */
-public class MenuFragment extends DialogFragment implements IMenuView, AdapterView.OnItemClickListener {
+public class MenuFragment extends Fragment implements IMenuView, AdapterView.OnItemClickListener {
 
     public static final String MENU_ITEM = "menuItem";
     public static final String SELECTED_MENU_ITEM = "selectedMenuItem";
@@ -39,12 +40,10 @@ public class MenuFragment extends DialogFragment implements IMenuView, AdapterVi
         public void onSelected(MenuItem menuItem);
     }
 
-    IMenuPresenter mMenuPresenter;
-
-    OnSelectedListener mOnSelectedListener;
-
+    protected IMenuPresenter mMenuPresenter;
     protected LinearLayout mLinearLayout;
-    List<ListView> mListViews;
+    protected List<ListView> mListViews;
+    OnSelectedListener mOnSelectedListener;
 
     public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
         mOnSelectedListener = onSelectedListener;
@@ -143,7 +142,6 @@ public class MenuFragment extends DialogFragment implements IMenuView, AdapterVi
             mOnSelectedListener.onSelected(selectedMenuItem);
         }
 
-        dismiss();
     }
 
     @Override

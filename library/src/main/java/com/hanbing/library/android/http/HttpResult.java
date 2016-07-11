@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author hanbing
  * 
  */
-public class HttpResult<T extends Object> implements Serializable{
+public class HttpResult implements Serializable{
 
 	/**
 	 * 
@@ -30,15 +30,6 @@ public class HttpResult<T extends Object> implements Serializable{
 
 	String response;
 	
-	T data;
-
-	public T getData() {
-		return data;
-	}
-
-	public void setData(T data) {
-		this.data = data;
-	}
 
 	public int getRequestCode() {
 		return requestCode;

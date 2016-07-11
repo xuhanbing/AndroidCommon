@@ -7,7 +7,7 @@ package com.hanbing.library.android.http;
 /**
  * @author hanbing
  */
-public class HttpResultError extends HttpResult<String> {
+public class HttpResultError extends HttpResult {
 
 
     int errorCode;
