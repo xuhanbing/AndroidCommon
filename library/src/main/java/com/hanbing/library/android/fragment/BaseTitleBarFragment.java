@@ -56,7 +56,7 @@ public abstract class BaseTitleBarFragment extends BaseFragment implements View.
 			mRightTitle.setVisibility(isShowRight() ? View.VISIBLE : View.GONE);
 	}
 
-	public abstract void findTitleBarViews();
+	protected abstract void findTitleBarViews();
 
 	protected void setCenterTitle(CharSequence text) {
 		if (null != mCenterTitle)
