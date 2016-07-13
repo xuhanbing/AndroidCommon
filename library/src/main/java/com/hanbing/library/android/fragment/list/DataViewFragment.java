@@ -159,6 +159,17 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
         this.mDataAdapter = dataAdapter;
     }
 
+
+    public void setPagingManager(PagingManager pagingManager) {
+        mPagingManager = pagingManager;
+    }
+
+    public PagingManager getPagingManager() {
+        return mPagingManager;
+    }
+
+
+
     public void addLoadMoreIfNeed() {
         if (null == mLoadMoreContainer)
             return;
