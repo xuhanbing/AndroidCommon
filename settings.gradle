@@ -1,2 +1,2 @@
-include ':library', ':dianping'
+include ':library', ':dianping', ':module', ':module_sample'
 include ':mytest'

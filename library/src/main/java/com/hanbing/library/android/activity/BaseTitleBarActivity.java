@@ -12,13 +12,13 @@ import android.widget.TextView;
  */
 public abstract class BaseTitleBarActivity extends BaseActivity implements View.OnClickListener{
 
-	TextView mCenterTitle;
+	protected TextView mCenterTitle;
 
-	TextView mLeftTitle;
+	protected TextView mLeftTitle;
 
-	TextView mRightTitle;
+	protected TextView mRightTitle;
 
-	ImageView mBack;
+	protected View mBackView;
 
 	/*
 	 * (non-Javadoc)
@@ -51,8 +51,8 @@ public abstract class BaseTitleBarActivity extends BaseActivity implements View.
 		else
 			setRightTitle(getRightTitle());
 
-		if (null != mBack)
-			mBack.setVisibility(isShowBack() ? View.VISIBLE : View.GONE);
+		if (null != mBackView)
+			mBackView.setVisibility(isShowBack() ? View.VISIBLE : View.GONE);
 
 		if (null != mLeftTitle)
 			mLeftTitle.setVisibility(isShowLeft() ? View.VISIBLE : View.GONE);
@@ -61,10 +61,7 @@ public abstract class BaseTitleBarActivity extends BaseActivity implements View.
 			mRightTitle.setVisibility(isShowRight() ? View.VISIBLE : View.GONE);
 	}
 
-	private void findTitleBarViews() {
-
-	}
-
+	protected abstract void findTitleBarViews();
 
 	protected void setCenterTitle(CharSequence text) {
 		if (null != mCenterTitle)

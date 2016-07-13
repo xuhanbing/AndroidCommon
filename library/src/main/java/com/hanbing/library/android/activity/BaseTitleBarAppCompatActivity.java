@@ -1,16 +1,15 @@
 /**
  * 
  */
-package com.hanbing.library.android.fragment;
+package com.hanbing.library.android.activity;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
  * @author hanbing
  */
-public abstract class BaseTitleBarFragment extends BaseFragment implements View.OnClickListener{
+public abstract class BaseTitleBarAppCompatActivity extends BaseAppCompatActivity implements View.OnClickListener{
 
 	protected TextView mCenterTitle;
 
@@ -20,17 +19,22 @@ public abstract class BaseTitleBarFragment extends BaseFragment implements View.
 
 	protected View mBackView;
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 */
 	@Override
-	protected void initViews(View view) {
+	protected void initViews() {
 		// TODO Auto-generated method stub
-		super.initViews(view);
-		initTitleBar(view);
+		super.initViews();
+		
+		initTitleBar();
 	}
 
-	private void initTitleBar(View view) {
-
-		findTitleBarViews();
+	private void initTitleBar() {
 		
+		findTitleBarViews();
+
 		if (getCenterTitleResId() > 0)
 			setCenterTitle(getCenterTitleResId());
 		else
@@ -56,7 +60,7 @@ public abstract class BaseTitleBarFragment extends BaseFragment implements View.
 			mRightTitle.setVisibility(isShowRight() ? View.VISIBLE : View.GONE);
 	}
 
-	public abstract void findTitleBarViews();
+	protected abstract void findTitleBarViews();
 
 	protected void setCenterTitle(CharSequence text) {
 		if (null != mCenterTitle)
@@ -113,7 +117,7 @@ public abstract class BaseTitleBarFragment extends BaseFragment implements View.
 	}
 
 	protected boolean isShowBack() {
-		return false;
+		return true;
 	}
 
 	protected boolean isShowLeft() {
@@ -125,7 +129,7 @@ public abstract class BaseTitleBarFragment extends BaseFragment implements View.
 	}
 
 	protected void goBack() {
-		getActivity().finish();
+		finish();
 	}
 
 	protected void onLeftClick() {
