@@ -343,6 +343,8 @@
         </activity>
         <activity android:name=".activity.view.TestStrengthScroll">
         </activity>
+        <activity android:name=".activity.action.TestBind">
+        </activity>
     </application>
 
 </manifest>

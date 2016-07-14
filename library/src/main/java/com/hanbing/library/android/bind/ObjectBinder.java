@@ -127,7 +127,7 @@ public class ObjectBinder {
 
     private static BindContentView findContentView(Class clazz) {
 
-        if (null == clazz)
+        if (null == clazz || clazz == Activity.class)
             return null;
 
         BindContentView annotation = (BindContentView) clazz.getAnnotation(BindContentView.class);
