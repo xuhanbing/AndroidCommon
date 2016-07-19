@@ -49,7 +49,7 @@ public class ObjectBinder {
         }
 
         if (null != view) {
-            bind(object, object.getClass(), new ObjectFinder(view));
+            bind(object, object.getClass(), new ObjectFinder(object, view));
         }
 
 
@@ -57,7 +57,7 @@ public class ObjectBinder {
     }
 
     public static void bind(Object object, View view) {
-        bind(object, object.getClass(), new ObjectFinder(view));
+        bind(object, object.getClass(), new ObjectFinder(object, view));
     }
 
     public static void bind(Object object, Class clazz,  ObjectFinder objectFinder) {
