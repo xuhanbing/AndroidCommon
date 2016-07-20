@@ -9,7 +9,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/dianping" />
             <option value="$PROJECT_DIR$/library" />
+            <option value="$PROJECT_DIR$/module" />
+            <option value="$PROJECT_DIR$/module_sample" />
             <option value="$PROJECT_DIR$/mytest" />
           </set>
         </option>

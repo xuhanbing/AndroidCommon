@@ -141,6 +141,8 @@ public class SwitchButton extends CompoundButton {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (!isEnabled())
+            return super.onTouchEvent(event);
 
         switch (event.getAction())
         {

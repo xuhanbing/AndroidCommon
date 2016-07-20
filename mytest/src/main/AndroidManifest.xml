@@ -343,7 +343,13 @@
         </activity>
         <activity android:name=".activity.view.TestStrengthScroll">
         </activity>
+        <activity android:name=".activity.fragment.TestFragment2">
+        </activity>
         <activity android:name=".activity.action.TestBind">
+        </activity>
+        <activity android:name=".activity.action.TestDisplayMetrics">
+        </activity>
+        <activity android:name=".activity.action.TestDb">
         </activity>
     </application>
 
