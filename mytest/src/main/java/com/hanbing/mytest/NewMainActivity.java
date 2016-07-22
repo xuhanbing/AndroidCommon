@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -44,6 +45,9 @@ public class NewMainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+
+
 
 
 

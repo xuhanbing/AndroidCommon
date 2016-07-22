@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,6 +39,7 @@ public class MenuFragment extends Fragment implements IMenuView, AdapterView.OnI
 
     public interface OnSelectedListener {
         public void onSelected(MenuItem menuItem);
+        public void onClose();
     }
 
     protected IMenuPresenter mMenuPresenter;
@@ -110,7 +112,7 @@ public class MenuFragment extends Fragment implements IMenuView, AdapterView.OnI
             if (null != subMenuItems && subMenuItems.size() > 0) {
                 ListView listView = mListViews.get(0);
 
-                MenuItemAdapter adapter = new MenuItemAdapter(subMenuItems, subMenuItems.get(0));
+                MenuItemAdapter adapter = createAdapter(subMenuItems, subMenuItems.get(0));
                 listView.setAdapter(adapter);
             }
 
@@ -121,7 +123,7 @@ public class MenuFragment extends Fragment implements IMenuView, AdapterView.OnI
                 ListView listView = mListViews.get(index);
 
                 MenuItem parent = selectedMenuItem.getParent();
-                listView.setAdapter(new MenuItemAdapter(parent.getSubMenuItems(), selectedMenuItem));
+                listView.setAdapter(createAdapter(parent.getSubMenuItems(), selectedMenuItem));
 
                 index--;
 
@@ -144,6 +146,15 @@ public class MenuFragment extends Fragment implements IMenuView, AdapterView.OnI
 
     }
 
+    //点击其他位置关闭
+    public void close() {
+
+        if (null != mOnSelectedListener) {
+            mOnSelectedListener.onClose();
+        }
+
+    }
+
     @Override
     public void select(MenuItem selectedMenuItem) {
         int index = mMenuPresenter.indexOfMenuItem(selectedMenuItem);
@@ -160,7 +171,7 @@ public class MenuFragment extends Fragment implements IMenuView, AdapterView.OnI
         if (index + 1 < levels) {
             List<MenuItem> subMenuItems = selectedMenuItem.getSubMenuItems();
             if (null != subMenuItems && subMenuItems.size() > 0)
-                mListViews.get(index + 1).setAdapter(new MenuItemAdapter(subMenuItems));
+                mListViews.get(index + 1).setAdapter(createAdapter(subMenuItems, null));
             else
                 mListViews.get(index + 1).setAdapter(null);
         }
@@ -172,10 +183,14 @@ public class MenuFragment extends Fragment implements IMenuView, AdapterView.OnI
         }
     }
 
-    class MenuItemAdapter extends BaseAdapter {
+    protected MenuItemAdapter createAdapter(List<MenuItem> menuItems, MenuItem selectedMenuItem) {
+       return new MenuItemAdapter(menuItems, selectedMenuItem);
+    }
 
-        List<MenuItem> mMenuItems;
-        MenuItem mSelectedMenuItem;
+    protected class MenuItemAdapter extends BaseAdapter {
+
+        protected List<MenuItem> mMenuItems;
+        protected MenuItem mSelectedMenuItem;
 
         public MenuItemAdapter(List<MenuItem> menuItems) {
             mMenuItems = menuItems;

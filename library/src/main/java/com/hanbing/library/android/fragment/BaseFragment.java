@@ -5,6 +5,7 @@ package com.hanbing.library.android.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,17 +37,11 @@ public abstract class BaseFragment extends Fragment {
 	 */
 	boolean mFirstVisibleToUser = true;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
-	 * android.view.ViewGroup, android.os.Bundle)
-	 */
 	@Override
-	public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 
+		Log.e("BaseFragment", getClass() + " savedInstanceState = " + savedInstanceState);
 		if (null != mCacheView)
 		{
 			mViewFirstCreated = false;
