@@ -47,8 +47,7 @@ public abstract class AbsListFragment<DataView extends AbsListView> extends Data
         if (mIsManScroll
                 && lastVisibleItem == totalItemCount) {
 
-            if (isLoadMoreEnabled() && isScrollLoadMoreEnabled())
-            onLoadMore();
+           onLastItemVisible();
         }
     }
 }

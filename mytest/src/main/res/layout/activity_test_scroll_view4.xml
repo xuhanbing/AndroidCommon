@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.hanbing.mytest.activity.view.TestScrollView4">
+
+    <com.hanbing.mytest.view.PinnedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.hanbing.mytest.view.PinnedLinearLayout
+            android:id="@+id/pinnedLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/ic_launcher"/>
+            <Button
+                android:id="@+id/btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/yellow"
+                android:textColor="@color/white"
+                android:onClick="onClick"
+                android:text="这是一个按钮"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="20dp"
+                android:text="杭州市，简称杭，浙江省省会，位于中国东南沿海、浙江省北部、钱塘江下游、京杭大运河南端，是浙江省的政治、经济、文化和金融中心，长江三角洲中心城市之一。[1]  中国七大古都之一，中国重要的电子商务中心之一。
+杭州以风景秀丽著称，素有“人间天堂”的美誉。市内人文古迹众多，西湖及其周边有大量的自然及人文景观遗迹。杭州是吴越文化的发源地之一，历史文化积淀深厚。其中主要代表性的独特文化有良渚文化、丝绸文化、茶文化、以及流传下来的许多故事传说成为杭州文化代表。
+杭州市域面积为16596平方公里，辖9个区、2个县，代管2个县级市。2015年常住人口为901.8万人[2]  ，杭州人多属江浙民系使用吴语。杭州得益于京杭运河和通商口岸的便利，以及自身发达的丝绸和粮食产业，历史上曾是重要的商业集散中心。后来依托沪杭铁路等铁路线路的通车以及上海在进出口贸易方面的带动，轻工业发展迅速。
+2016年G20峰会[3]  、2018年世界短池游泳锦标赛[4]  、2022年亚运会[5]  将在杭州举办。杭州市，简称杭，浙江省省会，位于中国东南沿海、浙江省北部、钱塘江下游、京杭大运河南端，是浙江省的政治、经济、文化和金融中心，长江三角洲中心城市之一。[1]  中国七大古都之一，中国重要的电子商务中心之一。
+杭州以风景秀丽著称，素有“人间天堂”的美誉。市内人文古迹众多，西湖及其周边有大量的自然及人文景观遗迹。杭州是吴越文化的发源地之一，历史文化积淀深厚。其中主要代表性的独特文化有良渚文化、丝绸文化、茶文化、以及流传下来的许多故事传说成为杭州文化代表。
+杭州市域面积为16596平方公里，辖9个区、2个县，代管2个县级市。2015年常住人口为901.8万人[2]  ，杭州人多属江浙民系使用吴语。杭州得益于京杭运河和通商口岸的便利，以及自身发达的丝绸和粮食产业，历史上曾是重要的商业集散中心。后来依托沪杭铁路等铁路线路的通车以及上海在进出口贸易方面的带动，轻工业发展迅速。
+2016年G20峰会[3]  、2018年世界短池游泳锦标赛[4]  、2022年亚运会[5]  将在杭州举办。杭州市，简称杭，浙江省省会，位于中国东南沿海、浙江省北部、钱塘江下游、京杭大运河南端，是浙江省的政治、经济、文化和金融中心，长江三角洲中心城市之一。[1]  中国七大古都之一，中国重要的电子商务中心之一。
+杭州以风景秀丽著称，素有“人间天堂”的美誉。市内人文古迹众多，西湖及其周边有大量的自然及人文景观遗迹。杭州是吴越文化的发源地之一，历史文化积淀深厚。其中主要代表性的独特文化有良渚文化、丝绸文化、茶文化、以及流传下来的许多故事传说成为杭州文化代表。
+杭州市域面积为16596平方公里，辖9个区、2个县，代管2个县级市。2015年常住人口为901.8万人[2]  ，杭州人多属江浙民系使用吴语。杭州得益于京杭运河和通商口岸的便利，以及自身发达的丝绸和粮食产业，历史上曾是重要的商业集散中心。后来依托沪杭铁路等铁路线路的通车以及上海在进出口贸易方面的带动，轻工业发展迅速。
+2016年G20峰会[3]  、2018年世界短池游泳锦标赛[4]  、2022年亚运会[5]  将在杭州举办。杭州市，简称杭，浙江省省会，位于中国东南沿海、浙江省北部、钱塘江下游、京杭大运河南端，是浙江省的政治、经济、文化和金融中心，长江三角洲中心城市之一。[1]  中国七大古都之一，中国重要的电子商务中心之一。
+杭州以风景秀丽著称，素有“人间天堂”的美誉。市内人文古迹众多，西湖及其周边有大量的自然及人文景观遗迹。杭州是吴越文化的发源地之一，历史文化积淀深厚。其中主要代表性的独特文化有良渚文化、丝绸文化、茶文化、以及流传下来的许多故事传说成为杭州文化代表。
+杭州市域面积为16596平方公里，辖9个区、2个县，代管2个县级市。2015年常住人口为901.8万人[2]  ，杭州人多属江浙民系使用吴语。杭州得益于京杭运河和通商口岸的便利，以及自身发达的丝绸和粮食产业，历史上曾是重要的商业集散中心。后来依托沪杭铁路等铁路线路的通车以及上海在进出口贸易方面的带动，轻工业发展迅速。
+2016年G20峰会[3]  、2018年世界短池游泳锦标赛[4]  、2022年亚运会[5]  将在杭州举办。"/>
+        </com.hanbing.mytest.view.PinnedLinearLayout>
+    </com.hanbing.mytest.view.PinnedScrollView>
+</RelativeLayout>

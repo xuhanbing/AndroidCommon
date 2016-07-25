@@ -191,6 +191,15 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
             onRefresh();
     }
 
+    /**
+     * 最后一个item展示（滑动时）
+     */
+    protected void onLastItemVisible() {
+        if (isLoadMoreEnabled() && isScrollLoadMoreEnabled())
+            onLoadMore();
+    }
+
+
     @Override
     public final void onLoadMore() {
 

@@ -53,9 +53,7 @@ public class RecyclerViewFragment extends DataViewFragment<RecyclerView, Recycle
 
             if (mIsManScroll
                 && lastVisibleItemPosition == itemCount - 1) {
-                if (isLoadMoreEnabled() && isScrollLoadMoreEnabled() ) {
-                    onLoadMore();
-                }
+                onLastItemVisible();
             }
 
 
