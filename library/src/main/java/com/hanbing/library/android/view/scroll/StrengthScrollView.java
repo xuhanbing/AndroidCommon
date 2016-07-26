@@ -12,7 +12,7 @@ import android.widget.Scroller;
  * @author hanbing
  * @Date 2015-7-8
  */
-public class StrengthScrollView extends ScrollView {
+public class StrengthScrollView extends CallbackScrollView {
 
     public interface OnPullListener {
         /**

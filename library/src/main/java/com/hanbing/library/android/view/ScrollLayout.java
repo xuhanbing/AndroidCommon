@@ -13,705 +13,647 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
+import com.hanbing.library.android.util.LogUtils;
+
 /**
- * 
  * @author hanbing
  * @date 2015-7-1
  */
 
 public class ScrollLayout extends ViewGroup {
-	
-	/**
-	 * animate view
-	 * @author hanbing
-	 *
-	 */
-	public interface PageTransformer extends ViewPager.PageTransformer {
-		
-		public void transformPage(View view, float position);
-	}
 
-	private static final String TAG = "ScrollLayout";
+    /**
+     * animate view
+     *
+     * @author hanbing
+     */
+    public interface PageTransformer extends ViewPager.PageTransformer {
 
-	private Scroller mScroller;
+        public void transformPage(View view, float position);
+    }
 
-	private VelocityTracker mVelocityTracker;
+    private static final String TAG = "ScrollLayout";
 
-	private int mCurScreen;
+    private Scroller mScroller;
 
-	private int mDefaultScreen = 0;
+    private VelocityTracker mVelocityTracker;
 
-	private static final int TOUCH_STATE_REST = 0;
+    private int mCurScreen;
 
-	private static final int TOUCH_STATE_SCROLLING = 1;
+    private int mDefaultScreen = 0;
 
-	private static final int SNAP_VELOCITY = 300;
+    private static final int TOUCH_STATE_REST = 0;
 
-	private static final int SNAP_DURATION = 0;
+    private static final int TOUCH_STATE_SCROLLING = 1;
 
-	private int mTouchState = TOUCH_STATE_REST;
+    private static final int SNAP_VELOCITY = 300;
 
-	private int mTouchSlop;
+    private static final int SNAP_DURATION = 0;
 
-	private float mLastMotionX;
+    private int mTouchState = TOUCH_STATE_REST;
 
-	private float mLastMotionY;
+    private int mTouchSlop;
 
-	public static final int HORIZONTAL = 0;
-	public static final int VERTICAL = 1;
+    private float mLastMotionX;
 
-	private int mOritention = VERTICAL;// HORIZONTAL;
+    private float mLastMotionY;
 
-	private boolean mEnableScroll = true;
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
 
-	private int snapDuration = SNAP_DURATION;
-	/**
-	 * double click max interval. If the two click interval is less than the
-	 * value, it is considered a double click.
-	 */
-	private static final int DOUBLE_CLICK_MAX_INTERVAL = 200;
+    private int mOrientation = VERTICAL;// HORIZONTAL;
 
-	boolean mIsFirstDown = true;
-	long mLastDownTime = 0;
-	
-	PageTransformer mPageTransformer;
+    private boolean mEnableScroll = true;
 
-	private OnScreenChangedListener mScreenListener = new OnScreenChangedListener() {
+    private int snapDuration = SNAP_DURATION;
+    /**
+     * double click max interval. If the two click interval is less than the
+     * value, it is considered a double click.
+     */
+    private static final int DOUBLE_CLICK_MAX_INTERVAL = 200;
 
-		@Override
-		public void onScreenScroll(int current, float percent, int next) {
-			// TODO Auto-generated method stub
-			// Log.e("", "onScreenScroll current:" + current + ",next=" + next
-			// + ",percent=" + percent);
-		}
+    boolean mIsFirstDown = true;
+    long mLastDownTime = 0;
 
-		@Override
-		public void onScreenChanged(int screen) {
-			// TODO Auto-generated method stub
-			// Log.e("", "onScreenChanged " + screen);
-		}
+    int mMinimumVelocity;
+    int mMaximumVelocity;
 
-		@Override
-		public void onDoubleClick(int screen) {
-			// TODO Auto-generated method stub
-			// Log.e("", "onDoubleClick " + screen);
-		}
+    PageTransformer mPageTransformer;
 
-		@Override
-		public void onScreenScrollStart() {
-			// TODO Auto-generated method stub
+    private OnScreenChangedListener mScreenListener = new OnScreenChangedListener() {
 
-		}
-	};
+        @Override
+        public void onScreenScroll(int current, float percent, int next) {
+            // TODO Auto-generated method stub
 
-	public ScrollLayout(Context context) {
+        }
 
-		this(context, null);
+        @Override
+        public void onScreenChanged(int screen) {
+            // TODO Auto-generated method stub
+        }
 
-	}
+        @Override
+        public void onDoubleClick(int screen) {
+            // TODO Auto-generated method stub
+        }
 
-	public ScrollLayout(Context context, AttributeSet attrs) {
+        @Override
+        public void onScreenScrollStart() {
+            // TODO Auto-generated method stub
 
-		this(context, attrs, 0);
+        }
+    };
 
-	}
+    public ScrollLayout(Context context) {
 
-	public ScrollLayout(Context context, AttributeSet attrs, int defStyle) {
+        this(context, null);
 
-		super(context, attrs, defStyle);
+    }
 
-		mScroller = new Scroller(context);
+    public ScrollLayout(Context context, AttributeSet attrs) {
 
-		mCurScreen = mDefaultScreen;
+        this(context, attrs, 0);
 
-		mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+    }
 
-	}
+    public ScrollLayout(Context context, AttributeSet attrs, int defStyle) {
 
-	@Override
-	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super(context, attrs, defStyle);
 
-		int childLeft = 0;
-		int childTop = 0;
+        mScroller = new Scroller(context);
 
-		final int childCount = getChildCount();
+        mCurScreen = mDefaultScreen;
 
-		for (int i = 0; i < childCount; i++) {
 
-			final View childView = getChildAt(i);
+        ViewConfiguration configuration = ViewConfiguration.get(getContext());
+        mTouchSlop = configuration.getScaledTouchSlop();
+        mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
+        mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
 
-			if (childView.getVisibility() != View.GONE) {
+    }
 
-				final int childWidth = childView.getMeasuredWidth();
-				final int childHeight = childView.getMeasuredHeight();
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
-				if (isHorizontal()) {
-					childView.layout(childLeft, 0, childLeft + childWidth,
-							childHeight);
+        int childLeft = 0;
+        int childTop = 0;
 
-					childLeft += childWidth;
-				} else {
-					childView.layout(0, childTop, childWidth, childTop
-							+ childHeight);
+        final int childCount = getChildCount();
 
-					childTop += childHeight;
-				}
+        for (int i = 0; i < childCount; i++) {
 
-			}
+            final View childView = getChildAt(i);
 
-		}
+            if (childView.getVisibility() != View.GONE) {
 
-	}
+                final int childWidth = childView.getMeasuredWidth();
+                final int childHeight = childView.getMeasuredHeight();
 
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                if (isHorizontal()) {
+                    childView.layout(childLeft, 0, childLeft + childWidth,
+                            childHeight);
 
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+                    childLeft += childWidth;
+                } else {
+                    childView.layout(0, childTop, childWidth, childTop
+                            + childHeight);
 
-		final int width = MeasureSpec.getSize(widthMeasureSpec);
+                    childTop += childHeight;
+                }
 
-		final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+            }
 
-		// if (widthMode != MeasureSpec.EXACTLY) {
+        }
 
-		// throw new
-		// IllegalStateException("ScrollLayout only canmCurScreen run at EXACTLY mode!");
+    }
 
-		// }
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-		/**
-		 * 
-		 * wrap_content 閿熸枻鎷烽敓鏂ゆ嫹鍘婚敓鏂ゆ嫹閿熸枻鎷稟T_MOST 閿熸暀璁规嫹閿熸枻鎷峰?奸敓鏂ゆ嫹fill_parent
-		 * 閿熸枻鎷烽敓鏂ゆ嫹閿熶茎锛枻鎷烽敓绱糥ACTLY
-		 */
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-		final int height = MeasureSpec.getSize(heightMeasureSpec);
-		final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        final int width = MeasureSpec.getSize(widthMeasureSpec);
 
-		// if (heightMode != MeasureSpec.EXACTLY) {
+        final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 
-		// throw new
-		// IllegalStateException("ScrollLayout only can run at EXACTLY mode!");
 
-		// }
+        final int height = MeasureSpec.getSize(heightMeasureSpec);
+        final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
-		// The children are given the same width and height as the scrollLayout
 
-		final int count = getChildCount();
+        // The children are given the same width and height as the scrollLayout
+        final int count = getChildCount();
 
-		for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++) {
 
-			getChildAt(i).measure(widthMeasureSpec, heightMeasureSpec);
+            getChildAt(i).measure(widthMeasureSpec, heightMeasureSpec);
 
-		}
+        }
 
-		scrollToCurrentScreen();
-	}
+        scrollToCurrentScreen();
+    }
 
-	/**
-	 * 
-	 * According to the position of current layout scroll to the destination
-	 * 
-	 * page.
-	 */
+    /**
+     * According to the position of current layout scroll to the destination
+     * <p/>
+     * page.
+     */
 
-	public void snapToDestination() {
+    public void snapToDestination() {
 
-		final int screenWidth = getWidth();
-		final int screenHeight = getHeight();
+        final int screenWidth = getWidth();
+        final int screenHeight = getHeight();
 
-		final int destScreen = isHorizontal() ? (getScrollX() + screenWidth / 2)
-				/ screenWidth
-				: (getScrollY() + screenHeight / 2) / screenHeight;
+        final int destScreen = isHorizontal() ? (getScrollX() + screenWidth / 2)
+                / screenWidth
+                : (getScrollY() + screenHeight / 2) / screenHeight;
 
-		snapToScreen(destScreen);
+        snapToScreen(destScreen);
 
-	}
+    }
 
-	public void snapToScreen(int whichScreen) {
+    public void snapToScreen(int whichScreen) {
 
-		// get the valid layout page
+        // get the valid layout page
 
-		int width = getWidth();
-		int height = getHeight();
+        int width = getWidth();
+        int height = getHeight();
 
-		whichScreen = Math.max(0, Math.min(whichScreen, getChildCount() - 1));
+        whichScreen = Math.max(0, Math.min(whichScreen, getChildCount() - 1));
 
-		if (isHorizontal() && getScrollX() != (whichScreen * getWidth())) {
+        if (isHorizontal() && getScrollX() != (whichScreen * getWidth())) {
 
-			final int delta = whichScreen * getWidth() - getScrollX();
-			snapToScreen(whichScreen, delta);
+            final int delta = whichScreen * getWidth() - getScrollX();
+            snapToScreen(whichScreen, delta);
 
-		} else if (!isHorizontal() && getScrollY() != (whichScreen * height)) {
+        } else if (!isHorizontal() && getScrollY() != (whichScreen * height)) {
 
-			final int delta = whichScreen * height - getScrollY();
+            final int delta = whichScreen * height - getScrollY();
 
-			snapToScreen(whichScreen, delta);
-		}
+            snapToScreen(whichScreen, delta);
+        }
 
-	}
+    }
 
-	private void snapToScreen(int whichScreen, int delta) {
+    private void snapToScreen(int whichScreen, int delta) {
 
-		/**
-		 * use duration which set
-		 */
-		int duration = snapDuration;
+        /**
+         * use duration which set
+         */
+        int duration = snapDuration;
 
-		/**
-		 * if do not set duration, we calc duration base delta
-		 */
-		if (0 >= duration) {
-			duration = Math.abs((int) (delta / 0.75f));
-		}
+        /**
+         * if do not set duration, we calc duration base delta
+         */
+        if (0 >= duration) {
+            duration = Math.abs((int) (delta / 0.75f));
+        }
 
-		if (isHorizontal()) {
-			mScroller.startScroll(getScrollX(), 0, delta, 0, duration);
-		} else {
-			mScroller.startScroll(0, getScrollY(), 0, delta, duration);
-		}
+        if (isHorizontal()) {
+            mScroller.startScroll(getScrollX(), 0, delta, 0, duration);
+        } else {
+            mScroller.startScroll(0, getScrollY(), 0, delta, duration);
+        }
 
-		mCurScreen = whichScreen;
+        mCurScreen = whichScreen;
 
-		if (null != mScreenListener)
-			mScreenListener.onScreenChanged(mCurScreen);
+        if (null != mScreenListener)
+            mScreenListener.onScreenChanged(mCurScreen);
 
-		invalidate(); // Redraw the layout
-	}
+        invalidate(); // Redraw the layout
+    }
 
-	public void setToScreen(int whichScreen) {
+    public void setToScreen(int whichScreen) {
 
-		whichScreen = Math.max(0, Math.min(whichScreen, getChildCount() - 1));
+        whichScreen = Math.max(0, Math.min(whichScreen, getChildCount() - 1));
 
-		mCurScreen = whichScreen;
+        mCurScreen = whichScreen;
 
-		if (null != mScreenListener)
-			mScreenListener.onScreenChanged(mCurScreen);
+        if (null != mScreenListener)
+            mScreenListener.onScreenChanged(mCurScreen);
 
-		scrollToCurrentScreen();
-	}
+        scrollToCurrentScreen();
+    }
 
-	public void scrollToCurrentScreen() {
+    public void scrollToCurrentScreen() {
 
-		if (isHorizontal()) {
-			scrollTo(mCurScreen * getWidth(), 0);
-		} else {
-			scrollTo(0, mCurScreen * getHeight());
-		}
-	}
+        if (isHorizontal()) {
+            scrollTo(mCurScreen * getWidth(), 0);
+        } else {
+            scrollTo(0, mCurScreen * getHeight());
+        }
+    }
 
-	/**
-	 * 
-	 * 閿熸枻鎷风帿閿熻鑰欑鎷烽敓锟?
-	 */
+    public int getCurScreen() {
 
-	public int getCurScreen() {
+        return mCurScreen;
 
-		return mCurScreen;
+    }
 
-	}
 
-	/**
-	 * 
-	 * 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹鐗￠敓瑙掕?欑鎷烽敓锟?
-	 */
+    @Override
+    public void computeScroll() {
 
-	// public int getPage() {
+        if (mScroller.computeScrollOffset()) {
 
-	// return page;
+            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
 
-	// }
+            postInvalidate();
+            populate();
+        }
 
-	@Override
-	public void computeScroll() {
 
-		if (mScroller.computeScrollOffset()) {
+    }
 
-			scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
 
-			postInvalidate();
-			populate();
-		}
-		
-		
 
-	}
+        if (mVelocityTracker == null) {
+            mVelocityTracker = VelocityTracker.obtain();
+        }
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+        if (MotionEvent.ACTION_DOWN == ev.getAction()) {
 
-		if (mVelocityTracker == null) {
+            if (null != mVelocityTracker) mVelocityTracker.clear();
 
-			mVelocityTracker = VelocityTracker.obtain();
+            if (mIsFirstDown) {
+                mLastDownTime = SystemClock.elapsedRealtime();
+                mIsFirstDown = false;
+            } else {
+                long time = SystemClock.elapsedRealtime();
+                if (time - mLastDownTime <= DOUBLE_CLICK_MAX_INTERVAL) {
+                    if (null != mScreenListener) {
+                        mScreenListener.onDoubleClick(mCurScreen);
+                    }
 
-		}
+                    mIsFirstDown = true;
+                }
 
-		mVelocityTracker.addMovement(event);
+                mLastDownTime = time;
+            }
 
-		final int action = event.getAction();
 
-		final float x = event.getX();
 
-		final float y = event.getY();
+            mLastMotionX = ev.getX();
+            mLastMotionY = ev.getY();
+        }
 
-		switch (action) {
+        mVelocityTracker.addMovement(ev);
 
-		case MotionEvent.ACTION_DOWN:
+        return super.dispatchTouchEvent(ev);
+    }
 
-			if (mIsFirstDown) {
-				mLastDownTime = SystemClock.elapsedRealtime();
-				mIsFirstDown = false;
-			} else {
-				long time = SystemClock.elapsedRealtime();
-				if (time - mLastDownTime <= DOUBLE_CLICK_MAX_INTERVAL) {
-					if (null != mScreenListener) {
-						mScreenListener.onDoubleClick(mCurScreen);
-					}
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
 
-					mIsFirstDown = true;
-				}
 
-				mLastDownTime = time;
-			}
+        final int action = event.getAction();
 
-			if (!mScroller.isFinished()) {
+        final float x = event.getX();
 
-				mScroller.abortAnimation();
+        final float y = event.getY();
 
-			}
+        switch (action) {
 
-			mLastMotionX = x;
-			mLastMotionY = y;
+            case MotionEvent.ACTION_DOWN:
+                break;
 
-			break;
+            case MotionEvent.ACTION_MOVE: {
 
-		case MotionEvent.ACTION_MOVE: {
-			int deltaX = (int) (mLastMotionX - x);
-			int deltaY = (int) (mLastMotionY - y);
+                if (!mScroller.isFinished()) {
+                    mScroller.abortAnimation();
+                }
 
-			int delta = 0;
-			mLastMotionX = x;
-			mLastMotionY = y;
+                int deltaX = (int) (mLastMotionX - x);
+                int deltaY = (int) (mLastMotionY - y);
 
-			// current scroll distance
-			int scrollDis = 0;
-			// min scoll distance
-			int scrollMin = 0;
-			// max scroll distance
-			int scrollMax = 0;
+                int delta = 0;
+                mLastMotionX = x;
+                mLastMotionY = y;
 
-			mVelocityTracker.computeCurrentVelocity(1000);
+                // current scroll distance
+                int scrollDis = 0;
+                // min scoll distance
+                int scrollMin = 0;
+                // max scroll distance
+                int scrollMax = 0;
 
-			int velocityX = (int) mVelocityTracker.getXVelocity();
-			int velocityY = (int) mVelocityTracker.getYVelocity();
+                mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
 
-			int screenSize = 0;
-			if (isHorizontal()) {
+                int velocityX = (int) mVelocityTracker.getXVelocity();
+                int velocityY = (int) mVelocityTracker.getYVelocity();
 
-				if (Math.abs(velocityX) < Math.abs(velocityY)) {
-					deltaX = 0;
-				} else if (Math.abs(velocityX) > SNAP_VELOCITY) {
-					/**
-					 * 产生了滑动
-					 */
-					if (null != mScreenListener) {
-						mScreenListener.onScreenScrollStart();
-					}
-				}
-				delta = deltaX;
-				deltaY = 0;
-				screenSize = getWidth();
-				scrollDis = getScrollX();
-				scrollMax = getWidth() * (getChildCount() - 1);
-			} else {
+                int screenSize = 0;
+                if (isHorizontal()) {
 
-				if (Math.abs(mVelocityTracker.getXVelocity()) > Math
-						.abs(velocityY)) {
-					deltaY = 0;
-				} else if (Math.abs(velocityY) > SNAP_VELOCITY) {
-					/**
-					 * 产生了滑动
-					 */
-					if (null != mScreenListener) {
-						mScreenListener.onScreenScrollStart();
-					}
-				}
-				delta = deltaY;
-				deltaX = 0;
-				screenSize = getHeight();
-				scrollDis = getScrollY();
-				scrollMax = getHeight() * (getChildCount() - 1);
-			}
+                    if (Math.abs(velocityX) < Math.abs(velocityY)) {
+                        deltaX = 0;
+                    } else if (Math.abs(velocityX) > SNAP_VELOCITY) {
+                        if (null != mScreenListener) {
+                            mScreenListener.onScreenScrollStart();
+                        }
+                    }
+                    delta = deltaX;
+                    deltaY = 0;
+                    screenSize = getWidth();
+                    scrollDis = getScrollX();
+                    scrollMax = getWidth() * (getChildCount() - 1);
+                } else {
 
-			if (mCurScreen == 0 && (delta + scrollDis) <= scrollMin) {
+                    if (Math.abs(mVelocityTracker.getXVelocity()) > Math
+                            .abs(velocityY)) {
+                        deltaY = 0;
+                    } else if (Math.abs(velocityY) > SNAP_VELOCITY) {
+                        if (null != mScreenListener) {
+                            mScreenListener.onScreenScrollStart();
+                        }
+                    }
+                    delta = deltaY;
+                    deltaX = 0;
+                    screenSize = getHeight();
+                    scrollDis = getScrollY();
+                    scrollMax = getHeight() * (getChildCount() - 1);
+                }
 
-			} else if (mCurScreen == this.getChildCount() - 1
-					&& (delta + scrollDis) >= scrollMax) {
+                if (mCurScreen == 0 && (delta + scrollDis) <= scrollMin) {
 
-			} else {
+                } else if (mCurScreen == this.getChildCount() - 1
+                        && (delta + scrollDis) >= scrollMax) {
 
-				if (mEnableScroll) {
+                } else {
 
-					this.scrollBy(deltaX, deltaY);
+                    if (mEnableScroll) {
 
-					if (null != mScreenListener) {
+                        this.scrollBy(deltaX, deltaY);
 
-						float percent = (scrollDis - mCurScreen * screenSize)
-								* 1.0f / screenSize;
+                        if (null != mScreenListener) {
 
-						int next = mCurScreen;
+                            float percent = (scrollDis - mCurScreen * screenSize)
+                                    * 1.0f / screenSize;
 
-						if (percent > 0) {
-							next++;
-						} else if (percent < 0) {
-							next--;
-						}
+                            int next = mCurScreen;
 
-						next = Math.max(0, Math.min(next, getChildCount() - 1));
-						mScreenListener.onScreenScroll(mCurScreen, percent,
-								next);
-					}
-					
-					populate();
-				}
+                            if (percent > 0) {
+                                next++;
+                            } else if (percent < 0) {
+                                next--;
+                            }
 
-			}
-		}
-			break;
+                            next = Math.max(0, Math.min(next, getChildCount() - 1));
+                            mScreenListener.onScreenScroll(mCurScreen, percent,
+                                    next);
+                        }
 
-		case MotionEvent.ACTION_UP:
+                        populate();
+                    }
 
-			final VelocityTracker velocityTracker = mVelocityTracker;
+                }
+            }
+            break;
 
-			velocityTracker.computeCurrentVelocity(1000);
+            case MotionEvent.ACTION_UP:
 
-			int velocityX = (int) velocityTracker.getXVelocity();
-			int velocityY = (int) velocityTracker.getYVelocity();
+                final VelocityTracker velocityTracker = mVelocityTracker;
 
-			if (((velocityX > SNAP_VELOCITY && isHorizontal()) || (velocityY > SNAP_VELOCITY && !isHorizontal()))
-					&& mCurScreen > 0) {
+                velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
 
-				// Fling enough to move left
+                int velocityX = (int) velocityTracker.getXVelocity();
+                int velocityY = (int) velocityTracker.getYVelocity();
 
-				snapToScreen(mCurScreen - 1);
+                if (((velocityX > SNAP_VELOCITY && isHorizontal()) || (velocityY > SNAP_VELOCITY && !isHorizontal()))
+                        && mCurScreen > 0) {
+                    snapToScreen(mCurScreen - 1);
 
-				// --page;
+                } else if (((velocityX < -SNAP_VELOCITY && isHorizontal()) || (velocityY < -SNAP_VELOCITY && !isHorizontal()))
+                        && mCurScreen < getChildCount() - 1) {
+                    snapToScreen(mCurScreen + 1);
 
-			} else if (((velocityX < -SNAP_VELOCITY && isHorizontal()) || (velocityY < -SNAP_VELOCITY && !isHorizontal()))
-					&& mCurScreen < getChildCount() - 1) {
+                } else {
+                    snapToDestination();
+                }
 
-				// Fling enough to move right
 
-				snapToScreen(mCurScreen + 1);
 
-				// ++page;
+                mTouchState = TOUCH_STATE_REST;
+                break;
 
-			} else {
+            case MotionEvent.ACTION_CANCEL:
 
-				snapToDestination();
+                mTouchState = TOUCH_STATE_REST;
 
-			}
+                break;
 
-			if (mVelocityTracker != null) {
+        }
 
-				mVelocityTracker.recycle();
+        return true;
 
-				mVelocityTracker = null;
+    }
 
-			}
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
 
-			mTouchState = TOUCH_STATE_REST;
+        final int action = ev.getAction();
 
-			break;
+//		if ((action == MotionEvent.ACTION_MOVE)
+//				&& (mTouchState != TOUCH_STATE_REST)) {
+//
+//			return true;
+//
+//		}
 
-		case MotionEvent.ACTION_CANCEL:
+        final float x = ev.getX();
 
-			mTouchState = TOUCH_STATE_REST;
+        final float y = ev.getY();
 
-			break;
+        switch (action) {
 
-		}
+            case MotionEvent.ACTION_MOVE:
 
-		return true;
+                final int xDiff = (int) Math.abs(mLastMotionX - x);
+                final int yDiff = (int) Math.abs(mLastMotionY - y);
 
-	}
+                if (xDiff > mTouchSlop && isHorizontal()) {
 
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
+                    mTouchState = TOUCH_STATE_SCROLLING;
 
-		final int action = ev.getAction();
+                } else if (yDiff > mTouchSlop && !isHorizontal()) {
+                    mTouchState = TOUCH_STATE_SCROLLING;
+                }
 
-		if ((action == MotionEvent.ACTION_MOVE)
-				&& (mTouchState != TOUCH_STATE_REST)) {
+                break;
 
-			return true;
+            case MotionEvent.ACTION_DOWN:
 
-		}
+                mLastMotionX = x;
 
-		final float x = ev.getX();
+                mLastMotionY = y;
 
-		final float y = ev.getY();
+                mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST
+                        : TOUCH_STATE_SCROLLING;
 
-		switch (action) {
+                break;
 
-		case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_CANCEL:
 
-			final int xDiff = (int) Math.abs(mLastMotionX - x);
-			final int yDiff = (int) Math.abs(mLastMotionY - y);
+            case MotionEvent.ACTION_UP:
 
-			if (xDiff > mTouchSlop && isHorizontal()) {
+                mTouchState = TOUCH_STATE_REST;
 
-				mTouchState = TOUCH_STATE_SCROLLING;
+                break;
 
-			} else if (yDiff > mTouchSlop && !isHorizontal()) {
-				mTouchState = TOUCH_STATE_SCROLLING;
-			}
+        }
 
-			break;
+        return mTouchState != TOUCH_STATE_REST;
 
-		case MotionEvent.ACTION_DOWN:
+    }
 
-			mLastMotionX = x;
 
-			mLastMotionY = y;
+    void populate() {
+        if (null == mPageTransformer)
+            return;
 
-			mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST
-					: TOUCH_STATE_SCROLLING;
+        int screen = mCurScreen;
+        int scroll = 0;
 
-			break;
+        if (isHorizontal()) {
+            scroll = getScrollX();
+        } else {
+            scroll = getScrollY();
+        }
 
-		case MotionEvent.ACTION_CANCEL:
+        int childCount = getChildCount();
 
-		case MotionEvent.ACTION_UP:
+        int delta = 0;
+        int start = 0;
+        for (int i = 0; i < childCount; i++) {
+            View child = getChildAt(i);
 
-			mTouchState = TOUCH_STATE_REST;
 
-			break;
+            if (isHorizontal()) {
+                delta = child.getMeasuredWidth();
+                start = i * delta;
 
-		}
+            } else {
+                delta = child.getMeasuredHeight();
+                start = i * delta;
+            }
 
-		return mTouchState != TOUCH_STATE_REST;
 
-	}
-	
-	
-	void populate()
-	{
-		if (null == mPageTransformer)
-			return;
-		
-		int screen = mCurScreen;
-		int scroll = 0;
-		
-		if (isHorizontal())
-		{
-			scroll = getScrollX();
-		} else {
-			scroll = getScrollY();
-		}
-		
-		int childCount = getChildCount();
-		
-		int delta = 0;
-		int start = 0;
-		for (int i = 0; i < childCount; i ++)
-		{
-			View child = getChildAt(i);
-			
-			
-			if (isHorizontal())
-			{
-				delta = child.getMeasuredWidth();
-				start = i * delta;
-				
-			} else {
-				delta = child.getMeasuredHeight();
-				start = i * delta;
-			}
-			
-			
-			float position = (start - scroll) * 1.0f / delta;
-			
-			mPageTransformer.transformPage(child, position);
-			
-		}
-	}
-	
-	
+            float position = (start - scroll) * 1.0f / delta;
 
-	public void setPageListener(OnScreenChangedListener aScreenListener) {
+            mPageTransformer.transformPage(child, position);
 
-		this.mScreenListener = aScreenListener;
+        }
+    }
 
-	}
 
-	private boolean isHorizontal() {
-		return HORIZONTAL == mOritention;
-	}
+    public void setPageListener(OnScreenChangedListener aScreenListener) {
 
-	/**
-	 * @param mOritention
-	 *            the mOritention to set
-	 */
-	public void setOritention(int oritention) {
-		this.mOritention = oritention;
-	}
+        this.mScreenListener = aScreenListener;
 
-	/**
-	 * @return the isAbleScroll
-	 */
-	public boolean isEnableScroll() {
-		return mEnableScroll;
-	}
+    }
 
-	/**
-	 * @param enableScroll
-	 *            the isAbleScroll to set
-	 */
-	public void setEnableScroll(boolean enableScroll) {
-		this.mEnableScroll = enableScroll;
-	}
+    public boolean isHorizontal() {
+        return HORIZONTAL == mOrientation;
+    }
 
-	public void setOnScreenChangedListener(OnScreenChangedListener lsner) {
-		mScreenListener = lsner;
-	}
-	
-	public void setPageTransformer(PageTransformer pageTransformer)
-	{
-		this.mPageTransformer = pageTransformer;
-	}
 
-	public interface OnScreenChangedListener {
+    public void setOritention(int oritention) {
+        this.mOrientation = oritention;
+    }
 
-		/**
-		 * callback when start real scroll
-		 */
-		public void onScreenScrollStart();
+    /**
+     * @return the isAbleScroll
+     */
+    public boolean isEnableScroll() {
+        return mEnableScroll;
+    }
 
-		/**
-		 * callback when screen changed
-		 * 
-		 * @param screen
-		 */
-		public void onScreenChanged(int screen);
+    /**
+     * @param enableScroll the isAbleScroll to set
+     */
+    public void setEnableScroll(boolean enableScroll) {
+        this.mEnableScroll = enableScroll;
+    }
 
-		/**
-		 * callback when screen is scrolling
-		 * 
-		 * @param current
-		 *            current show page
-		 * @param percent
-		 *            percent of current page scroll
-		 * @param next
-		 *            next show page
-		 */
-		public void onScreenScroll(int current, float percent, int next);
+    public void setOnScreenChangedListener(OnScreenChangedListener lsner) {
+        mScreenListener = lsner;
+    }
 
-		/**
-		 * callback when double click screen
-		 * 
-		 * @param screen
-		 */
-		public void onDoubleClick(int screen);
-	}
+    public void setPageTransformer(PageTransformer pageTransformer) {
+        this.mPageTransformer = pageTransformer;
+    }
+
+    public interface OnScreenChangedListener {
+
+        /**
+         * callback when start real scroll
+         */
+        public void onScreenScrollStart();
+
+        /**
+         * callback when screen changed
+         *
+         * @param screen
+         */
+        public void onScreenChanged(int screen);
+
+        /**
+         * callback when screen is scrolling
+         *
+         * @param current current show page
+         * @param percent percent of current page scroll
+         * @param next    next show page
+         */
+        public void onScreenScroll(int current, float percent, int next);
+
+        /**
+         * callback when double click screen
+         *
+         * @param screen
+         */
+        public void onDoubleClick(int screen);
+    }
 }
