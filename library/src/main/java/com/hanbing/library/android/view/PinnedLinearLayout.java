@@ -2,10 +2,12 @@ package com.hanbing.library.android.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver;
@@ -13,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
+import com.hanbing.library.android.R;
+import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.view.scroll.CallbackScrollView;
 
 /**
@@ -20,27 +24,37 @@ import com.hanbing.library.android.view.scroll.CallbackScrollView;
  */
 public class PinnedLinearLayout extends LinearLayout {
 
+    public static final String TAG = PinnedLinearLayout.class.getSimpleName();
 
     ScrollView mScrollView;
     View mPinnedView;
     int mPinnedViewTop = 0;
 
+    int mPinnedViewId;
+
     public PinnedLinearLayout(Context context) {
-        super(context);
-        init();
+        super(context, null);
     }
 
     public PinnedLinearLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
+        this(context, attrs, 0);
     }
 
     public PinnedLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+
+        if (null != attrs) {
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PinnedLinearLayout);
+            mPinnedViewId = a.getResourceId(R.styleable.PinnedLinearLayout_pinnedViewId, 0);
+        }
+
         init();
+
     }
 
     void init() {
+        scrollToTop();
     }
 
 
@@ -71,10 +85,15 @@ public class PinnedLinearLayout extends LinearLayout {
             public void run() {
 
                 if (null != mPinnedView && null != mScrollView) {
-                    mScrollView.scrollTo(0, mPinnedViewTop + getPaddingTop());
+                    mScrollView.scrollTo(0, mPinnedViewTop);
                 }
             }
         });
+    }
+
+    public void scrollToPinnedViewIfPinned() {
+        if (isPinned())
+            scrollToPinnedView();
     }
 
     @Override
@@ -101,6 +120,10 @@ public class PinnedLinearLayout extends LinearLayout {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
 
+
+        if (null == mPinnedView && mPinnedViewId > 0)
+            mPinnedView = findViewById(mPinnedViewId);
+
         final View child = mPinnedView;
 
         if ( null != child) {
@@ -109,58 +132,92 @@ public class PinnedLinearLayout extends LinearLayout {
                 mPinnedViewTop = child.getTop();
             }
 
-            ViewParent parent = getParent();
+        }
 
-            if (parent instanceof CallbackScrollView) {
+        ViewParent parent = getParent();
 
-                mScrollView = (CallbackScrollView) getParent();
+        if (parent instanceof CallbackScrollView) {
 
-                layoutPinnedView();
+            mScrollView = (CallbackScrollView) getParent();
 
-                ((CallbackScrollView)mScrollView).setOnScrollChangedListener(new CallbackScrollView.OnScrollChangedListener() {
+            layoutPinnedView();
+
+            ((CallbackScrollView)mScrollView).setOnScrollChangedListener(new CallbackScrollView.OnScrollChangedListener() {
+                @Override
+                public void onScrollChanged(int l, int t, int oldl, int oldt) {
+                    layoutPinnedView();
+                }
+            });
+
+
+        } else if (parent instanceof ScrollView) {
+            mScrollView = (ScrollView) parent;
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M)
+            {
+
+                mScrollView.setOnScrollChangeListener(new OnScrollChangeListener() {
                     @Override
-                    public void onScrollChanged(int l, int t, int oldl, int oldt) {
+                    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                         layoutPinnedView();
                     }
                 });
+            } else {
+                mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                    @Override
+                    public void onScrollChanged() {
+                        layoutPinnedView();
+                    }
+                });
+            }
 
+        }
 
-            } else if (parent instanceof ScrollView) {
-                mScrollView = (ScrollView) parent;
+    }
 
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M)
-                {
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
 
-                    mScrollView.setOnScrollChangeListener(new OnScrollChangeListener() {
-                        @Override
-                        public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                            layoutPinnedView();
-                        }
-                    });
-                } else {
-                    mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-                        @Override
-                        public void onScrollChanged() {
-                            layoutPinnedView();
-                        }
-                    });
-                }
+        if (isPinned()) {
 
+            Rect rect = new Rect();
+            mPinnedView.getLocalVisibleRect(rect);
+
+            float x = ev.getX();
+            float y = ev.getY() - mScrollView.getScrollY();
+
+            MotionEvent event = MotionEvent.obtain(ev);
+            event.setLocation(x, y);
+
+            if (rect.contains((int)x, (int)y)) {
+                if (mPinnedView.dispatchTouchEvent(event))
+                    return true;
             }
         }
 
-
-
+        return super.dispatchTouchEvent(ev);
     }
+
+
+    public boolean isPinned() {
+        if (null != mPinnedView && null != mScrollView) {
+            return mPinnedView.getTop() == mScrollView.getScrollY();
+        }
+        return false;
+    }
+
 
     private void layoutPinnedView() {
 
         View child = mPinnedView;
+        if (null == child)
+            return;
+
         final int scrollY = mScrollView.getScrollY();
         int t;
 
-        if (scrollY > mPinnedViewTop + getPaddingTop()) {
-            t = scrollY - getPaddingTop();
+        if (scrollY > mPinnedViewTop) {
+            t = scrollY;
         } else {
             t = mPinnedViewTop;
         }

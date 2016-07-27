@@ -185,4 +185,8 @@
         <!-- ContentView Id-->
         <attr name="ptrContentViewId" format="integer"></attr>
     </declare-styleable>
+
+    <declare-styleable name="PinnedLinearLayout">
+        <attr name="pinnedViewId" format="integer"></attr>
+    </declare-styleable>
 </resources>

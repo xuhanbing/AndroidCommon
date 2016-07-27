@@ -3,6 +3,7 @@ package com.hanbing.mytest.activity.view;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -22,10 +23,22 @@ public class TestScrollView4 extends AppCompatActivity {
 
         PinnedLinearLayout pinnedLinearLayout = ViewUtils.findViewById(this, R.id.pinnedLinearLayout);
 
-        pinnedLinearLayout.setPinnedView(ViewUtils.findViewById(this, R.id.btn));
+//        pinnedLinearLayout.setPinnedView(ViewUtils.findViewById(this, R.id.btn));
 
         ListView listView = ViewUtils.findViewById(this, R.id.list);
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LogUtils.e("onItemClick " + position);
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                LogUtils.e("onItemLongClick " + position);
+                return true;
+            }
+        });
         listView.setAdapter(new DefaultAdapter());
     }
 
@@ -34,6 +47,6 @@ public class TestScrollView4 extends AppCompatActivity {
     public void onClick(View view) {
 
         LogUtils.e("click");
-        ((Button) view).setText(string+=   TimeUtils.getTime());
+        ((Button) view).setText(string+= ("\n" +   TimeUtils.getTime() ));
     }
 }

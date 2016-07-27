@@ -39,9 +39,6 @@ public abstract class BaseFragment extends Fragment {
 
 	@Override
 	public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-
-		Log.e("BaseFragment", getClass() + " savedInstanceState = " + savedInstanceState);
 		if (null != mCacheView)
 		{
 			mViewFirstCreated = false;
@@ -103,7 +100,7 @@ public abstract class BaseFragment extends Fragment {
 
 
 	/**
-	 * fragment is visiable
+	 * fragment is visible
 	 * @param isFirstVisibleToUser isFirstVisibleToUser
 	 *
 	 */
@@ -117,7 +114,7 @@ public abstract class BaseFragment extends Fragment {
 		super.setUserVisibleHint(isVisibleToUser);
 		mVisibleToUser = isVisibleToUser;
 
-		//只有view已经创建，才是正在可见
+		//只有view已经创建，才是真正可见
 		if (mViewCreated && isVisibleToUser) {
 			onVisibleToUser();
 		}
