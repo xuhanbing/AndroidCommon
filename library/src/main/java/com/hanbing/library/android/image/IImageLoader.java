@@ -10,6 +10,7 @@ import com.hanbing.library.android.util.ImageUtils;
 
 import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 
@@ -19,7 +20,7 @@ import android.widget.ImageView;
  * @author hanbing
  * @date 2015-7-13
  */
-public abstract class ImageLoaderInterface {
+public abstract class IImageLoader {
 
 	/**
 	 * 获取字段属性
@@ -45,22 +46,31 @@ public abstract class ImageLoaderInterface {
 	}
 
 	/**
-	 * @param imageView
+	 * @param view
 	 *            imageView
 	 * @param uri
 	 *            图片url
 	 * @param width
-	 *            指定图片宽（宽和高都大于0才有效，否则使用默认）
+ *            指定图片宽（宽和高都大于0才有效，否则使用默认）
 	 * @param height
-	 *            指定图片高（宽和高都大于0才有效，否则使用默认）
+*            指定图片高（宽和高都大于0才有效，否则使用默认）
 	 * @param defaultResId
-	 *            默认图片
+*            默认图片
 	 * @param lsner
-	 *            回调
 	 */
-	public abstract void displayImage(final ImageView imageView, String uri,
+	public abstract void displayImage(final View view, String uri,
 			final int width, final int height, int defaultResId,
 			final ImageLoaderListener lsner);
+
+
+	/**
+	 * 加载图片直接返回
+	 * @param uri
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public abstract Bitmap loadImageSync(final String uri, final int width, final int height);
 
 	/**
 	 * 获取缓存的图片，内存+sd卡
@@ -69,7 +79,7 @@ public abstract class ImageLoaderInterface {
 	 * @return
 	 */
 	public Bitmap getCache(String uri) {
-		Bitmap bm = getMemeryCache(uri);
+		Bitmap bm = getMemoryCache(uri);
 
 		if (null == bm) {
 			bm = getDiskCache(uri);
@@ -84,8 +94,8 @@ public abstract class ImageLoaderInterface {
 	 * @param uri
 	 * @return
 	 */
-	public Bitmap getMemeryCache(String uri) {
-		return getMemeryCache(uri, 0, 0);
+	public Bitmap getMemoryCache(String uri) {
+		return getMemoryCache(uri, 0, 0);
 	}
 
 	/**
@@ -95,7 +105,7 @@ public abstract class ImageLoaderInterface {
 	 * @param imageView
 	 * @return
 	 */
-	public Bitmap getMemeryCache(String uri, ImageView imageView) {
+	public Bitmap getMemoryCache(String uri, ImageView imageView) {
 		int width = 0;
 		int height = 0;
 		if (null != imageView) {
@@ -121,7 +131,7 @@ public abstract class ImageLoaderInterface {
 			height = dm.heightPixels;
 		}
 
-		return getMemeryCache(uri, width, height);
+		return getMemoryCache(uri, width, height);
 	}
 
 	/**
@@ -134,7 +144,7 @@ public abstract class ImageLoaderInterface {
 	 *            高
 	 * @return
 	 */
-	public abstract Bitmap getMemeryCache(String uri, int width, int height);
+	public abstract Bitmap getMemoryCache(String uri, int width, int height);
 
 	/**
 	 * 获取sd中的缓存图片
@@ -160,7 +170,9 @@ public abstract class ImageLoaderInterface {
 	 * @param uri
 	 * @return
 	 */
-	public abstract String createAssetsPath(String uri);
+	public static String createAssetsPath(String uri) {
+		return uri;
+	}
 
 	/**
 	 * 生成contentprovider文件
@@ -168,7 +180,9 @@ public abstract class ImageLoaderInterface {
 	 * @param uri
 	 * @return
 	 */
-	public abstract String createContentProviderUrl(String uri);
+	public  static String createContentProviderUrl(String uri) {
+		return uri;
+	}
 
 	/**
 	 * 生成本地文件完成的名称
@@ -176,15 +190,19 @@ public abstract class ImageLoaderInterface {
 	 * @param uri
 	 * @return
 	 */
-	public abstract String createLocalPath(String uri);
+	public static String createLocalPath(String uri) {
+		return uri;
+	}
 
 	/**
 	 * 生成资源文件完成的名称
 	 * 
-	 * @param uri
+	 * @param uri 资源文件id的字符串
 	 * @return
 	 */
-	public abstract String createResource(String uri);
+	public static String createResource(String uri) {
+		return uri;
+	}
 
 	/**
 	 * 支持滑动暂停加载的scroll

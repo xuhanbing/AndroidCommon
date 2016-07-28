@@ -8,7 +8,8 @@ import java.io.File;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 
 /**
@@ -17,7 +18,7 @@ import android.widget.AbsListView.OnScrollListener;
  * @author hanbing
  * @date 2015-7-13
  */
-public abstract class ImageLoaderImpl extends ImageLoaderInterface {
+public abstract class ImageLoaderImpl extends IImageLoader {
 
 	Context context;
 
@@ -59,7 +60,7 @@ public abstract class ImageLoaderImpl extends ImageLoaderInterface {
 		return new ImageLoaderImpl() {
 
 			@Override
-			public Bitmap getMemeryCache(String uri, int width, int height) {
+			public Bitmap getMemoryCache(String uri, int width, int height) {
 				// TODO Auto-generated method stub
 				return null;
 			}
@@ -71,7 +72,12 @@ public abstract class ImageLoaderImpl extends ImageLoaderInterface {
 			}
 
 			@Override
-			public void displayImage(ImageView imageView, String uri,
+			public OnScrollListener createOnScrollListener(boolean pauseOnScroll, boolean pauseOnFling, OnScrollListener lsner) {
+				return null;
+			}
+
+			@Override
+			public void displayImage(View view, String uri,
 					int width, int height, int defaultResId,
 					ImageLoaderListener lsner) {
 				// TODO Auto-generated method stub
@@ -79,36 +85,10 @@ public abstract class ImageLoaderImpl extends ImageLoaderInterface {
 			}
 
 			@Override
-			public String createResource(String uri) {
-				// TODO Auto-generated method stub
+			public Bitmap loadImageSync(String uri, int width, int height) {
 				return null;
 			}
 
-			@Override
-			public OnScrollListener createOnScrollListener(
-					boolean pauseOnScroll, boolean pauseOnFling,
-					OnScrollListener lsner) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String createLocalPath(String uri) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String createContentProviderUrl(String uri) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String createAssetsPath(String uri) {
-				// TODO Auto-generated method stub
-				return null;
-			}
 
 			@Override
 			public void init(Context context, String cacheDir) {

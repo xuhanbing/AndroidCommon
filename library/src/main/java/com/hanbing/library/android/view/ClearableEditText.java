@@ -1,18 +1,23 @@
 package com.hanbing.library.android.view;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
+
+import com.hanbing.library.android.util.LogUtils;
 
 
 /**
  * 带清空的edit
  */
-public class ClearableEditText extends EditText{
+public class ClearableEditText extends DrawableEditText implements View.OnFocusChangeListener{
+
 
 
     public static interface OnClearListener {
@@ -31,7 +36,6 @@ public class ClearableEditText extends EditText{
      */
     public ClearableEditText(Context context) {
         super(context);
-        // TODO Auto-generated constructor stub
         init();
     }
 
@@ -41,7 +45,6 @@ public class ClearableEditText extends EditText{
      */
     public ClearableEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
         init();
     }
 
@@ -52,7 +55,6 @@ public class ClearableEditText extends EditText{
      */
     public ClearableEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        // TODO Auto-generated constructor stub
         init();
     }
 
@@ -68,6 +70,8 @@ public class ClearableEditText extends EditText{
         {
             setClearImageResource(mDftClearDrawableResId);
         }
+
+        setOnFocusChangeListener(this);
 
         this.addTextChangedListener(new TextWatcher() {
 
@@ -87,7 +91,7 @@ public class ClearableEditText extends EditText{
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // TODO Auto-generated method stub
 
-                showClear(null != s && s.length() > 0);
+                showClear();
             }
 
         });
@@ -97,21 +101,7 @@ public class ClearableEditText extends EditText{
 
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        int contentHeight = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
-
-        if (null != mClearDrawable) {
-            mClearDrawable.setBounds(0, 0, contentHeight, contentHeight);
-        }
-
-    }
-
-    @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        // TODO Auto-generated method stub
-
         //check if touch clear icon
         if (MotionEvent.ACTION_DOWN == event.getAction()
             && isTouchClear(event))
@@ -164,11 +154,6 @@ public class ClearableEditText extends EditText{
     public void setClearImageDrawable(Drawable d)
     {
         mClearDrawable = d;
-        mClearDrawable.setBounds(0, 0,
-                mClearDrawable.getIntrinsicWidth(),
-                mClearDrawable.getIntrinsicHeight());
-
-
         showClear(mAlwaysShow);
     }
 
@@ -178,7 +163,10 @@ public class ClearableEditText extends EditText{
 
         showClear(mAlwaysShow);
     }
-    
+
+    private void showClear() {
+        showClear(isFocused() && getText().toString().length() > 0);
+    }
     /**
      *  set clear icon
      * @param show
@@ -201,6 +189,12 @@ public class ClearableEditText extends EditText{
 
     public void onClear() {
 
+    }
+
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        showClear();
     }
 
 }

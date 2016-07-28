@@ -360,6 +360,8 @@
         </activity>
         <activity android:name=".activity.view.TestScrollLayout">
         </activity>
+        <activity android:name=".activity.view.TestEdit">
+        </activity>
     </application>
 
 </manifest>
