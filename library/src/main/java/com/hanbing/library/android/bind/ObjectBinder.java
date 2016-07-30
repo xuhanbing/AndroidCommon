@@ -1,6 +1,8 @@
 package com.hanbing.library.android.bind;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,9 +64,14 @@ public class ObjectBinder {
 
     public static void bind(Object object, Class clazz,  ObjectFinder objectFinder) {
 
-        Field[] fields = object.getClass().getDeclaredFields();
+        if (!checkClass(clazz))
+            return;
 
-        if (null != fields) {
+        bind(object, clazz.getSuperclass(), objectFinder);
+
+        Field[] fields = clazz.getDeclaredFields();
+
+        if (null != fields && fields.length > 0) {
 
             for (Field field : fields) {
 
@@ -119,15 +126,17 @@ public class ObjectBinder {
             }
 
         } else {
-            bind(object, clazz.getSuperclass(), objectFinder);
+
         }
+
+
 
     }
 
 
     private static BindContentView findContentView(Class clazz) {
 
-        if (null == clazz || clazz == Activity.class)
+        if (!checkClass(clazz))
             return null;
 
         BindContentView annotation = (BindContentView) clazz.getAnnotation(BindContentView.class);
@@ -140,7 +149,17 @@ public class ObjectBinder {
 
 
 
+    private static boolean checkClass(Class clazz) {
+        if (null == clazz
+                || Activity.class == clazz
+                || FragmentActivity.class == clazz
+                || Fragment.class == clazz
+                || android.support.v4.app.Fragment.class == clazz)
+            return false;
 
+        return true;
+
+    }
 
 
 }
