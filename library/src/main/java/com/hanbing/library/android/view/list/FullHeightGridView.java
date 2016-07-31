@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -15,6 +16,7 @@ import android.widget.ListView;
  */
 public class FullHeightGridView extends GridView {
 
+	boolean mFullHeight = true;
 
 	/**
 	 * @param context
@@ -52,7 +54,13 @@ public class FullHeightGridView extends GridView {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		// TODO Auto-generated method stub
-		super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE / 2, MeasureSpec.AT_MOST));
+
+		super.onMeasure(widthMeasureSpec, mFullHeight ? View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE / 2, MeasureSpec.AT_MOST)
+				: heightMeasureSpec);
+	}
+
+	public void setFullHeight(boolean fullHeight) {
+		mFullHeight = fullHeight;
 	}
 	
 }
