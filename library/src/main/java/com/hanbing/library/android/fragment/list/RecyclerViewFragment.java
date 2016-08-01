@@ -80,6 +80,10 @@ public class RecyclerViewFragment extends DataViewFragment<RecyclerView, Recycle
 
     @Override
     public RecyclerView createDataView() {
+        return createRecyclerView();
+    }
+
+    public RecyclerView createRecyclerView() {
         return mRecyclerView;
     }
 

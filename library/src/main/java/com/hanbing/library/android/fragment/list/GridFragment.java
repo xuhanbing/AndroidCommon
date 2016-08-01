@@ -32,6 +32,10 @@ public class GridFragment extends AbsListFragment<GridView> {
 
     @Override
     public GridView createDataView() {
+        return createGridView();
+    }
+
+    public GridView createGridView() {
         return mGridView;
     }
 

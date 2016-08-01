@@ -58,6 +58,10 @@ public class ListFragment extends AbsListFragment<ListView> {
 
     @Override
     public ListView createDataView() {
+        return createListView();
+    }
+
+    public ListView createListView() {
         return mListView;
     }
 
