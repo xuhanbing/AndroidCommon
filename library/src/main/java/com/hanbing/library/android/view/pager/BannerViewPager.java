@@ -139,6 +139,7 @@ public class BannerViewPager extends ViewPager {
 				// TODO Auto-generated method stub
 				return null == mUrlList ? 0 : mUrlList.size();
 			}
+
 		});
 	}
 
