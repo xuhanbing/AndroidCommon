@@ -639,7 +639,7 @@ public class FileUtils {
 		deleteDir(getCacheDirExt(context));
 	}
 
-	public static long calculateCahce(Context context) {
+	public static long calculateCache(Context context) {
 		return calculateCache(getCacheDir(context), getCacheDirExt(context));
 	}
 

@@ -26,8 +26,6 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.hanbing.library.android.activity.BaseAppCompatActivity;
-import com.hanbing.library.android.adapter.BaseRecycleViewAdaper;
 import com.hanbing.library.android.view.recycler.OnItemClickListener;
 import com.hanbing.library.android.view.recycler.OnItemLongClickListener;
 import com.hanbing.library.android.util.LogUtils;
@@ -268,13 +266,13 @@ public class TestRecyclerView extends com.hanbing.mytest.activity.BaseAppCompatA
 //        addItemDecoration(OrientationHelper.VERTICAL);
 
 
-		final BaseRecycleViewAdaper adaper = new BaseRecycleViewAdaper<ViewHolder>() {
+		final RecyclerView.Adapter adaper = new RecyclerView.Adapter<ViewHolder>() {
 
 
 
 			@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 			@Override
-			public void onBindViewHolderImpl(ViewHolder holder, int position) {
+			public void onBindViewHolder(ViewHolder holder, int position) {
 
 
 //				int[] res = {R.drawable.logo_custom_58, R.drawable.logo_custom_oppo,
@@ -389,7 +387,7 @@ public class TestRecyclerView extends com.hanbing.mytest.activity.BaseAppCompatA
 			}
 		});
 
-//        adaper.setOnItemClickListener(new BaseRecycleViewAdaper.OnItemClickListener() {
+//        adaper.setOnItemClickListener(new BaseEditableRecycleViewAdapter.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(View view, int position, long id) {
 //                ToastUtils.showToast(getApplicationContext(), "onItemClick " + position);

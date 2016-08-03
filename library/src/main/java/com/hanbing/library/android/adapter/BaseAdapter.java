@@ -36,6 +36,16 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder> extends and
 
     public abstract void onBindViewHolder(VH viewHolder, int position);
 
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
     public static abstract class ViewHolder {
         public View mItemView;
 

@@ -27,7 +27,6 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.hanbing.library.android.adapter.BaseRecycleViewAdaper;
 import com.hanbing.library.android.util.SystemUtils;
 import com.hanbing.library.android.util.ToastUtils;
 import com.hanbing.library.android.util.ViewUtils;
@@ -270,7 +269,7 @@ public class TestRecyclerView2 extends com.hanbing.mytest.activity.BaseAppCompat
             }
         });
 
-//        adaper.setOnItemClickListener(new BaseRecycleViewAdaper.OnItemClickListener() {
+//        adaper.setOnItemClickListener(new BaseEditableRecycleViewAdapter.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(View view, int position, long id) {
 //                ToastUtils.showToast(getApplicationContext(), "onItemClick " + position);
@@ -471,11 +470,11 @@ public class TestRecyclerView2 extends com.hanbing.mytest.activity.BaseAppCompat
                 break;
         }
 
-        final BaseRecycleViewAdaper adapter = new BaseRecycleViewAdaper<ViewHolder>() {
+        final RecyclerView.Adapter adapter = new RecyclerView.Adapter<ViewHolder>() {
 
             @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
             @Override
-            public void onBindViewHolderImpl(ViewHolder holder, int position) {
+            public void onBindViewHolder(ViewHolder holder, int position) {
 
 
 //                int[] res = {R.drawable.logo_custom_58, R.drawable.logo_custom_oppo,

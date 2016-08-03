@@ -29,7 +29,7 @@ public class BaseFragmentPagerAdapter extends android.support.v4.app.FragmentPag
 		// TODO Auto-generated constructor stub
 
 		if (null != fragments && null != titles && fragments.size() != titles.length) {
-			throw new IllegalArgumentException("fragmens.size() must equal titles.length");
+			throw new IllegalArgumentException("fragments.size() must equal titles.length");
 		}
 
 		this.mFragments = fragments;
