@@ -5,10 +5,13 @@ package com.hanbing.library.android.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.List;
 
 /**
  * @author hanbing
@@ -17,6 +20,10 @@ public abstract class BaseFragment extends Fragment {
 
 	View mCacheView;
 
+	/**
+	 * 是否使用旧的view
+	 */
+	boolean mUserCacheView = true;
 
 	/**
 	 * view创建
@@ -39,7 +46,7 @@ public abstract class BaseFragment extends Fragment {
 
 	@Override
 	public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		if (null != mCacheView)
+		if (isUserCacheView() && null != mCacheView)
 		{
 			mViewFirstCreated = false;
 			return mCacheView;
@@ -82,7 +89,7 @@ public abstract class BaseFragment extends Fragment {
 
 
 	/**
-	 *
+	 * 绑定view
 	 * @param view
 	 * @param savedInstanceState
 	 */
@@ -127,6 +134,10 @@ public abstract class BaseFragment extends Fragment {
 		if (mFirstVisibleToUser) {
 			mFirstVisibleToUser  = false;
 		}
+	}
+
+	protected boolean isUserCacheView(){
+		return mUserCacheView;
 	}
 
 }

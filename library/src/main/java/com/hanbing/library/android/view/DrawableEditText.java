@@ -17,33 +17,32 @@ public class DrawableEditText extends EditText {
 
     public DrawableEditText(Context context) {
         super(context);
+        init();
     }
 
     public DrawableEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public DrawableEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public DrawableEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        init();
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    private void init() {
         setDrawableSize();
     }
 
     private void setDrawableSize() {
-
         Paint paint = getPaint();
         int size = (int) (paint.getFontMetrics().bottom - paint.getFontMetrics().top);
-
-        mDrawableSize = size;
 
         Drawable[] compoundDrawables = getCompoundDrawables();
 
@@ -52,10 +51,10 @@ public class DrawableEditText extends EditText {
             for (Drawable drawable : compoundDrawables) {
                 if (null != drawable) {
 
-                    if (drawable.getBounds().width() != mDrawableSize) {
+                    if (drawable.getBounds().width() != size) {
                         update = true;
                     }
-                    drawable.setBounds(0, 0, mDrawableSize, mDrawableSize);
+                    drawable.setBounds(0, 0, size, size);
                 }
             }
 
@@ -65,10 +64,15 @@ public class DrawableEditText extends EditText {
 
     }
 
-
     @Override
     public void setCompoundDrawables(Drawable left, Drawable top, Drawable right, Drawable bottom) {
         super.setCompoundDrawables(left, top, right, bottom);
+        setDrawableSize();
+    }
+
+    @Override
+    public void setTextSize(int unit, float size) {
+        super.setTextSize(unit, size);
         setDrawableSize();
     }
 

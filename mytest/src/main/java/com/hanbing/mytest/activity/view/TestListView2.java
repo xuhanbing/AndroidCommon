@@ -4,7 +4,9 @@
 package com.hanbing.mytest.activity.view;
 
 import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.mytest.R;
+import com.hanbing.mytest.view.LinearLayout;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -44,7 +46,18 @@ public class TestListView2 extends Activity{
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         
-        FrameLayout layout = new FrameLayout(this);
+        LinearLayout layout = new LinearLayout(this);
+		layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+
+		{
+			View view = ViewUtils.inflate(this, R.layout.list_item, layout, false);
+
+			TextView textView  = ViewUtils.findViewById(view, R.id.text2);
+			textView.setText("外面的text2");
+
+			layout.addView(view);
+		}
+
         listView = new ListView(this);
         listView.setBackgroundColor(Color.RED);
         listView.setHeaderDividersEnabled(false);
@@ -107,6 +120,7 @@ public class TestListView2 extends Activity{
 			}
 		});
 
+
         layout.addView(listView);
         setContentView(layout);
     }
@@ -139,19 +153,26 @@ public class TestListView2 extends Activity{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 	    // TODO Auto-generated method stub
-	    TextView text = new TextView(getApplicationContext());
-	    text.setBackgroundResource(R.drawable.sel_common);
-	    
-	    text.setText("item " + position);
-	    text.setTextColor(0xff00ffff);
-	    text.setGravity(Gravity.CENTER);
-	    
-	    int padding = 50;
-	    text.setPadding(padding, padding, padding, padding);
-	    text.setBackgroundColor(Color.GRAY);
-	   
-	    
-	    return text;
+//	    TextView text = new TextView(getApplicationContext());
+//	    text.setBackgroundResource(R.drawable.sel_common);
+//
+//	    text.setText("item " + position);
+//	    text.setTextColor(0xff00ffff);
+//	    text.setGravity(Gravity.CENTER);
+//
+//	    int padding = 50;
+//	    text.setPadding(padding, padding, padding, padding);
+//	    text.setBackgroundColor(Color.GRAY);
+//
+//
+//	    return text;
+
+		if (null == convertView)
+			convertView = ViewUtils.inflate(getApplicationContext(), R.layout.list_item, parent, false);
+
+		TextView text2 = ViewUtils.findViewById(convertView, R.id.text2);
+		text2.setText("position " + position);
+		return convertView;
 	}
 	
     }

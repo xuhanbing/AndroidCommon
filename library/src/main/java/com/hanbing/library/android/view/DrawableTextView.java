@@ -9,42 +9,41 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hanbing.library.android.util.LogUtils;
+
 /**
  * Created by hanbing on 2016/7/27
  */
 public class DrawableTextView extends TextView {
 
-    protected int mDrawableSize;
-
     public DrawableTextView(Context context) {
         super(context);
+        init();
     }
 
     public DrawableTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public DrawableTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public DrawableTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        init();
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    private void init() {
         setDrawableSize();
     }
 
     private void setDrawableSize() {
-
         Paint paint = getPaint();
         int size = (int) (paint.getFontMetrics().bottom - paint.getFontMetrics().top);
-
-        mDrawableSize = size;
 
         Drawable[] compoundDrawables = getCompoundDrawables();
 
@@ -53,10 +52,10 @@ public class DrawableTextView extends TextView {
             for (Drawable drawable : compoundDrawables) {
                 if (null != drawable) {
 
-                    if (drawable.getBounds().width() != mDrawableSize) {
+                    if (drawable.getBounds().width() != size) {
                         update = true;
                     }
-                    drawable.setBounds(0, 0, mDrawableSize, mDrawableSize);
+                    drawable.setBounds(0, 0, size, size);
                 }
             }
 
@@ -66,10 +65,16 @@ public class DrawableTextView extends TextView {
 
     }
 
-
     @Override
     public void setCompoundDrawables(Drawable left, Drawable top, Drawable right, Drawable bottom) {
         super.setCompoundDrawables(left, top, right, bottom);
         setDrawableSize();
     }
+
+    @Override
+    public void setTextSize(int unit, float size) {
+        super.setTextSize(unit, size);
+        setDrawableSize();
+    }
+
 }

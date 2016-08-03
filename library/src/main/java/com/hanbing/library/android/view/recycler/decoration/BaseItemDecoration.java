@@ -27,6 +27,8 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 
     public static class Builder {
 
+        Builder mBuilder = this;
+
         protected Context mContext;
 
         /**
@@ -68,7 +70,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         public Builder setMargin(int l, int t, int r, int b)
         {
             mMarginRect.set(l, t, r, b);
-            return this;
+            return mBuilder;
         }
 
         protected Rect getMarginRect()
@@ -90,7 +92,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
                 mMarginRect.set(size, size, size, size);
             }
 
-            return this;
+            return mBuilder;
         }
 
         protected int getSize()
@@ -101,7 +103,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         public Builder setColor(int color)
         {
             this.mColor = color;
-            return this;
+            return mBuilder;
         }
 
         protected int getColor()
@@ -112,13 +114,13 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         public Builder setDrawable(Drawable drawable)
         {
             this.mDrawable = drawable;
-            return this;
+            return mBuilder;
         }
 
         public Builder setDrawableRes(int resId)
         {
             this.mDrawable = mContext.getResources().getDrawable(resId);
-            return this;
+            return mBuilder;
         }
 
         protected Drawable getDrawable()
@@ -130,7 +132,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         {
             this.mOrientation = orientation;
 
-            return this;
+            return mBuilder;
         }
 
         protected int getOrientation()

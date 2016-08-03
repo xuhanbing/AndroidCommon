@@ -618,7 +618,8 @@ public class FileUtils {
 	 */
 	public static String getCacheDirExt(Context context)
 	{
-		return context.getExternalCacheDir().toString();
+		File file = context.getExternalCacheDir();
+		return null == file ? null : file.toString();
 	}
 
 	/**
@@ -628,7 +629,8 @@ public class FileUtils {
 	 */
 	public static String getCacheDir(Context context)
 	{
-		return context.getCacheDir().toString();
+		File file = context.getCacheDir();
+		return null == file ? null : file.toString();
 	}
 
 	public static void clearCache(Context context)
@@ -636,4 +638,47 @@ public class FileUtils {
 		deleteDir(getCacheDir(context));
 		deleteDir(getCacheDirExt(context));
 	}
+
+	public static long calculateCahce(Context context) {
+		return calculateCache(getCacheDir(context), getCacheDirExt(context));
+	}
+
+	public static long calculateCache(String ... dirs) {
+
+		if (null == dirs || 0 == dirs.length)
+			return 0;
+
+		long length = 0;
+
+		for (String dir : dirs) {
+			length += calculateFileLength(dir);
+		}
+
+		return length;
+	}
+
+	public static long calculateFileLength(String fileName) {
+		File file = new File(fileName);
+
+		long length = 0;
+		if (file.exists() && file.isDirectory()) {
+
+			File[] files = file.listFiles();
+
+			if (null != files && files.length > 0) {
+				for (File f : files) {
+					if (f.isDirectory())
+						length += calculateFileLength(f.getAbsolutePath());
+					else {
+						length += f.length();
+					}
+				}
+
+				return length;
+			}
+		}
+
+		return 0;
+	}
+
 }

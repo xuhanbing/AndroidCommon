@@ -9,16 +9,13 @@ import android.view.MotionEvent;
 import android.widget.EditText;
 
 
-/**
- * �������ť�ı༭��
- * @author Administrator 2014��2��19�� ����2:39:57
- */
+
 public class ClearableEditText extends EditText {
 
-    Drawable mClearDrawable; //��հ�ť��ͼƬ
+    Drawable mClearDrawable;
     
-    //��հ�ť��Ĭ��ͼƬ
     int mDftClearDrawableResId = android.R.drawable.ic_delete;
+
     /**
      * @param context
      */
@@ -54,6 +51,7 @@ public class ClearableEditText extends EditText {
      */
     private void init()
     {
+
         mClearDrawable = this.getCompoundDrawables()[2];
         
         //û�����ã�ʹ��Ĭ�ϵ�ͼƬ

@@ -14,6 +14,7 @@ public class GridItemDecoration extends BaseItemDecoration {
 
     public static class Builder extends BaseItemDecoration.Builder {
 
+
         public Builder(Context context) {
             super(context);
         }

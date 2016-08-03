@@ -138,8 +138,13 @@ public class RecyclerViewFragment extends DataViewFragment<RecyclerView, Recycle
         if (view instanceof HeaderRecyclerView) {
             initHeadersAndFooters((HeaderRecyclerView)view);
             addLoadMoreIfNeed();
-
         }
+
+        initRecyclerView(view);
+    }
+
+    protected void initRecyclerView(RecyclerView recyclerView) {
+
     }
 
     @Override
