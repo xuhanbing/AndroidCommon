@@ -6,6 +6,8 @@ import com.hanbing.library.android.http.callback.HttpCallback;
 import com.hanbing.library.android.http.callback.HttpProgressCallback;
 import com.hanbing.library.android.http.callback.HttpSimpleProgressCallback;
 
+import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +54,22 @@ public abstract class HttpRequest {
 	 * tasks
 	 */
 	List<Cancelable> mTasks = new ArrayList<>();
+
+	/**
+	 *
+	 * 如果为true，不管有没有请求参数都将使用POST方式
+	 * 如果为false, 如果没有请求参数，默认使用GET请求方式
+	 * 只针对请求是，下载时无效
+	 */
+	boolean mForcePost = false;
+
+	public boolean isForcePost() {
+		return mForcePost;
+	}
+
+	public void setForcePost(boolean forcePost) {
+		mForcePost = forcePost;
+	}
 
 	public Cancelable doRequest(String requestUrl, final Map<String, String> params, final HttpCallback callback) {
 		return doRequest(0, requestUrl, null, params, null, callback);

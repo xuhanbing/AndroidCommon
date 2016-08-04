@@ -7,65 +7,23 @@ import java.util.List;
 /**
  * Created by hanbing on 2016/7/7
  */
-public class MenuItem <T extends MenuItem>implements Serializable{
+public abstract class MenuItem<T extends MenuItem> implements Serializable{
 
-    /**
-     * index
-     */
-    int index;
 
-    /**
-     * title
-     */
-    String title;
+    public abstract String getId();
 
-    /**
-     * root
-     */
-    T mParent;
+    public abstract List getSubMenuItems();
 
-    /**
-     * subs
-     */
-    List<T> mSubMenuItems;
+    public abstract  T getParent();
 
-    public int getIndex() {
-        return index;
-    }
+    public abstract String getTitle();
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    public List<T> getSubMenuItems() {
-        return mSubMenuItems;
-    }
-
-    public void setSubMenuItems(List<T> subMenuItems) {
-        mSubMenuItems = subMenuItems;
-    }
-
-    public T getParent() {
-        return mParent;
-    }
-
-    public void setParent(T parent) {
-        mParent = parent;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public boolean isRootMenuItem() {
-        return null == mParent;
+        return null == getParent();
     }
     public boolean hasNoSubMenuItems() {
-        return null == mSubMenuItems || 0 == mSubMenuItems.size();
+        return null == getSubMenuItems() || 0 == getSubMenuItems().size();
     }
 
     @Override
@@ -73,14 +31,14 @@ public class MenuItem <T extends MenuItem>implements Serializable{
         if (o instanceof MenuItem) {
             MenuItem menuItem = (MenuItem) o;
 
-            if (index != menuItem.index)
+            if (getId() .equals(menuItem.getId()))
                 return false;
 
-            if (null == title) {
-                return null == menuItem.title;
+            if (null == getTitle()) {
+                return null == menuItem.getTitle();
             }
 
-            return title.equals(menuItem.title);
+            return getTitle().equals(menuItem.getTitle());
         }
 
         return false;
@@ -88,8 +46,8 @@ public class MenuItem <T extends MenuItem>implements Serializable{
 
     @Override
     public int hashCode() {
-        return ((Integer)index).hashCode()
-                + (null == title ? 0 : title.hashCode());
+        return (null == getId() ? 0 :getId().hashCode())
+                + (null == getTitle() ? 0 : getTitle().hashCode());
     }
 
 

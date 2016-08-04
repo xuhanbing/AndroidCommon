@@ -42,6 +42,11 @@ public class SampleMenu extends AppCompatActivity {
                 }
                 ((Button) view).setText(title);
             }
+
+            @Override
+            public void onClose() {
+
+            }
         });
 
 
@@ -49,22 +54,22 @@ public class SampleMenu extends AppCompatActivity {
 
     }
 
-    public static MenuItem createMenuItem(MenuItem parent, int countOfLevels, String title) {
+    public static MyMenuItem createMenuItem(MyMenuItem parent, int countOfLevels, String title) {
 
         if (null == parent)
         {
-            parent = new MenuItem();
+            parent = new MyMenuItem();
         }
 
-        List<MenuItem> childs = new ArrayList<>();
+        List<MyMenuItem> childs = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
 
-            MenuItem sub = new MenuItem();
+            MyMenuItem sub = new MyMenuItem();
             if (0 == i) {
-                sub.setIndex(0);
+                sub.setId(""+0);
                 sub.setTitle("全部");
             } else {
-                sub.setIndex(i);
+                sub.setId(""+i);
                 sub.setTitle(title + "-" + i);
 
                 if (countOfLevels > 1) {

@@ -15,16 +15,24 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder> extends and
     public View getView(int position, View convertView, ViewGroup parent) {
 
         VH viewHolder = null;
-        if (null == convertView) {
+        int itemViewType = getItemViewType(position);
 
-            viewHolder = onCreateViewHolder(parent, getItemViewType(position));
-
-            convertView = viewHolder.mItemView;
-            convertView.setTag(viewHolder);
-        } else {
+        if (null != convertView){
             viewHolder = (VH) convertView.getTag();
+
+            if (itemViewType != viewHolder.mItemViewType) {
+                convertView = null;
+                viewHolder = null;
+            }
         }
 
+        if (null == convertView) {
+
+            viewHolder = onCreateViewHolder(parent, itemViewType);
+            viewHolder.mItemViewType = itemViewType;
+            convertView = viewHolder.mItemView;
+            convertView.setTag(viewHolder);
+        }
 
 
         onBindViewHolder(viewHolder, position);
@@ -48,11 +56,15 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder> extends and
 
     public static abstract class ViewHolder {
         public View mItemView;
+        public int mItemViewType;
 
         public ViewHolder(View itemView) {
             this.mItemView = itemView;
         }
-
+        public ViewHolder(View itemView, int itemViewType) {
+            this.mItemView = itemView;
+            mItemViewType = itemViewType;
+        }
     }
 
 }

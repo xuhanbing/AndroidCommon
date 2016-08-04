@@ -103,7 +103,7 @@ public class XHttpRequest extends HttpRequest {
 
         Callback.Cancelable cancelable
                 // 使用CacheCallback, xUtils将为该请求缓存数据.
-                = HttpMethod.POST == method
+                = (isForcePost() || (HttpMethod.POST == method))
                 ? x.http().post(requestParams, commonCallback)
                 : x.http().get(requestParams, commonCallback);
 

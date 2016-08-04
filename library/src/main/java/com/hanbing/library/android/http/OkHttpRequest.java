@@ -222,6 +222,10 @@ public class OkHttpRequest extends HttpRequest {
             builder.post(multipartBodyBuilder.build());
         else if (null != formBodyBuilder)
             builder.post(formBodyBuilder.build());
+        else if (isForcePost()) {
+            MultipartBody multipartBody = new MultipartBody.Builder().addFormDataPart("", "").build();
+            builder.post(multipartBody);
+        }
 
         //请求头部
         if (null != headers) {
@@ -234,6 +238,7 @@ public class OkHttpRequest extends HttpRequest {
             }
 
         }
+
 
         return builder.build();
     }
