@@ -1,16 +1,14 @@
 package com.hanbing.library.android.view;
 
 import android.content.Context;
-import android.graphics.Paint;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
-
-import com.hanbing.library.android.util.LogUtils;
 
 
 /**
@@ -26,11 +24,18 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
 
     boolean mAlwaysShow = false;
 
+    //当没有内容时是否占位
+    boolean mPlaceHolder = false;
+
     Drawable mClearDrawable;
+
+    Drawable mPlaceHolderDrawable;
     
     int mDftClearDrawableResId = android.R.drawable.ic_menu_close_clear_cancel;
 
     OnClearListener mOnClearListener;
+
+    OnFocusChangeListener mOnFocusChangeListener;
     /**
      * @param context
      */
@@ -63,6 +68,7 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
      */
     private void init()
     {
+        mPlaceHolderDrawable = new ColorDrawable(Color.TRANSPARENT);
         mClearDrawable = this.getCompoundDrawables()[2];
 
         //set clear icon default
@@ -71,7 +77,7 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
             setClearImageResource(mDftClearDrawableResId);
         }
 
-        setOnFocusChangeListener(this);
+        setOnFocusChangeListener(null);
 
         this.addTextChangedListener(new TextWatcher() {
 
@@ -161,7 +167,7 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
     {
         this.mAlwaysShow = alwaysShow;
 
-        showClear(mAlwaysShow);
+
     }
 
     private void showClear() {
@@ -171,9 +177,18 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
      *  set clear icon
      * @param show
      */
-    private void showClear(boolean show)
+    protected void showClear(boolean show)
     {
-        Drawable right = (mAlwaysShow || show) ? mClearDrawable : null;
+        Drawable right = null;
+
+        if (mAlwaysShow || show) {
+            right = mClearDrawable;
+        } else if (mPlaceHolder) {
+            right = mPlaceHolderDrawable;
+        } else {
+            right = null;
+        }
+
         this.setCompoundDrawables(getCompoundDrawables()[0],
                 getCompoundDrawables()[1],
                 right,
@@ -181,6 +196,12 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
 
     }
 
+
+    @Override
+    public void setOnFocusChangeListener(OnFocusChangeListener onFocusChangeListener) {
+        mOnFocusChangeListener = onFocusChangeListener;
+        super.setOnFocusChangeListener(this);
+    }
 
     public void setOnClearListener(OnClearListener listener)
     {
@@ -191,10 +212,22 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
 
     }
 
+    public boolean isAlwaysShow() {
+        return mAlwaysShow;
+    }
+
+    public boolean isPlaceHolder() {
+        return mPlaceHolder;
+    }
+
+    public void setPlaceHolder(boolean placeHolder) {
+        mPlaceHolder = placeHolder;
+    }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         showClear();
+        if (null != mOnFocusChangeListener) mOnFocusChangeListener.onFocusChange(v, hasFocus);
     }
 
 }
