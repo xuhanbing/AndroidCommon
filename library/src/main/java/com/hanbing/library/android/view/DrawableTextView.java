@@ -16,6 +16,62 @@ import com.hanbing.library.android.util.LogUtils;
  */
 public class DrawableTextView extends TextView {
 
+    public static class DrawableResizeHelper {
+        //强制宽等于高
+        boolean mForceSquare;
+        TextView mTextView;
+
+        public DrawableResizeHelper(TextView textView) {
+            mTextView = textView;
+        }
+
+        public DrawableResizeHelper(TextView textView, boolean forceSquare) {
+            mForceSquare = forceSquare;
+            mTextView = textView;
+        }
+
+        public void resize() {
+
+            TextView textView = mTextView;
+            if (null ==textView)
+            return;
+
+            Paint paint = textView.getPaint();
+            int size = (int) (paint.getFontMetrics().bottom - paint.getFontMetrics().top);
+
+            Drawable[] compoundDrawables = textView.getCompoundDrawables();
+
+            boolean update = false;
+            if (null != compoundDrawables) {
+                for (Drawable drawable : compoundDrawables) {
+                    if (null != drawable) {
+
+                        if (drawable.getBounds().height() != size) {
+                            update = true;
+                        }
+                        int width = drawable.getIntrinsicWidth();
+                        int height = drawable.getIntrinsicHeight();
+
+                        if (!mForceSquare && width > 0 && height > 0) {
+                            float ratio = width * 1.0f / height;
+                            width = (int) (size * ratio);
+                            height = size;
+                        } else {
+                            width = height = size;
+                        }
+                        drawable.setBounds(0, 0, width, height);
+                    }
+                }
+
+                if (update)
+                    textView.setCompoundDrawables(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
+            }
+        }
+    }
+
+
+    DrawableResizeHelper mDrawableResizeHelper;
+
     public DrawableTextView(Context context) {
         super(context);
         init();
@@ -42,27 +98,11 @@ public class DrawableTextView extends TextView {
     }
 
     private void setDrawableSize() {
-        Paint paint = getPaint();
-        int size = (int) (paint.getFontMetrics().bottom - paint.getFontMetrics().top);
 
-        Drawable[] compoundDrawables = getCompoundDrawables();
+        if (null == mDrawableResizeHelper)
+            mDrawableResizeHelper = new DrawableResizeHelper(this, isDrawableForceSquare());
 
-        boolean update = false;
-        if (null != compoundDrawables) {
-            for (Drawable drawable : compoundDrawables) {
-                if (null != drawable) {
-
-                    if (drawable.getBounds().width() != size) {
-                        update = true;
-                    }
-                    drawable.setBounds(0, 0, size, size);
-                }
-            }
-
-            if (update)
-                setCompoundDrawables(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
-        }
-
+        mDrawableResizeHelper.resize();
     }
 
     @Override
@@ -75,6 +115,11 @@ public class DrawableTextView extends TextView {
     public void setTextSize(int unit, float size) {
         super.setTextSize(unit, size);
         setDrawableSize();
+    }
+
+
+    protected boolean isDrawableForceSquare() {
+        return true;
     }
 
 }

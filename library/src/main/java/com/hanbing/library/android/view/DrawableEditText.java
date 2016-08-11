@@ -13,7 +13,7 @@ import android.widget.EditText;
  */
 public class DrawableEditText extends EditText {
 
-    protected int mDrawableSize;
+    private DrawableTextView.DrawableResizeHelper mDrawableResizeHelper;
 
     public DrawableEditText(Context context) {
         super(context);
@@ -41,26 +41,10 @@ public class DrawableEditText extends EditText {
     }
 
     private void setDrawableSize() {
-        Paint paint = getPaint();
-        int size = (int) (paint.getFontMetrics().bottom - paint.getFontMetrics().top);
+        if (null == mDrawableResizeHelper)
+            mDrawableResizeHelper = new DrawableTextView.DrawableResizeHelper(this, isDrawableForceSquare());
 
-        Drawable[] compoundDrawables = getCompoundDrawables();
-
-        boolean update = false;
-        if (null != compoundDrawables) {
-            for (Drawable drawable : compoundDrawables) {
-                if (null != drawable) {
-
-                    if (drawable.getBounds().width() != size) {
-                        update = true;
-                    }
-                    drawable.setBounds(0, 0, size, size);
-                }
-            }
-
-            if (update)
-                setCompoundDrawables(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
-        }
+        mDrawableResizeHelper.resize();
 
     }
 
@@ -76,4 +60,7 @@ public class DrawableEditText extends EditText {
         setDrawableSize();
     }
 
+    protected boolean isDrawableForceSquare() {
+        return true;
+    }
 }

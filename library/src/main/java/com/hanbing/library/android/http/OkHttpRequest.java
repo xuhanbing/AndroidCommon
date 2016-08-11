@@ -208,6 +208,10 @@ public class OkHttpRequest extends HttpRequest {
             while (iterator.hasNext()) {
                 Map.Entry<String, String> next = iterator.next();
 
+                //如果值为空，跳过
+                if (TextUtils.isEmpty(next.getValue()))
+                    continue;
+
                 if (null != multipartBodyBuilder)
                     multipartBodyBuilder.addFormDataPart(next.getKey(), next.getValue());
                  else
