@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * Created by hanbing on 2016/8/3
  */
-public abstract class BaseEditableAdapter<VH extends BaseAdapter.ViewHolder, Bean> extends BaseAdapter<VH> implements Editable<Bean> {
+public abstract class BaseEditableAdapter<VH extends BaseAdapter.ViewHolder, Bean> extends BaseAdapter<VH> implements EditableAdapter<Bean> {
 
-    List<Bean> mDataList;
-    List<Bean> mSelectedItems = new ArrayList<>();
-    boolean mEditMode;
+    protected List<Bean> mDataList;
+    protected List<Bean> mSelectedItems = new ArrayList<>();
+    protected boolean mEditMode;
 
     public BaseEditableAdapter() {
     }

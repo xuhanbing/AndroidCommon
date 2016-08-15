@@ -32,10 +32,6 @@ public class SwitchButton extends CompoundButton {
 
     Drawable mBackground;
 
-    Drawable mOpenBackground;
-
-    Drawable mCloseBackground;
-
     /**
      * 默认的padding
      */
@@ -110,9 +106,6 @@ public class SwitchButton extends CompoundButton {
 
 
             mThumb = a.getDrawable(R.styleable.SwitchButton_thumbDrawable);
-
-            mOpenBackground = a.getDrawable(R.styleable.SwitchButton_openBackground);
-            mCloseBackground = a.getDrawable(R.styleable.SwitchButton_closeBackground);
 
             a.recycle();
         }
@@ -343,57 +336,29 @@ public class SwitchButton extends CompoundButton {
         if (null == mThumb)
             return;
 
-        Drawable closeDrawable = mCloseBackground;
-        Drawable openDrawable = mOpenBackground;
-
-        Rect closeRect = new Rect();
-        Rect openRect = new Rect();
 
         switch (mState)
         {
             case STATE_CLOSED:
 
-                closeRect.set(0, 0, getWidth(), getHeight());
-                if (null != closeDrawable)
-                {
-                    closeDrawable.setBounds(closeRect);
-                    closeDrawable.draw(canvas);
-                }
+
 
                 mThumbRect.set(mThumbRectClosed);
                 break;
             case STATE_MOVING:
 
             {
-                openRect.set(0, 0, mThumbRect.right, getHeight());
-                closeRect.set(mThumbRect.left, 0, getWidth(), getHeight());
             }
                 break;
             case STATE_OPENED:
-                openRect.set(0, 0, getWidth(), getHeight());
 
                 mThumbRect.set(mThumbRectOpened);
                 break;
         }
 
 
-        if (null != openDrawable)
-        {
-            openDrawable.setBounds(openRect);
-            openDrawable.draw(canvas);
-        }
-
-        if (null != closeDrawable)
-        {
-            closeDrawable.setBounds(closeRect);
-            closeDrawable.draw(canvas);
-        }
-
-
-
         mThumb.setBounds(mThumbRect);
         mThumb.draw(canvas);
-
 
     }
 

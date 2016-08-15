@@ -1,7 +1,6 @@
 package com.hanbing.library.android.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +8,11 @@ import java.util.List;
 /**
  * Created by hanbing on 2016/3/10.
  */
-public abstract class BaseEditableRecycleViewAdapter<VH extends  RecyclerView.ViewHolder, Bean> extends RecyclerView.Adapter<VH> implements Editable<Bean> {
+public abstract class BaseEditableRecycleViewAdapter<VH extends  RecyclerView.ViewHolder, Bean> extends RecyclerView.Adapter<VH> implements EditableAdapter<Bean> {
 
-    List<Bean> mDataList;
-    List<Bean> mSelectedItems = new ArrayList<>();
-    boolean mEditMode;
+    protected List<Bean> mDataList;
+    protected List<Bean> mSelectedItems = new ArrayList<>();
+    protected boolean mEditMode;
 
     public BaseEditableRecycleViewAdapter() {
     }

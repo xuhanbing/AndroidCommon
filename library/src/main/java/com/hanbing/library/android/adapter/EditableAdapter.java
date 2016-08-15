@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by hanbing on 2016/8/3
  */
-public interface Editable<T> {
+public interface EditableAdapter<T> {
 
     /**
      * 开始编辑模式
