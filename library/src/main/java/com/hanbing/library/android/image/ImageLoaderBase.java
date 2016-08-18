@@ -78,22 +78,9 @@ public abstract class ImageLoaderBase extends ImageLoaderImpl {
 				mDefaultImageLoaderListener);
 	}
 
-	public void displayImage(final View view, String uri,
+	public abstract void displayImage(final View view, String uri,
 			final int width, final int height, int defaultResId,
-			final ImageLoaderListener lsner) {
-
-		if (null == view)
-			return;
-
-		if (TextUtils.isEmpty(uri))
-			return;
-
-		final ImageLoaderListener listener = null != lsner ? lsner
-				: mDefaultImageLoaderListener;
-
-		displayImage(view, uri, width, height,
-				defaultResId, listener);
-	}
+			final ImageLoaderListener lsner) ;
 
 	public Bitmap loadImageSync(String uri) {
 		return loadImageSync(uri, 0, 0);

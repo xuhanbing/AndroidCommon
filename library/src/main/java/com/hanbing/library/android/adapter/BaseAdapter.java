@@ -42,11 +42,15 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder> extends and
 
     public abstract VH onCreateViewHolder(ViewGroup parent, int viewType);
 
-    public abstract void onBindViewHolder(VH viewHolder, int position);
+    public abstract void onBindViewHolder(VH holder, int position);
 
     @Override
     public long getItemId(int position) {
         return 0;
+    }
+
+    public int getItemCount(){
+        return getCount();
     }
 
     @Override

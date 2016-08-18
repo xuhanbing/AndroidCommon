@@ -25,8 +25,13 @@ import android.widget.ImageView.ScaleType;
  */
 public class BannerViewPager extends ViewPager {
 
+	public interface OnItemClickListener {
+		void onClick(int position);
+	}
+
 	static final int LOOP_DURATION = 3000;
 
+	OnItemClickListener mOnItemClickListener;
 	List<String> mUrlList;
 	long mDuration = LOOP_DURATION;
 
@@ -107,7 +112,7 @@ public class BannerViewPager extends ViewPager {
 			}
 
 			@Override
-			public Object instantiateItem(ViewGroup container, int position) {
+			public Object instantiateItem(ViewGroup container, final int position) {
 				// TODO Auto-generated method stub
 				if (null == imageViews)
 					imageViews = new SparseArray<ImageView>();
@@ -122,6 +127,13 @@ public class BannerViewPager extends ViewPager {
 
 				ImageLoader instance = ImageLoader.getInstance(getContext());
 				instance.displayImage(imageView, mUrlList.get(position));
+
+				imageView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						onClickItem(position);
+					}
+				});
 
 				container.addView(imageView);
 
@@ -141,6 +153,10 @@ public class BannerViewPager extends ViewPager {
 			}
 
 		});
+	}
+
+	protected void onClickItem(int position) {
+		if (null != mOnItemClickListener) mOnItemClickListener.onClick(position);
 	}
 
 	/**
@@ -164,6 +180,10 @@ public class BannerViewPager extends ViewPager {
 		this.mDuration = duration;
 		
 		return this;
+	}
+
+	public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+		mOnItemClickListener = onItemClickListener;
 	}
 
 	/**

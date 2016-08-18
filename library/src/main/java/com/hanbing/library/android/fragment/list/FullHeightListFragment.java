@@ -19,7 +19,9 @@ public class FullHeightListFragment extends ListFragment {
 
     @Override
     protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return mFullHeightListView = new FullHeightListView(getContext());
+         mFullHeightListView = new FullHeightListView(getContext());
+        mFullHeightListView.setFullHeight(isFullHeight());
+        return mFullHeightListView;
     }
 
     @Override
@@ -55,5 +57,17 @@ public class FullHeightListFragment extends ListFragment {
         }
 
         return false;
+    }
+
+    @Override
+    protected void onLastItemVisible() {
+        //全高度listview时，最后一个item会一直展示，因此该判断不准确
+        if (isFullHeight())
+            return;
+        super.onLastItemVisible();
+    }
+
+    protected boolean isFullHeight() {
+        return true;
     }
 }
