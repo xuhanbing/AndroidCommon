@@ -106,9 +106,11 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
     View.OnClickListener mOnLoadMoreClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mClickLoadMoreEnabled) onLoadMore();
+            onLoadMoreClick();
+
         }
     };
+
 
     @Override
     protected void initViews(View view) {
@@ -457,4 +459,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
         onLoadCompleted();
     }
 
+    protected void onLoadMoreClick() {
+        if (mClickLoadMoreEnabled) onLoadMore();
+    }
 }

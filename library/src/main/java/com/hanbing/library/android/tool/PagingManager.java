@@ -8,6 +8,7 @@ package com.hanbing.library.android.tool;
 public class PagingManager extends LoadingManager{
 
     static final int DEFAULT_PAGE_SIZE = 10;
+    static final int DEFAULT_MAX_COUNT = Integer.MAX_VALUE;
 
     byte[] mLock = new byte[0];
 
@@ -55,22 +56,32 @@ public class PagingManager extends LoadingManager{
 
     public PagingManager()
     {
-        forceReset();
+        this(DEFAULT_PAGE_SIZE);
     }
 
-    public PagingManager(int pageCount)
+    public PagingManager(int pageSize)
     {
-        this.mPageSize = pageCount;
-
-        forceReset();
+        this(pageSize, DEFAULT_MAX_COUNT);
     }
 
-    public PagingManager(int pageCount, boolean indexStartFromZero)
+    public PagingManager(int pageSize, int maxCount)
     {
-        this.mPageSize = pageCount;
+        this(pageSize, maxCount, false);
+    }
+
+    public PagingManager(int pageSize, boolean indexStartFromZero)
+    {
+        this(pageSize, DEFAULT_MAX_COUNT, indexStartFromZero);
+    }
+
+    public PagingManager(int pageSize, int maxCount, boolean indexStartFromZero)
+    {
+        this.mPageSize = pageSize;
         this.mIndexStartFromZero = indexStartFromZero;
 
         forceReset();
+
+        setMaxCount(maxCount);
     }
 
     /**
@@ -336,6 +347,5 @@ public class PagingManager extends LoadingManager{
         mMaxPageIndex = Integer.MAX_VALUE;
         mMaxCount = Integer.MAX_VALUE;
         resetPageIndex();
-
     }
 }

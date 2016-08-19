@@ -36,8 +36,8 @@ public class RecyclerViewPinnedSectionWrapper extends PinnedSectionWrapper<Recyc
 
     @Override
     protected int getFirstVisibleItemPosition() {
-        if (null == mParent)
-            return -1;
+        if (null == mParent || null == mParent.getAdapter() || mParent.getAdapter().getItemCount() <= 0)
+            return super.getFirstVisibleItemPosition();
 
         RecyclerView.LayoutManager layoutManager = mParent.getLayoutManager();
 

@@ -42,7 +42,7 @@ public class AbsListViewPinnedSectionWrapper extends PinnedSectionWrapper<AbsLis
 
     @Override
     protected int getFirstVisibleItemPosition() {
-        if (null != mParent)
+        if (null != mParent && mParent.getCount() > 0)
             return mParent.getFirstVisiblePosition();
         return super.getFirstVisibleItemPosition();
     }

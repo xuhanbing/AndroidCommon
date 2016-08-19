@@ -109,7 +109,7 @@ public abstract class PinnedSectionWrapper<VG extends ViewGroup> implements IPlu
     }
 
     void layout(int offsetY, int position) {
-        if (null == mParent || null == mAdapter || null == mPinnedView)
+        if (null == mParent || null == mAdapter || null == mPinnedView || position < 0)
             return;
 
         int left = mParent.getPaddingLeft();
