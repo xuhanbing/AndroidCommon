@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.plugin.PinnedSectionWrapper;
+import com.hanbing.library.android.view.recycler.OnItemClickListener;
 import com.hanbing.library.android.view.recycler.PinnedSectionRecyclerView;
 import com.hanbing.mytest.R;
 
@@ -34,6 +36,12 @@ public class TestPinnedSectionRecyclerView extends AppCompatActivity {
         View view = ViewUtils.inflate(this, R.layout.item_pinned_section);
         recyclerView.setPinnedView(view);
         recyclerView.setAdapter(adapter);
+        ViewUtils.bindOnItemClickListener(recyclerView, new OnItemClickListener() {
+            @Override
+            public void onItemClick(RecyclerView recyclerView, View view, int position) {
+                LogUtils.e("onItemClick " + position);
+            }
+        });
 
         setContentView(recyclerView);
     }

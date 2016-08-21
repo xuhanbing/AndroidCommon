@@ -70,7 +70,7 @@ public class ListFragment extends AbsListFragment<ListView> {
     }
 
     public  void initListView(ListView listView) {
-
+        listView.setAdapter(mDataAdapter);
     }
 
     @Override

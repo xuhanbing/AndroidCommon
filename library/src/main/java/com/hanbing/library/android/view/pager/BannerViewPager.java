@@ -35,6 +35,63 @@ public class BannerViewPager extends ViewPager {
 	List<String> mUrlList;
 	long mDuration = LOOP_DURATION;
 
+	protected class DefaultPageAdapter extends PagerAdapter {
+
+		SparseArray<ImageView> imageViews;
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			// TODO Auto-generated method stub
+			container.removeView((View) object);
+		}
+
+		@Override
+		public Object instantiateItem(ViewGroup container, final int position) {
+			// TODO Auto-generated method stub
+			if (null == imageViews)
+				imageViews = new SparseArray<ImageView>();
+
+			ImageView imageView = imageViews.get(position);
+
+			if (null == imageView) {
+				imageView = new ImageView(getContext());
+				imageView.setScaleType(ScaleType.CENTER_CROP);
+				imageViews.put(position, imageView);
+			}
+
+			showPicture(position, imageView);
+
+			imageView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					onClickItem(position);
+				}
+			});
+
+			container.addView(imageView);
+
+			return imageView;
+		}
+
+		protected void showPicture(int position, ImageView imageView) {
+			ImageLoader instance = ImageLoader.getInstance(getContext());
+			instance.displayImage(imageView, mUrlList.get(position));
+		}
+
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			// TODO Auto-generated method stub
+			return arg0 == arg1;
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return null == mUrlList ? 0 : mUrlList.size();
+		}
+
+	};
+
 	Handler mHandler = new Handler();
 
 	Runnable mLoopPlayer = new Runnable() {
@@ -101,59 +158,10 @@ public class BannerViewPager extends ViewPager {
 	 * 
 	 */
 	protected void setAdapter() {
-		setAdapter(new PagerAdapter() {
-
-			SparseArray<ImageView> imageViews;
-
-			@Override
-			public void destroyItem(ViewGroup container, int position, Object object) {
-				// TODO Auto-generated method stub
-				container.removeView((View) object);
-			}
-
-			@Override
-			public Object instantiateItem(ViewGroup container, final int position) {
-				// TODO Auto-generated method stub
-				if (null == imageViews)
-					imageViews = new SparseArray<ImageView>();
-
-				ImageView imageView = imageViews.get(position);
-
-				if (null == imageView) {
-					imageView = new ImageView(getContext());
-					imageView.setScaleType(ScaleType.CENTER_CROP);
-					imageViews.put(position, imageView);
-				}
-
-				ImageLoader instance = ImageLoader.getInstance(getContext());
-				instance.displayImage(imageView, mUrlList.get(position));
-
-				imageView.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						onClickItem(position);
-					}
-				});
-
-				container.addView(imageView);
-
-				return imageView;
-			}
-
-			@Override
-			public boolean isViewFromObject(View arg0, Object arg1) {
-				// TODO Auto-generated method stub
-				return arg0 == arg1;
-			}
-
-			@Override
-			public int getCount() {
-				// TODO Auto-generated method stub
-				return null == mUrlList ? 0 : mUrlList.size();
-			}
-
-		});
+		setAdapter(new DefaultPageAdapter());
 	}
+
+
 
 	protected void onClickItem(int position) {
 		if (null != mOnItemClickListener) mOnItemClickListener.onClick(position);
@@ -180,6 +188,10 @@ public class BannerViewPager extends ViewPager {
 		this.mDuration = duration;
 		
 		return this;
+	}
+
+	public List<String> getUrlList() {
+		return mUrlList;
 	}
 
 	public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

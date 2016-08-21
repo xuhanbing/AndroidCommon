@@ -121,6 +121,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
         mEmptyView = createEmptyView();
         mLoadingView = createLoadingView();
         mLoadMoreView = createLoadMoreView();
+        mDataAdapter = createAdapter();
 
         /**
          * 如果有加载更多view，添加到最末尾
@@ -152,8 +153,6 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
     }
 
     public DataAdapter getDataAdapter() {
-        if (null == mDataAdapter)
-            mDataAdapter = createAdapter();
         return mDataAdapter;
     }
 

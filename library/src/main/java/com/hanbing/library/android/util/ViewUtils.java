@@ -289,6 +289,7 @@ public class ViewUtils {
         if (null == onItemClickListener && null == onItemLongClickListener)
             return;
 
+        //多次添加后面的会接收不到事件
         recyclerView.addOnItemTouchListener(new SimpleOnItemTouchListener(recyclerView, onItemClickListener, onItemLongClickListener));
 
     }

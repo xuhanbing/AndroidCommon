@@ -25,7 +25,7 @@ public class FullHeightListFragment extends ListFragment {
     }
 
     @Override
-    public ListView createDataView() {
+    public ListView createListView() {
         return mFullHeightListView;
     }
 

@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.hanbing.library.android.fragment.list.RecyclerViewFragment;
 import com.hanbing.library.android.fragment.list.SrainPtrRecyclerViewFragment;
 import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
+import com.hanbing.library.android.view.recycler.OnItemClickListener;
 import com.hanbing.mytest.R;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -19,7 +22,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 public class TestRecyclerViewFragment extends AppCompatActivity {
 
 
-    public static class RecyclerViewFragment extends SrainPtrRecyclerViewFragment {
+    public static class RecyclerViewFragment extends com.hanbing.library.android.fragment.list.RecyclerViewFragment {
 
         PtrFrameLayout mPtrFrameLayout;
 
@@ -29,23 +32,25 @@ public class TestRecyclerViewFragment extends AppCompatActivity {
         Handler mHandler = new Handler();
 
 
-        @Override
-        protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View child = super.onCreateViewImpl(inflater, container, savedInstanceState);
-            mPtrFrameLayout = new PtrFrameLayout(getActivity());
-            child.setBackgroundColor(Color.GRAY);
-            mPtrFrameLayout.addView(child, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-            return mPtrFrameLayout;
-        }
-
-        @Override
-        public PtrFrameLayout createPtrFrameLayout() {
-            return mPtrFrameLayout;
-        }
+//        @Override
+//        protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//            View child = super.onCreateViewImpl(inflater, container, savedInstanceState);
+//            mPtrFrameLayout = new PtrFrameLayout(getActivity());
+//            child.setBackgroundColor(Color.GRAY);
+//            mPtrFrameLayout.addView(child, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//
+//            return mPtrFrameLayout;
+//        }
+//
+//        @Override
+//        public PtrFrameLayout createPtrFrameLayout() {
+//            return mPtrFrameLayout;
+//        }
 
         @Override
         public RecyclerView.Adapter createAdapter() {
+            if (null == mAdapter)
+                mAdapter = new MyListViewAdapter();
             return mAdapter;
         }
 
@@ -75,6 +80,13 @@ public class TestRecyclerViewFragment extends AppCompatActivity {
                 if (null == textView) {
                     textView = new TextView(getActivity());
                 }
+
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LogUtils.e("click text");
+                    }
+                });
 
 
                 textView.setHeight(200);
@@ -115,11 +127,19 @@ public class TestRecyclerViewFragment extends AppCompatActivity {
 
 
         @Override
-        public void initDataView(RecyclerView view) {
-            super.initDataView(view);
-            if (null == mAdapter)
-                mAdapter = new MyListViewAdapter();
-            view.setAdapter(mAdapter);
+        protected void initRecyclerView(RecyclerView recyclerView) {
+            recyclerView.setAdapter(createAdapter());
+            ViewUtils.bindOnItemClickListener(recyclerView, new OnItemClickListener() {
+                @Override
+                public void onItemClick(RecyclerView recyclerView, View view, int position) {
+                    LogUtils.e("onItemClick " + position);
+                }
+            });
+        }
+
+        @Override
+        public void onItemClick(RecyclerView recyclerView, View view, int position) {
+            LogUtils.e("super onItemClick " + position);
         }
 
         @Override

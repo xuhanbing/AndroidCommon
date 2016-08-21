@@ -11,7 +11,6 @@ public class BaseAppCompatActivity extends com.hanbing.library.android.activity.
     @Override
     protected void onCreate(Bundle arg0) {
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         super.onCreate(arg0);
     }

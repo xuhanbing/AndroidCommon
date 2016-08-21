@@ -59,46 +59,69 @@ public class ImageLoader extends ImageLoaderBase {
         return mImageLoader;
     }
 
+    /**
+     * 最大图片尺寸，使用屏幕大小
+     */
+   public static float aspect = 3.0f / 4;
+
 
     /**
      * 缓存的最大图片大小
      */
-    ImageSize maxImageSize;
+    ImageSize mImageSize;
+
+    ImageLoaderConfiguration mImageLoaderConfiguration;
+    //缓存配置
+    DisplayImageOptions mDisplayImageOptions;
 
     public ImageLoader(Context context) {
-        super.init(context);
+        super(context);
+
+        init();
     }
 
-    public ImageLoader(Context context, String path) {
-        init(context, path);
+
+    private void init() {
+
+       Context context = mContext;
+
+        mImageSize = createDefaultImageSize(context);
+        ImageLoaderConfiguration config =  createDefaultBuilder(context).build();
+        // 全局初始化此配置
+        init(config);
     }
 
-    public void init(Context context, String path) {
+    public void init(ImageLoaderConfiguration config) {
+        if (null == mUIL)
+            mUIL = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
 
-        if (TextUtils.isEmpty(path)) {
-            path = context.getExternalCacheDir().getAbsolutePath();
-            if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                path = context.getCacheDir().getAbsolutePath();
-            }
+        mImageLoaderConfiguration = config;
+        mUIL.init(config);
 
-            path = path + "/thumbnails";
-        }
+    }
 
-        /**
-         * 最大图片尺寸，使用屏幕大小
-         */
-        float aspect = 3.0f / 4;
+    public void setDisplayImageOptions(DisplayImageOptions options) {
+        mDisplayImageOptions = options;
+    }
+
+
+    public static ImageSize createDefaultImageSize(Context context) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        maxImageSize = new ImageSize((int) (dm.widthPixels * aspect),
+        return new ImageSize((int) (dm.widthPixels * aspect),
                 (int) (dm.heightPixels * aspect));
-        /**
-         * 缓存文件的目录
-         */
-        File cacheDir = new File(FileUtils.addRootIfNeed(context, path));
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+    }
+
+
+
+    public static ImageLoaderConfiguration.Builder createDefaultBuilder(Context context) {
+
+
+        File cacheDir = new File(createDefaultCachePath(context));
+        ImageSize mImageSize= createDefaultImageSize(context);
+        return new ImageLoaderConfiguration.Builder(
                 context)
-                .memoryCacheExtraOptions(maxImageSize.getWidth(),
-                        maxImageSize.getHeight())
+                .memoryCacheExtraOptions(mImageSize.getWidth(),
+                        mImageSize.getHeight())
                         // max width, max height，即保存的每个缓存文件的最大长宽
                 .threadPoolSize(5)
                         // 线程池内线程的数量
@@ -114,17 +137,18 @@ public class ImageLoader extends ImageLoaderBase {
                 .diskCache(new UnlimitedDiskCache(cacheDir))// 自定义缓存路径
                 .imageDownloader(
                         new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout
-                        // (5
-                        // s),
-                        // readTimeout
-                        // (30
-                        // s)超时时间
-                        // .writeDebugLogs() // Remove for release app
-                .build();
-        // 全局初始化此配置
-        mUIL = com.nostra13.universalimageloader.core.ImageLoader
-                .getInstance();
-        mUIL.init(config);
+                // (5
+                // s),
+                // readTimeout
+                // (30
+                // s)超时时间
+                // .writeDebugLogs() // Remove for release app
+        ;
+    }
+
+    public static DisplayImageOptions createDefaultDisplayImageOptions(Context context) {
+        return new DisplayImageOptions.Builder().bitmapConfig(Config.RGB_565).cacheInMemory(true)
+                .cacheOnDisk(true).build();
     }
 
     public void displayImage(View view, String uri, final int width,
@@ -155,9 +179,16 @@ public class ImageLoader extends ImageLoaderBase {
 
         DisplayImageOptions.Builder builder = new DisplayImageOptions.Builder();
 
-        builder.bitmapConfig(Config.RGB_565).cacheInMemory(true)
-                .cacheOnDisk(true).showImageOnLoading(defaultResId)
-                .showImageOnFail(defaultResId);
+        //如果有自定义个配置
+        if (null != mDisplayImageOptions) {
+            builder.cloneFrom(mDisplayImageOptions);
+        }
+
+        if (defaultResId > 0) {
+            builder.showImageOnFail(defaultResId).showImageOnLoading(defaultResId).showImageForEmptyUri(defaultResId);
+        }
+
+
         /**
          * 结果回调
          */
@@ -277,7 +308,7 @@ public class ImageLoader extends ImageLoaderBase {
 
         ImageSize targetSize = ImageSizeUtils.defineTargetSizeForView(
                 new NonViewAware(new ImageSize(width, height),
-                        ViewScaleType.CROP), maxImageSize);
+                        ViewScaleType.CROP), mImageSize);
         key = MemoryCacheUtils.generateKey(uri, targetSize);
 
         return mUIL.getMemoryCache().get(key);
