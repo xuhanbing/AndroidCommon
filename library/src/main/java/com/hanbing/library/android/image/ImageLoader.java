@@ -158,12 +158,7 @@ public class ImageLoader extends ImageLoaderBase {
         if (null == view)
             return;
 
-        if (null == uri) {
-            if (defaultResId <= 0)
-                return;
-            else
-                uri = createResource(defaultResId + "");
-        } else if (FileUtils.isExist(uri)) {
+        if (FileUtils.isExist(uri)) {
             uri = createLocalPath(uri);
         }
 
