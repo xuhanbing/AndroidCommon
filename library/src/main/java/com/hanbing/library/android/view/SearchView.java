@@ -307,4 +307,14 @@ public class SearchView extends LinearLayout  implements TextView.OnEditorAction
             }
         }
     }
+
+    @Override
+    public void beforeClear(EditText editText) {
+
+    }
+
+    @Override
+    public void afterClear(EditText editText) {
+
+    }
 }

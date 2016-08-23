@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 
 
 /**
@@ -19,7 +20,23 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
 
 
     public static interface OnClearListener {
+
+        /**
+         * 清空内容
+         * @param content
+         * @deprecated
+         */
         public void onClear(String content);
+
+        /***
+         * 将要清空
+         */
+        public void beforeClear(EditText editText);
+
+        /**
+         *
+         */
+        public void afterClear(EditText editText);
     }
 
     boolean mAlwaysShow = false;
@@ -112,18 +129,32 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
         if (MotionEvent.ACTION_DOWN == event.getAction()
             && isTouchClear(event))
         {
-            if (null != mOnClearListener)
-            {
-                mOnClearListener.onClear(getText().toString());
-            }
-            this.setText("");
+            onTouchClear();
 
             return true;
         }
         
         return super.dispatchTouchEvent(event);
     }
-    
+
+    private void onTouchClear() {
+        if (!isEnabled())
+            return;
+
+        if (isInEditMode()) {
+
+        }
+
+        if (null != mOnClearListener){
+            mOnClearListener.beforeClear(this);
+            mOnClearListener.onClear(getText().toString());
+        }
+        this.setText("");
+
+        if (null != mOnClearListener)
+            mOnClearListener.afterClear(this);
+    }
+
     /**
      * check if touch clear icon
      * @param event
@@ -181,7 +212,8 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
     {
         Drawable right = null;
 
-        if (mAlwaysShow || show) {
+        //如果enable=false将不在显示clear
+        if ((mAlwaysShow || show) && isEnabled()) {
             right = mClearDrawable;
         } else if (mPlaceHolder) {
             right = mPlaceHolderDrawable;
