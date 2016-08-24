@@ -176,16 +176,32 @@ public class OtherUtils {
     public static void choosePicture(Activity context, int requestCode) {
         Intent intent = new Intent();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-        } else {
-            intent.setAction(Intent.ACTION_PICK);
-        }
-
+        intent.setAction(Intent.ACTION_PICK);
         intent.setType("image/*");
 
         context.startActivityForResult(Intent.createChooser(intent, null),
                 requestCode);
+    }
+
+    /**
+     *
+     * @param context
+     * @param requestCode
+     */
+    public static void choosePictureNew(Activity context, int requestCode) {
+        Intent intent = new Intent();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+            intent.setType("image/*");
+
+            context.startActivityForResult(Intent.createChooser(intent, null),
+                    requestCode);
+        } else {
+            choosePicture(context, requestCode);
+        }
+
+
     }
 
     /**

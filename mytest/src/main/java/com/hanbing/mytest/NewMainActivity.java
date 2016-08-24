@@ -263,6 +263,8 @@ public class NewMainActivity extends BaseActivity {
                 } else {
                     TextView textView = new TextView(getApplicationContext());
                     textView.setPadding(20, 20, 20, 20);
+                    textView.setGravity(Gravity.CENTER_VERTICAL);
+                    textView.setHeight(200);
                     textView.setTextSize(14);
                     textView.setTextColor(Color.BLACK);
 

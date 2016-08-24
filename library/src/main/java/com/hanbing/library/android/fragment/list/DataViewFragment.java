@@ -203,6 +203,8 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
 
     @Override
     public final void onLoadMore() {
+        if (null == getContext())
+            return;
 
         if (!mLoadMoreEnabled)
             return;
@@ -221,6 +223,9 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
 
     @Override
     public final void onRefresh() {
+        if (null == getContext())
+            return;
+
         if (mPagingManager.lock()) {
             /**
              * 获取当前listview的数据总量

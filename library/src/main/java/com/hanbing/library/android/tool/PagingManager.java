@@ -9,6 +9,7 @@ public class PagingManager extends LoadingManager{
 
     static final int DEFAULT_PAGE_SIZE = 10;
     static final int DEFAULT_MAX_COUNT = Integer.MAX_VALUE;
+    static final int DEFAULT_MAX_PAGE_INDEX = Integer.MAX_VALUE;
 
     byte[] mLock = new byte[0];
 
@@ -36,7 +37,7 @@ public class PagingManager extends LoadingManager{
     /**
      * 最大页数
      */
-    int mMaxPageIndex = 0;
+    int mMaxPageIndex = DEFAULT_MAX_PAGE_INDEX;
 
     /**
      * 页码是否从0开始
@@ -173,10 +174,13 @@ public class PagingManager extends LoadingManager{
     {
         this.mPageSize = pageSize;
         this.mMaxCount = maxCount;
-        if (0 != mPageSize)
-            //计算最大页数索引
+        //计算最大页数索引
+        if (0 != mPageSize && DEFAULT_MAX_COUNT == maxCount)
         {
-            mMaxPageIndex = (maxCount + mPageSize - 1) / mPageSize - 1;
+            int index = maxCount / mPageSize;
+
+            //如果不能整除+1
+            mMaxPageIndex =  (maxCount % pageSize == 0) ? index : (index + 1);
 
             if (!mIndexStartFromZero)
             {
@@ -344,8 +348,8 @@ public class PagingManager extends LoadingManager{
 
         super.forceReset();
         mTotalCount = 0;
-        mMaxPageIndex = Integer.MAX_VALUE;
-        mMaxCount = Integer.MAX_VALUE;
+        mMaxPageIndex = DEFAULT_MAX_PAGE_INDEX;
+        mMaxCount = DEFAULT_MAX_COUNT;
         resetPageIndex();
     }
 }
