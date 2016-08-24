@@ -633,6 +633,10 @@ public class FileUtils {
 		return null == file ? null : file.toString();
 	}
 
+	public static String getCacheDirAuto(Context context) {
+		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ? getCacheDirExt(context) : getCacheDir(context);
+	}
+
 	public static void clearCache(Context context)
 	{
 		deleteDir(getCacheDir(context));

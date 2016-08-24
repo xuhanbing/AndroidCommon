@@ -72,7 +72,7 @@ public class FullHeightListFragment extends ListFragment {
             return;
 
         if (scrollView instanceof CallbackScrollView) {
-            ((CallbackScrollView) scrollView).setOnFlingChangedListener(new CallbackScrollView.OnFlingChangedListener() {
+            ((CallbackScrollView) scrollView).addOnFlingChangedListener(new CallbackScrollView.OnFlingChangedListener() {
                 @Override
                 public void onFlingStarted() {
 

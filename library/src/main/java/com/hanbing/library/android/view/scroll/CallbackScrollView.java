@@ -7,8 +7,10 @@ import android.util.AttributeSet;
 import android.widget.OverScroller;
 import android.widget.ScrollView;
 
-import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ReflectUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hanbing on 2016/7/25.
@@ -26,7 +28,9 @@ public class CallbackScrollView extends ScrollView {
 
     OverScroller mSuperScroller;
     OnScrollChangedListener mOnScrollChangedListener;
+    List<OnScrollChangedListener> mOnScrollChangedListeners;
     OnFlingChangedListener mOnFlingChangedListener;
+    List<OnFlingChangedListener> mOnFlingChangedListeners;
 
     boolean mIsFling = false;
 
@@ -62,6 +66,7 @@ public class CallbackScrollView extends ScrollView {
             if (mIsFling) {
                 mIsFling = false;
                 if (null != mOnFlingChangedListener) mOnFlingChangedListener.onFlingFinished();
+                postOnFlingFinished();
             }
         }
     }
@@ -72,6 +77,8 @@ public class CallbackScrollView extends ScrollView {
 
         if (null != mOnScrollChangedListener)
         mOnScrollChangedListener.onScrollChanged(l, t, oldl, oldt);
+
+        postOnScrollChanged(l, t, oldl, oldt);
     }
 
     @Override
@@ -80,6 +87,7 @@ public class CallbackScrollView extends ScrollView {
         if (getChildCount() > 0 && null != mSuperScroller) {
             mIsFling = true;
             if (null != mOnFlingChangedListener) mOnFlingChangedListener.onFlingStarted();
+            postOnFlingStarted();
         }
     }
 
@@ -87,7 +95,65 @@ public class CallbackScrollView extends ScrollView {
         this.mOnScrollChangedListener = onScrollChangeListener;
     }
 
+    public void addOnScrollChangedListener(OnScrollChangedListener onScrollChangedListener) {
+        if (null == mOnScrollChangedListeners)
+            mOnScrollChangedListeners = new ArrayList<>();
+        if (null != onScrollChangedListener)
+            mOnScrollChangedListeners.add(onScrollChangedListener);
+    }
+
+    public void removeOnScrollChangedListener(OnScrollChangedListener onScrollChangedListener){
+        if (null == mOnScrollChangedListeners || null == onScrollChangedListener)
+            return;
+
+        mOnScrollChangedListeners.remove(onScrollChangedListener);
+    }
+
+    private void postOnScrollChanged(int l, int t, int oldl, int oldt) {
+        if (null == mOnScrollChangedListeners || mOnScrollChangedListeners.size() == 0)
+            return;
+
+        for (OnScrollChangedListener listener :
+                mOnScrollChangedListeners) {
+            listener.onScrollChanged(l, t, oldl, oldt);
+        }
+    }
+
     public void setOnFlingChangedListener(OnFlingChangedListener onFlingChangedListener) {
         mOnFlingChangedListener = onFlingChangedListener;
+    }
+
+    public void addOnFlingChangedListener(OnFlingChangedListener onFlingChangedListener) {
+        if (null == mOnFlingChangedListeners)
+            mOnFlingChangedListeners = new ArrayList<>();
+        if (null != onFlingChangedListener)
+            mOnFlingChangedListeners.add(onFlingChangedListener);
+    }
+
+    public void removeOnFlingChangedListener(OnFlingChangedListener onFlingChangedListener){
+        if (null == mOnFlingChangedListeners || null == onFlingChangedListener)
+            return;
+
+        mOnFlingChangedListeners.remove(onFlingChangedListener);
+    }
+
+    private void postOnFlingStarted() {
+        if (null == mOnFlingChangedListeners || mOnFlingChangedListeners.size() == 0)
+            return;
+
+        for (OnFlingChangedListener listener :
+                mOnFlingChangedListeners) {
+            listener.onFlingStarted();
+        }
+    }
+
+    private void postOnFlingFinished() {
+        if (null == mOnFlingChangedListeners || mOnFlingChangedListeners.size() == 0)
+            return;
+
+        for (OnFlingChangedListener listener :
+                mOnFlingChangedListeners) {
+            listener.onFlingFinished();
+        }
     }
 }
