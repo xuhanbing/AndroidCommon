@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 
@@ -202,6 +203,45 @@ public class OtherUtils {
         }
 
 
+    }
+
+    /**
+     * 播放视频
+     * @param context
+     * @param url
+     */
+    public static void openVideo(Context context, String url) {
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+
+        Uri uri = null;
+        //本地路径
+        if (FileUtils.isExist(url)) {
+            uri = Uri.fromFile(new File(url));
+        } else {
+            uri = Uri.parse(url);
+        }
+
+        intent.setDataAndType(uri, "video/*");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        context.startActivity(intent);
+
+    }
+
+    /**
+     * 打开应用设置
+     * @param context
+     */
+    public static void openAppSetting(Context context) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setData(uri);
+
+        context.startActivity(intent);
     }
 
     /**
