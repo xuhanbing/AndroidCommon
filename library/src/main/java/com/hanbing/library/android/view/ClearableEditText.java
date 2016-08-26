@@ -123,17 +123,32 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
     }
 
 
+    boolean mIsTouchClear = false;
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         //check if touch clear icon
-        if (MotionEvent.ACTION_DOWN == event.getAction()
-            && isTouchClear(event))
-        {
-            onTouchClear();
 
-            return true;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (isTouchClear(event)) {
+                    mIsTouchClear = true;
+                    onTouchClear();
+                    return true;
+                }
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                if (mIsTouchClear)
+                    return true;
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                if (mIsTouchClear)
+                    return true;
+                mIsTouchClear = false;
+                break;
         }
-        
+
         return super.dispatchTouchEvent(event);
     }
 

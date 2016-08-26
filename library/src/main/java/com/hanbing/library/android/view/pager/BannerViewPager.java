@@ -6,6 +6,7 @@ package com.hanbing.library.android.view.pager;
 import java.util.List;
 
 import com.hanbing.library.android.image.ImageLoader;
+import com.hanbing.library.android.util.LogUtils;
 
 import android.content.Context;
 import android.os.Handler;
@@ -120,6 +121,7 @@ public class BannerViewPager extends ViewPager {
 	public BannerViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
+		init();
 	}
 
 	/**
@@ -128,10 +130,11 @@ public class BannerViewPager extends ViewPager {
 	public BannerViewPager(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
+		init();
 	}
 
 	void init() {
-		setAdapter();
+
 
 		setOnTouchListener(new OnTouchListener() {
 
@@ -139,19 +142,19 @@ public class BannerViewPager extends ViewPager {
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
 				switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN:
-					mHandler.removeCallbacks(mLoopPlayer);
-					break;
-				case MotionEvent.ACTION_UP:
-					mHandler.postDelayed(mLoopPlayer, LOOP_DURATION);
-					break;
+					case MotionEvent.ACTION_DOWN:
+						mHandler.removeCallbacks(mLoopPlayer);
+						break;
+					case MotionEvent.ACTION_UP:
+						mHandler.postDelayed(mLoopPlayer, LOOP_DURATION);
+						break;
 
 				}
 				return false;
 			}
 		});
 
-		mHandler.postDelayed(mLoopPlayer, LOOP_DURATION);
+
 	}
 	
 	/**
@@ -173,9 +176,9 @@ public class BannerViewPager extends ViewPager {
 	 * @return
 	 */
 	public BannerViewPager setUrlList(List<String> urlList) {
-
 		this.mUrlList = urlList;
-		
+		setAdapter();
+
 		return this;
 	}
 
@@ -203,8 +206,8 @@ public class BannerViewPager extends ViewPager {
 	 */
 	public void start(){
 		stop();
-		
-		init();
+		if (null != getAdapter() && getAdapter().getCount() > 0)
+			mHandler.postDelayed(mLoopPlayer, LOOP_DURATION);
 	}
 	
 	/**

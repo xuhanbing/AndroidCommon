@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.hanbing.library.android.util.TimeUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -74,6 +75,11 @@ public class Test {
     }
 
     public static void main(String[] args) {
+
+
+        long time = 28 * 3600 * 1000 + 10 * 1000 + 7 * 60 * 1000;
+
+        System.out.println(TimeUtils.getTime("HH:mm:ss", time));
 
 
     }
