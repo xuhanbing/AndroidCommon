@@ -8,6 +8,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 import com.hanbing.library.android.util.TimeUtils;
 
 import java.lang.reflect.Field;
@@ -73,15 +75,36 @@ public class Test {
             return user;
         }
     }
-
+    static String json = "{\n" +
+            "    \"name\": \"123\",\n" +
+            "    \"age\": 11\n" +
+            "}";
     public static void main(String[] args) {
 
 
-        long time = 28 * 3600 * 1000 + 10 * 1000 + 7 * 60 * 1000;
+//        Gson gson = new Gson();
+//        User user = gson.fromJson(json, User.class);
+//
+//        System.out.println("" + user);
 
-        System.out.println(TimeUtils.getTime("HH:mm:ss", time));
+        request(new Callback<User>() {
+            @Override
+            public void onSuccess(User result) {
+                System.out.println("" + result);
+            }
+        });
+    }
 
+    public static interface Callback<T> {
+        public void onSuccess(T result);
+    }
+    public static <T> void request(Callback<T> callback) {
+        Gson gson = new Gson();
 
+        T t = gson.fromJson(json, new TypeToken<T>() {
+        }.getType());
+
+        callback.onSuccess(t);
     }
 
 

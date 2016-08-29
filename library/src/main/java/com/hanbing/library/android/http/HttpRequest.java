@@ -1,13 +1,13 @@
 package com.hanbing.library.android.http;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.hanbing.library.android.http.callback.HttpCallback;
 import com.hanbing.library.android.http.callback.HttpProgressCallback;
 import com.hanbing.library.android.http.callback.HttpSimpleProgressCallback;
+import com.hanbing.library.android.util.FileUtils;
 
-import java.lang.reflect.Method;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +50,24 @@ public abstract class HttpRequest {
 		return mHttpRequest;
 	}
 
+
+	//缓存策略
+	public enum  CacheProxy{
+		NO , //不实用缓存
+		ONLY, //只使用缓存
+		AUTO //自动，当请求失败时，所以缓存
+	}
+
+	/**
+	 * 默认缓存大小
+	 */
+	public static final long DEFAULT_CACHE_SIZE = 20 * 1024 * 1024;
+	/**
+	 * 默认缓存时间
+	 */
+	public static final long DEFAULT_CACHE_AGE = 1000 * 3600 * 24;
+
+
 	/**
 	 * tasks
 	 */
@@ -62,6 +80,83 @@ public abstract class HttpRequest {
 	 * 只针对请求是，下载时无效
 	 */
 	boolean mForcePost = false;
+
+	/**
+	 * 缓存策略
+	 */
+	CacheProxy mCacheProxy = CacheProxy.NO;
+
+	/**
+	 * 缓存路径
+	 */
+	String mCacheDir;
+
+	/**
+	 * 缓存时间，单位ms
+	 */
+	long mCacheMaxAge = DEFAULT_CACHE_AGE;
+
+	/**
+	 * 缓存大小
+	 */
+	long mCacheSize = DEFAULT_CACHE_SIZE;
+
+
+	public HttpRequest(){
+
+	}
+
+	public HttpRequest(String cacheDir, long cacheMaxAge, long cacheSize){
+		setCache(cacheDir, cacheMaxAge, cacheSize);
+
+	}
+
+	public static String createCacheDir(Context context){
+		String cachePath = FileUtils.getCacheDirAuto(context) + "/http";
+
+		return cachePath;
+	}
+
+	public void setCache(String cacheDir, long cacheMaxAge, long cacheSize) {
+		mCacheDir = cacheDir;
+		mCacheMaxAge = cacheMaxAge;
+		mCacheSize = cacheSize;
+	}
+
+	public void setCacheDir(String cacheDir) {
+		setCache(cacheDir, mCacheMaxAge, mCacheSize);
+	}
+
+	public void setCacheMaxAge(long cacheMaxAge) {
+		setCache(mCacheDir, cacheMaxAge, mCacheSize);
+	}
+
+	public void setCacheSize(long cacheSize) {
+		setCache(mCacheDir, mCacheMaxAge, cacheSize);
+	}
+
+	public void setCacheProxy(CacheProxy cacheProxy) {
+		mCacheProxy = cacheProxy;
+	}
+
+	/**
+	 * 是指支持缓存
+	 * @return
+	 */
+	protected boolean isCacheEnabled(){
+		return CacheProxy.NO != mCacheProxy;
+	}
+
+	/**
+	 * 是否使用缓存，可以根据需要控制
+	 * 默认只要支持即使用
+	 *
+	 * @return
+	 */
+	protected boolean useCache(){
+		return isCacheEnabled();
+	}
+
 
 	public boolean isForcePost() {
 		return mForcePost;
@@ -110,7 +205,7 @@ public abstract class HttpRequest {
 	 * @param downloadUrl 下载地址
 	 * @param callback 回调
 	 */
-	public abstract Cancelable download(String localPath, final String downloadUrl, final HttpCallback callback);
+	public  abstract Cancelable download(String localPath, final String downloadUrl, final HttpCallback callback);
 
 
 

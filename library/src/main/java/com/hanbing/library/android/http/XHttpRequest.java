@@ -1,5 +1,7 @@
 package com.hanbing.library.android.http;
 
+import android.text.TextUtils;
+
 import com.hanbing.library.android.http.callback.HttpProgressCallback;
 import com.hanbing.library.android.http.callback.HttpCallback;
 
@@ -21,21 +23,27 @@ public class XHttpRequest extends HttpRequest {
 
 
     /*
-	 * (non-Javadoc)
+     * (non-Javadoc)
 	 *
 	 * @see com.ming.common.http.HttpRequestBase#doRequest(int,
 	 * java.lang.String, java.util.Map, java.util.Map, java.util.Map,
 	 * com.ming.common.http.HttpRequestCallback)
 	 */
     @Override
-    public  Cancelable doRequest(final int requestCode, final String requestUrl, Map<String, String> headers,
-                           Map<String, String> params, Map<String, Object> uploads, final HttpCallback callback) {
+    public synchronized Cancelable doRequest(final int requestCode, final String requestUrl, Map<String, String> headers,
+                                Map<String, String> params, Map<String, Object> uploads, final HttpCallback callback) {
         // TODO Auto-generated method stub
 
 
         RequestParams requestParams = new RequestParams(requestUrl);
-        // 默认缓存存活时间, 单位:毫秒.(如果服务没有返回有效的max-age或Expires)
-        requestParams.setCacheMaxAge(1000 * 60);
+        if (isCacheEnabled()) {
+            File file = new File(mCacheDir);
+            //取路径的名称
+            requestParams.setCacheDirName(file.getName());
+            // 默认缓存存活时间, 单位:毫秒.(如果服务没有返回有效的max-age或Expires)
+            requestParams.setCacheMaxAge(mCacheMaxAge);
+            requestParams.setCacheSize(mCacheSize);
+        }
 
         HttpMethod method = HttpMethod.GET;
         requestParams.setMethod(method);
@@ -77,22 +85,19 @@ public class XHttpRequest extends HttpRequest {
 
                 String key = next.getKey();
                 Object value = next.getValue();
-                if (null != value)
-                {
+                if (null != value) {
 
-                    if (value instanceof String)
-                    {
+                    if (value instanceof String) {
                         File file = new File(value.toString());
                         if (file.exists())
                             requestParams.addBodyParameter(key, file);
                     } else if (value instanceof InputStream
-                                ||value instanceof byte[]) {
+                            || value instanceof byte[]) {
                         requestParams.addBodyParameter(key, value, "application/octet-stream", key);
-                    }
-                    else if (value instanceof File) {
+                    } else if (value instanceof File) {
                         File file = (File) value;
-                        if(file.exists())
-                        requestParams.addBodyParameter(key, file);
+                        if (file.exists())
+                            requestParams.addBodyParameter(key, file);
                     }
                 }
 
@@ -123,7 +128,7 @@ public class XHttpRequest extends HttpRequest {
         params.setCancelFast(true);
 
         Callback.Cancelable cancelable
-               = x.http().get(params, downloadCallback);
+                = x.http().get(params, downloadCallback);
 
         return cache(new Task(cancelable));
 
@@ -163,6 +168,8 @@ public class XHttpRequest extends HttpRequest {
 
         private boolean hasError = false;
         private String result = null;
+        private String cacheResult = null;
+        private String errMessage;
 
         @Override
         public boolean onCache(String result) {
@@ -177,19 +184,23 @@ public class XHttpRequest extends HttpRequest {
             //   返回 false 继续请求网络, 但会在请求头中加上ETag, Last-Modified等信息,
             //   如果服务端返回304, 则表示数据没有更新, 不继续加载数据.
             //
-            this.result = result;
-            return false; // true: 信任缓存数据, 不在发起网络请求; false不信任缓存数据.
+            this.cacheResult = result;
+            //如果只用缓存，返回true
+            return CacheProxy.ONLY == mCacheProxy; // true: 信任缓存数据, 不在发起网络请求; false不信任缓存数据.
         }
 
         @Override
         public void onSuccess(String result) {
             // 注意: 如果服务返回304或 onCache 选择了信任缓存, 这里将不会被调用,
             // 但是 onFinished 总会被调用.
+            //bug，每次都会调用，添加判断
             this.result = result;
+
         }
 
         @Override
         public void onError(Throwable ex, boolean isOnCallback) {
+
             hasError = true;
             String message = ex.getMessage();
 
@@ -206,10 +217,23 @@ public class XHttpRequest extends HttpRequest {
                 // ...
             }
 
+//            if (null != mCallback) {
+//                mCallback.onFailure(mRequestCode, mRequestUrl, message);
+//            }
+
+            this.errMessage = message;
+        }
+
+        private void postSuccess(String result) {
+            if (null != mCallback) {
+                mCallback.onSuccess(mRequestCode, mRequestUrl, result);
+            }
+        }
+
+        private void postError(String message) {
             if (null != mCallback) {
                 mCallback.onFailure(mRequestCode, mRequestUrl, message);
             }
-
         }
 
         @Override
@@ -219,16 +243,49 @@ public class XHttpRequest extends HttpRequest {
             }
         }
 
+
         @Override
         public void onFinished() {
 
-            if (!hasError && result != null) {
-                // 成功获取数据
-                String str = result;
+//            if (!hasError && result != null) {
+//                // 成功获取数据
+//                String str = result;
+//
+//                if (null != mCallback) {
+//                    mCallback.onSuccess(mRequestCode, mRequestUrl, str);
+//                }
+//            }
 
-                if (null != mCallback) {
-                    mCallback.onSuccess(mRequestCode, mRequestUrl, str);
+
+            if (!hasError) {
+
+                //如果只是用缓存，如果缓存存不存在都直接返回
+                if (CacheProxy.ONLY == mCacheProxy) {
+                    postSuccess(cacheResult);
+                } else{
+                    //如果结果不为空，返回成功
+                    if (!TextUtils.isEmpty(result)) {
+                        postSuccess(result);
+                    } else {
+                        //如果缓存策略为auto，如果缓存不为空，返回缓存数据
+                        if (useCache()
+                                && CacheProxy.AUTO == mCacheProxy
+                                && !TextUtils.isEmpty(cacheResult)) {
+                            postSuccess(cacheResult);
+                        } else {
+                            //否则，失败
+                            postError("获取数据失败，请检查网络或稍后再试");
+                        }
+                    }
                 }
+
+            } else {
+                //请求失败了，使用缓存
+                if (useCache() && CacheProxy.AUTO == mCacheProxy
+                        && !TextUtils.isEmpty(cacheResult)){
+                    postSuccess(cacheResult);
+                }else
+                postError(errMessage);
             }
 
             if (mCallback instanceof HttpProgressCallback) {
@@ -241,7 +298,8 @@ public class XHttpRequest extends HttpRequest {
 
         String mDownloadUrl;
         HttpCallback mCallback;
-        public DownloadCallback( String downloadUrl, HttpCallback callback) {
+
+        public DownloadCallback(String downloadUrl, HttpCallback callback) {
             mDownloadUrl = downloadUrl;
             mCallback = callback;
         }
@@ -255,15 +313,15 @@ public class XHttpRequest extends HttpRequest {
         public void onStarted() {
             if (mCallback instanceof HttpProgressCallback) {
 
-                ((HttpProgressCallback)mCallback).onStarted(mDownloadUrl);
+                ((HttpProgressCallback) mCallback).onStarted(mDownloadUrl);
             }
         }
 
         @Override
         public void onLoading(long total, long current, boolean isDownloading) {
-            if ( mCallback instanceof HttpProgressCallback) {
+            if (mCallback instanceof HttpProgressCallback) {
 
-                ((HttpProgressCallback)mCallback).onUpdateProgress(mDownloadUrl, total, current);
+                ((HttpProgressCallback) mCallback).onUpdateProgress(mDownloadUrl, total, current);
             }
         }
 
@@ -299,13 +357,14 @@ public class XHttpRequest extends HttpRequest {
     class Task implements Cancelable {
 
         Callback.Cancelable mCancelable;
+
         public Task(Callback.Cancelable call) {
             mCancelable = call;
         }
+
         @Override
         public void cancel() {
-            if (!isCanceled())
-            {
+            if (!isCanceled()) {
                 mCancelable.cancel();
             }
             mCancelable = null;

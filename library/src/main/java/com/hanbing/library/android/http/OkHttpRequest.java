@@ -1,15 +1,10 @@
 package com.hanbing.library.android.http;
 
-import android.content.Context;
-import android.os.Environment;
 import android.text.TextUtils;
 
-import com.hanbing.library.android.Constants;
 import com.hanbing.library.android.http.callback.HttpCallback;
 import com.hanbing.library.android.http.callback.HttpProgressCallback;
-import com.hanbing.library.android.util.FileUtils;
 import com.hanbing.library.android.util.IOUtils;
-import com.hanbing.library.android.util.SystemUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -42,68 +36,101 @@ import okio.BufferedSink;
 public class OkHttpRequest extends HttpRequest {
 
     static final int BLOCK_SIZE = 4 * 1024;
-    public static final int DEFAULT_CACHE_SIZE = 20 * 1024 * 1024;
-    public static final int DEFAULT_EXPIRE = 3600 * 24 * 30;
 
-    Context mContext;
     OkHttpClient mOkHttpClient = null;
-    long mExpireTime;
 
     public OkHttpRequest(){
-        mOkHttpClient = new OkHttpClient.Builder().build();
-    }
-    public OkHttpRequest(Context context) {
-        this(context, DEFAULT_CACHE_SIZE, DEFAULT_EXPIRE);
     }
 
 
-    public OkHttpRequest(Context context, long maxCacheSize, long expireTime) {
-        String cachePath = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)
-                ? FileUtils.getCacheDirExt(context) : FileUtils.getCacheDir(context);
-        cachePath += "/http";
+    public OkHttpRequest(String cacheDir, long cacheAge, long cacheSize) {
+        super(cacheDir, cacheAge, cacheSize);
+    }
+
+    @Override
+    public void setCache(String cacheDir, long cacheMaxAge, long cacheSize) {
+        super.setCache(cacheDir, cacheMaxAge, cacheSize);
+    }
+
+    @Override
+    public void setCacheProxy(CacheProxy cacheProxy) {
+        super.setCacheProxy(cacheProxy);
+    }
+
+    private OkHttpClient createDefaultClient(){
+        return new OkHttpClient.Builder().build();
+    }
+
+    private OkHttpClient createCacheClient(){
+        if (!isCacheEnabled()) {
+            return createDefaultClient();
+        }
+
         OkHttpClient.Builder builder =  new OkHttpClient.Builder()
-                .cache(new Cache(new File(cachePath), maxCacheSize));
+                .cache(new Cache(new File(mCacheDir), mCacheSize));
         builder.networkInterceptors().add(new CacheInterceptor());
+//        builder.interceptors().add(new CacheInterceptor());
 
-        mExpireTime = expireTime;
-
-        mOkHttpClient = builder.build();
+        return builder.build();
     }
 
     public class CacheInterceptor implements Interceptor {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
-            boolean connected = null == mContext ? true : SystemUtils.isNetworkOk(mContext);
-            if (!connected) {
+            if (useCache()) {
                 request = request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build();
             }
             Response response = chain.proceed(request);
             Response response1 = response.newBuilder()
                     .removeHeader("Pragma")
                     .removeHeader("Cache-Control")
-                    .header("Cache-Control", "max-age=" + mExpireTime)
+                    .header("Cache-Control", "max-age=" + (mCacheMaxAge / 1000))
                     .build();
             return response1;
         }
     }
 
+
+
     @Override
-    public Cancelable doRequest(final int requestCode, final String requestUrl, Map<String, String> headers, Map<String, String> params, Map<String, Object> uploads, final HttpCallback cb) {
+    public synchronized Cancelable doRequest(final int requestCode, final String requestUrl, Map<String, String> headers, Map<String, String> params, Map<String, Object> uploads, final HttpCallback cb) {
+
+
+        if (null == mOkHttpClient)
+            mOkHttpClient = createCacheClient();
 
         final HttpCallback callback = wrapHttpCallback(cb);
 
-        Request request = createRequest(requestUrl, headers, params, uploads, callback);
+        final Request request = createRequest(requestUrl, headers, params, uploads, callback);
 
         Call call = mOkHttpClient.newCall(request);
 
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
+                //失败，我们尝试从缓存获取一次
+                Request cacheRequest = request.newBuilder()
+                        .cacheControl(CacheControl.FORCE_CACHE)
+                        .build();
+                mOkHttpClient.newCall(cacheRequest).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        if (null != callback) {
+                            callback.onFailure(requestCode, requestUrl, e.getMessage());
+                        }
+                    }
 
-                if (null != callback) {
-                    callback.onFailure(requestCode, requestUrl, e.getMessage());
-                }
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if (null != callback)
+                            callback.onSuccess(requestCode, requestUrl, response.body().string());
+                    }
+                });
+
+//                if (null != callback) {
+//                    callback.onFailure(requestCode, requestUrl, e.getMessage());
+//                }
 
             }
 

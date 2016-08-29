@@ -5,13 +5,18 @@ package com.hanbing.library.android.util;
 
 import android.util.Log;
 
+
 /**
  * @author hanbing
  * @date 2015-7-28
  */
 public class LogUtils {
-    static final boolean DEBUG = true;
+    static  boolean DEBUG = true;
     static final String TAG = "Log";
+
+    public static void init(boolean isDebug){
+        DEBUG = isDebug;
+    }
 
     /**
      * 打印日志
