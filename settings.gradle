@@ -1,1 +1,1 @@
-include ':library', ':mytest', ':module',':module_sample',':dianping'
+include ':library', ':mytest', ':module', ':module_sample', ':dianping', ':retrofit_rxandroid'

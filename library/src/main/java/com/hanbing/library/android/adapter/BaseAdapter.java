@@ -9,7 +9,7 @@ import org.xutils.x;
 /**
  * Created by hanbing on 2016/6/13.
  */
-public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder> extends android.widget.BaseAdapter{
+public abstract class BaseAdapter<VH extends ViewHolder> extends android.widget.BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -49,8 +49,10 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder> extends and
         return 0;
     }
 
-    public int getItemCount(){
-        return getCount();
+    public abstract int getItemCount();
+
+    public int getCount(){
+        return getItemCount();
     }
 
     @Override
@@ -58,17 +60,6 @@ public abstract class BaseAdapter<VH extends BaseAdapter.ViewHolder> extends and
         return null;
     }
 
-    public static abstract class ViewHolder {
-        public View mItemView;
-        public int mItemViewType;
 
-        public ViewHolder(View itemView) {
-            this.mItemView = itemView;
-        }
-        public ViewHolder(View itemView, int itemViewType) {
-            this.mItemView = itemView;
-            mItemViewType = itemViewType;
-        }
-    }
 
 }

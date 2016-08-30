@@ -103,11 +103,8 @@ public class RecyclerViewFragment extends DataViewFragment<RecyclerView, Recycle
 
     @Override
     public int getItemCount() {
-        mAdapter = getDataAdapter();
-
-        if (null == mAdapter) return 0;
-
-        return mAdapter.getItemCount();
+        if (null == mDataAdapter) return 0;
+        return mDataAdapter.getItemCount();
     }
 
     @Override
@@ -144,7 +141,6 @@ public class RecyclerViewFragment extends DataViewFragment<RecyclerView, Recycle
     }
 
     protected void initRecyclerView(RecyclerView recyclerView){
-
         recyclerView.setAdapter(mDataAdapter);
     }
 

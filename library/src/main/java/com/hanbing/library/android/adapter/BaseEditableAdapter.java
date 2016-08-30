@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by hanbing on 2016/8/3
  */
-public abstract class BaseEditableAdapter<VH extends BaseAdapter.ViewHolder, Bean> extends BaseAdapter<VH> implements EditableAdapter<Bean> {
+public abstract class BaseEditableAdapter<VH extends ViewHolder, Bean> extends BaseAdapter<VH> implements EditableAdapter<Bean> {
 
     protected List<Bean> mDataList;
     protected List<Bean> mSelectedItems = new ArrayList<>();

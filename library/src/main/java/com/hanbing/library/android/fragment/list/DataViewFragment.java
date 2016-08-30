@@ -443,7 +443,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter> exten
             mPagingManager.setIndexAfterRefresh(getItemCount());
         } else {
             mPagingManager.addPageIndex();
-            mPagingManager.setTotalCount(getItemCount());
+            mPagingManager.setCurCount(getItemCount());
         }
 
         if (mLoadMoreView instanceof OnLoadListener) {

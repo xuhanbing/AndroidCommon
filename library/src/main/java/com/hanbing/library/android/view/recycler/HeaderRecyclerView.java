@@ -129,6 +129,44 @@ public class HeaderRecyclerView extends BaseRecyclerView {
 
     HeaderViewAdapter mHeaderViewAdapter;
 
+    AdapterDataObserver mAdapterDataObserver = new AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            if (null != mHeaderViewAdapter) {
+                mHeaderViewAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            if (null != mHeaderViewAdapter) {
+                mHeaderViewAdapter.notifyItemRangeChanged(positionStart, itemCount);
+            }
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+            if (null != mHeaderViewAdapter) {
+                mHeaderViewAdapter.notifyItemRangeInserted(positionStart, itemCount);
+            }
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            if (null != mHeaderViewAdapter) {
+                mHeaderViewAdapter.notifyItemRangeRemoved(fromPosition, itemCount);
+            }
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            if (null != mHeaderViewAdapter) {
+                mHeaderViewAdapter.notifyItemRangeRemoved(positionStart, itemCount);
+            }
+        }
+    };
+
     boolean mShowHeaderAndFooterDivider = false;
 
     public HeaderRecyclerView(Context context) {
@@ -151,6 +189,9 @@ public class HeaderRecyclerView extends BaseRecyclerView {
     @Override
     public void setAdapter(Adapter adapter) {
 
+        if (null != mAdapter)
+            mAdapter.unregisterAdapterDataObserver(mAdapterDataObserver);
+
         mAdapter = adapter;
 
         if (null == adapter)
@@ -161,6 +202,8 @@ public class HeaderRecyclerView extends BaseRecyclerView {
             {
                 mHeaderViewAdapter = new HeaderViewAdapter();
             }
+
+            mAdapter.registerAdapterDataObserver(mAdapterDataObserver);
         }
 
 
