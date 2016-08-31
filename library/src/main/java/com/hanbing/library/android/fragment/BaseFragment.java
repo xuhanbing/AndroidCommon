@@ -6,8 +6,6 @@ package com.hanbing.library.android.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,5 +152,27 @@ public abstract class BaseFragment extends Fragment {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 如果消耗了返回时间，返回true
+	 * @return
+	 */
+	public boolean consumeOnBackPressed(){
+
+		List<Fragment> fragments = getChildFragmentManager().getFragments();
+		//遍历子fragment，检查是否消耗onback
+		if (null != fragments && fragments.size() > 0) {
+			for (Fragment fragment : fragments) {
+				if (fragment instanceof BaseFragment) {
+					if (((BaseFragment) fragment).consumeOnBackPressed())
+						return true;
+				}else {
+					return fragment.getChildFragmentManager().popBackStackImmediate();
+				}
+			}
+		}
+
+		return getChildFragmentManager().popBackStackImmediate();
 	}
 }

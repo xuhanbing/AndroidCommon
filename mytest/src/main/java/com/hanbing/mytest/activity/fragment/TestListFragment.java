@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hanbing.library.android.util.LogUtils;
@@ -41,6 +43,8 @@ public class TestListFragment extends AppCompatActivity {
         GridView mGridView;
         BaseAdapter mAdapter;
         int count = 0;
+
+        View mEmptyView;
 
         Handler mHandler = new Handler();
 
@@ -69,9 +73,30 @@ public class TestListFragment extends AppCompatActivity {
 
 
         @Override
-        public BaseAdapter createAdapter() {
-            return mAdapter;
+        protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+            View view = ViewUtils.inflate(getContext(), R.layout.activity_test_list_view3, container, false);
+
+            mListView = ViewUtils.findViewById(view, R.id.listView);
+            mEmptyView = ViewUtils.findViewById(view, R.id.emptyView);
+
+            return view;
         }
+
+        @Override
+        public ListView createListView() {
+            return mListView;
+        }
+
+        @Override
+        public View createEmptyView() {
+            return mEmptyView;
+        }
+
+//        @Override
+//        public BaseAdapter createAdapter() {
+//            return null== mAdapter ?  mAdapter = new MyListViewAdapter() : mAdapter;
+//        }
 
     class MyListViewAdapter extends BaseAdapter {
         @Override
@@ -106,135 +131,70 @@ public class TestListFragment extends AppCompatActivity {
 
             return textView;
         }
-    }
-        protected View createHeader() {
-            int type = 2;
 
-
-            if (0 == type) {
-                StoreHouseHeader header = new StoreHouseHeader(getActivity());
-                header.setBackgroundColor(Color.WHITE);
-                header.setTextColor(Color.BLACK);
-                ArrayList<float[]> points = new ArrayList<>();
-                points.add(new float[]{8, 0, 0, 8});
-                points.add(new float[]{8, 4, 0, 12});
-                points.add(new float[]{6, 6, 6, 20});
-                points.add(new float[]{16, 0, 12, 12});
-                points.add(new float[]{16, 0, 24, 12});
-                points.add(new float[]{14, 8, 18, 8});
-                points.add(new float[]{12, 12, 20, 12});
-                points.add(new float[]{16, 8, 16, 24});
-                points.add(new float[]{14, 16, 12, 22});
-                points.add(new float[]{18, 16, 22, 22});
-
-                header.initWithPointList(points);
-
-                return header;
-            } else if (1 == type) {
-                MaterialHeader materialHeader = new MaterialHeader(getActivity());
-
-                materialHeader.setPtrFrameLayout(mPtrFrameLayout);
-                materialHeader.setColorSchemeColors(new int[]{Color.RED, Color.GRAY, Color.BLUE, Color.GRAY});
-
-                return materialHeader;
-            } else {
-                PtrClassicDefaultHeader defaultHeader = new PtrClassicDefaultHeader(getActivity());
-
-                return defaultHeader;
-
-            }
-
+        @Override
+        public boolean isEmpty() {
+            return super.isEmpty();
         }
+    }
+
 
 
         @Override
         protected void initViews(View view) {
             super.initViews(view);
 
-            int[] colors = {Color.RED, Color.GREEN, Color.BLUE};
-
-            view.setBackgroundColor(colors[((int) (System.currentTimeMillis() % 3))]);
+//            int[] colors = {Color.RED, Color.GREEN, Color.BLUE};
+//
+//            view.setBackgroundColor(colors[((int) (System.currentTimeMillis() % 3))]);
 
             setLoadMoreEnabled(true);
             setScrollLoadMoreEnabled(true);
             setLoadMoreAlwaysShow(false);
+            showEmptyView();
         }
 
         @Override
-        public View createLoadMoreView() {
-            TextView textView = new TextView(getActivity());
-
-            textView.setText("Load more");
-            return textView;
+        public void initListView(ListView listView) {
+            super.initListView(listView);
         }
-
-//        @Override
-//        public void initListView(ListView listView) {
-//            if (null == mAdapter)
-//                mAdapter =  createAdapter();
-//            listView.setAdapter(mAdapter);
-//        }
 
 
         @Override
         public void initHeadersAndFooters(ListView dataView) {
-            for (int i = 0; i < 3; i++) {
-                TextView header = new TextView(getContext());
-//                header.setText("header " + i);
-                header.setText(getArguments().getString("title"));
-                dataView.addHeaderView(header);
-
-                TextView footer = new TextView(getContext());
-                footer.setText("footer " + i);
-                dataView.addFooterView(footer);
-            }
+//            for (int i = 0; i < 3; i++) {
+//                TextView header = new TextView(getContext());
+////                header.setText("header " + i);
+//                header.setText(getArguments().getString("title"));
+//                dataView.addHeaderView(header);
+//
+//                TextView footer = new TextView(getContext());
+//                footer.setText("footer " + i);
+//                dataView.addFooterView(footer);
+//            }
         }
 
-
-        @Override
-        public void initListView(ListView listView) {
-            mAdapter = new MyListViewAdapter();
-            listView.setAdapter(mAdapter);
-        }
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            LogUtils.e("onItemClick " + position);
-        }
-
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            LogUtils.e("onItemLongClick " + position);
-            return true;
-        }
 
         @Override
         public void onLoadData(final boolean isRefresh, int pageIndex, final int pageSize) {
 
 
-            LogUtils.e(this + " onLoadData " + isRefresh);
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (isRefresh) {
-                        count = pageSize;
-                    } else {
-                        count += pageSize;
-                    }
-                    mAdapter.notifyDataSetChanged();
-                    onLoadCompleted();
-                }
-            }, 2000);
+//            LogUtils.e(this + " onLoadData " + isRefresh);
+//            mHandler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (isRefresh) {
+//                        count = pageSize;
+//                    } else {
+//                        count += pageSize;
+//                    }
+//                    mAdapter.notifyDataSetChanged();
+//                    onLoadCompleted();
+//                }
+//            }, 2000);
 
         }
 
-        @Override
-        public void onLoadCompleted() {
-            LogUtils.e(this + " onLoadCompleted ");
-            super.onLoadCompleted();
-
-
-        }
     }
 
     ViewPager viewPager;
@@ -247,6 +207,9 @@ public class TestListFragment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list_fragment);
+
+
+
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 

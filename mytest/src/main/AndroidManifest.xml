@@ -364,6 +364,8 @@
         </activity>
         <activity android:name=".activity.action.TestHttpCacheActivity">
         </activity>
+        <activity android:name=".activity.view.TestListView3">
+        </activity>
     </application>
 
 </manifest>

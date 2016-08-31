@@ -100,9 +100,9 @@ public class Test {
     }
     public static <T> void request(Callback<T> callback) {
         Gson gson = new Gson();
+        Type type = new TypeToken<T>(){}.getType();
 
-        T t = gson.fromJson(json, new TypeToken<T>() {
-        }.getType());
+        T t = gson.fromJson(json, type);
 
         callback.onSuccess(t);
     }

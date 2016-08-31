@@ -127,7 +127,6 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         //check if touch clear icon
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (isTouchClear(event)) {
@@ -144,8 +143,11 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 if (mIsTouchClear)
+                {
+                    mIsTouchClear = false;
                     return true;
-                mIsTouchClear = false;
+                }
+
                 break;
         }
 
@@ -175,14 +177,17 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
      * @param event
      * @return
      */
-    private boolean isTouchClear(MotionEvent event)
+    protected boolean isTouchClear(MotionEvent event)
     {
         
         int x = (int) event.getX();
         int y = (int) event.getY();
-        
-        if (x >= (this.getWidth() - this.getTotalPaddingRight()) 
-                && x <= (this.getWidth() - this.getPaddingRight()))
+
+        //设置最小值为40像素
+        int left = this.getWidth() - Math.max(getTotalPaddingRight(), 40);
+        int right = this.getWidth();
+        if (x >= left
+                && x <= right)
         {
             return true;
         }

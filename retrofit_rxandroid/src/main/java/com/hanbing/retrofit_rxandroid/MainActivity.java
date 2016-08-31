@@ -3,27 +3,20 @@ package com.hanbing.retrofit_rxandroid;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.hanbing.library.android.adapter.BaseFragmentPagerAdapter;
 import com.hanbing.library.android.util.LogUtils;
-import com.hanbing.library.android.util.SystemUtils;
-import com.hanbing.retrofit_rxandroid.bean.Data;
-import com.hanbing.retrofit_rxandroid.bean.Subject;
-import com.hanbing.retrofit_rxandroid.view.StarLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,7 +33,10 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton mFab;
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-
+    @BindView(R.id.tabLayout)
+    TabLayout mTabLayout;
+    @BindView(R.id.viewPager)
+    ViewPager mViewPager;
 
 
     @Override
@@ -63,6 +59,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new SubjectFragment());
+        fragments.add(new SubjectFragment());
+        fragments.add(new SubjectFragment());
+
+        String[] titles = {"电影", "音乐啊", "小说小说"};
+
+        mViewPager.setAdapter(new BaseFragmentPagerAdapter(getSupportFragmentManager(), fragments, titles));
+        mTabLayout.setupWithViewPager(mViewPager);
 
         RetrofitClient.getApiService().getBaidu().enqueue(new Callback<String>() {
             @Override
@@ -77,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
 
 
     @Override
@@ -101,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }
