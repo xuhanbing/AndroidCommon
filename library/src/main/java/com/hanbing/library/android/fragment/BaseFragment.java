@@ -148,6 +148,7 @@ public abstract class BaseFragment extends Fragment {
 
 			if (null != fragments && fragments.size() > 0) {
 				for (Fragment fragment : fragments) {
+					if (null != fragment)
 					fragment.onActivityResult(requestCode, resultCode, data);
 				}
 			}
@@ -159,6 +160,9 @@ public abstract class BaseFragment extends Fragment {
 	 * @return
 	 */
 	public boolean consumeOnBackPressed(){
+		//不可见，不处理
+		if (!isVisible())
+			return false;
 
 		List<Fragment> fragments = getChildFragmentManager().getFragments();
 		//遍历子fragment，检查是否消耗onback
@@ -168,6 +172,7 @@ public abstract class BaseFragment extends Fragment {
 					if (((BaseFragment) fragment).consumeOnBackPressed())
 						return true;
 				}else {
+					if (null != fragment)
 					return fragment.getChildFragmentManager().popBackStackImmediate();
 				}
 			}

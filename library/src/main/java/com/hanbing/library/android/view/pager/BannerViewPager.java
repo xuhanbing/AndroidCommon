@@ -206,7 +206,7 @@ public class BannerViewPager extends ViewPager {
 	 */
 	public void start(){
 		stop();
-		if (null != getAdapter() && getAdapter().getCount() > 0)
+		if (null != getAdapter() && getAdapter().getCount() > 1)
 			mHandler.postDelayed(mLoopPlayer, LOOP_DURATION);
 	}
 	

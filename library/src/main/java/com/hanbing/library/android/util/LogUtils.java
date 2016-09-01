@@ -14,7 +14,7 @@ public class LogUtils {
     static  boolean DEBUG = true;
     static final String TAG = "Log";
 
-    public static void init(boolean isDebug){
+    public static void setDebug(boolean isDebug){
         DEBUG = isDebug;
     }
 

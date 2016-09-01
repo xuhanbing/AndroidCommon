@@ -362,6 +362,7 @@ public class PagingManager extends LoadingManager {
     public void forceReset() {
 
         super.forceReset();
+        mNoMore = false;
         mCurCount = 0;
         mMaxPageIndex = DEFAULT_MAX_PAGE_INDEX;
         mMaxCount = DEFAULT_MAX_COUNT;
