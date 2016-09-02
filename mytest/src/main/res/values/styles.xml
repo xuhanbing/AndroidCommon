@@ -28,22 +28,31 @@
     <style name="AppTheme" parent="AppBaseTheme">
 
 
-        <item name="windowNoTitle">false</item>
-        <item name="android:windowNoTitle">false</item>
+        <!--<item name="windowNoTitle">false</item>-->
+        <!--<item name="android:windowNoTitle">false</item>-->
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <!--<item name="android:windowAnimationStyle">@style/AnimFade2</item>  -->
         <!--         <item name="android:windowBackground">@android:color/transparent</item> -->
         <!--         <item name="android:windowIsTranslucent">true</item> -->
 
-        <!-- toolbar（actionbar）颜色 -->
-        <item name="colorPrimary">@color/goldenrod</item>
-        <!-- 状态栏颜色 -->
-        <item name="colorPrimaryDark">#3A5FCD</item>
-        <!-- 窗口的背景颜色 -->
-        <item name="android:windowBackground">@android:color/white</item>
-        <!-- SearchView -->
-        <item name="searchViewStyle">@style/Widget.AppCompat.SearchView</item>
+        <!--&lt;!&ndash; toolbar（actionbar）颜色 &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/goldenrod</item>-->
+        <!--&lt;!&ndash; 状态栏颜色 &ndash;&gt;-->
+        <!--<item name="colorPrimaryDark">#3A5FCD</item>-->
+        <!--&lt;!&ndash; 窗口的背景颜色 &ndash;&gt;-->
+        <!--<item name="android:windowBackground">@android:color/white</item>-->
+        <!--&lt;!&ndash; SearchView &ndash;&gt;-->
+        <!--<item name="searchViewStyle">@style/Widget.AppCompat.SearchView</item>-->
+
+        <item name="android:activityOpenEnterAnimation">@anim/in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@anim/out_to_right</item>
+    </style>
+
+    <style name="AppTheme.Translucent">
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="AnimFade2" parent="AppTheme">

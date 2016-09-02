@@ -168,12 +168,22 @@ public abstract class BaseFragment extends Fragment {
 		//遍历子fragment，检查是否消耗onback
 		if (null != fragments && fragments.size() > 0) {
 			for (Fragment fragment : fragments) {
+				if (null == fragment)
+					continue;
 				if (fragment instanceof BaseFragment) {
 					if (((BaseFragment) fragment).consumeOnBackPressed())
 						return true;
 				}else {
-					if (null != fragment)
-					return fragment.getChildFragmentManager().popBackStackImmediate();
+					boolean ret = false;
+
+					try {
+						//直接pop
+						ret = fragment.getChildFragmentManager().popBackStackImmediate();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if(ret)
+						return true;
 				}
 			}
 		}
