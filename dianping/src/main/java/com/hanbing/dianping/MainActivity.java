@@ -1,13 +1,15 @@
 package com.hanbing.dianping;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hanbing.dianping.common.base.BaseActivity;
+import com.hanbing.library.android.bind.annotation.BindContentView;
+import com.hanbing.library.android.bind.annotation.BindView;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.tab.TabWidget;
@@ -16,8 +18,6 @@ import com.hanbing.dianping.core.HomeFragment;
 import com.hanbing.dianping.core.MyFragment;
 import com.hanbing.dianping.core.TuanFragment;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,11 +27,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-@ContentView(R.layout.activity_main)
+@BindContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
 
 
-    @ViewInject(R.id.tab_main)
+    @BindView(R.id.tab_main)
     TabWidget mTab;
 
     List<String> mTitles;

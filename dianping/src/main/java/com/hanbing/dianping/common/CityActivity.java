@@ -10,13 +10,14 @@ import com.hanbing.dianping.R;
 import com.hanbing.dianping.common.city.City;
 import com.hanbing.library.android.adapter.BaseAdapter;
 import com.hanbing.library.android.adapter.ViewHolder;
+import com.hanbing.library.android.bind.annotation.BindView;
 import com.hanbing.library.android.util.IOUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.plugin.FastLocateLayout;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
+import org.xutils.view.annotation.BindView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +30,7 @@ import java.util.Map;
 public class CityActivity extends com.hanbing.dianping.common.base.BaseActivity {
 
 
-    @ViewInject(R.id.lv_city_list)
+    @BindView(R.id.lv_city_list)
     ListView mListView;
 
 
@@ -86,19 +87,19 @@ public class CityActivity extends com.hanbing.dianping.common.base.BaseActivity 
 
     class ViewHolder extends com.hanbing.library.android.adapter.ViewHolder {
 
-        @ViewInject(R.id.layout_city_index)
+        @BindView(R.id.layout_city_index)
         View indexLayout;
 
-        @ViewInject(R.id.tv_city_index)
+        @BindView(R.id.tv_city_index)
         TextView index;
 
-        @ViewInject(R.id.tv_city_name)
+        @BindView(R.id.tv_city_name)
         TextView name;
 
-        @ViewInject(R.id.v_city_short_line)
+        @BindView(R.id.v_city_short_line)
         View shortLine;
 
-        @ViewInject(R.id.v_city_full_line)
+        @BindView(R.id.v_city_full_line)
         View fullLine;
 
         public ViewHolder(View itemView) {

@@ -35,7 +35,7 @@ import com.hanbing.dianping.view.PullToRefreshLayout;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
+import org.xutils.view.annotation.BindView;
 import org.xutils.x;
 
 import java.io.Serializable;
@@ -54,15 +54,15 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
     HomeShortCutLayout mShortCutLayout;
 
 
-    @ViewInject(R.id.v_home_titlebar)
+    @BindView(R.id.v_home_titlebar)
     View mTitlebar;
 
     View mMoveView;
 
-    @ViewInject(R.id.pullToRefreshLayout)
+    @BindView(R.id.pullToRefreshLayout)
     PullToRefreshLayout mPullToRefreshLayout;
 
-    @ViewInject(R.id.lv_home_list)
+    @BindView(R.id.lv_home_list)
     ListView mListView;
 
 
@@ -112,22 +112,22 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
 
     public  class MyViewHolder extends com.hanbing.library.android.adapter.BaseAdapter.ViewHolder {
 
-        @ViewInject(R.id.iv_home_may_favorite_picture)
+        @BindView(R.id.iv_home_may_favorite_picture)
         ImageView picture;
 
-        @ViewInject(R.id.iv_home_may_favorite_status)
+        @BindView(R.id.iv_home_may_favorite_status)
         ImageView status;
 
-        @ViewInject(R.id.tv_home_may_favorite_title)
+        @BindView(R.id.tv_home_may_favorite_title)
         TextView title;
 
-        @ViewInject(R.id.tv_home_may_favorite_describe)
+        @BindView(R.id.tv_home_may_favorite_describe)
         TextView describe;
 
-        @ViewInject(R.id.layout_home_may_favorite_price)
+        @BindView(R.id.layout_home_may_favorite_price)
         LinearLayout layout;
 
-        @ViewInject(R.id.tv_home_may_favorite_extra)
+        @BindView(R.id.tv_home_may_favorite_extra)
         TextView extra;
 
         public MyViewHolder(View itemView) {
@@ -332,10 +332,10 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
 
     class OptionViewHolder extends com.hanbing.library.android.adapter.BaseAdapter.ViewHolder {
 
-        @ViewInject(R.id.iv_home_option_icon)
+        @BindView(R.id.iv_home_option_icon)
         ImageView icon;
 
-        @ViewInject(R.id.tv_home_option_title)
+        @BindView(R.id.tv_home_option_title)
         TextView title;
         public OptionViewHolder(View itemView) {
             super(itemView);

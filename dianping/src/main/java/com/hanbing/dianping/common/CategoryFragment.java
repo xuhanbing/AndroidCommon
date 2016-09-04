@@ -12,7 +12,7 @@ import com.hanbing.dianping.R;
 import com.hanbing.dianping.model.Category;
 
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
+import org.xutils.view.annotation.BindView;
 
 import java.util.List;
 
@@ -25,10 +25,10 @@ public class CategoryFragment extends CategoryFragmentBase {
 
     private static final String KEY_SELECTED_CATEGORY = "key_selected_category";
 
-    @ViewInject(R.id.lv_category_parent)
+    @BindView(R.id.lv_category_parent)
     ListView mParentListView;
 
-    @ViewInject(R.id.lv_category_child)
+    @BindView(R.id.lv_category_child)
     ListView mChildListView;
 
 
