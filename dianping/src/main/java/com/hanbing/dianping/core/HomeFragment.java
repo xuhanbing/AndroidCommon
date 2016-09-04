@@ -211,7 +211,7 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
         }
 
         @Override
-        public int getCount() {
+        public int getItemCount() {
             return null == mMayFavorites ? 0 : mMayFavorites.size();
         }
 
@@ -362,7 +362,7 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
 
             listView.setAdapter(new com.hanbing.library.android.adapter.BaseAdapter<OptionViewHolder>() {
                 @Override
-                public int getCount() {
+                public int getItemCount() {
                     return OPTION_ITEM_ARRAY.length;
                 }
 

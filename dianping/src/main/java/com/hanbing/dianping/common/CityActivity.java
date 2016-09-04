@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.hanbing.dianping.R;
 import com.hanbing.dianping.common.city.City;
 import com.hanbing.library.android.adapter.BaseAdapter;
+import com.hanbing.library.android.adapter.ViewHolder;
 import com.hanbing.library.android.util.IOUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.plugin.FastLocateLayout;
@@ -83,7 +84,7 @@ public class CityActivity extends com.hanbing.dianping.common.base.BaseActivity 
     }
 
 
-    class ViewHolder extends BaseAdapter.ViewHolder {
+    class ViewHolder extends com.hanbing.library.android.adapter.ViewHolder {
 
         @ViewInject(R.id.layout_city_index)
         View indexLayout;
@@ -118,7 +119,7 @@ public class CityActivity extends com.hanbing.dianping.common.base.BaseActivity 
         }
 
         @Override
-        public int getCount() {
+        public int getItemCount() {
             return null == mCities ? 0 : mCities.size();
         }
 
@@ -174,7 +175,7 @@ public class CityActivity extends com.hanbing.dianping.common.base.BaseActivity 
         }
 
         boolean isLastItemInArray(int position) {
-            if (getCount() - 1 == position)
+            if (getItemCount() - 1 == position)
                 return true;
 
             City city = mCities.get(position);

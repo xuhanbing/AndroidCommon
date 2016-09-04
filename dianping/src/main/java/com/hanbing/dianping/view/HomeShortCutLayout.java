@@ -71,7 +71,7 @@ public class HomeShortCutLayout extends LinearLayout {
 
         mPagerAdapter = new PagerAdapter() {
             @Override
-            public int getCount() {
+            public int getItemCount() {
                 return null == mItemViews ? 0 : mItemViews.size();
             }
 
@@ -135,7 +135,7 @@ public class HomeShortCutLayout extends LinearLayout {
             gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
             gridView.setAdapter(new BaseAdapter() {
                 @Override
-                public int getCount() {
+                public int getItemCount() {
                     return gridCount;
                 }
 

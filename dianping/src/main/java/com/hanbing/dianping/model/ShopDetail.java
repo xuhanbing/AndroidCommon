@@ -138,7 +138,7 @@ public class ShopDetail implements Serializable {
       private List<String> tags;
    
          
-      public int getCount()  
+      public int getItemCount()
       {  
          return count;  
       }
@@ -241,7 +241,7 @@ public class ShopDetail implements Serializable {
       }
    
          
-      public int getCount()  
+      public int getItemCount()
       {  
          return count;  
       }
@@ -301,7 +301,7 @@ public class ShopDetail implements Serializable {
          }
       
             
-         public int getCount()  
+         public int getItemCount()
          {  
             return count;  
          }
@@ -380,7 +380,7 @@ public class ShopDetail implements Serializable {
          }
       
             
-         public int getCount()  
+         public int getItemCount()
          {  
             return count;  
          }
@@ -487,7 +487,7 @@ public class ShopDetail implements Serializable {
       }
    
          
-      public int getCount()  
+      public int getItemCount()
       {  
          return count;  
       }
@@ -517,7 +517,7 @@ public class ShopDetail implements Serializable {
       }
    
          
-      public int getCount()  
+      public int getItemCount()
       {  
          return count;  
       }
