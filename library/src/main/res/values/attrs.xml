@@ -188,4 +188,17 @@
     <declare-styleable name="PinnedLinearLayout">
         <attr name="pinnedViewId" format="integer"></attr>
     </declare-styleable>
+
+    <attr name="swipeBackLayoutStyle" format="reference"/>
+
+    <declare-styleable name="SwipeBackLayout">
+        <attr name="thresholdRatio" format="float"></attr>
+        <attr name="nestingScrollRatio" format="float"></attr>
+        <attr name="nestingScrollEnabled" format="boolean"></attr>
+        <attr name="swipeScrollDuration" format="integer"></attr>
+        <attr name="shadowDrawable" format="color|reference"></attr>
+        <attr name="dimColor" format="color|reference"></attr>
+        <attr name="finishActivityEnabled" format="boolean"></attr>
+        <attr name="onlyScrollIfTouchEdge" format="boolean"></attr>
+    </declare-styleable>
 </resources>

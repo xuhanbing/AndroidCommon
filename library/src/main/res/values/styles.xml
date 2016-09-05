@@ -12,4 +12,15 @@
         <item name="internalMinWidth">64dip</item>
         <item name="internalMaxHeight">180dip</item>
     </style>
+
+    <style name="SwipeBackLayoutStyle">
+        <item name="thresholdRatio">0.5</item>
+        <item name="nestingScrollRatio">0.2</item>
+        <item name="nestingScrollEnabled">false</item>
+        <item name="shadowDrawable">@drawable/shadow_left</item>
+        <item name="dimColor">#88000000</item>
+        <item name="swipeScrollDuration">500</item>
+        <item name="finishActivityEnabled">true</item>
+        <item name="onlyScrollIfTouchEdge">true</item>
+    </style>
 </resources>

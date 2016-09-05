@@ -19,7 +19,7 @@
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <view class="com.hanbing.mytest.view.NumberPicker$CustomEditText"
+    <view class="com.hanbing.mytest.view.NumberPicker$ifCustomEditText"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?android:attr/textColorPrimary"
         android:id="@+id/np__numberpicker_input"

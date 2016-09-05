@@ -369,10 +369,10 @@
         <activity android:name=".activity.view.TestSwipeBack"
                   android:label="SwipeBack"
             android:theme="@style/AppTheme.Translucent">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER"></category>
-                <action android:name="android.intent.action.MAIN"></action>
-            </intent-filter>
+            <!--<intent-filter>-->
+                <!--<category android:name="android.intent.category.LAUNCHER"></category>-->
+                <!--<action android:name="android.intent.action.MAIN"></action>-->
+            <!--</intent-filter>-->
         </activity>
     </application>
 
