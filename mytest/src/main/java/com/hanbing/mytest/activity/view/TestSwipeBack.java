@@ -7,15 +7,22 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 
+import com.hanbing.library.android.adapter.BaseFragmentPagerAdapter;
 import com.hanbing.library.android.view.SwipeBackLayout;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.adapter.DefaultAdapter;
+import com.hanbing.mytest.fragment.NumFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestSwipeBack extends AppCompatActivity implements SwipeFollowActivityBase{
 
@@ -57,10 +64,19 @@ if (null != getIntent()) {
         listView.setAdapter(new DefaultAdapter(20));
 
 
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new NumFragment());
+        fragments.add(new NumFragment());
+        fragments.add(new NumFragment());
+
+        viewPager.setAdapter(new BaseFragmentPagerAdapter(getSupportFragmentManager(), fragments, null));
+
         setContentView(view);
 
         swipeBackLayout = new SwipeBackLayout(this);
         swipeBackLayout.attachToActivity(this);
+        swipeBackLayout.setOnlyScrollIfTouchEdge(false);
         swipeBackLayout.setOnScrollChangedListener(new SwipeBackLayout.OnScrollChangedListener() {
             @Override
             public void onScroll(int x, int y) {

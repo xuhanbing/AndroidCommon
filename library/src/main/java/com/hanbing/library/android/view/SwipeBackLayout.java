@@ -617,4 +617,12 @@ public class SwipeBackLayout extends FrameLayout {
     public void setThresholdRatio(float thresholdRatio) {
         mThresholdRatio = thresholdRatio;
     }
+
+    public void setFinishActivityEnabled(boolean finishActivityEnabled) {
+        mFinishActivityEnabled = finishActivityEnabled;
+    }
+
+    public void setOnlyScrollIfTouchEdge(boolean onlyScrollIfTouchEdge) {
+        mOnlyScrollIfTouchEdge = onlyScrollIfTouchEdge;
+    }
 }
