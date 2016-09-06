@@ -12,4 +12,14 @@
     tools:context="com.hanbing.mytest.activity.material.BlankActivity"
     tools:showIn="@layout/activity_blank">
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="10dp"
+            android:text="@string/hz"/>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.hanbing.library.android.adapter.BaseFragmentPagerAdapter;
 import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.retrofit_rxandroid.bean.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,12 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,17 +76,93 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(new BaseFragmentPagerAdapter(getSupportFragmentManager(), fragments, titles));
         mTabLayout.setupWithViewPager(mViewPager);
 
-        RetrofitClient.getApiService().getBaidu().enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                LogUtils.e("result = " + response.body().substring(0, 100));
-            }
+//        RetrofitClient.getApiService().getBaidu().enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                LogUtils.e("result = " + response.body().substring(0, 100));
+//            }
+//
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//                LogUtils.e("error");
+//            }
+//        });
 
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                LogUtils.e("error");
-            }
-        });
+//        RetrofitClient.getApiService().getSubjects(0, 10)
+//
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<Data>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        LogUtils.e("onCompleted ");
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        LogUtils.e("onError " + e.getCause());
+//                    }
+//
+//                    @Override
+//                    public void onNext(Data data) {
+//                        String id = data.getSubjects().get(0).getId();
+//                        LogUtils.e("get data 1 = " + id);
+//                    }
+//                });
+
+//        RetrofitClient.getApiService().getSubjects(0, 10)
+//                .flatMap(new Func1<Data, Observable<String>>() {
+//                    @Override
+//                    public Observable<String> call(Data data) {
+//                        String id = data.getSubjects().get(0).getId();
+//                        LogUtils.e("id = " + id);
+//                        return RetrofitClient.getApiService().getPhotos(id);
+//                    }
+//                })
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        LogUtils.e("e = " + e);
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//                        LogUtils.e("photos = " + s);
+//                    }
+//                });
+
+        RetrofitClient.getApiService().getPhotos("123")
+                .flatMap(new Func1<String, Observable<Data>>() {
+                    @Override
+                    public Observable<Data> call(String s) {
+                        return RetrofitClient.getApiService().getSubjects(0, 10);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Data>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e("e = " + e);
+                    }
+
+                    @Override
+                    public void onNext(Data data) {
+
+                    }
+                });
 
     }
 
