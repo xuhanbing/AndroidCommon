@@ -5,11 +5,9 @@ import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.TextViewCompat;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.LinearLayout;
@@ -40,13 +38,15 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
     //original max lines
     int mMaxLines;
 
-    boolean mIsExpanded;
+    boolean mExpanded;
 
     int mExpandedHeight;
     int mCollapsedHeight;
 
     int mTextMaxLinesHeight;
 
+
+    boolean mAnimateEnabled =false;
 
     int mTextViewMarginBottom;
 
@@ -82,12 +82,15 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         LogUtils.e("onMeasure measureHeight = " + getMeasuredHeight());
 
-        if (!mNeedLayout)
+        if  (!mNeedLayout)
+        {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
+        }
+
+        LogUtils.e("onMeasure2 measureHeight = " + getMeasuredHeight());
 
         mNeedLayout = false;
 
@@ -99,6 +102,7 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
         TextView textView = mTextView;
 
         //save current max lines
+
         int maxLines = TextViewCompat.getMaxLines(textView);
 
         //set max lines
@@ -117,7 +121,7 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
 
         mExpandArrow.setVisibility(View.VISIBLE);
 
-        if (!mIsExpanded) {
+        if (!mExpanded) {
             //if it is collapsed, set original max lines, and measure size
             textView.setMaxLines(mMaxLines);
         }
@@ -130,49 +134,6 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
 
         //set collapsed height
         mCollapsedHeight = getMeasuredHeight();
-//
-//// Setup with optimistic case
-//        // i.e. Everything fits. No button needed
-//        View mButton = mExpandArrow;
-//        final TextView mTv = mTextView;
-//
-//        mButton.setVisibility(View.GONE);
-//        mTv.setMaxLines(Integer.MAX_VALUE);
-//
-//        // Measure
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//
-//        // If the text fits in collapsed mode, we are done.
-//        int mMaxCollapsedLines = mMaxLines;
-//        if (mTv.getLineCount() <= mMaxCollapsedLines) {
-//            return;
-//        }
-//
-//        // Saves the text height w/ max lines
-//        mTextMaxLinesHeight = getRealTextViewHeight(mTv);
-//
-//        boolean mCollapsed = !mIsExpanded;
-//        // Doesn't fit in collapsed mode. Collapse text view as needed. Show
-//        // button.
-//        if (mCollapsed) {
-//            mTv.setMaxLines(mMaxCollapsedLines);
-//        }
-//        mButton.setVisibility(View.VISIBLE);
-//
-//        // Re-measure with new setup
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//
-//        if (mCollapsed) {
-//            // Gets the margin between the TextView's bottom and the ViewGroup's bottom
-//            mTv.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mMarginBetweenTxtAndBottom = getHeight() - mTv.getHeight();
-//                }
-//            });
-//            // Saves the collapsed height of this ViewGroup
-//            mCollapsedHeight = getMeasuredHeight();
-//        }
 
 
     }
@@ -249,7 +210,7 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
             mExpandArrow.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mIsExpanded) {
+                    if (mExpanded) {
                         collapse();
                     } else {
                         expand();
@@ -262,25 +223,14 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
     }
 
     private void expand() {
-        mIsExpanded = true;
-//        if (null != mTextView)
-//        {
-//            mTextView.setMaxLines(Integer.MAX_VALUE);
-//        }
-
+        mExpanded = true;
         startAnimation();
         postOnExpandStateChanged();
     }
 
     private void collapse() {
-        mIsExpanded = false;
-//        if (null != mTextView)
-//        {
-//            mTextView.setMaxLines(mMaxLines);
-//        }
-
+        mExpanded = false;
         startAnimation();
-
         postOnExpandStateChanged();
     }
 
@@ -298,7 +248,7 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
         int toY = 0;
 
 
-        if (mIsExpanded) {
+        if (mExpanded) {
             fromY = mCollapsedHeight;
             toY = mExpandedHeight;
 
@@ -314,22 +264,19 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
         fromY = getHeight();
 
 
-//        TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-//                Animation.RELATIVE_TO_SELF, fromY, Animation.RELATIVE_TO_SELF, toY);
-//        translateAnimation.setDuration(500);
-//
-//        startAnimation(translateAnimation);
+        if (mAnimateEnabled) {
 
+            ExpandCollapseAnimation animation = new ExpandCollapseAnimation(this, fromY, toY);
+            animation.setFillAfter(true);
+            animation.setRepeatCount(1);
+            startAnimation(animation);
+        } else {
+            int newHeight = toY;
+            mTextView.setMaxHeight(newHeight - mTextViewMarginBottom);
+            getLayoutParams().height = newHeight;
+            requestLayout();
+        }
 
-//        ObjectAnimator objectAnimator = new ObjectAnimator();
-//        objectAnimator = ObjectAnimator.ofInt(this, "height", (int)fromY, (int)toY);
-//        objectAnimator.setDuration(500);
-//
-//        objectAnimator.start();
-
-//        ExpandCollapseAnimation animation = new ExpandCollapseAnimation(this, fromY, toY);
-//        animation.setFillAfter(true);
-//        startAnimation(animation);
     }
 
     class ExpandCollapseAnimation extends Animation {
@@ -348,11 +295,10 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
         protected void applyTransformation(float interpolatedTime, Transformation t) {
             final int newHeight = (int) ((mEndHeight - mStartHeight) * interpolatedTime + mStartHeight);
             mTextView.setMaxHeight(newHeight - mTextViewMarginBottom);
-//            if (Float.compare(mAnimAlphaStart, 1.0f) != 0) {
-//                applyAlphaAnimation(mTv, mAnimAlphaStart + interpolatedTime * (1.0f - mAnimAlphaStart));
-//            }
             mTargetView.getLayoutParams().height = newHeight;
             mTargetView.requestLayout();
+
+            LogUtils.e("applyTransformation" );
         }
 
         @Override
@@ -367,22 +313,6 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
     }
 
 
-    private void registerObserver() {
-        if (null != mTextView && null != mExpandArrow) {
-            mMaxLines = TextViewCompat.getMaxLines(mTextView);
-
-            mTextView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    int lineCount = mTextView.getLineCount();
-
-                    mExpandArrow.setVisibility(lineCount > mMaxLines ? View.VISIBLE : View.GONE);
-                    mTextView.getViewTreeObserver().removeOnPreDrawListener(this);
-                    return false;
-                }
-            });
-        }
-    }
 
     public void setText(int resId) {
         setText(getResources().getString(resId));
@@ -408,7 +338,7 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
     private void postOnExpandStateChanged() {
 
         if (null != mOnExpandStateChangedListener) {
-            mOnExpandStateChangedListener.onChanged(mTextView, mIsExpanded);
+            mOnExpandStateChangedListener.onChanged(mTextView, mExpanded);
         }
     }
 
@@ -416,8 +346,9 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        mTextView.setMaxLines(mMaxLines);
-        mIsExpanded = false;
+        mExpanded = false;
+        mNeedLayout = true;
+        requestLayout();
     }
 
     @Override
@@ -434,6 +365,6 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
 //
 //        mOldText = newText;
 
-        mNeedLayout = true;
+
     }
 }

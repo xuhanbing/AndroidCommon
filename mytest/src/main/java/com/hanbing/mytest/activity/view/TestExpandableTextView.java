@@ -66,6 +66,6 @@ public class TestExpandableTextView extends AppCompatActivity {
     }
 
     public void shortText(View view) {
-        mText.setText("hello 你好吗");
+        mText.setText("hello 你好吗\n232\n2dfajdflajflajfjalfja\nljfal32\n2323212312111111111111111111111111");
     }
 }

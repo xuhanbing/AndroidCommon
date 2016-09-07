@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            app:expandArrowId="@+id/arrow2"
+            app:expandArrowId="@+id/arrow"
             app:expandTextViewId="@+id/text"
             android:orientation="vertical">
 
@@ -38,24 +38,17 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:text="@string/hz"/>
-            <TextView
-                android:id="@+id/text2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="4"
-                android:background="@color/red"
-                android:text="@string/hz"/>
             <ImageView
                 android:id="@+id/arrow"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_pulltorefresh_arrow"/>
-            <ImageView
-                android:id="@+id/arrow2"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right"
                 android:src="@drawable/ic_launcher"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@color/red"/>
         </com.hanbing.library.android.view.ExpandableTextView>
+
     </ScrollView>
 </LinearLayout>
