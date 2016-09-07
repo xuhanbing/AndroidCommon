@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.hanbing.mytest.activity.view.TestExpandableTextView">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="longText"
+        android:onClick="longText"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="shortText"
+        android:onClick="shortText"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.hanbing.library.android.view.ExpandableTextView
+            android:id="@+id/expandableTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:expandArrowId="@+id/arrow2"
+            app:expandTextViewId="@+id/text"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="@string/hz"/>
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="4"
+                android:background="@color/red"
+                android:text="@string/hz"/>
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_pulltorefresh_arrow"/>
+            <ImageView
+                android:id="@+id/arrow2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_launcher"/>
+        </com.hanbing.library.android.view.ExpandableTextView>
+    </ScrollView>
+</LinearLayout>

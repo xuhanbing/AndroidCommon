@@ -10,16 +10,16 @@ import android.widget.ListView;
 
 import com.hanbing.dianping.R;
 import com.hanbing.dianping.model.Category;
+import com.hanbing.library.android.bind.annotation.BindContentView;
+import com.hanbing.library.android.bind.annotation.BindView;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.BindView;
 
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-@ContentView(R.layout.fragment_category)
+@BindContentView(R.layout.fragment_category)
 public class CategoryFragment extends CategoryFragmentBase {
 
 

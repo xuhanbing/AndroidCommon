@@ -30,6 +30,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 dependencies {
@@ -50,4 +54,6 @@ dependencies {
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.16'
     compile 'org.xutils:xutils:3.3.36'
     compile 'de.greenrobot:greendao:2.1.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.jakewharton:butterknife-compiler:8.4.0'
 }

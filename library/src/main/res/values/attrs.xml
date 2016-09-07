@@ -201,4 +201,9 @@
         <attr name="finishActivityEnabled" format="boolean"></attr>
         <attr name="onlyScrollIfTouchEdge" format="boolean"></attr>
     </declare-styleable>
+
+    <declare-styleable name="ExpandableTextView">
+        <attr name="expandTextViewId" format="integer"></attr>
+        <attr name="expandArrowId" format="integer"></attr>
+    </declare-styleable>
 </resources>

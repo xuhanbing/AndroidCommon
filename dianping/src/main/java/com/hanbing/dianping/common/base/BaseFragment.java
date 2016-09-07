@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hanbing.library.android.bind.ObjectBinder;
+
 import org.xutils.x;
 
 /**
@@ -20,7 +22,7 @@ public abstract class BaseFragment extends com.hanbing.library.android.fragment.
     }
     @Override
     protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return x.view().inject(this, inflater, container);
+        return ObjectBinder.bind(this, inflater, container);
     }
 
     @Override
