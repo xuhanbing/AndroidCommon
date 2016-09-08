@@ -21,13 +21,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.hanbing.library.android.view.ExpandableTextView
             android:id="@+id/expandableTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:expandAnimationEnabled="true"
             app:expandArrowId="@+id/arrow"
             app:expandTextViewId="@+id/text"
             android:orientation="vertical">

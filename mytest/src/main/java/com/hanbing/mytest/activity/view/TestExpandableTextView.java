@@ -66,6 +66,9 @@ public class TestExpandableTextView extends AppCompatActivity {
     }
 
     public void shortText(View view) {
+        if (System.currentTimeMillis() % 2 == 0)
+            mText.setText("123");
+        else
         mText.setText("hello 你好吗\n232\n2dfajdflajflajfjalfja\nljfal32\n2323212312111111111111111111111111");
     }
 }

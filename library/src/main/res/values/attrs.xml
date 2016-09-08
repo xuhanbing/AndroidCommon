@@ -205,5 +205,6 @@
     <declare-styleable name="ExpandableTextView">
         <attr name="expandTextViewId" format="integer"></attr>
         <attr name="expandArrowId" format="integer"></attr>
+        <attr name="expandAnimationEnabled" format="boolean"></attr>
     </declare-styleable>
 </resources>

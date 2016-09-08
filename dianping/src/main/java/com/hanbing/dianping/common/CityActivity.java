@@ -10,14 +10,12 @@ import com.hanbing.dianping.R;
 import com.hanbing.dianping.common.city.City;
 import com.hanbing.library.android.adapter.BaseAdapter;
 import com.hanbing.library.android.adapter.ViewHolder;
-import com.hanbing.library.android.bind.annotation.BindView;
+import com.hanbing.library.android.bind.annotation.BindContentView;
 import com.hanbing.library.android.util.IOUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.plugin.FastLocateLayout;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.BindView;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ContentView(R.layout.activity_city)
+import butterknife.BindView;
+import butterknife.OnClick;
+
+@BindContentView(R.layout.activity_city)
 public class CityActivity extends com.hanbing.dianping.common.base.BaseActivity {
 
 
@@ -34,7 +35,7 @@ public class CityActivity extends com.hanbing.dianping.common.base.BaseActivity 
     ListView mListView;
 
 
-    @Event(R.id.iv_back)
+    @OnClick(R.id.iv_back)
     private void onBackClick(View view) {
         finish();
     }

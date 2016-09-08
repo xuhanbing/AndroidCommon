@@ -19,10 +19,6 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.hanbing.library.android.image.ImageLoader;
-import com.hanbing.library.android.tool.ScrollableViewTransitionController;
-import com.hanbing.library.android.util.LogUtils;
-import com.hanbing.library.android.util.ViewUtils;
 import com.google.gson.Gson;
 import com.hanbing.dianping.Data;
 import com.hanbing.dianping.R;
@@ -32,22 +28,23 @@ import com.hanbing.dianping.model.ShortCut;
 import com.hanbing.dianping.model.Status;
 import com.hanbing.dianping.view.HomeShortCutLayout;
 import com.hanbing.dianping.view.PullToRefreshLayout;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.BindView;
-import org.xutils.x;
+import com.hanbing.library.android.bind.annotation.BindContentView;
+import com.hanbing.library.android.image.ImageLoader;
+import com.hanbing.library.android.tool.ScrollableViewTransitionController;
+import com.hanbing.library.android.util.LogUtils;
+import com.hanbing.library.android.util.ViewUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-@ContentView(R.layout.fragment_home)
+@BindContentView(R.layout.fragment_home)
 public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragment {
 
 
@@ -84,13 +81,13 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
 
 
 
-    @Event(value = {R.id.iv_home_titlebar_add})
+    @OnClick(value = {R.id.iv_home_titlebar_add})
     private void onOptionClick(View view) {
         showOptions(view);
     }
 
 
-    @Event(value = R.id.layout_home_titlebar_city)
+    @OnClick(value = R.id.layout_home_titlebar_city)
     private void onCityClick(View view) {
         startActivity(new Intent(getContext(), CityActivity.class));
     }

@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hanbing.library.android.R;
-import com.hanbing.library.android.util.LogUtils;
 
 /**
  * Created by hanbing on 2016/9/7
@@ -46,11 +45,11 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
     int mTextMaxLinesHeight;
 
 
-    boolean mAnimateEnabled =false;
+    boolean mAnimationEnabled = false;
 
     int mTextViewMarginBottom;
 
-    boolean mNeedLayout = true;
+    boolean mRelayout = true;
 
     OnExpandStateChangedListener mOnExpandStateChangedListener;
 
@@ -69,7 +68,7 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
 
         mTextViewId = a.getResourceId(R.styleable.ExpandableTextView_expandTextViewId, 0);
         mExpandArrowId = a.getResourceId(R.styleable.ExpandableTextView_expandArrowId, 0);
-
+        mAnimationEnabled = a.getBoolean(R.styleable.ExpandableTextView_expandAnimationEnabled, false);
         a.recycle();
 
         init();
@@ -82,28 +81,17 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        LogUtils.e("onMeasure measureHeight = " + getMeasuredHeight());
-
-        if  (!mNeedLayout)
-        {
+        if (!mRelayout || getVisibility() == View.GONE) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
         }
 
-        LogUtils.e("onMeasure2 measureHeight = " + getMeasuredHeight());
+        mRelayout = false;
 
-        mNeedLayout = false;
-
+        final TextView textView = mTextView;
 
         //hide arrow first
         mExpandArrow.setVisibility(View.GONE);
-
-
-        TextView textView = mTextView;
-
-        //save current max lines
-
-        int maxLines = TextViewCompat.getMaxLines(textView);
 
         //set max lines
         textView.setMaxLines(Integer.MAX_VALUE);
@@ -119,12 +107,13 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
         //get textview height
         mTextMaxLinesHeight = getRealTextViewHeight(textView);
 
-        mExpandArrow.setVisibility(View.VISIBLE);
 
         if (!mExpanded) {
             //if it is collapsed, set original max lines, and measure size
             textView.setMaxLines(mMaxLines);
         }
+
+        mExpandArrow.setVisibility(View.VISIBLE);
 
         //measure again
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -134,7 +123,6 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
 
         //set collapsed height
         mCollapsedHeight = getMeasuredHeight();
-
 
     }
 
@@ -166,11 +154,13 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
         mExpandArrow = null;
 
         // find views by id
-        if (0 != mTextViewId)
-            mTextView = (TextView) findViewById(mTextViewId);
+        {
+            if (0 != mTextViewId)
+                mTextView = (TextView) findViewById(mTextViewId);
 
-        if (0 != mExpandArrowId)
-            mExpandArrow = findViewById(mExpandArrowId);
+            if (0 != mExpandArrowId)
+                mExpandArrow = findViewById(mExpandArrowId);
+        }
 
         int childCount = getChildCount();
 
@@ -200,7 +190,9 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
 
         //register text watcher
         if (null != mTextView) {
+            //save max lines
             mMaxLines = TextViewCompat.getMaxLines(mTextView);
+            //add text changed listener
             mTextView.removeTextChangedListener(this);
             mTextView.addTextChangedListener(this);
         }
@@ -210,28 +202,16 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
             mExpandArrow.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mExpanded) {
-                        collapse();
-                    } else {
-                        expand();
-                    }
+
+                    mExpanded = !mExpanded;
+                    startAnimation();
+                    postOnExpandStateChanged();
+
                 }
             });
             //gone default
             mExpandArrow.setVisibility(GONE);
         }
-    }
-
-    private void expand() {
-        mExpanded = true;
-        startAnimation();
-        postOnExpandStateChanged();
-    }
-
-    private void collapse() {
-        mExpanded = false;
-        startAnimation();
-        postOnExpandStateChanged();
     }
 
     private static int getRealTextViewHeight(@NonNull TextView textView) {
@@ -249,34 +229,33 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
 
 
         if (mExpanded) {
-            fromY = mCollapsedHeight;
-            toY = mExpandedHeight;
-
             toY = getHeight() - mTextView.getHeight() + mTextMaxLinesHeight;
-
         } else {
-            fromY = mExpandedHeight;
-            toY = mCollapsedHeight;
-
             toY = mCollapsedHeight;
         }
 
         fromY = getHeight();
 
-
-        if (mAnimateEnabled) {
+        if (mAnimationEnabled) {
 
             ExpandCollapseAnimation animation = new ExpandCollapseAnimation(this, fromY, toY);
             animation.setFillAfter(true);
-            animation.setRepeatCount(1);
             startAnimation(animation);
         } else {
-            int newHeight = toY;
-            mTextView.setMaxHeight(newHeight - mTextViewMarginBottom);
-            getLayoutParams().height = newHeight;
-            requestLayout();
+            setViewHeight(toY);
         }
 
+    }
+
+    /**
+     * change view height
+     * @param newHeight
+     */
+    private void setViewHeight(int newHeight)
+    {
+        mTextView.setMaxHeight(newHeight - mTextViewMarginBottom);
+        getLayoutParams().height = newHeight;
+        requestLayout();
     }
 
     class ExpandCollapseAnimation extends Animation {
@@ -294,11 +273,7 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
         @Override
         protected void applyTransformation(float interpolatedTime, Transformation t) {
             final int newHeight = (int) ((mEndHeight - mStartHeight) * interpolatedTime + mStartHeight);
-            mTextView.setMaxHeight(newHeight - mTextViewMarginBottom);
-            mTargetView.getLayoutParams().height = newHeight;
-            mTargetView.requestLayout();
-
-            LogUtils.e("applyTransformation" );
+            setViewHeight(newHeight);
         }
 
         @Override
@@ -313,13 +288,17 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
     }
 
 
-
     public void setText(int resId) {
         setText(getResources().getString(resId));
     }
 
     public void setText(CharSequence text) {
         if (null != mTextView) mTextView.setText(text);
+    }
+
+    public CharSequence getText(){
+        if (null != mTextView) return mTextView.getText();
+        return "";
     }
 
     public TextView getTextView() {
@@ -330,6 +309,14 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
         return mExpandArrow;
     }
 
+    public void setAnimationEnabled(boolean animationEnabled) {
+        if (mAnimationEnabled == animationEnabled)
+            return;
+        if (!animationEnabled)
+            clearAnimation();
+
+        mAnimationEnabled = animationEnabled;
+    }
 
     public void setOnExpandStateChangedListener(OnExpandStateChangedListener onExpandStateChangedListener) {
         mOnExpandStateChangedListener = onExpandStateChangedListener;
@@ -346,9 +333,8 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        mExpanded = false;
-        mNeedLayout = true;
-        requestLayout();
+        mOldText = mTextView.getText().toString();
+
     }
 
     @Override
@@ -359,12 +345,14 @@ public class ExpandableTextView extends LinearLayout implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
 
-//        String newText = s.toString();
-//
-//        mNeedLayout = !mOldText.equals(newText);
-//
-//        mOldText = newText;
+        String newText = s.toString();
 
+        if (!mOldText.equals(newText)) {
+            clearAnimation();
+            mExpanded = false;
+            mRelayout = true;
+            requestLayout();
+        }
 
     }
 }

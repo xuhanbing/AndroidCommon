@@ -62,6 +62,8 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.OnClick;
+
 
 @ContentView(R.layout.activity_recyclerview2)
 public class TestRecyclerView extends com.hanbing.mytest.activity.BaseAppCompatActivity {
