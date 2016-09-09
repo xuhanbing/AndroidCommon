@@ -56,7 +56,15 @@ public class CallbackScrollView extends ScrollView {
     }
 
     private void init(){
-        mSuperScroller = ReflectUtils.getValue(this, "mScroller", null);
+        /**
+         * bug#meizu
+         * java.lang.ClassCastException: com.meizu.widget.MzOverScroller cannot be cast to android.widget.OverScroller
+         */
+        try {
+            mSuperScroller = ReflectUtils.getValue(this, "mScroller", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

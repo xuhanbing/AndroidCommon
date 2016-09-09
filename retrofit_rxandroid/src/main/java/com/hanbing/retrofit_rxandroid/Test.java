@@ -11,6 +11,7 @@ import java.util.concurrent.TimeoutException;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
+import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -146,14 +147,14 @@ public class Test  {
 //                }
 //            });
 //        }
-
-
-            Observable.interval(500, TimeUnit.MILLISECONDS).subscribe(new MySubscriber<Long>() {
-                @Override
-                public void onNext(Long aLong) {
-                    print("onNext " + aLong);
-                }
-            });
+//
+//
+//            Observable.interval(500, TimeUnit.MILLISECONDS).subscribe(new MySubscriber<Long>() {
+//                @Override
+//                public void onNext(Long aLong) {
+//                    print("onNext " + aLong);
+//                }
+//            });
 
 //            Observable.just("1", "2", "3").subscribe(subscriber);
 //            Observable.range(1, 10).subscribe(subscriberInteger);
@@ -166,6 +167,13 @@ public class Test  {
 //            }
 //        }).subscribe(subscriberInteger);
 
+
+        Observable.range(1, 10).buffer(new Func0<Observable<?>>() {
+            @Override
+            public Observable<?> call() {
+                return null;
+            }
+        }).subscribe();
 
     }
 
