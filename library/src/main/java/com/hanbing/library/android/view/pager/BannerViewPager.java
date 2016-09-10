@@ -133,7 +133,7 @@ public class BannerViewPager extends ViewPager {
 		init();
 	}
 
-	void init() {
+	private void init() {
 
 
 		setOnTouchListener(new OnTouchListener() {
@@ -143,9 +143,11 @@ public class BannerViewPager extends ViewPager {
 				// TODO Auto-generated method stub
 				switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
+					case MotionEvent.ACTION_MOVE:
 						mHandler.removeCallbacks(mLoopPlayer);
 						break;
 					case MotionEvent.ACTION_UP:
+						mHandler.removeCallbacks(mLoopPlayer);
 						mHandler.postDelayed(mLoopPlayer, LOOP_DURATION);
 						break;
 
