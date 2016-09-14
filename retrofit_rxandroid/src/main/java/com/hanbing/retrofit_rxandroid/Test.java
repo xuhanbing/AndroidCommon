@@ -16,9 +16,16 @@ import rx.Scheduler;
 import rx.Subscriber;
 import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Action2;
+import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.functions.Func2;
+import rx.math.operators.OperatorAverageInteger;
+import rx.observables.BlockingObservable;
+import rx.observables.MathObservable;
 import rx.schedulers.Schedulers;
+import rx.schedulers.TimeInterval;
+import rx.schedulers.Timestamped;
 
 /**
  * Created by hanbing on 2016/9/8
@@ -41,28 +48,44 @@ public class Test {
     });
 
 
+    static final Observable<Integer> integerObservable = Observable.range(1, 10);
+    static final Observable<Integer> integerObservable2 = Observable.range(11, 10);
 
-    static final Subscriber<String> stringSubscriber = new Subscriber<String>() {
-        @Override
-        public void onCompleted() {
-            print("onCompleted");
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            print("onError : " + e);
-        }
-
+    static final Subscriber<String> stringSubscriber = new MySubscriber<String>() {
         @Override
         public void onNext(String s) {
-            print("onNext : " + s);
+            print("String onNext : " + s);
         }
     };
 
     static final Subscriber<Integer> integerSubscriber = new MySubscriber<Integer>() {
         @Override
         public void onNext(Integer integer) {
-            print("onNext : " + integer);
+            print("Integer onNext : " + integer);
+        }
+    };
+
+    static final Subscriber<List<Integer>> integersSubscriber = new MySubscriber<List<Integer>>() {
+        @Override
+        public void onNext(List<Integer> integers) {
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (Integer i :
+                    integers) {
+
+                stringBuilder.append(i);
+                stringBuilder.append(",");
+            }
+
+            print(stringBuilder.toString());
+        }
+    };
+
+    static  final Subscriber<? super Boolean> booleanSubscriber = new MySubscriber<Boolean>() {
+        @Override
+        public void onNext(Boolean aBoolean) {
+            print("Boolean onNext : " + aBoolean);
         }
     };
 
@@ -520,6 +543,420 @@ public class Test {
 //        testMaterialize();
 //        testObserveOn();
 //        testSerialize();
+//        testTimeInterval();
+//        testTimeOut();
+//        testTimestamp();
+//        testUsing();
+//        testTo();
+//        testAll();
+//        testMath();
+        testCombine();
+    }
+
+    private static void testCombine() {
+
+        integerObservable
+//                .concatWith(integerObservable2)
+//                .mergeWith(integerObservable2)
+//                .count()
+//                .reduce(11, new Func2<Integer, Integer, Integer>() {
+//                    @Override
+//                    public Integer call(Integer integer, Integer integer2) {
+//                        print("reduce integer = " + integer + ", integer2 = " + integer2);
+//                        return integer - integer2;
+//                    }
+//                })
+//                .scan(new Func2<Integer, Integer, Integer>() {
+//                    @Override
+//                    public Integer call(Integer integer, Integer integer2) {
+//                        return integer + integer2;
+//                    }
+//                })
+                .collect(new Func0<List<Integer>>() {
+                             @Override
+                             public List<Integer> call() {
+                                 print("Func0");
+                                 return new ArrayList<Integer>();
+                             }
+                         }
+                        ,
+                        new Action2<List<Integer>, Integer>() {
+                            @Override
+                            public void call(List<Integer> integers, Integer integer) {
+                                integers.add(integer);
+                            }
+                        })
+                .subscribe(integersSubscriber);
+
+
+    }
+
+    private static void testMath() {
+        Observable<Integer> integerObservable = Observable.range(1, 10);
+        MathObservable
+//                .averageInteger(integerObservable))
+//                .max(integerObservable)
+//                .min(integerObservable)
+                .sumInteger(integerObservable)
+                .subscribe(integerSubscriber);
+
+    }
+
+    private static void testAll() {
+//        Observable.range(1, 10)
+//                .all(new Func1<Integer, Boolean>() {
+//                    @Override
+//                    public Boolean call(Integer integer) {
+//                        return integer < 5;
+//                    }
+//                })
+//                .subscribe(new MySubscriber<Boolean>() {
+//                    @Override
+//                    public void onNext(Boolean aBoolean) {
+//                        print("onNext : "+ aBoolean);
+//                    }
+//                });
+
+        Observable<Integer> observable1 = Observable.range(1, 10);
+        Observable<Integer> observable2 = Observable.range(11, 10);
+
+//        observable2.ambWith(observable1)
+//                .subscribe(integerSubscriber);
+
+//        Observable.amb(observable1, observable2)
+//                .subscribe(integerSubscriber);
+
+
+//        observable1.contains(25)
+//                .subscribe(booleanSubscriber);
+
+//        Observable.empty()
+//                .isEmpty()
+//                .subscribe(booleanSubscriber);
+
+//        observable1
+//                .exists(new Func1<Integer, Boolean>() {
+//                    @Override
+//                    public Boolean call(Integer integer) {
+//                        return integer > 5;
+//                    }
+//                })
+//                .subscribe(booleanSubscriber);
+
+//        Observable
+//                .empty()
+//                .defaultIfEmpty(222)
+//                .subscribe(new MySubscriber<Object>() {
+//                    @Override
+//                    public void onNext(Object o) {
+//                        print("" + o);
+//                    }
+//                });
+
+//        Observable.sequenceEqual(observable1, observable2, new Func2<Integer, Integer, Boolean>() {
+//            @Override
+//            public Boolean call(Integer integer, Integer integer2) {
+//                return integer + 10 == integer2;
+//            }
+//        })
+//                .subscribe(booleanSubscriber);
+
+
+        observable1.map(new Func1<Integer, Integer>() {
+            @Override
+            public Integer call(Integer integer) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return integer;
+            }
+        })
+//                .skipUntil(Observable.range(11, 10).delay(500, TimeUnit.MILLISECONDS))
+                .skipWhile(new Func1<Integer, Boolean>() {
+                    @Override
+                    public Boolean call(Integer integer) {
+                        return integer < 10;
+                    }
+                })
+//                .takeUntil(Observable.range(11, 10).delay(500, TimeUnit.MILLISECONDS))
+//                .takeWhile(new Func1<Integer, Boolean>() {
+//                    @Override
+//                    public Boolean call(Integer integer) {
+//                        return integer < 5;
+//                    }
+//                })
+                .subscribe(integerSubscriber);
+
+
+    }
+
+    private static void testTo() {
+        Observable<Integer> range = Observable.range(1, 10);
+        BlockingObservable<Integer> blockingObservable = range.toBlocking();
+        final Integer integer = blockingObservable
+//                .first()
+//                .first(new Func1<Integer, Boolean>() {
+//                    @Override
+//                    public Boolean call(Integer integer) {
+//                        return integer > 5;
+//                    }
+//                })
+//                .firstOrDefault(20)
+                .firstOrDefault(20, new Func1<Integer, Boolean>() {
+                    @Override
+                    public Boolean call(Integer integer) {
+                        return integer < 0;
+                    }
+                })
+                ;
+//        print("" + Observable.empty().toBlocking().firstOrDefault(123));
+
+//        Iterator<Integer> iterator = blockingObservable.getIterator();
+//
+//        while (iterator.hasNext()) {
+//            Integer next = iterator.next();
+//            if (4 == next) {
+//            }
+//        }
+
+
+
+//        integer = blockingObservable.first();
+//       print("" +  integer);
+
+//        Future<Integer> integerFuture = Observable.just(1).toBlocking().toFuture();
+//        Observable.from(integerFuture).subscribe(integerSubscriber);
+//        Observable.from(range.toList().toBlocking().toFuture()).subscribe(new MySubscriber<List<Integer>>() {
+//            @Override
+//            public void onNext(List<Integer> integers) {
+//                for (int i = 0; i < integers.size(); i++) {
+//                   print("" + integers.get(i));
+//                }
+//            }
+//        });
+
+//        range.toList().subscribe(new MySubscriber<List<Integer>>() {
+//            @Override
+//            public void onNext(List<Integer> integers) {
+//                for (int i = 0; i < integers.size(); i++) {
+//                     print("" + integers.get(i));
+//                }
+//            }
+//        });
+
+//        range.toMap(new Func1<Integer, String>() {
+//            @Override
+//            public String call(Integer integer) {
+//                return "key" + integer;
+//            }
+//        }).subscribe(new MySubscriber<Map<String, Integer>>() {
+//            @Override
+//            public void onNext(Map<String, Integer> stringIntegerMap) {
+//                String s = "";
+//
+//                Iterator<Map.Entry<String, Integer>> iterator = stringIntegerMap.entrySet().iterator();
+//
+//                while (iterator.hasNext()) {
+//                    Map.Entry<String, Integer> next = iterator.next();
+//
+//                    s += next.getKey() + "=" + next.getValue() + "\n";
+//                }
+//
+//                print(s);
+//            }
+//        });
+
+//        Observable.from(array)
+//        .toMultimap(new Func1<Integer, String>() {
+//            @Override
+//            public String call(Integer integer) {
+//                return "key" + integer;
+//            }
+//        }).subscribe(new MySubscriber<Map<String, Collection<Integer>>>() {
+//            @Override
+//            public void onNext(Map<String, Collection<Integer>> stringCollectionMap) {
+//                String s = "";
+//
+//                Iterator<Map.Entry<String, Collection<Integer>>> iterator = stringCollectionMap.entrySet().iterator();
+//
+//                while (iterator.hasNext()) {
+//                    Map.Entry<String, Collection<Integer>> next = iterator.next();
+//
+//
+//                    Collection<Integer> value = next.getValue();
+//
+//                    s += next.getKey() + "={";
+//                    if (null != value && !value.isEmpty()) {
+//                        for (Integer i :
+//                                value) {
+//                            s += i + ",";
+//                        }
+//                    }
+//                    s += "}\n"
+//                    ;
+//                }
+//
+//                print(s);
+//            }
+//        });
+
+//        Observable.from(array)
+////                .toSortedList()
+////                .toSortedList(3)
+//                .toSortedList(new Func2<Integer, Integer, Integer>() {
+//                    @Override
+//                    public Integer call(Integer integer, Integer integer2) {
+//                        return integer2 - integer;
+//                    }
+//                })
+//                .subscribe(new MySubscriber<List<Integer>>() {
+//                    @Override
+//                    public void onNext(List<Integer> integers) {
+//                        for (int i = 0; i < integers.size(); i++) {
+//                            print("" + integers.get(i));
+//                        }
+//                    }});
+
+        Observable.just(323)
+        .nest()
+        .subscribe(new MySubscriber<Observable<Integer>>() {
+            @Override
+            public void onNext(Observable<Integer> integerObservable) {
+                integerObservable.subscribe(integerSubscriber);
+            }
+        })
+        ;
+
+
+
+    }
+
+    private static void testUsing() {
+        Observable.using(new Func0<Integer>() {
+                             @Override
+                             public Integer call() {
+                                 return 122;
+                             }
+                         },
+                new Func1<Integer, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(Integer integer) {
+                        print("Func1 " + integer);
+//                        return Observable.just("Func1->" + integer);
+                        return Observable.error(new Error("Error " + integer));
+                    }
+                }
+                ,
+                new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        print("release " + integer);
+                    }
+                }
+        ).subscribe(stringSubscriber);
+
+    }
+
+    private static void testTimestamp() {
+        Observable.range(1, 10)
+                .map(new Func1<Integer, Integer>() {
+                    @Override
+                    public Integer call(Integer integer) {
+                        try {
+                            Thread.sleep(100 * integer);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return integer;
+                    }
+                })
+                .timestamp(Schedulers.computation())
+                .subscribe(new MySubscriber<Timestamped<Integer>>() {
+                    @Override
+                    public void onNext(Timestamped<Integer> integerTimestamped) {
+                        print("onNext " + integerTimestamped);
+                    }
+                });
+    }
+
+    private static void testTimeOut() {
+        Observable<Integer> range = Observable.range(1, 10).flatMap(new Func1<Integer, Observable<Integer>>() {
+            @Override
+            public Observable<Integer> call(final Integer integer) {
+                return Observable.create(new Observable.OnSubscribe<Integer>() {
+                    @Override
+                    public void call(Subscriber<? super Integer> subscriber) {
+                        try {
+                            Thread.sleep(integer *  500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        subscriber.onNext(integer);
+                    }
+                });
+            }
+        });
+
+        range
+//                .timeout(3000, TimeUnit.MILLISECONDS)
+//                .timeout(3000, TimeUnit.MILLISECONDS, Observable.range(11, 10))
+                .timeout(new Func1<Integer, Observable<Integer>>() {
+                    @Override
+                    public Observable<Integer> call(final Integer integer) {
+                        return Observable.create(new Observable.OnSubscribe<Integer>() {
+                            @Override
+                            public void call(Subscriber<? super Integer> subscriber) {
+
+                                try {
+                                    Thread.sleep(5000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                print("Func1 call " + integer);
+                                subscriber.onNext(integer);
+
+
+                            }
+                        });
+                    }
+                }
+//                        , Observable.range(11, 10)
+                )
+                .observeOn(Schedulers.immediate())
+                .subscribe(integerSubscriber);
+    }
+
+    private static void testTimeInterval() {
+        Observable<Integer> range = Observable.range(1, 10).flatMap(new Func1<Integer, Observable<Integer>>() {
+            @Override
+            public Observable<Integer> call(final Integer integer) {
+                return Observable.create(new Observable.OnSubscribe<Integer>() {
+                    @Override
+                    public void call(Subscriber<? super Integer> subscriber) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        subscriber.onNext(integer);
+                    }
+                });
+            }
+        });
+
+        print("before sleep");
+
+        range.timeInterval().subscribe(new MySubscriber<TimeInterval<Integer>>() {
+            @Override
+            public void onNext(TimeInterval<Integer> integerTimeInterval) {
+
+                print("onNext : " + integerTimeInterval.toString());
+            }
+        });
     }
 
     private static void testSerialize() {
@@ -793,6 +1230,57 @@ public class Test {
         @Override
         public void onError(Throwable e) {
             print("onError : " + e);
+        }
+    }
+
+    static class MyCollectionClass<T> {
+        List<T> list;
+
+        public MyCollectionClass(){
+            list = new ArrayList<>();
+        }
+
+        public MyCollectionClass(T t) {
+            list = new ArrayList<>();
+            list.add(t);
+        }
+
+        public void add(T t) {
+            list.add(t);
+        }
+
+        public void remove(T t) {
+            list.remove(t);
+        }
+
+        public List<T> getList() {
+            return list;
+        }
+
+        public void setList(List<T> list) {
+            this.list = list;
+        }
+    }
+    static class MyClass<T> {
+        T value;
+
+        public MyClass() {
+        }
+        public MyClass(T value) {
+            this.value = value;
+        }
+
+        public T getValue() {
+            return value;
+        }
+
+        public void setValue(T value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return "value = " + value;
         }
     }
 
