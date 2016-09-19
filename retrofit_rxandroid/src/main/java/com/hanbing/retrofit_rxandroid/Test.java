@@ -14,6 +14,7 @@ import java.util.concurrent.TimeoutException;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Action2;
@@ -22,6 +23,7 @@ import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.math.operators.OperatorAverageInteger;
 import rx.observables.BlockingObservable;
+import rx.observables.ConnectableObservable;
 import rx.observables.MathObservable;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TimeInterval;
@@ -550,7 +552,71 @@ public class Test {
 //        testTo();
 //        testAll();
 //        testMath();
-        testCombine();
+//        testCombine();
+//        testConnect();
+    }
+
+    private static void testConnect() {
+
+        final ConnectableObservable<Integer> observable = Observable.range(1, 10)
+                .map(new Func1<Integer, Integer>() {
+                    @Override
+                    public Integer call(Integer integer) {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return integer;
+                    }
+                })
+                .replay(4)
+                .publish()
+                ;
+
+//        final Observable<Integer> observable1 = observable.refCount();
+//        observable1.subscribe(integerSubscriber);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//                observable1.subscribe(new MySubscriber<Integer>() {
+//                    @Override
+//                    public void onNext(Integer integer) {
+//                        print("onNext2 " + integer);
+//                    }
+//                });
+//
+//
+//            }
+//        }).start();
+
+        observable.subscribe(integerSubscriber);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                observable.subscribe(new MySubscriber<Integer>() {
+                    @Override
+                    public void onNext(Integer integer) {
+                        print("onNext2 " + integer);
+                    }
+                });
+            }
+        }).start();
+        observable.connect();
     }
 
     private static void testCombine() {
