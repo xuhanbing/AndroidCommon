@@ -59,19 +59,7 @@ public abstract class ImageLoaderBase extends IImageLoader {
 
 		@Override
 		public void onLoadCompleted(final View view, final String uri, final Bitmap bm) {
-			view.post(new Runnable() {
 
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					if (view instanceof ImageView) {
-						((ImageView) view).setImageBitmap(bm);
-					} else {
-						view.setBackgroundDrawable(new BitmapDrawable(view
-								.getResources(), bm));
-					}
-				}
-			});
 		}
 
 		@Override

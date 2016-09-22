@@ -152,11 +152,13 @@ public class ImageLoader extends ImageLoaderBase {
     }
 
     public void displayImage(View view, String uri, final int width,
-                             final int height, int defaultResId, final ImageLoaderListener lsner) {
+                             final int height, int defaultResId, final ImageLoaderListener listener) {
         // TODO Auto-generated method stub
 
         if (null == view)
             return;
+
+
 
         if (FileUtils.isExist(uri)) {
             uri = createLocalPath(uri);
@@ -184,6 +186,7 @@ public class ImageLoader extends ImageLoaderBase {
         }
 
 
+        final ImageLoaderListener lsner = null == listener ? mDefaultImageLoaderListener : listener;
         /**
          * 结果回调
          */
