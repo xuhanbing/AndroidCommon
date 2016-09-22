@@ -104,8 +104,6 @@ public class ScrollableViewTransitionController {
                         ? (startY - moveView.getMeasuredHeight())
                         : (baseOnTop ? (loc1[1] + moveBaseView.getMeasuredHeight()): (loc1[1] + moveBaseView.getMeasuredHeight() - moveView.getMeasuredHeight()));
 
-                LogUtils.e("startY = " + startY + ", endY = " + endY + ", height = " + moveView.getMeasuredHeight());
-
                 if (null != lsner)
                     lsner.onScroll(0, 0);
 

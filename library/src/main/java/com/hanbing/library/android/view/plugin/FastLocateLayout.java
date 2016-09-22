@@ -33,7 +33,7 @@ public class FastLocateLayout extends LinearLayout implements IPluginWrapper {
         List<String> getTags();
 
         /**
-         * return first item postion with tag
+         * return first item position with tag
          *
          * @param tag
          * @return

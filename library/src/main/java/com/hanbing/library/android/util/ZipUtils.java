@@ -32,21 +32,21 @@ public class ZipUtils {
         }
     }
 
-    public static void zip(String parent, ZipOutputStream os, File file) throws IOException {
+    public static void zip(String dir, ZipOutputStream os, File file) throws IOException {
 
         if (file.isDirectory())
         {
             File[] files = file.listFiles();
             for (File f : files) {
-                zip(parent, os, f);
+                zip(dir, os, f);
             }
 
         } else {
-            if (!parent.endsWith("\\"))
+            if (!dir.endsWith("\\"))
             {
-                parent += "\\";
+                dir += "\\";
             }
-            String name = file.getAbsolutePath().replace(parent, "");
+            String name = file.getAbsolutePath().replace(dir, "");
 
             ZipEntry zipEntry = new ZipEntry(name);
 
