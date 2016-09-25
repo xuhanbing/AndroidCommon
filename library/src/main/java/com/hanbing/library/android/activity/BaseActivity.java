@@ -3,13 +3,17 @@
  */
 package com.hanbing.library.android.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.WindowManager;
 
 import com.hanbing.library.android.bind.ObjectBinder;
 import com.hanbing.library.android.tool.SystemBarTintManager;
+
+import java.util.List;
 
 
 /**
@@ -59,7 +63,6 @@ public abstract class BaseActivity extends FragmentActivity {
 	 * @param savedInstanceState
 	 */
 	protected  void bindViews(Bundle savedInstanceState) {
-		ObjectBinder.bind(this);
 	}
 
 	/**
@@ -95,5 +98,19 @@ public abstract class BaseActivity extends FragmentActivity {
 	protected int getStatusBarTintColor()
 	{
 		return 0;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		List<Fragment> fragments = getSupportFragmentManager().getFragments();
+		if (null != fragments && fragments.size() > 0) {
+			for (Fragment fragment : fragments) {
+				if (null != fragment)
+					fragment.onActivityResult(requestCode & 0xffff, resultCode, data);
+			}
+		}
+
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }
