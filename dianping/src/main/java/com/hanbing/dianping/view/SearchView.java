@@ -3,14 +3,14 @@ package com.hanbing.dianping.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.hanbing.library.android.view.SearchEditText;
 import com.hanbing.dianping.R;
+import com.hanbing.library.android.view.ClearableEditText;
 
 
 /**
  * Created by hanbing on 2016/6/14.
  */
-public class SearchView extends SearchEditText {
+public class SearchView extends ClearableEditText {
 
     static final int RES_SEARCH = R.drawable.main_ic_home_search;
     static final int RES_CLOSE = R.drawable.edit_close;

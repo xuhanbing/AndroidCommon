@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
@@ -107,7 +108,7 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
         return mAdapter;
     }
 
-    public  class MyViewHolder extends com.hanbing.library.android.adapter.BaseAdapter.ViewHolder {
+    public  class MyViewHolder extends com.hanbing.library.android.adapter.ViewHolder {
 
         @BindView(R.id.iv_home_may_favorite_picture)
         ImageView picture;
@@ -327,7 +328,7 @@ public class HomeFragment extends com.hanbing.dianping.common.base.BaseListFragm
     }
 
 
-    class OptionViewHolder extends com.hanbing.library.android.adapter.BaseAdapter.ViewHolder {
+    class OptionViewHolder extends com.hanbing.library.android.adapter.ViewHolder {
 
         @BindView(R.id.iv_home_option_icon)
         ImageView icon;

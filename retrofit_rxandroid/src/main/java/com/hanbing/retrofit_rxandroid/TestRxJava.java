@@ -32,7 +32,7 @@ import rx.schedulers.Timestamped;
 /**
  * Created by hanbing on 2016/9/8
  */
-public class Test {
+public class TestRxJava {
 
 
 

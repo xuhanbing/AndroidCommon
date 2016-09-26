@@ -1,4 +1,4 @@
-package com.hanbing.retrofit_rxandroid;
+package com.hanbing.demo;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

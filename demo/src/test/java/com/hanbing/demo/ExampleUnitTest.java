@@ -1,4 +1,4 @@
-package com.hanbing.retrofit_rxandroid;
+package com.hanbing.demo;
 
 import org.junit.Test;
 
