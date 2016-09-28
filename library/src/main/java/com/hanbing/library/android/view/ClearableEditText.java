@@ -179,6 +179,9 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
      */
     protected boolean isTouchClear(MotionEvent event)
     {
+        //如果没有焦点，返回false
+        if (!hasFocus())
+            return false;
         
         int x = (int) event.getX();
         int y = (int) event.getY();

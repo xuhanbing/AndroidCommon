@@ -25,6 +25,10 @@
             android:label="@string/title_activity_scrolling2"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".EmptyActivity">
+        </activity>
+        <activity android:name=".activity.TestOnActivityResultActivity">
+        </activity>
     </application>
 
 </manifest>

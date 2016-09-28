@@ -141,22 +141,51 @@ public abstract class BaseFragment extends Fragment {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (null != getChildFragmentManager()) {
-			List<Fragment> fragments = getChildFragmentManager().getFragments();
-
-			if (null != fragments && fragments.size() > 0) {
-				for (Fragment fragment : fragments) {
-					if (null != fragment)
+		//遍历所有子fragment
+		List<Fragment> fragments = getChildFragmentManager().getFragments();
+		if (null != fragments && !fragments.isEmpty()) {
+			for (Fragment fragment : fragments) {
+				if (null != fragment)
 					fragment.onActivityResult(requestCode, resultCode, data);
-				}
 			}
 		}
 	}
 
+	@Override
+	public void startActivityForResult(Intent intent, int requestCode) {
+		if (null == getActivity())
+			throw new IllegalStateException("Fragment " + this + " not attached to Activity");
+
+		Fragment root = getRootParentFragment();
+
+		if (null == root)
+			root = this;
+
+		getActivity().startActivityFromFragment(root, intent, requestCode);
+	}
+
 	/**
-	 * 如果消耗了返回时间，返回true
+	 *     获取最上层的fragment，即直接在activity中的fragment
+	 *     这样在activity调用onActivityResult时能够找到正确的fragment
+	 */
+	private Fragment getRootParentFragment() {
+
+		Fragment parent = getParentFragment();
+
+		while (null != parent) {
+			Fragment fragment = parent.getParentFragment();
+			if (null == fragment) {
+				//上层已经没有fragment，表明parent是最底层的fragment
+				break;
+			}
+
+			parent = fragment;
+		}
+		return parent;
+	}
+
+	/**
+	 * 如果消耗了返回事件，返回true
 	 * @return
 	 */
 	public boolean consumeOnBackPressed(){
