@@ -161,9 +161,6 @@ public class RoundImageView extends ImageView {
             return;
         }
 
-        if (null != mBitmapShader)
-            return;
-
         Bitmap bmp = drawableToBitmap(drawable);
         // 将bmp作为着色器，就是在指定区域内绘制bmp
         mBitmapShader = new BitmapShader(bmp, TileMode.CLAMP, TileMode.CLAMP);
@@ -270,6 +267,9 @@ public class RoundImageView extends ImageView {
                 } else if (ratio < ratioDrawable){
                     bitmapHeight = h;
                     bitmapWidth = (int) (h * ratio);
+                } else {
+                    bitmapWidth = w;
+                    bitmapHeight = h;
                 }
             }
 
