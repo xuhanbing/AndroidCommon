@@ -30,8 +30,19 @@
         <attr name="internalLayout" format="reference"/>
         <!-- @hide The drawable for pressed virtual (increment/decrement) buttons. -->
         <attr name="virtualButtonPressedDrawable" format="reference"/>
-        <!-- textcolor -->
+        <!-- @hide Input text color -->
         <attr name="textColor" format="color|reference"/>
+        <!-- @hide Selector wheel text color. If not set use input text color -->
+        <attr name="selectorWheelTextColor" format="color|reference"></attr>
+        <!-- @hide If input text enabled -->
+        <attr name="inputTextEnabled" format="boolean"></attr>
+        <!-- @hide If wrap selector wheel is enabled -->
+        <attr name="wrapSelectorWheelEnabled" format="boolean"></attr>
+        <!-- @hide Selector wheel item count. -->
+        <attr name="selectorWheelItemCount" format="integer"></attr>
+        <!-- @hide Selector wheel middle index. -->
+        <attr name="selectorWheelMiddleItemIndex" format="integer"></attr>
+        <attr name="inputTextViewId" format="integer"></attr>
     </declare-styleable>
 
     <declare-styleable name="RoundImageView">

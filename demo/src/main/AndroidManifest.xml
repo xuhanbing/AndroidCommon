@@ -29,6 +29,8 @@
         </activity>
         <activity android:name=".activity.TestOnActivityResultActivity">
         </activity>
+        <activity android:name=".activity.NumberPickerActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -13,6 +13,10 @@
         <item name="internalMaxHeight">180dip</item>
     </style>
 
+    <style name="TextViewStyle">
+        <item name="android:textSize">32sp</item>
+    </style>
+
     <style name="SwipeBackLayoutStyle">
         <item name="thresholdRatio">0.5</item>
         <item name="nestingScrollRatio">0.2</item>

@@ -2,6 +2,7 @@ package com.hanbing.retrofit_rxandroid;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -554,6 +555,22 @@ public class TestRxJava {
 //        testMath();
 //        testCombine();
 //        testConnect();
+
+        String[] strings = {"a", "b", "c"};
+
+        String str = "";
+
+        for (String s : strings) {
+            str += s + ",";
+        }
+        String[] array = str.split(",");
+
+        System.out.println(str);
+
+        for (String s : array) {
+            System.out.println("s = " + s);
+        }
+        System.out.println("count = " + array.length);
     }
 
     private static void testConnect() {

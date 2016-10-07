@@ -101,7 +101,7 @@ public class NumberPicker extends LinearLayout {
 	/**
 	 * The number of items show in the selector wheel.
 	 */
-	private static final int SELECTOR_WHEEL_ITEM_COUNT = 3;
+	private final int SELECTOR_WHEEL_ITEM_COUNT;
 
 	/**
 	 * The default update interval during long press.
@@ -111,7 +111,7 @@ public class NumberPicker extends LinearLayout {
 	/**
 	 * The index of the middle selector item.
 	 */
-	private static final int SELECTOR_MIDDLE_ITEM_INDEX = SELECTOR_WHEEL_ITEM_COUNT / 2;
+	private final int SELECTOR_MIDDLE_ITEM_INDEX ;
 
 	/**
 	 * The coefficient by which to adjust (divide) the max fling velocity.
@@ -310,12 +310,14 @@ public class NumberPicker extends LinearLayout {
 	/**
 	 * The selector indices whose value are show by the selector.
 	 */
-	private final int[] mSelectorIndices = new int[SELECTOR_WHEEL_ITEM_COUNT];
+	private int[] mSelectorIndices = new int[0];
 
 	/**
 	 * The {@link Paint} for drawing the selector.
 	 */
 	private final Paint mSelectorWheelPaint;
+
+	private final Paint mMiddleSelectorWheelPaint;
 
 	/**
 	 * The {@link Drawable} for pressed virtual (increment/decrement) buttons.
@@ -348,6 +350,7 @@ public class NumberPicker extends LinearLayout {
 	private final Scroller mAdjustScroller;
 
 	/**
+	 * The previous Y coordinate while scrolling the selector.
 	 * The previous Y coordinate while scrolling the selector.
 	 */
 	private int mPreviousScrollerY;
@@ -408,25 +411,27 @@ public class NumberPicker extends LinearLayout {
 	 */
 	private boolean mWrapSelectorWheel;
 
+	private boolean mWrapSelectorWheelEnabled;
+
 	/**
 	 * The back ground color used to optimize scroller fading.
 	 */
-	private final int mSolidColor;
+	private int mSolidColor;
 
 	/**
 	 * Flag whether this widget has a selector wheel.
 	 */
-	private final boolean mHasSelectorWheel;
+	private boolean mHasSelectorWheel;
 
 	/**
 	 * Divider for showing item to be selected while scrolling
 	 */
-	private final Drawable mSelectionDivider;
+	private Drawable mSelectionDivider;
 
 	/**
 	 * The height of the selection divider.
 	 */
-	private final int mSelectionDividerHeight;
+	private int mSelectionDividerHeight;
 
 	/**
 	 * The current scroll state of the number picker.
@@ -483,6 +488,11 @@ public class NumberPicker extends LinearLayout {
 	 * The keycode of the last handled DPAD down event.
 	 */
 	private int mLastHandledDownDpadKeyCode = -1;
+
+	/**
+	 * Whether input text is enabled or not.
+	 */
+	private boolean mInputTextEnabled = true;
 
 	/**
 	 * The inputText color
@@ -658,6 +668,23 @@ public class NumberPicker extends LinearLayout {
 		mVirtualButtonPressedDrawable = attributesArray
 				.getDrawable(R.styleable.NumberPicker_virtualButtonPressedDrawable);
 
+		mInputTextEnabled = attributesArray
+				.getBoolean(R.styleable.NumberPicker_inputTextEnabled, true);
+
+		int selectorWheelTextColor = attributesArray
+				.getColor(R.styleable.NumberPicker_selectorWheelTextColor, 0);
+
+		mWrapSelectorWheelEnabled = attributesArray
+				.getBoolean(R.styleable.NumberPicker_wrapSelectorWheelEnabled, true);
+
+		SELECTOR_WHEEL_ITEM_COUNT = attributesArray
+				.getInt(R.styleable.NumberPicker_selectorWheelItemCount, 3);
+		SELECTOR_MIDDLE_ITEM_INDEX = attributesArray
+				.getInt(R.styleable.NumberPicker_selectorWheelMiddleItemIndex, (SELECTOR_WHEEL_ITEM_COUNT - 1) / 2);
+
+		mSelectorIndices = new int[SELECTOR_WHEEL_ITEM_COUNT];
+
+		int inputTextViewId = attributesArray.getResourceId(R.styleable.NumberPicker_inputTextViewId, 0);
 		attributesArray.recycle();
 
 		mPressedStateHelper = new PressedStateHelper();
@@ -719,12 +746,21 @@ public class NumberPicker extends LinearLayout {
 
 		// input text
 		// mInputText = (EditText) findViewById(R.id.numberpicker_input);
-		mInputText = new CustomEditText(context, attrs);
+		EditText inputText = null;
+		if (inputTextViewId != 0) {
+			inputText = (EditText) findViewById(inputTextViewId);
+		}
+
+		if (null != inputText) {
+			mInputText = inputText;
+		} else {
+			mInputText =  new CustomEditText(context, attrs);
+			addView(mInputText);
+		}
 		mInputText.setGravity(Gravity.CENTER);
 		mInputText.setSingleLine();
 		mInputText.setBackgroundColor(Color.TRANSPARENT);
 		mInputText.setTextColor(mTextColor);
-		addView(mInputText);
 		mInputText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
@@ -739,6 +775,7 @@ public class NumberPicker extends LinearLayout {
 
 		mInputText.setRawInputType(InputType.TYPE_CLASS_NUMBER);
 		mInputText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		mInputText.setVisibility(mInputTextEnabled ? View.VISIBLE : View.INVISIBLE);
 
 		// initialize constants
 		ViewConfiguration configuration = ViewConfiguration.get(context);
@@ -757,6 +794,12 @@ public class NumberPicker extends LinearLayout {
 		ColorStateList colors = mInputText.getTextColors();
 		int color = colors.getColorForState(ENABLED_STATE_SET, Color.WHITE);
 		paint.setColor(color);
+
+		mMiddleSelectorWheelPaint = new Paint(paint);
+
+		if (selectorWheelTextColor != 0) {
+			paint.setColor(selectorWheelTextColor);
+		}
 		mSelectorWheelPaint = paint;
 
 		// create the fling and adjust scrollers
@@ -789,17 +832,22 @@ public class NumberPicker extends LinearLayout {
 		final int inptTxtMsrdWdth = mInputText.getMeasuredWidth();
 		final int inptTxtMsrdHght = mInputText.getMeasuredHeight();
 		final int inptTxtLeft = (msrdWdth - inptTxtMsrdWdth) / 2;
-		final int inptTxtTop = (msrdHght - inptTxtMsrdHght) / 2;
+//		final int inptTxtTop = (msrdHght - inptTxtMsrdHght) / 2;
+		final int inptTxtTop = (msrdHght - mSelectionDividersDistance - 2 * mSelectionDividerHeight) / (SELECTOR_WHEEL_ITEM_COUNT - 1) * SELECTOR_MIDDLE_ITEM_INDEX
+				 + mSelectionDividersDistance / 2 - inptTxtMsrdHght / 2;
 		final int inptTxtRight = inptTxtLeft + inptTxtMsrdWdth;
 		final int inptTxtBottom = inptTxtTop + inptTxtMsrdHght;
+
 		mInputText.layout(inptTxtLeft, inptTxtTop, inptTxtRight, inptTxtBottom);
 
 		if (changed) {
 			// need to do all this when we know our size
 			initializeSelectorWheel();
 			initializeFadingEdges();
+//			mTopSelectionDividerTop = (getHeight() - mSelectionDividersDistance)
+//					/ 2 - mSelectionDividerHeight;
 			mTopSelectionDividerTop = (getHeight() - mSelectionDividersDistance)
-					/ 2 - mSelectionDividerHeight;
+					/ (SELECTOR_WHEEL_ITEM_COUNT - 1) * SELECTOR_MIDDLE_ITEM_INDEX - mSelectionDividerHeight;
 			mBottomSelectionDividerBottom = mTopSelectionDividerTop + 2
 					* mSelectionDividerHeight + mSelectionDividersDistance;
 		}
@@ -1260,6 +1308,9 @@ public class NumberPicker extends LinearLayout {
 	 * Shows the soft input for its input text.
 	 */
 	private void showSoftInput() {
+		if (!mInputTextEnabled)
+			return;
+
 		InputMethodManager inputMethodManager = (InputMethodManager) getContext()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (inputMethodManager != null) {
@@ -1275,6 +1326,9 @@ public class NumberPicker extends LinearLayout {
 	 * Hides the soft input if it is active for the input text.
 	 */
 	private void hideSoftInput() {
+		if (!mInputTextEnabled)
+			return;
+
 		InputMethodManager inputMethodManager = (InputMethodManager) getContext()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (inputMethodManager != null
@@ -1363,11 +1417,18 @@ public class NumberPicker extends LinearLayout {
 	 *            Whether to wrap.
 	 */
 	public void setWrapSelectorWheel(boolean wrapSelectorWheel) {
-		final boolean wrappingAllowed = (mMaxValue - mMinValue) >= mSelectorIndices.length;
-		if ((!wrapSelectorWheel || wrappingAllowed)
-				&& wrapSelectorWheel != mWrapSelectorWheel) {
+//		final boolean wrappingAllowed = (mMaxValue - mMinValue) >= mSelectorIndices.length;
+//		if ((!wrapSelectorWheel || wrappingAllowed)
+//				&& wrapSelectorWheel != mWrapSelectorWheel) {
+//			mWrapSelectorWheel = wrapSelectorWheel;
+//		}
+
+		if (mWrapSelectorWheelEnabled) {
 			mWrapSelectorWheel = wrapSelectorWheel;
+		} else {
+			mWrapSelectorWheel = false;
 		}
+
 	}
 
 	/**
@@ -1509,15 +1570,15 @@ public class NumberPicker extends LinearLayout {
 		tryComputeMaxWidth();
 	}
 
-	@Override
-	protected float getTopFadingEdgeStrength() {
-		return TOP_AND_BOTTOM_FADING_EDGE_STRENGTH;
-	}
-
-	@Override
-	protected float getBottomFadingEdgeStrength() {
-		return TOP_AND_BOTTOM_FADING_EDGE_STRENGTH;
-	}
+//	@Override
+//	protected float getTopFadingEdgeStrength() {
+//		return TOP_AND_BOTTOM_FADING_EDGE_STRENGTH;
+//	}
+//
+//	@Override
+//	protected float getBottomFadingEdgeStrength() {
+//		return TOP_AND_BOTTOM_FADING_EDGE_STRENGTH;
+//	}
 
 	@Override
 	protected void onDetachedFromWindow() {
@@ -1565,10 +1626,22 @@ public class NumberPicker extends LinearLayout {
 			// item. Otherwise, if the user starts editing the text via the
 			// IME he may see a dimmed version of the old value intermixed
 			// with the new one.
-			if (i != SELECTOR_MIDDLE_ITEM_INDEX
-					|| mInputText.getVisibility() != VISIBLE) {
-				canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
+//			if (i != SELECTOR_MIDDLE_ITEM_INDEX
+//					|| mInputText.getVisibility() != VISIBLE) {
+//				canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
+//			}
+
+			if (mInputText.getVisibility() == VISIBLE) {
+				//Input text is show, do not draw
+			} else {
+				if (i == SELECTOR_MIDDLE_ITEM_INDEX) {
+					canvas.drawText(scrollSelectorValue, x, y, mMiddleSelectorWheelPaint);
+				} else {
+					canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
+				}
 			}
+
+
 			y += mSelectorElementHeight;
 		}
 
@@ -2854,5 +2927,32 @@ public class NumberPicker extends LinearLayout {
 
 	public void setTextColor(int color) {
 		this.mTextColor = color;
+		mInputText.setTextColor(color);
+		mMiddleSelectorWheelPaint.setColor(color);
 	}
+
+	public void setSelectorWheelTextColor(int color) {
+		mSelectorWheelPaint.setColor(color);
+	}
+
+	public void setInputTextEnabled(boolean enabled) {
+		if (mInputTextEnabled == enabled)
+			return;
+
+		mInputTextEnabled = enabled;
+
+		if (!enabled) {
+			//hide input text
+			mInputText.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	public void setSelectionDivider(Drawable selectionDivider) {
+		mSelectionDivider = selectionDivider;
+	}
+
+	public void setSelectionDividerHeight(int selectionDividerHeight) {
+		mSelectionDividerHeight = selectionDividerHeight;
+	}
+
 }
