@@ -14,11 +14,17 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.text.method.NumberKeyListener;
+import android.text.method.TextKeyListener;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.hanbing.library.android.view.recycler.OnItemClickListener;
 import com.hanbing.library.android.view.recycler.OnItemLongClickListener;
@@ -349,5 +355,90 @@ public class ViewUtils {
             return;
         ReflectUtils.invokeVoidMethod(parent, "drawChild", new Class[]{Canvas.class, View.class, long.class}, canvas, child, parent.getDrawingTime());
 
+    }
+
+
+    public static final String NUMBER_LETTERS = "0123456789";
+    public static final String UPPERCASE_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final String LOWERCASE_LETTERS = "abcdefghijklmnopqrstuvwxyz";
+
+    /**
+     * 只能输入数字
+     * @param textView
+     */
+    public static void setInputTypeNumber(TextView textView) {
+        setInputType(textView, NUMBER_LETTERS);
+
+    }
+
+    /**
+     * 只能输入字母
+     * @param textView
+     */
+    public static void setInputTypeAlphabet(TextView textView) {
+        setInputType(textView, UPPERCASE_LETTERS + LOWERCASE_LETTERS);
+
+    }
+
+    /**
+     * 只能输入大写字母
+     * @param textView
+     */
+    public static void setInputTypeAlpahbetUppercase(TextView textView) {
+        setInputType(textView, UPPERCASE_LETTERS);
+
+    }
+
+    /**
+     * 只能输入小写字母
+     * @param textView
+     */
+    public static void setInputTypeAlpahbetLowercase(TextView textView) {
+        setInputType(textView, LOWERCASE_LETTERS);
+
+    }
+
+    /**
+     *  数字字母
+     * @param textView
+     */
+    public static void setInputTypeNumberAndAlpahbet(TextView textView) {
+        setInputType(textView, NUMBER_LETTERS + UPPERCASE_LETTERS + LOWERCASE_LETTERS);
+    }
+
+    /**
+     * 接受所有字符
+     * @param textView
+     */
+    public static void setInputTypeAll(TextView textView) {
+        setInputType(textView, null);
+    }
+    /**
+     * 自定义接受的输入字符
+     *
+     * @param textView
+     * @param letters 接受的字符，如果为空，则接受所有
+     */
+    public static void setInputType(TextView textView, final String letters) {
+        if (null == textView)
+            return;
+
+        if (TextUtils.isEmpty(letters))
+        {
+            textView.setKeyListener(TextKeyListener.getInstance());
+            return;
+        }
+
+        textView.setKeyListener(new NumberKeyListener() {
+            @Override
+            protected char[] getAcceptedChars() {
+                return letters.toCharArray();
+            }
+
+            @Override
+            public int getInputType() {
+                return InputType.TYPE_CLASS_TEXT;
+            }
+        });
     }
 }
