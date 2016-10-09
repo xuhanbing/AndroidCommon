@@ -1,8 +1,14 @@
 package com.hanbing.retrofit_rxandroid;
 
 
+import com.google.gson.Gson;
+import com.hanbing.library.android.util.TimeUtils;
+
+import junit.framework.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -556,21 +562,30 @@ public class TestRxJava {
 //        testCombine();
 //        testConnect();
 
-        String[] strings = {"a", "b", "c"};
 
-        String str = "";
 
-        for (String s : strings) {
-            str += s + ",";
+        String[] dates = {"2016-10-31", "1999-01-01", "1999-03-01", "2003-03-01", "2004-03-01", "2016-01-01"};
+
+        for (String date : dates) {
+            System.out.println(date + "->" + calcDate(date));
+
         }
-        String[] array = str.split(",");
+    }
 
-        System.out.println(str);
 
-        for (String s : array) {
-            System.out.println("s = " + s);
-        }
-        System.out.println("count = " + array.length);
+    public static String calcDate(String date) {
+
+        long days = 30;
+        long timeInMillis = TimeUtils.getTimeInMillis("yyyy-MM-dd", date);
+
+
+        return TimeUtils.getTime("yyyy-MM-dd hh:mm:ss", timeInMillis + (29 * 24 * 3600 * 1000L));
+
+    }
+
+    static class Test1 {
+        public int value = 20;
+
     }
 
     private static void testConnect() {
