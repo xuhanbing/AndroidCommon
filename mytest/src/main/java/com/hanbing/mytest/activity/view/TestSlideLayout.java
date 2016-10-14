@@ -1,5 +1,6 @@
 package com.hanbing.mytest.activity.view;
 
+import com.hanbing.mytest.adapter.DefaultAdapter;
 import com.hanbing.mytest.fragment.NumFragment;
 import com.hanbing.mytest.view.SlideMenuLayout;
 import com.hanbing.mytest.view.SlidingMenu;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ListView;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,7 +66,14 @@ public class TestSlideLayout extends FragmentActivity {
 		View left = getView("left menu", Color.RED);
 		View right = getView("right menu", Color.YELLOW);
 		View content = getView("This is content", Color.GREEN);
-		
+
+
+		ListView listView = new ListView(this);
+
+		listView.setAdapter(new DefaultAdapter(40));
+
+		left = listView;
+
 		
 		layout.setLeftView(left);
 		layout.setRightView(right);

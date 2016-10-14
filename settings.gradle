@@ -1,1 +1,1 @@
-include ':library', ':module', ':module_sample', ':retrofit_rxandroid', ':demo'
+include ':library', ':module', ':module_sample', ':retrofit_rxandroid', ':demo', ':paydemo', ':mytest'

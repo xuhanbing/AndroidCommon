@@ -13,6 +13,8 @@
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/module" />
             <option value="$PROJECT_DIR$/module_sample" />
+            <option value="$PROJECT_DIR$/mytest" />
+            <option value="$PROJECT_DIR$/paydemo" />
             <option value="$PROJECT_DIR$/retrofit_rxandroid" />
           </set>
         </option>

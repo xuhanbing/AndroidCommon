@@ -7,6 +7,8 @@
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/module/module.iml" filepath="$PROJECT_DIR$/module/module.iml" />
       <module fileurl="file://$PROJECT_DIR$/module_sample/module_sample.iml" filepath="$PROJECT_DIR$/module_sample/module_sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mytest/mytest.iml" filepath="$PROJECT_DIR$/mytest/mytest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/paydemo/paydemo.iml" filepath="$PROJECT_DIR$/paydemo/paydemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/retrofit_rxandroid/retrofit_rxandroid.iml" filepath="$PROJECT_DIR$/retrofit_rxandroid/retrofit_rxandroid.iml" />
     </modules>
   </component>

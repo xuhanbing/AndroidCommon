@@ -8,12 +8,12 @@ import com.hanbing.demo.R;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.view.NumberPicker;
 
-public class NumberPickerActivity extends Activity {
+public class TestNumberPickerActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_number_picker);
+        setContentView(R.layout.activity_test_number_picker);
 //        NumberPicker numberPicker = new NumberPicker(this);
         NumberPicker numberPicker = (NumberPicker) findViewById(R.id.numberPicker);
 
