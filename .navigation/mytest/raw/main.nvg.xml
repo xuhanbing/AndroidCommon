@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestSlideListView"/>
+      <point      
+        x = "500"      
+        y = "100"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestQQWaterDrop"/>
+      <point      
+        x = "550"      
+        y = "150"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestLargeText"/>
+      <point      
+        x = "600"      
+        y = "200"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestRecyclerView2"/>
+      <point      
+        x = "650"      
+        y = "250"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestDpExchange"/>
+      <point      
+        x = "700"      
+        y = "300"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestSwipeRefreshLayout"/>
+      <point      
+        x = "750"      
+        y = "350"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestPullToRefreshView"/>
+      <point      
+        x = "800"      
+        y = "400"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestWebView"/>
+      <point      
+        x = "848"      
+        y = "448"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestTextToSpeech"/>
+      <point      
+        x = "900"      
+        y = "500"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestCustomEditText"/>
+      <point      
+        x = "950"      
+        y = "550"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestSocialLogin"/>
+      <point      
+        x = "1000"      
+        y = "600"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestViewInject"/>
+      <point      
+        x = "1048"      
+        y = "648"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestAutoCompleteText"/>
+      <point      
+        x = "1100"      
+        y = "700"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestCropPicture"/>
+      <point      
+        x = "1148"      
+        y = "748"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestRestart"/>
+      <point      
+        x = "1200"      
+        y = "800"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestListView"/>
+      <point      
+        x = "1248"      
+        y = "848"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestPhoneCall"/>
+      <point      
+        x = "1300"      
+        y = "900"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestVolley"/>
+      <point      
+        x = "1350"      
+        y = "950"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestMapView"/>
+      <point      
+        x = "1400"      
+        y = "1000"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestChart"/>
+      <point      
+        x = "1448"      
+        y = "1048"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestText"/>
+      <point      
+        x = "1500"      
+        y = "1100"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestSocialShare"/>
+      <point      
+        x = "1548"      
+        y = "1144"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestScrollView3"/>
+      <point      
+        x = "1600"      
+        y = "1200"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestScrollView2"/>
+      <point      
+        x = "1648"      
+        y = "1248"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestMaterialDesign"/>
+      <point      
+        x = "1700"      
+        y = "1300"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestCropPictureReal"/>
+      <point      
+        x = "1748"      
+        y = "1352"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestPageText"/>
+      <point      
+        x = "1800"      
+        y = "1400"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestGridView2"/>
+      <point      
+        x = "1850"      
+        y = "1450"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestProgress"/>
+      <point      
+        x = "1900"      
+        y = "1500"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.game.NewNew"/>
+      <point      
+        x = "1950"      
+        y = "1550"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestGridView"/>
+      <point      
+        x = "2000"      
+        y = "1600"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestViewPager"/>
+      <point      
+        x = "2050"      
+        y = "1650"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestPicSelector"/>
+      <point      
+        x = "2100"      
+        y = "1700"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestNumberPicker"/>
+      <point      
+        x = "2148"      
+        y = "1748"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestImageCompress"/>
+      <point      
+        x = "2200"      
+        y = "1800"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestNotification"/>
+      <point      
+        x = "2248"      
+        y = "1848"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestMatrix"/>
+      <point      
+        x = "2300"      
+        y = "1900"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestTouch"/>
+      <point      
+        x = "2350"      
+        y = "1950"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestSettings"/>
+      <point      
+        x = "2400"      
+        y = "2000"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.fragment.TestFragment"/>
+      <point      
+        x = "2448"      
+        y = "2048"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestExpandableList"/>
+      <point      
+        x = "2500"      
+        y = "2100"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestViewFlipper"/>
+      <point      
+        x = "2550"      
+        y = "2150"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestKeyboardDialog"/>
+      <point      
+        x = "2600"      
+        y = "2200"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestSideBar"/>
+      <point      
+        x = "2648"      
+        y = "2248"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestArcMenu"/>
+      <point      
+        x = "2700"      
+        y = "2300"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.thirdparty.social.weibo.WeiboShareRespActivity"/>
+      <point      
+        x = "2748"      
+        y = "2348"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestQRCode"/>
+      <point      
+        x = "2800"      
+        y = "2400"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestAppWindow"/>
+      <point      
+        x = "2848"      
+        y = "2448"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.MainActivity"/>
+      <point      
+        x = "2900"      
+        y = "2500"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestSlideLayout"/>
+      <point      
+        x = "2950"      
+        y = "2550"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestPhotoGallery"/>
+      <point      
+        x = "3000"      
+        y = "2600"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestShortcut"/>
+      <point      
+        x = "3050"      
+        y = "2650"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestGifActivity"/>
+      <point      
+        x = "3100"      
+        y = "2700"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestBookReader"/>
+      <point      
+        x = "3150"      
+        y = "2750"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestMediaRecorder"/>
+      <point      
+        x = "3200"      
+        y = "2800"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestDraw"/>
+      <point      
+        x = "3250"      
+        y = "2850"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestDrawable"/>
+      <point      
+        x = "3300"      
+        y = "2900"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestSectionListView"/>
+      <point      
+        x = "3350"      
+        y = "2950"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestActionBar"/>
+      <point      
+        x = "3400"      
+        y = "3000"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestDrawerLayout"/>
+      <point      
+        x = "3450"      
+        y = "3050"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestUpload"/>
+      <point      
+        x = "3500"      
+        y = "3100"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.fragment.TestFragmentTab"/>
+      <point      
+        x = "3548"      
+        y = "3148"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestRoundImageView"/>
+      <point      
+        x = "3600"      
+        y = "3200"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestKeyguard"/>
+      <point      
+        x = "3650"      
+        y = "3250"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestKeywordView"/>
+      <point      
+        x = "3700"      
+        y = "3300"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestRecyclerView"/>
+      <point      
+        x = "3748"      
+        y = "3348"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestQRCode2"/>
+      <point      
+        x = "3800"      
+        y = "3400"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestScrollView"/>
+      <point      
+        x = "3850"      
+        y = "3450"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestGetPicture"/>
+      <point      
+        x = "3900"      
+        y = "3500"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestTcp"/>
+      <point      
+        x = "3950"      
+        y = "3550"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestMediaPlayer"/>
+      <point      
+        x = "4000"      
+        y = "3600"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestShaderView"/>
+      <point      
+        x = "4050"      
+        y = "3650"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestCalcTax"/>
+      <point      
+        x = "4100"      
+        y = "3700"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestKeyboard"/>
+      <point      
+        x = "4148"      
+        y = "3748"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.action.TestAsyncTask"/>
+      <point      
+        x = "4200"      
+        y = "3800"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestPinnedSectionListView"/>
+      <point      
+        x = "4248"      
+        y = "3848"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.hanbing.mytest.activity.view.TestListView2"/>
+      <point      
+        x = "4300"      
+        y = "3900"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>
