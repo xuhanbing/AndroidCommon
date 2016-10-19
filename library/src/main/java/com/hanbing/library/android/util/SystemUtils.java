@@ -227,16 +227,16 @@ public class SystemUtils extends OtherUtils {
 			TelephonyManager tm = (TelephonyManager) context
 					.getSystemService(Context.TELEPHONY_SERVICE);
 
-			String imei = tm.getDeviceId();
+			String tmDevice = ""+tm.getDeviceId();
 
-			String simSerialNumber = tm.getSimSerialNumber();
+			String tmSerial = ""+tm.getSimSerialNumber();
 
-			String androidId = android.provider.Settings.Secure.getString(
+			String androidId = ""+android.provider.Settings.Secure.getString(
 
 					context.getContentResolver(),
 					android.provider.Settings.Secure.ANDROID_ID);
 
-			UUID deviceUuid = new UUID(androidId.hashCode(), imei.hashCode());
+			UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
 
 			deviceId = deviceUuid.toString();
 		}

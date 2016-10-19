@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hanbing.demo.SlideMenuLayout2 xmlns:android="http://schemas.android.com/apk/res/android"
+                              xmlns:tools="http://schemas.android.com/tools"
+                              android:layout_width="match_parent"
+                              android:orientation="vertical"
+                              android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/view1"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="#44ff0000"
+        android:text="I can be dragged !"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:onClick="onClick"
+        />
+
+    <TextView
+        android:id="@+id/view2"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="#44ff0000"
+        android:text="I can be dragged !"
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
+
+    <TextView
+        android:id="@+id/view3"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@color/gray"
+        android:text="I am follow drag view !"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"/>
+
+</com.hanbing.demo.SlideMenuLayout2>

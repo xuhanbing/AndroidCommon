@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SlideMenuLayout">
+        <attr name="leftMenuWidthPercent" format="float"></attr>
+        <attr name="rightMenuWidthPercent" format="float"></attr>
+        <attr name="judgeRatio" format="float"></attr>
+        <attr name="contentViewId" format="integer"></attr>
+        <attr name="leftMenuId" format="integer"></attr>
+        <attr name="rightMenuId" format="integer"></attr>
+    </declare-styleable>
+</resources>

@@ -35,6 +35,8 @@
         </activity>
         <activity android:name=".activity.TestSlideMenuActivity">
         </activity>
+        <activity android:name=".activity.TestSlideMenu2Activity">
+        </activity>
     </application>
 
 </manifest>

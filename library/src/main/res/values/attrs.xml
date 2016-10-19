@@ -218,4 +218,13 @@
         <attr name="expandArrowId" format="integer"></attr>
         <attr name="expandAnimationEnabled" format="boolean"></attr>
     </declare-styleable>
+
+    <declare-styleable name="SlideMenuLayout">
+        <attr name="leftMenuWidthPercent" format="float"></attr>
+        <attr name="rightMenuWidthPercent" format="float"></attr>
+        <attr name="judgeRatio" format="float"></attr>
+        <attr name="contentViewId" format="integer"></attr>
+        <attr name="leftMenuId" format="integer"></attr>
+        <attr name="rightMenuId" format="integer"></attr>
+    </declare-styleable>
 </resources>
