@@ -1,5 +1,8 @@
 package com.hanbing.library.android.adapter;
 
+import android.view.View;
+import android.widget.AdapterView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +14,7 @@ public abstract class BaseEditableAdapter<VH extends ViewHolder, Bean> extends B
     protected List<Bean> mDataList;
     protected List<Bean> mSelectedItems = new ArrayList<>();
     protected boolean mEditMode;
+    protected AdapterView mAdapterView;
 
     public BaseEditableAdapter() {
     }
@@ -73,6 +77,17 @@ public abstract class BaseEditableAdapter<VH extends ViewHolder, Bean> extends B
         return mEditMode;
     }
 
+    public void select(int position) {
+        if (null == mDataList || mDataList.isEmpty())
+            return;
+
+        int size = mDataList.size();
+        if (position >= size || position < 0)
+            return;
+
+        select(mDataList.get(position));
+    }
+
     @Override
     public void select(Bean object) {
         if (!mEditMode)
@@ -132,5 +147,28 @@ public abstract class BaseEditableAdapter<VH extends ViewHolder, Bean> extends B
     @Override
     public boolean isSelected(Bean object) {
         return mSelectedItems.contains(object);
+    }
+
+    public void setAdapterView(AdapterView adapterView) {
+       setAdapterView(adapterView, null);
+    }
+
+    public void setAdapterView(AdapterView adapterView, AdapterView.OnItemClickListener onItemClickListener) {
+        if (null == adapterView)
+            return;
+        this.mAdapterView = adapterView;
+        adapterView.setOnItemClickListener(wrapOnItemClickListener(onItemClickListener));
+    }
+
+    public AdapterView.OnItemClickListener wrapOnItemClickListener(final AdapterView.OnItemClickListener onItemClickListener) {
+        AdapterView.OnItemClickListener wrapOnItemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                select(position);
+                if (null != onItemClickListener) onItemClickListener.onItemClick(parent, view, position, id);
+            }
+        };
+
+        return wrapOnItemClickListener;
     }
 }
