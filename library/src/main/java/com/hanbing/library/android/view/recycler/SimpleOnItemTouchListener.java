@@ -5,6 +5,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.hanbing.library.android.util.LogUtils;
+
 /**
  * Created by hanbing on 2016/6/7.
  */
@@ -30,13 +32,28 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
 
+        int action = e.getAction();
+
         View child = rv.findChildViewUnder(e.getX(), e.getY());
 
         if (null != child) {
 
+            //子控件消耗了事件
+            if (child.dispatchTouchEvent(e))
+            {
+                //取消手势
+                if (MotionEvent.ACTION_DOWN != action) {
+                    MotionEvent cancel = MotionEvent.obtain(e);
+                    cancel.setAction(MotionEvent.ACTION_CANCEL);
+                    mGestureDetector.onTouchEvent(cancel);
+                }
+                return false;
+            }
+
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     mIsMove = mIsLongPress = false;
+                    mIsLongPressHandled = true;
                     break;
                 case MotionEvent.ACTION_MOVE:
                     mIsMove = true;
@@ -80,7 +97,6 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-
         RecyclerView rv = mRecyclerView;
         View child = rv.findChildViewUnder(e.getX(), e.getY());
         int position = rv.getChildAdapterPosition(child);
@@ -106,9 +122,7 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
 
     @Override
     public void onLongPress(MotionEvent e) {
-
         mIsLongPress = true;
-
         RecyclerView rv = mRecyclerView;
         View child = rv.findChildViewUnder(e.getX(), e.getY());
 

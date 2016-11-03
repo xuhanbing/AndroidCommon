@@ -2,9 +2,12 @@ package com.hanbing.demo.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hanbing.demo.DefaultAdapter;
 import com.hanbing.demo.R;
@@ -45,7 +48,35 @@ public class TestSlideMenuActivity extends AppCompatActivity {
     }
 
     public void openMenu(View view) {
-        SlideMenuLayout menuLayout = (SlideMenuLayout) findViewById(R.id.menu);
-        menuLayout.openLeftMenu();
+//        SlideMenuLayout menuLayout = (SlideMenuLayout) findViewById(R.id.menu);
+//        menuLayout.openLeftMenu();
+
+        View view1 = findViewById(R.id.title_tv);
+        if (view1.getVisibility() == View.VISIBLE) {
+            view1.setVisibility(View.GONE);
+        } else {
+            view1.setVisibility(View.VISIBLE);
+        }
+    }
+
+    class MyAdapter extends DefaultAdapter {
+        public MyAdapter() {
+        }
+
+        public MyAdapter(int count) {
+            super(count);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (null == convertView) {
+                convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.slide_item, parent, false);
+            }
+
+            TextView title = (TextView) convertView.findViewById(R.id.title_tv);
+
+            title.setText("item " + position);
+            return convertView;
+        }
     }
 }

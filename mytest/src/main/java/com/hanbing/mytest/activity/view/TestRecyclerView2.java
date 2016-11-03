@@ -54,6 +54,8 @@ import com.hanbing.library.android.view.recycler.decoration.BaseItemDecoration;
 import com.hanbing.library.android.view.recycler.decoration.GridItemDecoration;
 import com.hanbing.library.android.view.recycler.decoration.LineItemDecoration;
 import com.hanbing.mytest.R;
+import com.hanbing.mytest.activity.BaseActivity;
+import com.hanbing.mytest.activity.BaseAppCompatActivity;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -66,7 +68,7 @@ import butterknife.OnClick;
 
 
 @ContentView(R.layout.activity_recyclerview2)
-public class TestRecyclerView2 extends com.hanbing.mytest.activity.BaseAppCompatActivity {
+public class TestRecyclerView2 extends BaseAppCompatActivity {
 
     static  final int TYPE_LINEARMANAGER = 0;
     static final int TYPE_GRIDMANAGER = 1;

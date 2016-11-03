@@ -128,20 +128,29 @@ public class RecyclerViewFragment extends DataViewFragment<RecyclerView, Recycle
 
         view.setLayoutManager(new LinearLayoutManager(getContext()));
         view.setItemAnimator(new FadeInItemAnimator());
-        view.addItemDecoration(new LineItemDecoration.Builder(getContext()).setColor(Color.LTGRAY).setSize(1).create());
         view.addOnScrollListener(new OnScrollListener());
         //ViewUtils.bindOnItemClickListener(view, this, this); //需要自己调用，并且会覆盖item上面的所有点击
+        addItemDecoration(view);
+        bindOnItemClickListener(view);
 
         if (view instanceof HeaderRecyclerView) {
             initHeadersAndFooters((HeaderRecyclerView)view);
             addLoadMoreIfNeed();
-
         }
+
         initRecyclerView(view);
     }
 
     protected void initRecyclerView(RecyclerView recyclerView){
         recyclerView.setAdapter(mDataAdapter);
+    }
+
+    protected void addItemDecoration(RecyclerView recyclerView) {
+        recyclerView.addItemDecoration(new LineItemDecoration.Builder(getContext()).setColor(Color.LTGRAY).setSize(1).create());
+    }
+
+    protected void bindOnItemClickListener(RecyclerView recyclerView) {
+        ViewUtils.bindOnItemClickListener(recyclerView, this, this);
     }
 
     @Override

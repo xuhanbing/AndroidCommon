@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -274,7 +275,7 @@ public class TestRecyclerView extends com.hanbing.mytest.activity.BaseAppCompatA
 
 			@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 			@Override
-			public void onBindViewHolder(ViewHolder holder, int position) {
+			public void onBindViewHolder(ViewHolder holder, final int position) {
 
 
 //				int[] res = {R.drawable.logo_custom_58, R.drawable.logo_custom_oppo,
@@ -344,6 +345,13 @@ public class TestRecyclerView extends com.hanbing.mytest.activity.BaseAppCompatA
 				holder.itemView.setMinimumHeight(200);
 
 				holder.itemView.setBackgroundColor(color);
+
+				holder.button.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						ToastUtils.showToast(getApplicationContext(), "click button " + position);
+					}
+				});
 			}
 
 			@Override
@@ -603,10 +611,12 @@ public class TestRecyclerView extends com.hanbing.mytest.activity.BaseAppCompatA
 
 		public TextView textView;
 		public ImageView imageView;
+		public Button button;
 		public ViewHolder(View itemView) {
 			super(itemView);
 
 			textView = ViewUtils.findViewById(itemView, R.id.tv_title);
+			button = ViewUtils.findViewById(itemView, R.id.btn);
 		}
 	}
 

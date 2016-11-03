@@ -18,6 +18,10 @@ import com.hanbing.library.android.util.LogUtils;
 
 public class SlideMenuLayout extends ViewGroup {
 
+    public interface OnStateChangeListener {
+        public void onChanged(SlideMenuLayout slideMenuLayout, int state);
+    }
+
     /**
      * 空闲
      */
@@ -94,6 +98,8 @@ public class SlideMenuLayout extends ViewGroup {
 
     boolean mSlideEnabled = true;
 
+    OnStateChangeListener mOnStateChangeListener;
+
     ViewDragHelper mViewDragHelper;
 
     ViewDragHelper.Callback mViewDragHelperCallback = new ViewDragHelper.Callback() {
@@ -104,7 +110,6 @@ public class SlideMenuLayout extends ViewGroup {
 
         @Override
         public int clampViewPositionHorizontal(View child, int left, int dx) {
-            LogUtils.e("clampViewPositionHorizontal " + left);
             if (child != mContentView)
                 return 0;
 
@@ -145,8 +150,12 @@ public class SlideMenuLayout extends ViewGroup {
         }
 
         @Override
+        public int getViewVerticalDragRange(View child) {
+            return super.getViewVerticalDragRange(child);
+        }
+
+        @Override
         public void onEdgeDragStarted(int edgeFlags, int pointerId) {
-            LogUtils.e("onEdgeDragStarted " +edgeFlags);
             //如果不是关闭的状态，返回
             if (STATE_IDLE != mState)
                 return;
@@ -155,12 +164,12 @@ public class SlideMenuLayout extends ViewGroup {
                 //左侧抽屉
 
                 mViewDragHelper.captureChildView(mContentView, pointerId);
-                mState = STATE_LEFT_OPENING;
+                updateState(STATE_LEFT_OPENING);
 
             } else if (isRightMenuEnabled() && ViewDragHelper.EDGE_RIGHT == edgeFlags) {
                 //右侧抽屉
                 mViewDragHelper.captureChildView(mContentView, pointerId);
-                mState = STATE_RIGHT_OPENING;
+                updateState(STATE_RIGHT_OPENING);
             }
 
         }
@@ -173,22 +182,23 @@ public class SlideMenuLayout extends ViewGroup {
                     case STATE_LEFT_OPENING:
                     case STATE_LEFT_CLOSING:
                         if (isLeftMenuOpened()) {
-                            mState = STATE_LEFT_OPENED;
+                            updateState(STATE_LEFT_OPENED);
                         }else {
-                            mState = STATE_IDLE;
+                            updateState(STATE_IDLE);
                         }
                         break;
                     case STATE_RIGHT_OPENED:
                     case STATE_RIGHT_OPENING:
                     case STATE_RIGHT_CLOSING:
                         if (isRightMenuOpened()) {
-                            mState = STATE_RIGHT_OPENED;
+                            updateState(STATE_RIGHT_OPENED);
                         } else {
-                            mState = STATE_IDLE;
+                            updateState(STATE_IDLE);
                         }
                         break;
                     default:
-                        mState = STATE_IDLE;
+                        updateState(STATE_IDLE);
+
                         break;
 
                 }
@@ -341,27 +351,23 @@ public class SlideMenuLayout extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
-        int width = getMeasuredWidth();
-        int height = getMeasuredHeight();
-        int paddingLeft = getPaddingLeft();
-        int paddingTop = getPaddingTop();
-        int paddingRight = getPaddingRight();
-        int paddingBottom = getPaddingBottom();
+        if (isLeftMenuOpened()) {
+            layoutChild(mLeftMenu,  mLeftMenuOpenedPos.x, mLeftMenuOpenedPos.y);
+            layoutChild(mContentView, mLeftMenuOpenedPos.x + mLeftMenu.getMeasuredWidth(), mContentViewOriginalPos.y);
+        } else if (isRightMenuOpened()) {
+            layoutChild(mRightMenu,  mRightMenuOpenedPos.x, mRightMenuOpenedPos.y);
+            layoutChild(mContentView, mRightMenuOpenedPos.x - mContentView.getMeasuredWidth(), mContentViewOriginalPos.y);
+        } else {
+            layoutChild(mContentView, mContentViewOriginalPos.x, mContentViewOriginalPos.y);
 
-        layoutChild(mContentView, paddingLeft, paddingTop);
-        saveOriginalPos(mContentViewOriginalPos, mContentView);
-        if (null != mLeftMenu) {
-            layoutChild(mLeftMenu, paddingLeft - mLeftMenu.getMeasuredWidth(), paddingTop);
-            saveOriginalPos(mLeftMenuOriginalPos, mLeftMenu);
-            mLeftMenuOpenedPos.set(mLeftMenuOriginalPos.x + mLeftMenu.getMeasuredWidth(), mLeftMenuOriginalPos.y);
+            if (null != mLeftMenu) {
+                layoutChild(mLeftMenu, mLeftMenuOriginalPos.x, mLeftMenuOriginalPos.y);
+            }
+            if (null != mRightMenu) {
+                layoutChild(mRightMenu, mRightMenuOriginalPos.x, mRightMenuOriginalPos.y);
+            }
+
         }
-        if (null != mRightMenu) {
-            layoutChild(mRightMenu, width - paddingRight, paddingTop);
-            saveOriginalPos(mRightMenuOriginalPos, mRightMenu);
-            mRightMenuOpenedPos.set(mRightMenuOriginalPos.x - mRightMenu.getMeasuredWidth(), mRightMenuOriginalPos.y);
-        }
-
-
 
     }
 
@@ -376,16 +382,61 @@ public class SlideMenuLayout extends ViewGroup {
     }
 
 
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        int childCount = getChildCount();
+        if (childCount <= 0)
+            return;
+
+
+        int measuredWidth = getMeasuredWidth();
+        int measuredHeight = getMeasuredHeight();
+
+        LayoutParams params = getLayoutParams();
+        if (LayoutParams.WRAP_CONTENT == params.width || LayoutParams.WRAP_CONTENT == params.height) {
+            //大小由子空间决定
+
+            int maxChildWidth = 0;
+            int maxChildHeight = 0;
+
+            for (int i = 0; i < childCount; i++) {
+                View child = getChildAt(i);
+                if (null == child || View.GONE == child.getVisibility())
+                    continue;
+
+                measureChild(child, widthMeasureSpec, heightMeasureSpec);
+
+                maxChildWidth = Math.max(child.getMeasuredWidth(), maxChildWidth);
+                maxChildHeight = Math.max(child.getMeasuredHeight(), maxChildHeight);
+
+            }
+
+            if (0 == measuredWidth) {
+                measuredWidth = maxChildWidth + getPaddingLeft() + getPaddingRight();
+                widthMeasureSpec = MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.getMode(widthMeasureSpec));
+            }
+
+            if (0 == measuredHeight) {
+                measuredHeight = maxChildHeight + getPaddingTop() + getPaddingBottom();
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(measuredHeight, MeasureSpec.getMode(heightMeasureSpec));
+            }
+
+
+            setMeasuredDimension(measuredWidth, measuredHeight);
+        }
+
+
         if (null == mContentView)
             throw new IllegalArgumentException("Must have a content view.");
 
-        int contentWidth = getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
+        int contentWidth = measuredWidth - getPaddingLeft() - getPaddingRight();
+        int contentHeight = measuredHeight - getPaddingTop() - getPaddingBottom();
 
-        measureMenu(mLeftMenu, widthMeasureSpec, heightMeasureSpec, (int) (contentWidth * mLeftMenuWidthPercent));
-        measureMenu(mRightMenu, widthMeasureSpec, heightMeasureSpec, (int) (contentWidth * mRightMenuWidthPercent));
+        measureMenu(mLeftMenu, widthMeasureSpec, heightMeasureSpec, (int) (contentWidth * mLeftMenuWidthPercent), contentHeight);
+        measureMenu(mRightMenu, widthMeasureSpec, heightMeasureSpec, (int) (contentWidth * mRightMenuWidthPercent), contentHeight);
 
         View view = mContentView;
         if (null != view) {
@@ -394,21 +445,42 @@ public class SlideMenuLayout extends ViewGroup {
             view.measure(parentWidthMeasureSpec, heightMeasureSpec);
         }
 
+
+        mContentViewOriginalPos.set(getPaddingLeft(), getPaddingTop());
+        if (null != mLeftMenu) {
+            mLeftMenuOriginalPos.set(getPaddingLeft() - mLeftMenu.getMeasuredWidth(), getPaddingTop());
+            mLeftMenuOpenedPos.set(mLeftMenuOriginalPos.x + mLeftMenu.getMeasuredWidth(), mLeftMenuOriginalPos.y);
+        }
+
+        if (null != mRightMenu) {
+            mRightMenuOriginalPos.set(getMeasuredWidth() - getPaddingRight(), getPaddingTop());
+            mRightMenuOpenedPos.set(mRightMenuOriginalPos.x - mRightMenu.getMeasuredWidth(), mRightMenuOriginalPos.y);
+        }
+
+
     }
 
-    private void measureMenu(View view, int parentWidthMeasureSpec, int parentHeightMeasureSpec, int maxWidth) {
+    private void measureMenu(View view, int parentWidthMeasureSpec, int parentHeightMeasureSpec, int maxWidth, int maxHeight) {
         if (null != view) {
             LayoutParams lp = view.getLayoutParams();
 
             int w = lp.width;
+            int h = lp.height;
             int widthMeasureSpec = 0;
-            int heightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec, getPaddingTop() + getPaddingBottom(), lp.height);
+            int heightMeasureSpec = 0;
 
             if (LayoutParams.MATCH_PARENT == w) {
                 w = maxWidth;
                 widthMeasureSpec = MeasureSpec.makeMeasureSpec(w, MeasureSpec.EXACTLY);
             } else {
                 widthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec, getPaddingLeft() + getPaddingRight(), w);
+            }
+
+            if (LayoutParams.MATCH_PARENT == h) {
+                h = maxHeight;
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(h, MeasureSpec.EXACTLY);
+            } else {
+                heightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec, getPaddingTop() + getPaddingBottom(), h);
             }
 
             view.measure(widthMeasureSpec, heightMeasureSpec);
@@ -618,12 +690,17 @@ public class SlideMenuLayout extends ViewGroup {
 
     }
 
+    public void closeMenu() {
+        if (isLeftMenuOpened()) closeLeftMenu();
+        if (isRightMenuOpened()) closeRightMenu();
+    }
+
     public boolean isLeftMenuOpened() {
-        return isLeftMenuEnabled() && mLeftMenu.getLeft() == mLeftMenuOpenedPos.x;
+        return isLeftMenuEnabled() && isLeftMenuActive() && mLeftMenu.getLeft() == mLeftMenuOpenedPos.x;
     }
 
     public boolean isRightMenuOpened() {
-        return isRightMenuEnabled() && mRightMenu.getLeft() ==  mRightMenuOpenedPos.x;
+        return isRightMenuEnabled() && isRightMenuActive() && mRightMenu.getLeft() ==  mRightMenuOpenedPos.x;
     }
 
 
@@ -633,5 +710,15 @@ public class SlideMenuLayout extends ViewGroup {
 
     private void updateState(int state) {
         mState = state;
+        postOnStateChanged(state);
+    }
+
+    private void postOnStateChanged(int state) {
+        if (null != mOnStateChangeListener) mOnStateChangeListener.onChanged(this, state);
+    }
+
+
+    public void setOnStateChangeListener(OnStateChangeListener onStateChangeListener) {
+        mOnStateChangeListener = onStateChangeListener;
     }
 }

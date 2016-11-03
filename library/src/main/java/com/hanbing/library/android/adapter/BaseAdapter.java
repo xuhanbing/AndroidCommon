@@ -60,6 +60,7 @@ public abstract class BaseAdapter<VH extends ViewHolder> extends android.widget.
         return null;
     }
 
-
-
+    public int getViewTypeCount() {
+        return super.getViewTypeCount();
+    }
 }

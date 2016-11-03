@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by hanbing on 2016/3/10.
  */
-public abstract class BaseEditableRecycleViewAdapter<VH extends  RecyclerView.ViewHolder, Bean> extends RecyclerView.Adapter<VH> implements EditableAdapter<Bean> {
+public abstract class BaseEditableRecycleViewAdapter<VH extends  RecyclerView.ViewHolder, Bean> extends BaseRecyclerViewAdapter<VH> implements EditableAdapter<Bean> {
 
     protected List<Bean> mDataList;
     protected List<Bean> mSelectedItems = new ArrayList<>();

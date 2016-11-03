@@ -53,6 +53,7 @@ public abstract class BaseFragment extends Fragment {
 
 		View view = onCreateViewImpl(inflater, container, savedInstanceState);
 
+		initData(savedInstanceState);
 		bindViews(view, savedInstanceState);
 		initViews(view);
 
@@ -88,6 +89,14 @@ public abstract class BaseFragment extends Fragment {
 
 
 	/**
+	 * 初始化数据
+	 * @param savedInstanceState
+     */
+	protected void initData(Bundle savedInstanceState) {
+
+	}
+
+	/**
 	 * 绑定view
 	 * @param view
 	 * @param savedInstanceState
@@ -97,6 +106,7 @@ public abstract class BaseFragment extends Fragment {
 	}
 
 	/**
+	 * 初始化views
 	 * @param view
 	 */
 	protected void initViews(View view) {
