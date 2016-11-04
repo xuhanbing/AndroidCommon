@@ -13,7 +13,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.NumberKeyListener;
@@ -440,5 +442,29 @@ public class ViewUtils {
                 return InputType.TYPE_CLASS_TEXT;
             }
         });
+    }
+
+    /**
+     * 获取最大长度
+     * @param textView
+     * @return
+     */
+    public static int getMaxLength(TextView textView) {
+        int maxLength = 0;
+        if (null != textView)
+        {
+            InputFilter[] filters = textView.getFilters();
+            if (null != filters && filters.length > 0) {
+                for (InputFilter inputFilter : filters) {
+                    if (inputFilter instanceof InputFilter.LengthFilter) {
+
+                        maxLength =  ReflectUtils.getValue(inputFilter, "mMax", 0);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return maxLength;
     }
 }

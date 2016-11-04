@@ -1,0 +1,41 @@
+package com.hanbing.demo.activity;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.os.Bundle;
+
+import com.hanbing.demo.BaseActivity;
+import com.hanbing.demo.NumFragment;
+import com.hanbing.demo.R;
+import com.hanbing.library.android.adapter.BaseFragmentPagerAdapter;
+import com.hanbing.library.android.view.TabLayout;
+import com.hanbing.library.android.view.tab.TabWidget;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TabLayoutActivity extends BaseActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tab_layout);
+
+
+
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new NumFragment());
+        fragments.add(new NumFragment());
+        fragments.add(new NumFragment());
+
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        TabWidget tabWidget = (TabWidget) findViewById(R.id.tabWidget);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+
+        viewPager.setAdapter(new BaseFragmentPagerAdapter(getSupportFragmentManager(), fragments, new String[]{"F 1", "Fragment 2", "Fragt 3"}));
+
+        tabLayout.setupWithViewPager(viewPager);
+//        tabWidget.setViewPager(viewPager);
+    }
+}
