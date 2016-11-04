@@ -237,7 +237,7 @@ public class TabLayout extends HorizontalScrollView {
     public TabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-//        ThemeUtils.checkAppCompatTheme(context);
+        ThemeUtils.checkAppCompatTheme(context);
 
         // Disable the Scroll Bar
         setHorizontalScrollBarEnabled(false);
@@ -1855,6 +1855,23 @@ public class TabLayout extends HorizontalScrollView {
         }
     }
 
+    static class ThemeUtils {
+
+        private static final int[] APPCOMPAT_CHECK_ATTRS = { android.support.design.R.attr.colorPrimary };
+
+        static void checkAppCompatTheme(Context context) {
+            TypedArray a = context.obtainStyledAttributes(APPCOMPAT_CHECK_ATTRS);
+            final boolean failed = !a.hasValue(0);
+            if (a != null) {
+                a.recycle();
+            }
+            if (failed) {
+                throw new IllegalArgumentException("You need to use a Theme.AppCompat theme "
+                        + "(or descendant) with the design library.");
+            }
+        }
+    }
+
 
     protected float measureTextWidth(View tabView) {
         TextView textView = (TextView) ((ViewGroup)tabView).getChildAt(1);
@@ -1865,11 +1882,11 @@ public class TabLayout extends HorizontalScrollView {
     }
 
     protected int getIndicatorLeft(View tabView, int position) {
-        return (int) (tabView.getLeft() + tabView.getWidth()/ 2 - measureTextWidth(tabView) / 2);
+        return Math.round(tabView.getLeft() + tabView.getWidth()/ 2 - measureTextWidth(tabView) / 2);
     }
 
     protected int getIndicatorRight(View tabView, int position) {
-        return (int) (tabView.getLeft() + tabView.getWidth()/ 2 + measureTextWidth(tabView) / 2);
+        return Math.round(tabView.getLeft() + tabView.getWidth()/ 2 + measureTextWidth(tabView) / 2);
     }
 
     protected void onDrawIndicator(Canvas canvas, Paint paint, LinearLayout parent, Rect rect) {

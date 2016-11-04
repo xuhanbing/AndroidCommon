@@ -33,7 +33,7 @@ public class TabLayoutActivity extends BaseActivity {
         TabWidget tabWidget = (TabWidget) findViewById(R.id.tabWidget);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 
-        viewPager.setAdapter(new BaseFragmentPagerAdapter(getSupportFragmentManager(), fragments, new String[]{"F 1", "Fragment 2", "Fragt 3"}));
+        viewPager.setAdapter(new BaseFragmentPagerAdapter(getSupportFragmentManager(), fragments, new String[]{"关于", "F333 2", "Fragt 3"}));
 
         tabLayout.setupWithViewPager(viewPager);
 //        tabWidget.setViewPager(viewPager);
