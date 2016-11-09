@@ -25,4 +25,20 @@ public class CollectionUtils {
             list.add(t);
         }
     }
+
+    public static boolean equals(Object left, Object right) {
+        if (null == left || null == right) {
+            return  left == right;
+        } else{
+            if (left.getClass() == right.getClass()) {
+                return left.equals(right);
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public static int hashCode(Object o) {
+        return null == o ? 0 : o.hashCode();
+    }
 }

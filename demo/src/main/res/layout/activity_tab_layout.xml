@@ -8,6 +8,10 @@
     android:orientation="vertical"
     tools:context="com.hanbing.demo.activity.TabLayoutActivity">
 
+    <include
+        android:id="@+id/include_view"
+        layout="@layout/content_scrolling"></include>
+
     <!--<android.support.design.widget.TabLayout-->
         <!--android:id="@+id/tabLayout"-->
         <!--android:layout_width="match_parent"-->

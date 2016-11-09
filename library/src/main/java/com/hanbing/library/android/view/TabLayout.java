@@ -1873,20 +1873,14 @@ public class TabLayout extends HorizontalScrollView {
     }
 
 
-    protected float measureTextWidth(View tabView) {
-        TextView textView = (TextView) ((ViewGroup)tabView).getChildAt(1);
-        String text = textView.getText().toString();
-        float width = textView.getPaint().measureText(text);
-
-        return width;
-    }
-
     protected int getIndicatorLeft(View tabView, int position) {
-        return Math.round(tabView.getLeft() + tabView.getWidth()/ 2 - measureTextWidth(tabView) / 2);
+        tabView.setBackgroundColor(Color.LTGRAY);
+        ((ViewGroup)tabView).getChildAt(1).setBackgroundColor(Color.GRAY);
+        return ((ViewGroup)tabView).getChildAt(1).getLeft() + tabView.getLeft();
     }
 
     protected int getIndicatorRight(View tabView, int position) {
-        return Math.round(tabView.getLeft() + tabView.getWidth()/ 2 + measureTextWidth(tabView) / 2);
+        return ((ViewGroup)tabView).getChildAt(1).getRight() + tabView.getLeft();
     }
 
     protected void onDrawIndicator(Canvas canvas, Paint paint, LinearLayout parent, Rect rect) {

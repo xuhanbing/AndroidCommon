@@ -227,7 +227,6 @@ public class SlideMenuLayout extends ViewGroup {
 
         @Override
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
-
             if (isLeftMenuActive()) {
                 //左侧打开中
                 onLeftMenuReleased();
@@ -600,6 +599,16 @@ public class SlideMenuLayout extends ViewGroup {
         postInvalidate();
     }
 
+    private void moveViewTo(View view, float x, float y) {
+        int l = (int) x;
+        int t = (int) y;
+        int w = view.getMeasuredWidth();
+        int h = view.getMeasuredHeight();
+
+        view.layout(l, t, l + w, t + h);
+        postInvalidate();
+    }
+
     private void moveLeftMenuBy(float x, float y) {
 
         int left = (int) (mLeftMenu.getLeft() + x);
@@ -663,6 +672,16 @@ public class SlideMenuLayout extends ViewGroup {
 
     }
 
+    public void openLeftMenuImmediately(){
+        if (!isLeftMenuEnabled())
+            return;
+
+        updateState(STATE_LEFT_OPENED);
+        moveViewTo(mContentView, mContentViewOriginalPos.x + mLeftMenu.getMeasuredWidth(), mContentViewOriginalPos.y);
+        moveViewTo(mLeftMenu, mLeftMenuOriginalPos.x + mLeftMenu.getMeasuredWidth(), mLeftMenuOriginalPos.y);
+        invalidate();
+    }
+
     public void closeLeftMenu() {
         if (!isLeftMenuEnabled())
             return;
@@ -672,6 +691,17 @@ public class SlideMenuLayout extends ViewGroup {
 
     }
 
+    public void closeLeftMenuImmediately() {
+        if (!isLeftMenuEnabled())
+            return;
+        updateState(STATE_IDLE);
+        moveViewTo(mContentView, mContentViewOriginalPos.x, mContentViewOriginalPos.y);
+        moveViewTo(mLeftMenu, mLeftMenuOriginalPos.x, mLeftMenuOriginalPos.y);
+        invalidate();
+    }
+
+
+
     public void openRightMenu() {
         if (!isRightMenuEnabled())
             return;
@@ -679,6 +709,16 @@ public class SlideMenuLayout extends ViewGroup {
         mViewDragHelper.smoothSlideViewTo(mContentView, mContentViewOriginalPos.x - mRightMenu.getMeasuredWidth(), mContentViewOriginalPos.y);
         invalidate();
 
+    }
+
+    public void openRightMenuImmediately(){
+        if (!isRightMenuEnabled())
+            return;
+
+        updateState(STATE_RIGHT_OPENED);
+        moveViewTo(mContentView, mContentViewOriginalPos.x - mRightMenu.getMeasuredWidth(), mContentViewOriginalPos.y);
+        moveViewTo(mRightMenu, mRightMenuOriginalPos.x - mRightMenu.getMeasuredWidth(), mRightMenuOriginalPos.y);
+        invalidate();
     }
 
     public void closeRightMenu() {
@@ -690,9 +730,23 @@ public class SlideMenuLayout extends ViewGroup {
 
     }
 
+    public void closeRightMenuImmediately() {
+        if (!isRightMenuEnabled())
+            return;
+        updateState(STATE_IDLE);
+        moveViewTo(mContentView, mContentViewOriginalPos.x, mContentViewOriginalPos.y);
+        moveViewTo(mRightMenu, mRightMenuOriginalPos.x, mRightMenuOriginalPos.y);
+        invalidate();
+    }
+
     public void closeMenu() {
         if (isLeftMenuOpened()) closeLeftMenu();
         if (isRightMenuOpened()) closeRightMenu();
+    }
+
+    public void closeMenuImmediately() {
+        if (isLeftMenuOpened()) closeLeftMenuImmediately();
+        if (isRightMenuOpened()) closeRightMenuImmediately();
     }
 
     public boolean isLeftMenuOpened() {

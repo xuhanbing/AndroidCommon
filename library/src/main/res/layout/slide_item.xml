@@ -1,41 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <com.hanbing.library.android.view.SlideMenuLayout
+        android:id="@+id/slideMenu"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="300dp"
         android:padding="10dp">
 
         <LinearLayout
             android:id="@+id/layout_options"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/yellow"
+            android:background="@color/green"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:id="@+id/delete_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 >
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:textColor="@color/white"
-                    android:text="删除"/>
+                    android:text="删除"
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
             <TextView
                 android:id="@+id/set_default_tv"
-                android:layout_height="match_parent"
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:textColor="@color/white"
-                android:text="设为\n默认"/>
+                android:text="设为\n默认"
+                android:textColor="@color/white"/>
         </LinearLayout>
 
 
@@ -47,12 +50,13 @@
             <TextView
                 android:id="@+id/title_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"
+                android:textColor="@color/red"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:text="123"/>
 
-            <ImageView
-                android:layout_width="40dp"
-            android:layout_height="40dp"
-                android:src="@color/red"/>
         </LinearLayout>
     </com.hanbing.library.android.view.SlideMenuLayout>
 </LinearLayout>
