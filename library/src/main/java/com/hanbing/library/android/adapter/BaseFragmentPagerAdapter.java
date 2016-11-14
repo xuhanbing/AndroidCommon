@@ -55,7 +55,7 @@ public class BaseFragmentPagerAdapter extends android.support.v4.app.FragmentPag
 		return null == mTitles ? null : mTitles[position];
 	}
 
-	interface FragmentCreator {
+	public interface FragmentCreator {
 		public Fragment onCreate(int index);
 	}
 
