@@ -2,10 +2,16 @@ package com.hanbing.retrofit_rxandroid;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import com.hanbing.library.android.util.TimeUtils;
 
 import junit.framework.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -564,12 +570,71 @@ public class TestRxJava {
 
 
 
-        String[] dates = {"2016-10-31", "1999-01-01", "1999-03-01", "2003-03-01", "2004-03-01", "2016-01-01"};
+//        String[] dates = {"2016-10-31", "1999-01-01", "1999-03-01", "2003-03-01", "2004-03-01", "2016-01-01"};
+//
+//        for (String date : dates) {
+//            System.out.println(date + "->" + calcDate(date));
+//
+//        }
 
-        for (String date : dates) {
-            System.out.println(date + "->" + calcDate(date));
+        String string = "{\"has\" : \"113\"}";
 
-        }
+
+        TypeAdapter<Boolean> typeAdapter = new TypeAdapter<Boolean>() {
+            @Override
+            public void write(JsonWriter out, Boolean value) throws IOException {
+                if (value == null) {
+                    out.nullValue();
+                } else {
+                    out.value(value);
+                }
+            }
+
+            @Override
+            public Boolean read(JsonReader in) throws IOException {
+                JsonToken peek = in.peek();
+
+                switch (peek) {
+                    case BOOLEAN:
+                        return in.nextBoolean();
+                    case NULL:
+                        in.nextNull();
+                        return null;
+                    case NUMBER:
+                        return in.nextInt() != 0;
+                    case STRING:
+                        String s = in.nextString();
+
+
+                        boolean ret = Boolean.valueOf(s);
+                        if (!ret) {
+                            try {
+                                //如果是数字，判断非0
+                                int intValue = Integer.valueOf(s);
+                                ret = intValue != 0;
+                            } catch (NumberFormatException e) {
+                            }
+                        }
+                        return  ret;
+                    default:
+                        throw new IllegalStateException("Expected BOOLEAN or NUMBER but was " + peek);
+                }
+            }
+        };
+
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Boolean.class, typeAdapter);
+        gsonBuilder.registerTypeAdapter(boolean.class, typeAdapter);
+
+        AA a = gsonBuilder.create().fromJson(string, AA.class);
+
+        print(a.has + "");
+    }
+
+
+    class  AA {
+        public boolean has ;
     }
 
 

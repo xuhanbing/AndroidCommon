@@ -3,16 +3,13 @@
  */
 package com.hanbing.library.android.activity;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.WindowManager;
 
 import com.hanbing.library.android.tool.SystemBarTintManager;
-
-import java.util.List;
 
 
 /**
@@ -21,6 +18,7 @@ import java.util.List;
  */
 public abstract class BaseActivity extends FragmentActivity {
 
+	protected Activity mContext;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -29,7 +27,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
-
+		mContext = this;
 		if (enableStatusBarTint())
 		{
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

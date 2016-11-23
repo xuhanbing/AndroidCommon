@@ -515,6 +515,15 @@ public class SlideMenuLayout extends ViewGroup {
     }
 
 
+    boolean mIsBeingDragged = false;
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (MotionEvent.ACTION_DOWN == ev.getAction())
+            mIsBeingDragged = false;
+        return super.dispatchTouchEvent(ev);
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
 
@@ -540,10 +549,23 @@ public class SlideMenuLayout extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!mSlideEnabled)
-            return false;
+            return super.onTouchEvent(event);
 
         mViewDragHelper.processTouchEvent(event);
-        return true;
+
+        boolean ret = false;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                //移动，取消
+                MotionEvent cancel = MotionEvent.obtain(event);
+                cancel.setAction(MotionEvent.ACTION_CANCEL);
+                ret = super.onTouchEvent(cancel);
+                break;
+            default:
+                ret = super.onTouchEvent(event);
+        }
+
+        return  true ;
     }
 
 

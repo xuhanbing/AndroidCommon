@@ -3,6 +3,8 @@
  */
 package com.hanbing.library.android.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,9 @@ import java.util.List;
  * @author hanbing
  */
 public abstract class BaseFragment extends Fragment {
+
+
+	Activity mContext;
 
 	View mCacheView;
 
@@ -42,6 +47,18 @@ public abstract class BaseFragment extends Fragment {
 	 * 是否第一次对用户可见
 	 */
 	boolean mFirstVisibleToUser = true;
+
+	@Override
+	public void onAttach(Context context) {
+		mContext = (Activity) context;
+		super.onAttach(context);
+	}
+
+	@Override
+	public void onDetach() {
+		mContext = null;
+		super.onDetach();
+	}
 
 	@Override
 	public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

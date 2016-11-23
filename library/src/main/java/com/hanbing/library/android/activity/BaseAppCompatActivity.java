@@ -3,6 +3,8 @@
  */
 package com.hanbing.library.android.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import org.xutils.x;
  * 
  */
 public abstract class BaseAppCompatActivity extends AppCompatActivity {
+	protected Activity mContext;
 
 	/*
 	 * (non-Javadoc)
@@ -26,6 +29,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
+		mContext = this;
 		if (enableStatusBarTint())
 		{
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

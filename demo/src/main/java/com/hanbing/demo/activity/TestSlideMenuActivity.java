@@ -37,6 +37,14 @@ public class TestSlideMenuActivity extends AppCompatActivity {
                 LogUtils.e("click item " + position);
             }
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                LogUtils.e("long click item " + position);
+                return false;
+            }
+        });
 //
 //        listView.setClickable(true);
 
@@ -102,9 +110,27 @@ public class TestSlideMenuActivity extends AppCompatActivity {
                 convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.slide_item, parent, false);
             }
 
+
+
             TextView title = (TextView) convertView.findViewById(R.id.title_tv);
 
             SlideMenuLayout slideMenuLayout = (SlideMenuLayout) convertView.findViewById(R.id.slideMenu);
+            View view = slideMenuLayout;
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LogUtils.e("getView click " + position);
+                }
+            });
+
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    LogUtils.e("getView longclick " + position);
+                    return false;
+                }
+            });
 
             slideMenuLayout.setOnStateChangeListener(new SlideMenuLayout.OnStateChangeListener() {
                 @Override

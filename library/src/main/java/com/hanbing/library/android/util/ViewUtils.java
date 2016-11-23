@@ -6,6 +6,7 @@ package com.hanbing.library.android.util;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.support.v4.animation.AnimatorCompatHelper;
@@ -25,6 +26,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.CompoundButton;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -167,7 +169,7 @@ public class ViewUtils {
         return view;
     }
 
-    public static  void setScale(View view, float scale) {
+    public static void setScale(View view, float scale) {
         setScale(view, scale, scale);
     }
 
@@ -195,8 +197,93 @@ public class ViewUtils {
         ViewCompat.setAlpha(view, alpha);
     }
 
-    public static void clear(View view)
-    {
+
+    public static void setEnabled(View view, boolean enabled) {
+        if (null != view) view.setEnabled(enabled);
+    }
+
+    public static boolean isEnabled(View view) {
+        return null != view ? view.isEnabled() : false;
+    }
+
+    public static void setSelected(View view, boolean selected) {
+        if (null != view) view.setSelected(selected);
+    }
+
+    public static boolean isSelected(View view) {
+        return null != view ? view.isSelected() : false;
+    }
+
+    public static void setChecked(CompoundButton button, boolean checked) {
+        if (null != button) button.setChecked(checked);
+    }
+
+    public static boolean isChecked(CompoundButton button) {
+        return null != button ? button.isChecked() : false;
+    }
+
+    public static void setText(TextView textView, CharSequence text) {
+        if (null != textView) textView.setText(text);
+    }
+
+    public static void setText(TextView textView, int resId) {
+        if (null != textView) textView.setText(resId);
+    }
+
+    public static CharSequence getText(TextView textView) {
+        return null != textView ? textView.getText() : null;
+    }
+
+    public static void setHint(TextView textView, CharSequence hint) {
+        if (null != textView) textView.setHint(hint);
+    }
+
+    public static void setHint(TextView textView, int resId) {
+        if (null != textView) textView.setHint(resId);
+    }
+
+    public static CharSequence getHint(TextView textView) {
+        return null != textView ? textView.getHint() : null;
+    }
+
+    public static void setTextColor(TextView textView, int color) {
+        if (null != textView) textView.setTextColor(color);
+    }
+
+    public static void setTextColorStateList(TextView textView, ColorStateList colorStateList) {
+        if (null != textView) textView.setTextColor(colorStateList);
+    }
+
+    public static void setTextColorRes(TextView textView, int resId) {
+        if (null != textView) textView.setTextColor(textView.getResources().getColorStateList(resId));
+    }
+
+    public static void setHintTextColor(TextView textView, int color) {
+        if (null != textView) textView.setHintTextColor(color);
+    }
+
+    public static void setHintTextColorStateList(TextView textView, ColorStateList colorStateList) {
+        if (null != textView) textView.setHintTextColor(colorStateList);
+    }
+
+    public static void setHintTextColorRes(TextView textView, int resId) {
+        if (null != textView) textView.setHintTextColor(textView.getResources().getColorStateList(resId));
+    }
+
+    public static void setLinkTextColor(TextView textView, int color) {
+        if (null != textView) textView.setLinkTextColor(color);
+    }
+
+    public static void setLinkTextColorStateList(TextView textView, ColorStateList colorStateList) {
+        if (null != textView) textView.setLinkTextColor(colorStateList);
+    }
+
+    public static void setLinkTextColorRes(TextView textView, int resId) {
+        if (null != textView) textView.setLinkTextColor(textView.getResources().getColorStateList(resId));
+    }
+
+
+    public static void clear(View view) {
         if (null == view)
             return;
 
@@ -216,15 +303,13 @@ public class ViewUtils {
     }
 
 
-    public static View removeFromParent(View view)
-    {
+    public static View removeFromParent(View view) {
         if (null == view)
             return null;
 
         ViewParent parent = view.getParent();
 
-        if (parent instanceof ViewGroup)
-        {
+        if (parent instanceof ViewGroup) {
             ((ViewGroup) parent).removeView(view);
         }
 
@@ -232,8 +317,6 @@ public class ViewUtils {
     }
 
     /**
-     *
-     *
      * @param viewPager
      * @param tabWidget
      * @param tabViewFactory
@@ -286,11 +369,11 @@ public class ViewUtils {
 
     /**
      * bind recycleView with onItemClick and onItemLongClick
+     *
      * @param recyclerView
      * @param onItemClickListener
      */
-    public static void  bindOnItemClickListener(final RecyclerView recyclerView, final OnItemClickListener onItemClickListener, final OnItemLongClickListener onItemLongClickListener)
-    {
+    public static void bindOnItemClickListener(final RecyclerView recyclerView, final OnItemClickListener onItemClickListener, final OnItemLongClickListener onItemLongClickListener) {
         if (null == recyclerView)
             return;
 
@@ -335,6 +418,7 @@ public class ViewUtils {
 
     /**
      * measure view
+     *
      * @param parent
      * @param child
      * @param parentWidthMeasureSpec
@@ -348,6 +432,7 @@ public class ViewUtils {
 
     /**
      * draw view
+     *
      * @param parent
      * @param child
      * @param canvas
@@ -366,6 +451,7 @@ public class ViewUtils {
 
     /**
      * 只能输入数字
+     *
      * @param textView
      */
     public static void setInputTypeNumber(TextView textView) {
@@ -375,6 +461,7 @@ public class ViewUtils {
 
     /**
      * 只能输入字母
+     *
      * @param textView
      */
     public static void setInputTypeAlphabet(TextView textView) {
@@ -384,6 +471,7 @@ public class ViewUtils {
 
     /**
      * 只能输入大写字母
+     *
      * @param textView
      */
     public static void setInputTypeAlpahbetUppercase(TextView textView) {
@@ -393,6 +481,7 @@ public class ViewUtils {
 
     /**
      * 只能输入小写字母
+     *
      * @param textView
      */
     public static void setInputTypeAlpahbetLowercase(TextView textView) {
@@ -401,7 +490,8 @@ public class ViewUtils {
     }
 
     /**
-     *  数字字母
+     * 数字字母
+     *
      * @param textView
      */
     public static void setInputTypeNumberAndAlpahbet(TextView textView) {
@@ -410,23 +500,24 @@ public class ViewUtils {
 
     /**
      * 接受所有字符
+     *
      * @param textView
      */
     public static void setInputTypeAll(TextView textView) {
         setInputType(textView, null);
     }
+
     /**
      * 自定义接受的输入字符
      *
      * @param textView
-     * @param letters 接受的字符，如果为空，则接受所有
+     * @param letters  接受的字符，如果为空，则接受所有
      */
     public static void setInputType(TextView textView, final String letters) {
         if (null == textView)
             return;
 
-        if (TextUtils.isEmpty(letters))
-        {
+        if (TextUtils.isEmpty(letters)) {
             textView.setKeyListener(TextKeyListener.getInstance());
             return;
         }
@@ -446,19 +537,19 @@ public class ViewUtils {
 
     /**
      * 获取最大长度
+     *
      * @param textView
      * @return
      */
     public static int getMaxLength(TextView textView) {
         int maxLength = 0;
-        if (null != textView)
-        {
+        if (null != textView) {
             InputFilter[] filters = textView.getFilters();
             if (null != filters && filters.length > 0) {
                 for (InputFilter inputFilter : filters) {
                     if (inputFilter instanceof InputFilter.LengthFilter) {
 
-                        maxLength =  ReflectUtils.getValue(inputFilter, "mMax", 0);
+                        maxLength = ReflectUtils.getValue(inputFilter, "mMax", 0);
                         break;
                     }
                 }
