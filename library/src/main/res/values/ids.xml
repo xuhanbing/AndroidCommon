@@ -3,7 +3,6 @@
 
 
     <!--  -->
-    <item name="viewpager" type="id"></item>
     <item name="increment" type="id"/>
     <item name="decrement" type="id"/>
 

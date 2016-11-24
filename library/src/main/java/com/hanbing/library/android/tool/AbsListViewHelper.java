@@ -11,18 +11,11 @@ import android.widget.BaseAdapter;
  * Created by hanbing on 2016/11/14
  */
 
-public class AbsListViewHelper<DataView extends AbsListView> extends DataViewHelper<DataView, BaseAdapter> implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,  AbsListView.OnScrollListener{
+public abstract class AbsListViewHelper<DataView extends AbsListView, DataAdapter extends BaseAdapter> extends DataViewHelper<DataView, DataAdapter> implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,  AbsListView.OnScrollListener{
 
     public AbsListViewHelper(Context context) {
         super(context);
     }
-
-
-
-    /**
-     * AbsListView
-     */
-    DataView mListView;
 
     /**
      * 手动滚动
@@ -35,7 +28,7 @@ public class AbsListViewHelper<DataView extends AbsListView> extends DataViewHel
     }
 
     @Override
-    public BaseAdapter createAdapter() {
+    public DataAdapter createAdapter() {
         return null;
     }
 
@@ -45,8 +38,7 @@ public class AbsListViewHelper<DataView extends AbsListView> extends DataViewHel
      */
     public int getItemCount()
     {
-        android.widget.BaseAdapter mListAdapter = getDataAdapter();
-        return null != mListAdapter ? mListAdapter.getCount() : 0;
+        return null != getDataAdapter() ? getDataAdapter().getCount() : 0;
     }
 
     @Override
@@ -69,6 +61,11 @@ public class AbsListViewHelper<DataView extends AbsListView> extends DataViewHel
         view.setOnScrollListener(this);
         view.setOnItemClickListener(this);
         view.setOnItemLongClickListener(this);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        if (null != getDataAdapter()) getDataAdapter().notifyDataSetChanged();
     }
 
     @Override

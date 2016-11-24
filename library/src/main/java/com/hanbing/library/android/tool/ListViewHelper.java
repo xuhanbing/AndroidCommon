@@ -1,13 +1,14 @@
 package com.hanbing.library.android.tool;
 
 import android.content.Context;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 /**
  * Created by hanbing on 2016/11/14
  */
 
-public class ListViewHelper extends AbsListViewHelper<ListView> {
+public abstract class ListViewHelper<DataAdapter extends BaseAdapter> extends AbsListViewHelper<ListView, DataAdapter> {
 
 
     ListView mListView;
@@ -17,8 +18,6 @@ public class ListViewHelper extends AbsListViewHelper<ListView> {
 
     @Override
     public final void initDataView(ListView listView) {
-        super.initDataView(listView);
-
         if (null != listView)
         {
             initHeadersAndFooters(listView);

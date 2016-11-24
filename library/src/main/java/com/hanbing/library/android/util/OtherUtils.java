@@ -309,7 +309,7 @@ public class OtherUtils {
         } else if (phoneNumber.startsWith("86")) {
             phoneNumber = phoneNumber.replaceFirst("86", "");
         }
-        String telRegex = "[1][3578]\\d{9}";
+        String telRegex = "[1][34578]\\d{9}";
         if (TextUtils.isEmpty(phoneNumber))
             return false;
         else

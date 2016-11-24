@@ -5,6 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/AndroidCommon.iml" filepath="$PROJECT_DIR$/AndroidCommon.iml" />
       <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-http/library-http.iml" filepath="$PROJECT_DIR$/library-http/library-http.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-image/library-image.iml" filepath="$PROJECT_DIR$/library-image/library-image.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-view-tab/library-view-tab.iml" filepath="$PROJECT_DIR$/library-view-tab/library-view-tab.iml" />
       <module fileurl="file://$PROJECT_DIR$/module/module.iml" filepath="$PROJECT_DIR$/module/module.iml" />
       <module fileurl="file://$PROJECT_DIR$/module_sample/module_sample.iml" filepath="$PROJECT_DIR$/module_sample/module_sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/mytest/mytest.iml" filepath="$PROJECT_DIR$/mytest/mytest.iml" />

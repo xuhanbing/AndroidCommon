@@ -60,61 +60,6 @@
 
     </declare-styleable>
 
-    <declare-styleable name="SearchView">
-        <attr name="clearIcon" format="reference"></attr>
-        <attr name="searchIcon" format="reference"></attr>
-        <attr name="searchText" format="string|reference"></attr>
-        <attr name="searchHint" format="string|reference"></attr>
-        <attr name="searchTextColor" format="color|reference"></attr>
-        <attr name="searchTextColorHint" format="color|reference"></attr>
-        <attr name="searchTextSize" format="dimension"></attr>
-        <attr name="searchTextBackground" format="reference"></attr>
-    </declare-styleable>
-
-    <declare-styleable name="TabWidget">
-        <attr name="mode" format="enum">
-            <!-- use default size.if content is not fill container, use fill mode -->
-            <enum name="none" value="0"></enum>
-            <!-- set each tab equal size  -->
-            <enum name="fill" value="1"></enum>
-        </attr>
-
-
-    </declare-styleable>
-
-    <declare-styleable name="TabStripWidget">
-        <!-- If show strip or not.Default is true -->
-        <attr name="showStrip" format="boolean"></attr>
-
-        <!-- If scroll when select tab or content scroll. Default is true -->
-        <attr name="enableStripScroll" format="boolean"></attr>
-
-        <!-- If strip scroll follow content.such as when viewpager scroll. Default is true-->
-        <attr name="enableStripScrollFollowContent" format="boolean"></attr>
-
-        <!-- animator duration when select tab -->
-        <attr name="scrollDuration" format="integer"></attr>
-    </declare-styleable>
-
-    <declare-styleable name="UnderlineTabWidget">
-
-        <!-- Strip size.Height if horizontal, width otherwise -->
-        <attr name="stripSize" format="dimension"></attr>
-
-        <!-- Strip padding left and right when tabwidget is horizontal or padding top and bottom  otherwise -->
-        <attr name="stripPadding" format="dimension"></attr>
-
-        <!-- strip drawable -->
-        <attr name="stripDrawable" format="color|reference"></attr>
-
-        <!-- strip track background -->
-        <attr name="stripTrackBackground" format="color|reference"></attr>
-
-        <attr name="stripGrivaty" format="enum">
-            <enum name="start" value="0"></enum>
-            <enum name="end" value="1"></enum>
-        </attr>
-    </declare-styleable>
 
     <declare-styleable name="FloatLayout">
         <!-- each child padding, will override below values -->

@@ -1,53 +1,64 @@
 package com.hanbing.library.android.fragment.list;
 
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
+
+import com.hanbing.library.android.tool.AbsListViewHelper;
+import com.hanbing.library.android.tool.DataViewHelper;
 
 /**
  * Created by hanbing on 2016/3/21.
  */
-public abstract class AbsListFragment<DataView extends AbsListView> extends DataViewFragment<DataView, BaseAdapter> implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,  AbsListView.OnScrollListener {
-
-    /**
-     * AbsListView
-     */
-    DataView mListView;
+public abstract class AbsListFragment<DataView extends AbsListView, Bean> extends DataViewFragment<DataView, BaseAdapter, Bean> implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,  AbsListView.OnScrollListener {
 
 
-    /**
-     * 手动滚动
-     */
-    boolean mIsManScroll = false;
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
 
-    /**
-     * 返回当前数据个数
-     * @return
-     */
-    public int getItemCount()
-    {
-        BaseAdapter mListAdapter = getDataAdapter();
-        return null != mListAdapter ? mListAdapter.getCount() : 0;
+    @Override
+    protected DataViewHelper<DataView, BaseAdapter> createDataViewHelper() {
+        return new AbsListViewHelper<DataView, BaseAdapter>(getContext()) {
+
+            @Override
+            public void onLoadData(boolean isRefresh, int pageIndex, int pageSize) {
+                AbsListFragment.this.onLoadData(isRefresh, pageIndex, pageSize);
+            }
+        };
+    }
+
+    @Override
+    public DataView getDataView() {
+        return super.getDataView();
+    }
+
+    @Override
+    public BaseAdapter getDataAdapter() {
+        return super.getDataAdapter();
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        return false;
     }
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-        if (SCROLL_STATE_TOUCH_SCROLL == scrollState || SCROLL_STATE_FLING == scrollState) {
-            mIsManScroll = true;
-        } else {
-            mIsManScroll = false;
-        }
+        ((AbsListViewHelper)mDataViewHelper).onScrollStateChanged(view, scrollState);
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-        int lastVisibleItem = firstVisibleItem + visibleItemCount;
-        if (mIsManScroll
-                && lastVisibleItem == totalItemCount) {
-
-           onLastItemVisible();
-        }
+        ((AbsListViewHelper)mDataViewHelper).onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
     }
 }

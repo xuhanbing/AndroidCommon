@@ -18,7 +18,6 @@ import com.hanbing.demo.NumListFragment;
 import com.hanbing.demo.NumRecyclerViewFragment;
 import com.hanbing.demo.R;
 import com.hanbing.library.android.adapter.BaseFragmentPagerAdapter;
-import com.hanbing.library.android.view.pager.DefaultTabViewPager;
 
 import java.util.ArrayList;
 import java.util.List;

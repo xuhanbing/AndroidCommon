@@ -11,7 +11,7 @@ import android.widget.GridView;
 /**
  * Created by hanbing
  */
-public class GridFragment extends AbsListFragment<GridView> {
+public class GridFragment<Bean> extends AbsListFragment<GridView, Bean> {
 
     GridView mGridView;
     @Override
@@ -59,13 +59,5 @@ public class GridFragment extends AbsListFragment<GridView> {
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return false;
-    }
 }

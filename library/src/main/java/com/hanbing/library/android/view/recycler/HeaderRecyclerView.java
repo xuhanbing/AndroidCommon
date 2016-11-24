@@ -125,6 +125,7 @@ public class HeaderRecyclerView extends BaseRecyclerView {
 
     List<View> mFooters;
 
+    //真实的adapter
     RecyclerView.Adapter mAdapter;
 
     HeaderViewAdapter mHeaderViewAdapter;
@@ -146,7 +147,6 @@ public class HeaderRecyclerView extends BaseRecyclerView {
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            super.onItemRangeInserted(positionStart, itemCount);
             if (null != mHeaderViewAdapter) {
                 mHeaderViewAdapter.notifyItemRangeInserted(positionStart, itemCount);
             }
@@ -188,33 +188,35 @@ public class HeaderRecyclerView extends BaseRecyclerView {
 
     @Override
     public void setAdapter(Adapter adapter) {
-
         if (null != mAdapter)
             mAdapter.unregisterAdapterDataObserver(mAdapterDataObserver);
 
-        mAdapter = adapter;
-
         if (null == adapter)
         {
-            mHeaderViewAdapter = null;
+            mAdapter = mHeaderViewAdapter = null;
+            super.setAdapter(adapter);
         } else {
-            if (null == mHeaderViewAdapter)
-            {
-                mHeaderViewAdapter = new HeaderViewAdapter();
+            if (getHeaderViewsCount() > 0 || getFooterViewsCount() > 0) {
+                //如果有header或footer
+                if (null == mHeaderViewAdapter)
+                    mHeaderViewAdapter = new HeaderViewAdapter();
+                mAdapter = adapter;
+
+                //注册监听
+                adapter.registerAdapterDataObserver(mAdapterDataObserver);
+                super.setAdapter(mHeaderViewAdapter);
+
+            } else {
+                mHeaderViewAdapter = null;
+                mAdapter = adapter;
+                super.setAdapter(adapter);
             }
 
-            mAdapter.registerAdapterDataObserver(mAdapterDataObserver);
         }
 
 
-        super.setAdapter(mHeaderViewAdapter);
-
     }
 
-    @Override
-    public Adapter getAdapter() {
-        return mHeaderViewAdapter;
-    }
 
     @Override
     public void setLayoutManager(LayoutManager layout) {
@@ -388,5 +390,11 @@ public class HeaderRecyclerView extends BaseRecyclerView {
             return false;
 
         return  true;
+    }
+
+
+    @Override
+    protected boolean isEmpty() {
+        return getRealItemCount() <= 0;
     }
 }

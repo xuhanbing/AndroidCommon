@@ -103,4 +103,9 @@ public interface IDataViewFragment<DataView extends View, DataAdapter> {
      * 加载更多
      */
     public abstract void onLoadMore();
+
+    /**
+     * 刷新
+     */
+    public abstract void notifyDataSetChanged();
 }

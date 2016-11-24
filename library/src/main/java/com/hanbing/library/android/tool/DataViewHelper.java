@@ -7,8 +7,10 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.hanbing.library.android.fragment.list.DataViewFragment;
 import com.hanbing.library.android.fragment.list.IDataViewFragment;
 import com.hanbing.library.android.listener.OnLoadListener;
+import com.hanbing.library.android.view.recycler.BaseRecyclerView;
 import com.hanbing.library.android.view.recycler.HeaderRecyclerView;
 
 /**
@@ -117,15 +119,7 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
 
     public DataViewHelper(Context context) {
         mContext = context;
-
-        mPagingManager = createPagingManager();
-        mDataView = createDataView();
-        mEmptyView = createEmptyView();
-        mLoadingView = createLoadingView();
-        mLoadMoreView = createLoadMoreView();
-        mDataAdapter = createAdapter();
     }
-
 
     public Context getContext() {
         return mContext;
@@ -135,6 +129,13 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
 
         if (mInitialized)
             return;
+
+        if (null == mDataView) mDataView = createDataView();
+        if (null == mDataAdapter) mDataAdapter = createAdapter();
+        if (null == mEmptyView) mEmptyView = createEmptyView();
+        if (null == mLoadingView) mLoadingView = createLoadingView();
+        if (null == mLoadMoreView) mLoadMoreView = createLoadMoreView();
+        if (null == mPagingManager) mPagingManager = createPagingManager();
 
         /**
          * 如果有加载更多view，添加到最末尾
@@ -151,12 +152,50 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
                 hideLoadMoreView();
             }
         }
+
+        setEmptyViewIfNeed();
+
         initDataView(mDataView);
 
         hideLoadingView();
         hideEmptyView();
 
         mInitialized = true;
+    }
+
+
+    @Override
+    public DataAdapter createAdapter() {
+        return null;
+    }
+
+    @Override
+    public DataView createDataView() {
+        return null;
+    }
+
+    @Override
+    public View createEmptyView() {
+        return null;
+    }
+
+    @Override
+    public View createLoadingView() {
+        return null;
+    }
+
+    @Override
+    public View createLoadMoreView() {
+        return null;
+    }
+
+    public PagingManager createPagingManager() {
+        return new PagingManager();
+    }
+
+    @Override
+    public void initDataView(DataView view) {
+
     }
 
     public DataView getDataView() {
@@ -185,12 +224,12 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
     }
 
 
-
     public void addLoadMoreIfNeed() {
         if (null == mLoadMoreContainer)
             return;
 
-        if (mDataView instanceof ListView) ((ListView) mDataView).addFooterView(mLoadMoreContainer);
+        if (mDataView instanceof ListView)
+            ((ListView) mDataView).addFooterView(mLoadMoreContainer);
         else if (mDataView instanceof HeaderRecyclerView)
             ((HeaderRecyclerView) mDataView).addFooterView(mLoadMoreContainer);
     }
@@ -198,13 +237,16 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
     public void setEmptyViewIfNeed() {
         if (null == mEmptyView)
             return;
-        if (mDataView instanceof AbsListView) ((AbsListView) mDataView).setEmptyView(mEmptyView);
+        if (mDataView instanceof AbsListView)
+            ((AbsListView) mDataView).setEmptyView(mEmptyView);
+        else if (mDataView instanceof BaseRecyclerView)
+            ((BaseRecyclerView) mDataView).setEmptyView(mEmptyView);
     }
 
     /**
      * 最后一个item展示（滑动时）
      */
-    protected void onLastItemVisible() {
+    public void onLastItemVisible() {
         if (isLoadMoreEnabled() && isScrollLoadMoreEnabled())
             onLoadMore();
     }
@@ -265,10 +307,6 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
         }
     }
 
-    public PagingManager createPagingManager() {
-        return new PagingManager();
-    }
-
 
     /**
      * 加载数据
@@ -276,9 +314,7 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
      * @param pageIndex 分页索引（如果支持）
      * @param pageSize  分页数量（如果支持）
      */
-    public void onLoadData(boolean isRefresh, int pageIndex, int pageSize) {
-
-    }
+    public abstract void onLoadData(boolean isRefresh, int pageIndex, int pageSize);
 
 
     @Override
@@ -297,11 +333,11 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
         }
     }
 
-    protected void showLoadMoreView() {
+    public void showLoadMoreView() {
         if (null != mLoadMoreView) mLoadMoreView.setVisibility(View.VISIBLE);
     }
 
-    protected void hideLoadMoreView() {
+    public void hideLoadMoreView() {
         if (null != mLoadMoreView) mLoadMoreView.setVisibility(View.GONE);
     }
 
@@ -374,8 +410,7 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
         mEmptyView = view;
     }
 
-
-    protected void showLoadingView() {
+    public void showLoadingView() {
 
         if (null == mLoadingView)
             return;
@@ -392,19 +427,19 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
 
     }
 
-    protected void hideLoadingView() {
+    public void hideLoadingView() {
         if (null != mLoadingView) mLoadingView.setVisibility(View.GONE);
     }
 
-    protected void showEmptyView() {
+    public void showEmptyView() {
         if (null != mEmptyView) mEmptyView.setVisibility(View.VISIBLE);
     }
 
-    protected void hideEmptyView() {
+    public void hideEmptyView() {
         if (null != mEmptyView) mEmptyView.setVisibility(View.GONE);
     }
 
-    protected boolean isRefresh() {
+    public boolean isRefresh() {
         return mPagingManager.isRefresh();
     }
 
@@ -463,7 +498,6 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
 
     @Override
     public void onLoadSuccessNoData() {
-
         mPagingManager.setNoMore();
 
         if (mLoadMoreView instanceof OnLoadListener) {
@@ -472,7 +506,12 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
         onLoadCompleted();
     }
 
-    protected void onLoadMoreClick() {
+    @Override
+    public void notifyDataSetChanged() {
+
+    }
+
+    public void onLoadMoreClick() {
         if (mClickLoadMoreEnabled) onLoadMore();
     }
 

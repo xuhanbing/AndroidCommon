@@ -11,7 +11,7 @@ import android.widget.ListView;
 /**
  * Created by hanbing on 2016/3/29.
  */
-public class ListFragment extends AbsListFragment<ListView> {
+public class ListFragment<Bean> extends AbsListFragment<ListView, Bean> {
 
     ListView mListView;
     @Override
@@ -19,7 +19,7 @@ public class ListFragment extends AbsListFragment<ListView> {
         return mListView = new ListView(getContext());
     }
 
-    
+
     @Override
     public BaseAdapter createAdapter() {
         return null;
@@ -70,18 +70,9 @@ public class ListFragment extends AbsListFragment<ListView> {
     }
 
     public  void initListView(ListView listView) {
-        listView.setAdapter(mDataAdapter);
+        listView.setAdapter(getDataAdapter());
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return false;
-    }
 
     @Override
     public void onLoadData(final boolean isRefresh, int pageIndex, final int pageSize) {

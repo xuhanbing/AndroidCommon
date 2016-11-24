@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hanbing.library.android.image.ImageLoader;
 import com.hanbing.library.android.util.FileUtils;
 import com.hanbing.mytest.activity.BaseActivity;
 
@@ -177,8 +176,8 @@ public class TestGetPicture extends BaseActivity {
 
 
                 String path =  files[position].getAbsolutePath();
-                ImageLoader.getInstance(getApplicationContext())
-                        .displayImage(image,path);
+//                ImageLoader.getInstance(getApplicationContext())
+//                        .displayImage(image,path);
 
                 title.setText("" + path);
                 title.setTextSize(15);

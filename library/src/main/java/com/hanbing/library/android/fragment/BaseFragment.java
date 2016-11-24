@@ -19,9 +19,6 @@ import java.util.List;
  */
 public abstract class BaseFragment extends Fragment {
 
-
-	Activity mContext;
-
 	View mCacheView;
 
 	/**
@@ -48,17 +45,6 @@ public abstract class BaseFragment extends Fragment {
 	 */
 	boolean mFirstVisibleToUser = true;
 
-	@Override
-	public void onAttach(Context context) {
-		mContext = (Activity) context;
-		super.onAttach(context);
-	}
-
-	@Override
-	public void onDetach() {
-		mContext = null;
-		super.onDetach();
-	}
 
 	@Override
 	public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

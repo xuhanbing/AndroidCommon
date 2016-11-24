@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 
-import com.hanbing.library.android.tool.ScrollableViewTransitionController;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.scroll.PullScaleScrollView;
@@ -52,31 +51,31 @@ public class TestScrollView3 extends AppCompatActivity {
             }
         });
 
-        ScrollableViewTransitionController.setControlViews(scrollView, view, moveView, false, new ScrollableViewTransitionController.OnScrollListener() {
-            @Override
-            public void onScroll(float scrollY, float scrollScale) {
-
-                LogUtils.e("onScaleMove moveScale = " + scrollScale);
-
-                int color = getResources().getColor(R.color.blueviolet);
-
-                int newColor = ScrollableViewTransitionController.scaleColorAlpha(color, scrollScale);
-
-                view.setBackgroundColor(newColor);
-
-                float scale = scrollScale;
-
-                if (scrollScale >= 1.0) {
-
-                    staticView.setVisibility(View.VISIBLE);
-                } else {
-                    staticView.setVisibility(View.GONE);
-                }
-
-                ViewUtils.setScale(view, scale, scale);
-            }
-
-        });
+//        ScrollableViewTransitionController.setControlViews(scrollView, view, moveView, false, new ScrollableViewTransitionController.OnScrollListener() {
+//            @Override
+//            public void onScroll(float scrollY, float scrollScale) {
+//
+//                LogUtils.e("onScaleMove moveScale = " + scrollScale);
+//
+//                int color = getResources().getColor(R.color.blueviolet);
+//
+//                int newColor = ScrollableViewTransitionController.scaleColorAlpha(color, scrollScale);
+//
+//                view.setBackgroundColor(newColor);
+//
+//                float scale = scrollScale;
+//
+//                if (scrollScale >= 1.0) {
+//
+//                    staticView.setVisibility(View.VISIBLE);
+//                } else {
+//                    staticView.setVisibility(View.GONE);
+//                }
+//
+//                ViewUtils.setScale(view, scale, scale);
+//            }
+//
+//        });
 
 
 

@@ -10,11 +10,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.support.v4.animation.AnimatorCompatHelper;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -22,19 +18,15 @@ import android.text.TextUtils;
 import android.text.method.NumberKeyListener;
 import android.text.method.TextKeyListener;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.CompoundButton;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.hanbing.library.android.view.recycler.OnItemClickListener;
 import com.hanbing.library.android.view.recycler.OnItemLongClickListener;
-import com.hanbing.library.android.tool.FragmentTabHostAndViewPagerInitHelper;
 import com.hanbing.library.android.view.recycler.SimpleOnItemTouchListener;
-import com.hanbing.library.android.view.tab.TabWidget;
 
 /**
  * @author hanbing
@@ -314,48 +306,6 @@ public class ViewUtils {
         }
 
         return view;
-    }
-
-    /**
-     * @param viewPager
-     * @param tabWidget
-     * @param tabViewFactory
-     * @param onPageChangeListener
-     */
-    public static void bindTabWidgetAndViewPager(ViewPager viewPager, TabWidget tabWidget, TabWidget.TabViewFactory tabViewFactory
-            , ViewPager.OnPageChangeListener onPageChangeListener) {
-
-        if (null == viewPager || null == tabWidget)
-            return;
-
-        tabWidget.setTabViewFactory(tabViewFactory);
-        tabWidget.setViewPager(viewPager);
-        tabWidget.setOnPageChangeListener(onPageChangeListener);
-    }
-
-    /**
-     * @param context
-     * @param viewPager
-     * @param fragmentTabHost
-     * @param fragmentManager
-     * @param viewFactory
-     * @param tags
-     * @param onPageChangeListener
-     * @param onTabChangeListener
-     */
-    public static void bindFragmentTabHostAndViewPager(
-            Context context,
-            ViewPager viewPager,
-            FragmentTabHost fragmentTabHost,
-            FragmentManager fragmentManager,
-            FragmentTabHostAndViewPagerInitHelper.ViewFactory viewFactory,
-            String[] tags,
-            ViewPager.OnPageChangeListener onPageChangeListener,
-            TabHost.OnTabChangeListener onTabChangeListener) {
-
-        FragmentTabHostAndViewPagerInitHelper helper = new FragmentTabHostAndViewPagerInitHelper(context, viewPager, fragmentTabHost, fragmentManager, viewFactory, tags, onPageChangeListener, onTabChangeListener);
-
-        helper.init();
     }
 
 

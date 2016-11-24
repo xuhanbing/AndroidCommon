@@ -5,9 +5,6 @@ package com.hanbing.library.android.view.pager;
 
 import java.util.List;
 
-import com.hanbing.library.android.image.ImageLoader;
-import com.hanbing.library.android.util.LogUtils;
-
 import android.content.Context;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
@@ -75,8 +72,7 @@ public class BannerViewPager extends ViewPager {
 		}
 
 		protected void showPicture(int position, ImageView imageView) {
-			ImageLoader instance = ImageLoader.getInstance(getContext());
-			instance.displayImage(imageView, mUrlList.get(position));
+
 		}
 
 		@Override

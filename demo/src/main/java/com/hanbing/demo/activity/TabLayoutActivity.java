@@ -10,7 +10,6 @@ import com.hanbing.demo.NumFragment;
 import com.hanbing.demo.R;
 import com.hanbing.library.android.adapter.BaseFragmentPagerAdapter;
 import com.hanbing.library.android.view.TabLayout;
-import com.hanbing.library.android.view.tab.TabWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,6 @@ public class TabLayoutActivity extends BaseActivity {
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        TabWidget tabWidget = (TabWidget) findViewById(R.id.tabWidget);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 
         viewPager.setAdapter(new BaseFragmentPagerAdapter(getSupportFragmentManager(), fragments, new String[]{"关于", "F333 2", "Fragt 3adsfaljflajflakjflajfafa"}));
