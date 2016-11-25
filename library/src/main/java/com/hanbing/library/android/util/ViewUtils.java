@@ -190,6 +190,14 @@ public class ViewUtils {
     }
 
 
+    public static void setVisible(View view, boolean visible) {
+        if (null != view) view.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    public static void setInvisible(View view, boolean visible) {
+        if (null != view) view.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+    }
+
     public static void setEnabled(View view, boolean enabled) {
         if (null != view) view.setEnabled(enabled);
     }
