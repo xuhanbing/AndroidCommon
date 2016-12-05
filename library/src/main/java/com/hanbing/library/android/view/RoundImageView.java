@@ -156,12 +156,17 @@ public class RoundImageView extends ImageView {
      * 初始化BitmapShader
      */
     private void setUpShader() {
+        mBitmapShader = null;
         Drawable drawable = getDrawable();
         if (drawable == null) {
             return;
         }
 
         Bitmap bmp = drawableToBitmap(drawable);
+
+        if (null == bmp)
+            return;
+
         // 将bmp作为着色器，就是在指定区域内绘制bmp
         mBitmapShader = new BitmapShader(bmp, TileMode.CLAMP, TileMode.CLAMP);
         int width = getWidth();
@@ -218,12 +223,17 @@ public class RoundImageView extends ImageView {
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bd = (BitmapDrawable) drawable;
             bitmap = bd.getBitmap();
+
         } else {
             bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, w, h);
             drawable.draw(canvas);
         }
+
+        //fix bug if bitmap is null
+        if (null == bitmap)
+            return null;
 
         /**
          * 裁剪图片
@@ -291,6 +301,8 @@ public class RoundImageView extends ImageView {
         }
         setUpShader();
 
+        if (null == mBitmapShader)
+            return;
 
         if (mType == TYPE_ROUND) {
 

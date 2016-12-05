@@ -88,7 +88,7 @@ public class CollectionUtils {
         String string = stringBuilder.toString();
         //去掉最后的","
         if (string.endsWith(spilt)) {
-            string = string.substring(0, string.length() - 1);
+            string = string.substring(0, string.length() - spilt.length());
         }
 
         return string;

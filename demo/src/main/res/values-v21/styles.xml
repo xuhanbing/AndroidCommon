@@ -15,5 +15,6 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:fitsSystemWindows">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowSwipeToDismiss">true</item>
     </style>
 </resources>
