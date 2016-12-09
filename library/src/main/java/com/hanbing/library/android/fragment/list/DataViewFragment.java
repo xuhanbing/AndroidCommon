@@ -2,16 +2,15 @@ package com.hanbing.library.android.fragment.list;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.hanbing.library.android.fragment.BaseFragment;
 import com.hanbing.library.android.listener.OnLoadListener;
 import com.hanbing.library.android.tool.DataViewHelper;
 import com.hanbing.library.android.tool.PagingManager;
 import com.hanbing.library.android.util.CollectionUtils;
-import com.hanbing.library.android.view.recycler.HeaderRecyclerView;
+import com.hanbing.library.android.util.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -282,7 +281,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
     }
 
     /**
-     * load data success
+     * 数据加载成功
      *
      * @param list data list
      */
@@ -302,4 +301,74 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
         notifyDataSetChanged();
         onLoadSuccess();
     }
+
+    /**
+     *
+     * @param rootView
+     * @return
+     */
+    protected View addViewAtDataViewHierarchy(View rootView, View ... views) {
+
+        if (null == rootView || null == views || 0 == views.length)
+            return rootView;
+
+        for (View view : views) {
+            rootView = addViewAtDataViewHierarchy(rootView, view);
+        }
+
+        return rootView;
+    }
+
+    /**
+     * 在dataview的同一层次添加view，如果没有parent或者不是relativelayout或者framelayout，则包裹一层
+     * @param rootView
+     * @param child
+     * @return
+     */
+    protected View addViewAtDataViewHierarchy(View rootView, View child) {
+
+        View dataView = createDataView();
+
+        if (null == rootView || null == dataView || null == child)
+            return rootView;
+
+
+        ViewGroup parent = (ViewGroup) dataView.getParent();
+
+        ViewGroup viewGroup = null;
+
+        if (null == parent ) {
+            //没有parent
+            viewGroup = new RelativeLayout(getContext());
+            viewGroup.addView(dataView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            rootView = viewGroup;
+        } else {
+
+            if (parent instanceof RelativeLayout || parent instanceof FrameLayout) {
+                //直接添加
+                viewGroup = parent;
+            } else {
+                //包裹一层relativelayout
+                ViewGroup.LayoutParams params = dataView.getLayoutParams();
+                int index = parent.indexOfChild(dataView);
+                parent.removeView(dataView);
+
+                viewGroup = new RelativeLayout(getContext());
+                //将listview加入到新的parent
+                viewGroup.addView(dataView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+                //将包裹的layout替换原来listview的位置，且layout属性和listview一致
+                parent.addView(viewGroup, index, params);
+            }
+
+        }
+
+        //添加
+        ViewUtils.removeFromParent(child);
+        viewGroup.addView(child);
+
+        return rootView;
+    }
+
 }

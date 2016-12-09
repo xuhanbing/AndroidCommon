@@ -1,10 +1,17 @@
 package com.hanbing.library.android.util;
 
+import android.text.SpannableString;
 import android.text.TextUtils;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hanbing on 2016/9/30.
@@ -13,41 +20,99 @@ import java.util.List;
 public class CollectionUtils {
 
 
+    public static final String SPILT = ",";
+
     public interface ToStringFactory<E> {
         public String toString(E e);
     }
 
+
     /**
      * add and filter same data
+     *
      * @param list
-     * @param newList
+     * @param t
      * @param <T>
      */
-    public static <T> void addAll(List<T> list, List<? extends T> newList) {
+    public static <T> boolean add(List<T> list, T t) {
 
-        if (null == list || null == newList)
-            return;
+        if (null == list || null == t)
+            return false;
 
-        for (T t : newList) {
-            if (!list.contains(t))
-            list.add(t);
+        if (!list.contains(t)) {
+            return list.add(t);
         }
+
+        return false;
+    }
+
+    /**
+     * add and filter same data
+     *
+     * @param list
+     * @param subList
+     * @param <T>
+     */
+    public static <T> boolean addAll(List<T> list, List<? extends T> subList) {
+
+        if (null == list || null == subList)
+            return false;
+
+        boolean modified = false;
+        for (T t : subList) {
+            if (!list.contains(t)) {
+                modified |= list.add(t);
+            }
+        }
+
+        return modified;
     }
 
 
     /**
+     * remove
+     *
+     * @param list
+     * @param t
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean remove(List<T> list, T t) {
+        if (null == list || null == t)
+            return false;
+
+        return list.remove(t);
+    }
+
+    /**
+     * remove all
+     *
+     * @param list
+     * @param otherList
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean removeAll(List<T> list, List<T> otherList) {
+        if (null == list || null == otherList)
+            return false;
+        return list.removeAll(otherList);
+    }
+
+    /**
      * 将集合转换成字符串序列
+     *
      * @param collection
      * @param toStringFactory
      * @param <E>
      * @return
      */
     public static <E> String toString(Collection<E> collection, ToStringFactory<E> toStringFactory) {
-        return toString(collection, ",", toStringFactory);
+        return toString(collection, SPILT, toStringFactory);
     }
 
     /**
      * 将集合转换成字符串序列
+     *
      * @param collection
      * @param spilt
      * @param toStringFactory
@@ -56,7 +121,11 @@ public class CollectionUtils {
      */
     public static <E> String toString(Collection<E> collection, String spilt, ToStringFactory<E> toStringFactory) {
 
+        if (null == collection || collection.isEmpty())
+            return null;
 
+        if (null == spilt)
+            spilt = SPILT;
 
         if (null == toStringFactory) {
             toStringFactory = new ToStringFactory<E>() {
@@ -66,12 +135,6 @@ public class CollectionUtils {
                 }
             };
         }
-
-        if (null == spilt)
-            spilt = ",";
-
-        if (null == collection || collection.isEmpty())
-            return null;
 
         Iterator<E> iterator = collection.iterator();
 
@@ -95,19 +158,90 @@ public class CollectionUtils {
     }
 
 
+    /**
+     * 比较两个值是否相等
+     *
+     * @param left
+     * @param right
+     * @return
+     */
     public static boolean equals(Object left, Object right) {
-        if (null == left || null == right) {
-            return  left == right;
-        } else{
-            if (left.getClass() == right.getClass()) {
-                return left.equals(right);
-            } else {
-                return false;
-            }
-        }
+        return (null == left) ? (null == right) : left.equals(right);
     }
 
+    /**
+     * 获取hashcode
+     *
+     * @param o
+     * @return
+     */
     public static int hashCode(Object o) {
         return null == o ? 0 : o.hashCode();
     }
+
+    /**
+     * 值是否在序列中
+     *
+     * @param value  值
+     * @param values 序列
+     * @return
+     */
+    public static boolean isValueIn(Object value, Object... values) {
+        if (null == values)
+            return false;
+
+        for (Object o : values) {
+            if (equals(value, o))
+                return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * 是否为空
+     *
+     * @param collection
+     * @return
+     */
+    public static boolean isEmpty(Collection collection) {
+        return null == collection || collection.isEmpty();
+    }
+
+    /**
+     * 包含
+     *
+     * @param collection
+     * @param o
+     * @return
+     */
+    public static boolean contains(Collection collection, Object o) {
+        if (null == collection)
+            return false;
+        return collection.contains(o);
+    }
+
+    /**
+     * @param map
+     * @return
+     */
+    public static boolean isEmpty(Map map) {
+        return null == map || map.isEmpty();
+    }
+
+    public static boolean containsKey(Map map, Object key) {
+        if (null == map)
+            return false;
+
+        return map.containsKey(key);
+    }
+
+    public static boolean containsValue(Map map, Object value) {
+        if (null == map)
+            return false;
+
+        return map.containsValue(value);
+    }
+
 }

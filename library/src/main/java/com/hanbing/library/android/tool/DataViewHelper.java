@@ -475,6 +475,7 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
 
     @Override
     public void onLoadStart() {
+        hideEmptyView();
         showLoadingView();
         if (mLoadMoreView instanceof OnLoadListener) {
             ((OnLoadListener) mLoadMoreView).onLoadStart();
