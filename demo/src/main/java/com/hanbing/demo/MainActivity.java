@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.hanbing.library.android.view.plugin.FastLocateLayout;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -129,7 +131,10 @@ public class MainActivity extends BaseActivity {
 
                 //如果以apk包名开头，去掉
                 if (label.startsWith(pkgName)) {
+                    if (label.startsWith(pkgName + ".activity"))
                     label =  label.replace(pkgName + ".activity", "");
+                    else
+                        label = label.replace(pkgName, "");
                 }
 
 
@@ -148,9 +153,6 @@ public class MainActivity extends BaseActivity {
 
 
                 CategoryEntity ce = new CategoryEntity();
-
-
-
 
                 if (TextUtils.isEmpty(key)) {
                     //默认方式
@@ -224,7 +226,46 @@ public class MainActivity extends BaseActivity {
         sort();
 
 
-        adapter = new BaseAdapter() {
+        adapter = new MyAdapter();
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                CategoryEntity ce = dataList.get(position);
+
+                if (null == ce.clazz) {
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("key", ce.key);
+
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), ce.clazz);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
+    private void sort() {
+
+        Collections.sort(dataList, new Comparator<CategoryEntity>() {
+            @Override
+            public int compare(CategoryEntity lhs, CategoryEntity rhs) {
+                if (null == lhs.clazz && null != rhs.clazz) {
+                    return -1;
+                } else if (null != lhs.clazz && null == rhs.clazz) {
+                    return 1;
+                }
+                return lhs.name.compareTo(rhs.name);
+            }
+        });
+    }
+
+
+    class MyAdapter extends BaseAdapter implements FastLocateLayout.Adapter {
             @Override
             public int getCount() {
                 return dataList.size();
@@ -279,8 +320,6 @@ public class MainActivity extends BaseActivity {
                     holder.arrow = arrow;
 
 
-
-
                     convertView = layout;
                     convertView.setTag(holder);
 
@@ -303,47 +342,40 @@ public class MainActivity extends BaseActivity {
             }
 
 
-            class ViewHolder {
+        List<String> tags;
+        @Override
+        public List<String> getTags() {
+
+            if (null != dataList && !dataList.isEmpty()) {
+                List<String> list = new ArrayList<>();
+
+                for (CategoryEntity categoryEntity : dataList) {
+
+                    String name = categoryEntity.name;
+                    name = name.replace("Activity", "");
+                    list.add(name);
+                }
+
+                tags = list;
+                return list;
+            }
+            return null;
+        }
+
+        @Override
+        public int positionOfTag(String tag) {
+            if (null != tags) {
+                return tags.indexOf(tag);
+            }
+            return -1;
+        }
+
+
+        class ViewHolder {
                 TextView textView;
                 ImageView arrow;
 
             }
-        };
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                CategoryEntity ce = dataList.get(position);
-
-                if (null == ce.clazz) {
-
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("key", ce.key);
-
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(getApplicationContext(), ce.clazz);
-                    startActivity(intent);
-                }
-            }
-        });
-    }
-
-    private void sort() {
-
-        Collections.sort(dataList, new Comparator<CategoryEntity>() {
-            @Override
-            public int compare(CategoryEntity lhs, CategoryEntity rhs) {
-                if (null == lhs.clazz && null != rhs.clazz) {
-                    return -1;
-                } else if (null != lhs.clazz && null == rhs.clazz) {
-                    return 1;
-                }
-                return lhs.name.compareTo(rhs.name);
-            }
-        });
     }
 
 

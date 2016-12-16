@@ -216,15 +216,25 @@ public class FastLocateLayout extends LinearLayout implements IPluginWrapper {
 
    public void init(Adapter adapter) {
 
-        List<String> tags = adapter.getTags();
-        this.mTags = tags;
-        this.mAdapter = adapter;
-
         removeAllViews();
         setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setOrientation(LinearLayout.VERTICAL);
         setBackgroundColor(mDefaultBgColor);
         setGravity(Gravity.CENTER);
+
+       this.mTags = null;
+       this.mAdapter = adapter;
+
+
+
+       if (null != adapter)
+           mTags = adapter.getTags();
+
+       initTags();
+    }
+
+    private void initTags() {
+        List<String> tags = mTags;
 
         if (null == tags || tags.size() == 0)
             return;
@@ -263,7 +273,7 @@ public class FastLocateLayout extends LinearLayout implements IPluginWrapper {
                 view = textView;
             }
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             if (mEqualChildHeight) {
                 params.weight = 1;
@@ -272,7 +282,6 @@ public class FastLocateLayout extends LinearLayout implements IPluginWrapper {
             addView(view, params);
 
         }
-
     }
 
     public void measure(ViewGroup parent, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {

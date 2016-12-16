@@ -1,17 +1,13 @@
 package com.hanbing.library.android.util;
 
-import android.text.SpannableString;
 import android.text.TextUtils;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by hanbing on 2016/9/30.
@@ -243,5 +239,33 @@ public class CollectionUtils {
 
         return map.containsValue(value);
     }
+
+    /**
+     * 返回集合已经存在的值
+     * @param collection
+     * @param e
+     * @param <E>
+     * @return
+     */
+    public static <E> E getExist(Collection<? extends E> collection, E e) {
+        if (null == collection || null == e)
+            return null;
+
+        if (!collection.contains(e))
+            return null;
+
+        Iterator<? extends E> iterator = collection.iterator();
+
+        while (iterator.hasNext()) {
+            E next = iterator.next();
+
+            if (equals(next, e))
+                return next;
+        }
+
+        return null;
+    }
+
+
 
 }
