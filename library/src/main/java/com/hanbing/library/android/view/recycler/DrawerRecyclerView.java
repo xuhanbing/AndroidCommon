@@ -9,6 +9,7 @@ import com.hanbing.library.android.view.plugin.DrawerItemWrapper;
 import com.hanbing.library.android.view.plugin.RecyclerViewDrawerItemWrapper;
 
 /**
+ * 滑动删除
  * Created by hanbing
  */
 public class DrawerRecyclerView extends RecyclerView implements DrawerItemWrapper.Actor {

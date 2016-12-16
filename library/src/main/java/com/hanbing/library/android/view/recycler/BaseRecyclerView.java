@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
+ *
+ * 支持设置EmptyView
  * Created by hanbing on 2016/5/3.
  */
 public class BaseRecyclerView extends RecyclerView {
@@ -123,6 +125,8 @@ public class BaseRecyclerView extends RecyclerView {
             setVisibility(View.VISIBLE);
         }
     }
+
+
 
 
 }

@@ -1,17 +1,13 @@
 package com.hanbing.mytest.activity.fragment;
 
-import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.hanbing.library.android.fragment.list.RecyclerViewFragment;
-import com.hanbing.library.android.fragment.list.SrainPtrRecyclerViewFragment;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.recycler.OnItemClickListener;

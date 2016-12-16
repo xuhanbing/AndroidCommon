@@ -10,6 +10,7 @@ import com.hanbing.library.android.view.plugin.PinnedSectionWrapper;
 import com.hanbing.library.android.view.plugin.RecyclerViewPinnedSectionWrapper;
 
 /**
+ * 支持标签悬停的RecyclerView
  * Created by hanbing
  */
 public class PinnedSectionRecyclerView extends RecyclerView {

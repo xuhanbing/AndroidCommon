@@ -10,6 +10,7 @@ import android.widget.TextView;
 /**
  * @author hanbing
  */
+@Deprecated
 public abstract class BaseTitleBarActivity extends BaseActivity implements View.OnClickListener{
 
 	protected TextView mCenterTitle;

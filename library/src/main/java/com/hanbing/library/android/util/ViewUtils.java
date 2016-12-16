@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.hanbing.library.android.view.recycler.OnItemClickListener;
 import com.hanbing.library.android.view.recycler.OnItemLongClickListener;
 import com.hanbing.library.android.view.recycler.SimpleOnItemTouchListener;
+import com.hanbing.library.android.view.recycler.Utils;
 
 /**
  * @author hanbing
@@ -255,7 +256,8 @@ public class ViewUtils {
     }
 
     public static void setTextColorRes(TextView textView, int resId) {
-        if (null != textView) textView.setTextColor(textView.getResources().getColorStateList(resId));
+        if (null != textView)
+            textView.setTextColor(textView.getResources().getColorStateList(resId));
     }
 
     public static void setHintTextColor(TextView textView, int color) {
@@ -267,7 +269,8 @@ public class ViewUtils {
     }
 
     public static void setHintTextColorRes(TextView textView, int resId) {
-        if (null != textView) textView.setHintTextColor(textView.getResources().getColorStateList(resId));
+        if (null != textView)
+            textView.setHintTextColor(textView.getResources().getColorStateList(resId));
     }
 
     public static void setLinkTextColor(TextView textView, int color) {
@@ -279,7 +282,8 @@ public class ViewUtils {
     }
 
     public static void setLinkTextColorRes(TextView textView, int resId) {
-        if (null != textView) textView.setLinkTextColor(textView.getResources().getColorStateList(resId));
+        if (null != textView)
+            textView.setLinkTextColor(textView.getResources().getColorStateList(resId));
     }
 
 
@@ -317,30 +321,37 @@ public class ViewUtils {
     }
 
 
+    /**
+     * Recommend use {@link com.hanbing.library.android.view.recycler.Utils} method instead.
+     *
+     * @param recyclerView
+     * @param onItemClickListener
+     * @deprecated
+     */
     public static void bindOnItemClickListener(RecyclerView recyclerView, OnItemClickListener onItemClickListener) {
         bindOnItemClickListener(recyclerView, onItemClickListener, null);
     }
 
+    /**
+     * Recommend use {@link com.hanbing.library.android.view.recycler.Utils} method instead.
+     *
+     * @param recyclerView
+     * @param onItemLongClickListener
+     * @deprecated
+     */
     public static void bindOnItemLongClickListener(RecyclerView recyclerView, OnItemLongClickListener onItemLongClickListener) {
         bindOnItemClickListener(recyclerView, null, onItemLongClickListener);
     }
 
     /**
-     * bind recycleView with onItemClick and onItemLongClick
+     * Recommend use {@link com.hanbing.library.android.view.recycler.Utils} method instead.
      *
      * @param recyclerView
      * @param onItemClickListener
+     * @deprecated
      */
     public static void bindOnItemClickListener(final RecyclerView recyclerView, final OnItemClickListener onItemClickListener, final OnItemLongClickListener onItemLongClickListener) {
-        if (null == recyclerView)
-            return;
-
-        if (null == onItemClickListener && null == onItemLongClickListener)
-            return;
-
-        //多次添加后面的会接收不到事件
-        recyclerView.addOnItemTouchListener(new SimpleOnItemTouchListener(recyclerView, onItemClickListener, onItemLongClickListener));
-
+        com.hanbing.library.android.view.recycler.Utils.bindListener(recyclerView, onItemClickListener, onItemLongClickListener);
     }
 
     /**
