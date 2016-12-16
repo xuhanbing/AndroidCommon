@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.hanbing.library.android.adapter.BaseFragmentPagerAdapter;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.view.ScrollLayout;
-import com.hanbing.library.android.view.ViewChecker;
+import com.hanbing.library.android.tool.ViewChecker;
 import com.hanbing.mytest.R;
 import com.hanbing.mytest.adapter.DefaultAdapter;
 import com.hanbing.mytest.fragment.NumFragment;

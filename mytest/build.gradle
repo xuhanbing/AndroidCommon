@@ -59,4 +59,5 @@ dependencies {
     compile 'de.greenrobot:greendao:2.1.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile project(':library-view-ptr')
 }

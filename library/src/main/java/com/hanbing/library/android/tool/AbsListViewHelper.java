@@ -8,17 +8,18 @@ import android.widget.BaseAdapter;
 
 
 /**
+ * A AbsListView data helper that make u control request data simpler.
  * Created by hanbing on 2016/11/14
  */
 
-public abstract class AbsListViewHelper<DataView extends AbsListView, DataAdapter extends BaseAdapter> extends DataViewHelper<DataView, DataAdapter> implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,  AbsListView.OnScrollListener{
+public abstract class AbsListViewHelper<DataView extends AbsListView, DataAdapter extends BaseAdapter> extends DataViewHelper<DataView, DataAdapter> implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, AbsListView.OnScrollListener {
 
     public AbsListViewHelper(Context context) {
         super(context);
     }
 
     /**
-     * 手动滚动
+     * man scroll
      */
     boolean mIsManScroll = false;
 
@@ -33,11 +34,11 @@ public abstract class AbsListViewHelper<DataView extends AbsListView, DataAdapte
     }
 
     /**
-     * 返回当前数据个数
+     * Return current item count
+     *
      * @return
      */
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return null != getDataAdapter() ? getDataAdapter().getCount() : 0;
     }
 

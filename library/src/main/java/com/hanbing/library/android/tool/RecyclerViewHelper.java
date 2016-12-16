@@ -21,7 +21,7 @@ public abstract class RecyclerViewHelper<DataView extends RecyclerView, DataAdap
     }
 
     /**
-     * 手动滚动
+     * man scroll
      */
     boolean mIsManScroll = false;
 

@@ -7,22 +7,25 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
 /**
+ * A simple broadcast manager that help you register and send broadcast.
  * Created by hanbing on 2016/9/25.
  */
 public class BroadcastManager {
     static BroadcastManager mBroadcastManager;
+
     public static BroadcastManager getInstance(Context context) {
         if (null == mBroadcastManager) mBroadcastManager = new BroadcastManager(context);
         return mBroadcastManager;
     }
 
     LocalBroadcastManager mLocalBroadcastManager;
+
     private BroadcastManager(Context context) {
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(context.getApplicationContext());
     }
 
 
-    public void register(BroadcastReceiver receiver, String ... actions) {
+    public void register(BroadcastReceiver receiver, String... actions) {
         IntentFilter filter = new IntentFilter();
         if (null != actions && actions.length > 0) {
             for (String action :
@@ -42,7 +45,7 @@ public class BroadcastManager {
         mLocalBroadcastManager.sendBroadcast(intent);
     }
 
-    public void sendBroadcast( String action) {
+    public void sendBroadcast(String action) {
         sendBroadcast(new Intent(action));
     }
 }

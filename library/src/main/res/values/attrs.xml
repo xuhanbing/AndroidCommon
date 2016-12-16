@@ -89,58 +89,6 @@
 
     </declare-styleable>
 
-
-    <declare-styleable name="PtrLayout">
-
-        <!-- Orientation -->
-        <attr name="ptrOrientation" format="enum">
-            <enum name="HORIZONTAL" value="0"></enum>
-            <enum name="VERTICAL" value="1"></enum>
-        </attr>
-
-        <!-- If pull from start is enabled-->
-        <attr name="ptrPullFromStartEnabled" format="boolean"></attr>
-
-        <!-- If pull from end is enabled -->
-        <attr name="ptrPullFromEndEnabled" format="boolean"></attr>
-
-        <!-- If child will receive touch event when refreshing -->
-        <attr name="ptrDispatchTouchEventWhenRefreshing" format="boolean"></attr>
-
-        <!-- Hold header or footer when refreshing -->
-        <attr name="ptrHoldHeaderWhenRefreshing" format="boolean"></attr>
-
-        <!-- Refresh immediately or after scroll finished -->
-        <attr name="ptrRefreshImmediately" format="boolean"></attr>
-
-        <!-- Total move max distance -->
-        <attr name="ptrMaxMoveDistance" format="dimension"></attr>
-
-        <!-- Each move max distance -->
-        <attr name="ptrMaxMoveDelta" format="dimension"></attr>
-
-        <!-- Ratio to refresh according to header or footer size -->
-        <attr name="ptrRatioToRefresh" format="float"></attr>
-
-        <!-- Scroll duration -->
-        <attr name="ptrScrollDuration" format="integer"></attr>
-
-        <!-- Insure min refresh duration -->
-        <attr name="ptrInsureMinimumRefreshDuration" format="boolean"></attr>
-
-        <!-- Min duration from refreshing start to end -->
-        <attr name="ptrMinimumRefreshDuration" format="integer"></attr>
-
-        <!-- HeaderView Id -->
-        <attr name="ptrHeaderViewId" format="integer"></attr>
-
-        <!-- FooterView Id -->
-        <attr name="ptrFooterViewId" format="integer"></attr>
-
-        <!-- ContentView Id-->
-        <attr name="ptrContentViewId" format="integer"></attr>
-    </declare-styleable>
-
     <declare-styleable name="PinnedLinearLayout">
         <attr name="pinnedViewId" format="integer"></attr>
     </declare-styleable>

@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.hanbing.demo.BaseActivity;
 import com.hanbing.demo.R;
+import com.hanbing.library.android.tool.ListenerManager;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.TimeUtils;
 import com.squareup.otto.Bus;
@@ -17,17 +18,71 @@ import butterknife.ButterKnife;
 
 public class OttoActivity extends BaseActivity {
 
+
+    class TestBase {
+        public void onGet(int msg) {
+            LogUtils.e("get int: " + msg);
+        }
+
+    }
+     class Test extends TestBase{
+        public  void onGet(String msg) {
+            LogUtils.e("Test : " + msg);
+
+        }
+
+        public  void onGet(String msg, String msg2) {
+            LogUtils.e("Test : " + msg + "," + msg2);
+        }
+
+    }
     @BindView(R.id.textView)
     TextView mTextView;
 
 
     Bus mBus = new Bus();
 
+
+    ListenerManager<Test> mListenerManager = new ListenerManager<Test>(){};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_otto);
         ButterKnife.bind(this);
+
+
+        Test test1 = new Test() {
+            @Override
+            public void onGet(String msg) {
+                LogUtils.e("Test1 : " + msg);
+            }
+
+            @Override
+            public void onGet(String msg, String msg2) {
+                LogUtils.e("Test1 : " + msg + "," + msg2);
+
+            }
+        };
+        Test test2 = new Test() {
+            @Override
+            public void onGet(String msg) {
+                LogUtils.e("Test2 : " + msg);
+            }
+
+            @Override
+            public void onGet(String msg, String msg2) {
+                LogUtils.e("Test2 : " + msg + "," + msg2);
+
+            }
+        };
+        mListenerManager.addListener(test1, test2);
+
+//
+        mListenerManager.callback("mm");
+        mListenerManager.callback("mm", "mm2");
+        mListenerManager.callback(1234);
 
     }
 

@@ -1,4 +1,4 @@
-package com.hanbing.library.android.view;
+package com.hanbing.library.android.tool;
 
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,13 +12,14 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Use for check if view has arrive start(top or left) or end(bottom or right).
  * Created by hanbing on 2016/7/26
  */
 public class ViewChecker {
 
 
     public static boolean arriveStart(View view, boolean vertical) {
-        if (null == view) return  false;
+        if (null == view) return false;
 
         if (view instanceof AbsListView) {
             return arriveStart((AbsListView) view, vertical);
@@ -32,31 +33,31 @@ public class ViewChecker {
     }
 
     public static boolean arriveEnd(View view, boolean vertical) {
-        if (null == view) return  false;
+        if (null == view) return false;
 
         if (view instanceof AbsListView) {
             return arriveEnd((AbsListView) view, vertical);
         } else if (view instanceof RecyclerView) {
-            return arriveEnd((RecyclerView)view, vertical);
+            return arriveEnd((RecyclerView) view, vertical);
         } else {
             return arriveEndInner(view, vertical);
         }
     }
 
     private static boolean arriveStartInner(View view, boolean vertical) {
-        if (null == view) return  false;
+        if (null == view) return false;
 
-        return  vertical ? !ViewCompat.canScrollVertically(view, -1) : !ViewCompat.canScrollHorizontally(view, -1);
+        return vertical ? !ViewCompat.canScrollVertically(view, -1) : !ViewCompat.canScrollHorizontally(view, -1);
     }
 
     private static boolean arriveEndInner(View view, boolean vertical) {
-        if (null == view) return  false;
+        if (null == view) return false;
 
         return vertical ? !ViewCompat.canScrollVertically(view, 1) : !ViewCompat.canScrollHorizontally(view, 1);
     }
 
     public static boolean arriveStart(AbsListView absListView, boolean vertical) {
-        if (null == absListView) return  false;
+        if (null == absListView) return false;
 
         if (!vertical) return arriveStartInner(absListView, vertical);
 
@@ -74,13 +75,13 @@ public class ViewChecker {
     }
 
     public static boolean arriveEnd(AbsListView absListView, boolean vertical) {
-        if (null == absListView) return  false;
+        if (null == absListView) return false;
 
         if (!vertical) return arriveEndInner(absListView, vertical);
 
         BaseAdapter adapter = (BaseAdapter) absListView.getAdapter();
 
-        if (null != adapter && adapter.getCount() > 0 ) {
+        if (null != adapter && adapter.getCount() > 0) {
 
             int firstVisiblePosition = absListView.getFirstVisiblePosition();
             int lastVisiblePosition = absListView.getLastVisiblePosition();
@@ -88,8 +89,7 @@ public class ViewChecker {
             /**
              * last item
              */
-            if (lastVisiblePosition == adapter.getCount() - 1)
-            {
+            if (lastVisiblePosition == adapter.getCount() - 1) {
                 View child = absListView.getChildAt(lastVisiblePosition - firstVisiblePosition);
 
                 if (null != child) {
@@ -103,7 +103,7 @@ public class ViewChecker {
     }
 
     public static boolean arriveStart(RecyclerView recyclerView, boolean vertical) {
-        if (null == recyclerView) return  false;
+        if (null == recyclerView) return false;
 
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
 
@@ -113,7 +113,7 @@ public class ViewChecker {
             /**
              * check if first completely visible position is first item
              */
-            if (0 == ((LinearLayoutManager)layoutManager).findFirstCompletelyVisibleItemPosition())
+            if (0 == ((LinearLayoutManager) layoutManager).findFirstCompletelyVisibleItemPosition())
                 return true;
 
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
@@ -130,7 +130,7 @@ public class ViewChecker {
                     /**
                      * return true if each position equals the index in the array or positions all = 0, otherwise return false
                      */
-                    if (positions[i] != 0 && positions[i] != i ) {
+                    if (positions[i] != 0 && positions[i] != i) {
                         return false;
                     }
                 }
@@ -157,7 +157,7 @@ public class ViewChecker {
     }
 
     public static boolean arriveEnd(RecyclerView recyclerView, boolean vertical) {
-        if (null == recyclerView) return  false;
+        if (null == recyclerView) return false;
 
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
 
@@ -166,7 +166,7 @@ public class ViewChecker {
             /**
              * check if  last completely visible position is last item
              */
-            if (layoutManager.getItemCount() - 1 == ((LinearLayoutManager)layoutManager).findLastCompletelyVisibleItemPosition())
+            if (layoutManager.getItemCount() - 1 == ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition())
                 return true;
 
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {

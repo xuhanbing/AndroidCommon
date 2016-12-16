@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.hanbing.library.android.util.ReflectUtils;
 
 /**
+ * A simple TextCounter that help to count current text length.
  * Created by hanbing on 2016/11/4
  */
 
@@ -19,7 +20,7 @@ public class TextCounter {
     }
 
 
-   static Formatter mFormatter = new Formatter() {
+    static Formatter mFormatter = new Formatter() {
         @Override
         public CharSequence format(EditText input, int currentLength, int totalLength) {
             return currentLength + "/" + totalLength;
@@ -37,7 +38,7 @@ public class TextCounter {
             for (InputFilter inputFilter : filters) {
                 if (inputFilter instanceof InputFilter.LengthFilter) {
 
-                    maxLength =  ReflectUtils.getValue(inputFilter, "mMax", 0);
+                    maxLength = ReflectUtils.getValue(inputFilter, "mMax", 0);
                     break;
                 }
             }
