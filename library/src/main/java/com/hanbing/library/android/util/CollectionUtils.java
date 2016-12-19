@@ -165,6 +165,24 @@ public class CollectionUtils {
         return (null == left) ? (null == right) : left.equals(right);
     }
 
+    public static boolean equals(Object[] left, Object[] right) {
+        if (null == left || null == right)
+            return left == right;
+
+        int leftLength = left.length;
+        int rightLength = right.length;
+
+        if (leftLength != rightLength)
+            return false;
+
+        for (int i = 0; i < leftLength; i++) {
+
+
+        }
+
+        return  true;
+    }
+
     /**
      * 获取hashcode
      *

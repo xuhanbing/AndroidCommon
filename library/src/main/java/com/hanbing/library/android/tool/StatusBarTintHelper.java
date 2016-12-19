@@ -13,6 +13,7 @@ public class StatusBarTintHelper {
 
     /**
      * 设置状态栏高度和颜色
+     *
      * @param activity
      * @param statusBar
      * @param color

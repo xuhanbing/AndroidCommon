@@ -4,7 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AbsListView;
 
-import com.hanbing.library.android.view.ViewChecker;
+import com.hanbing.library.android.tool.ViewChecker;
+
 
 /**
  * Created by hanbing

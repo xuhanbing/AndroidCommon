@@ -1,13 +1,14 @@
 package com.hanbing.library.android.tool;
 
+import com.hanbing.library.android.util.CollectionUtils;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by hanbing on 2016/9/9
@@ -18,8 +19,11 @@ public abstract class ListenerManager<T> {
 
     List<T> mListeners;
 
+    ConcurrentHashMap<Class, Method> mMethodMap;
+
     /**
      * Add listeners
+     *
      * @param listeners
      */
     public void addListener(T... listeners) {
@@ -40,7 +44,7 @@ public abstract class ListenerManager<T> {
      *
      * @param listeners
      */
-    public void removeListener(T ... listeners) {
+    public void removeListener(T... listeners) {
         if (null == listeners || 0 == listeners.length)
             return;
 
@@ -90,7 +94,6 @@ public abstract class ListenerManager<T> {
      * @param args arguments
      */
     public void callback(Object... args) {
-
         synchronized (mLock) {
 
             if (null == mListeners || mListeners.isEmpty())
@@ -100,20 +103,27 @@ public abstract class ListenerManager<T> {
             Method method = null;
 
             for (T listener : mListeners) {
-                method = callback(listener, null, args);
+                //use district mode first, then
+                if (null == callback(listener, true, args))
+                    callback(listener, false, args);
             }
 
         }
     }
 
+    private void print(Object[] objects) {
+
+    }
+
     /**
      * Callback
-     * @param t listener
-     * @param method last hit method, invoke it if not null
-     * @param args arguments
+     *
+     * @param t      listener
+     * @param district if false param such as int.class equals Integer.class if there is no method match
+     * @param args   arguments
      * @return
      */
-    private Method callback(T t, Method method, Object... args) {
+    private Method callback(T t, boolean district, Object... args) {
         if (null == t)
             return null;
 
@@ -128,15 +138,16 @@ public abstract class ListenerManager<T> {
             return null;
 
 
-        if (null == method) {
+        Method hitMethod = null;
+       {
 
             boolean hit = false;
 
-            for (Method method1 : methods) {
-                Class<?>[] parameterTypes = method1.getParameterTypes();
+            for (Method method : methods) {
+                Class<?>[] parameterTypes = method.getParameterTypes();
 
-                //only support public method
-                if (method1.getModifiers() != Modifier.PUBLIC)
+                //only support public hitMethod
+                if (method.getModifiers() != Modifier.PUBLIC)
                     continue;
 
                 // first check param length, and then check param types
@@ -148,16 +159,17 @@ public abstract class ListenerManager<T> {
                         Object arg = args[i];
 
                         Class<?> aClass1 = arg.getClass();
-                        if (!check(parameterType, aClass1)) {
-                            // deferent type, check next method
+                        if (!check(parameterType, aClass1, !district)) {
+                            // deferent type, check next hitMethod
                             hit = false;
                             break;
                         }
                     }
 
                     if (hit) {
-                        //hit method1, invoke it and return
-                        method = method1;
+                        //hit method, invoke it and return
+                        hitMethod = method;
+
                         break;
                     }
                 }
@@ -165,9 +177,9 @@ public abstract class ListenerManager<T> {
             }
         }
 
-        if (null != method) {
+        if (null != hitMethod) {
             try {
-                method.invoke(t, args);
+                hitMethod.invoke(t, args);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
@@ -175,8 +187,8 @@ public abstract class ListenerManager<T> {
             }
         }
 
-        //return method if hit, so that next callback can invoke immediately.
-        return method;
+        //return hitMethod if hit
+        return hitMethod;
     }
 
 
@@ -188,7 +200,7 @@ public abstract class ListenerManager<T> {
         boolean ret = left.equals(right);
 
         if (!ret && base) {
-            ret = checkBase(left, right) || checkBase(right, left);
+            ret = checkBase(left, right);
         }
         return ret;
 
@@ -196,6 +208,10 @@ public abstract class ListenerManager<T> {
 
 
     private boolean checkBase(Class left, Class right) {
+        return checkBaseInner(left, right) || checkBaseInner(right, left);
+    }
+
+    private boolean checkBaseInner(Class left, Class right) {
         return (left == boolean.class && right == Boolean.class)
                 || (left == byte.class && right == Byte.class)
                 || (left == char.class && right == Character.class)
@@ -205,6 +221,5 @@ public abstract class ListenerManager<T> {
                 || (left == float.class && right == Float.class)
                 || (left == double.class && right == Double.class);
     }
-
 
 }

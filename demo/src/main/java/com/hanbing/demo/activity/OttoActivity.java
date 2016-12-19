@@ -24,6 +24,10 @@ public class OttoActivity extends BaseActivity {
             LogUtils.e("get int: " + msg);
         }
 
+//        public void onGet(Integer msg) {
+//            LogUtils.e("get Integer: " + msg);
+//        }
+
     }
      class Test extends TestBase{
         public  void onGet(String msg) {
@@ -59,13 +63,13 @@ public class OttoActivity extends BaseActivity {
                 LogUtils.e("Test1 : " + msg);
             }
 
-            @Override
-            public void onGet(String msg, String msg2) {
-                LogUtils.e("Test1 : " + msg + "," + msg2);
-
-            }
+//            @Override
+//            public void onGet(String msg, String msg2) {
+//                LogUtils.e("Test1 : " + msg + "," + msg2);
+//
+//            }
         };
-        Test test2 = new Test() {
+        Test test2 = new Test() /*{
             @Override
             public void onGet(String msg) {
                 LogUtils.e("Test2 : " + msg);
@@ -76,12 +80,12 @@ public class OttoActivity extends BaseActivity {
                 LogUtils.e("Test2 : " + msg + "," + msg2);
 
             }
-        };
+        }*/;
         mListenerManager.addListener(test1, test2);
 
 //
-        mListenerManager.callback("mm");
-        mListenerManager.callback("mm", "mm2");
+//        mListenerManager.callback("mm");
+//        mListenerManager.callback("mm", "mm2");
         mListenerManager.callback(1234);
 
     }

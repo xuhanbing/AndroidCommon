@@ -285,9 +285,6 @@ public class PtrLayout extends ViewGroup {
         public void run() {
 
             if (mScroller.computeScrollOffset()) {
-
-                LogUtils.e("cx = " + mScroller.getCurrX() + ", cy = " + mScroller.getCurrX()
-                        + ", fx = " + mScroller.getFinalX() + ", fy = " + mScroller.getFinalY());
                 if (mCurMoveX != mScroller.getCurrX()
                         || mCurMoveY != mScroller.getCurrY()) {
                     mCurMoveX = mScroller.getCurrX();
@@ -1467,7 +1464,6 @@ public class PtrLayout extends ViewGroup {
     }
 
     void onScrollFinished() {
-        LogUtils.e("onScrollFinished " + mState);
         if (isRefreshing()) {
 
         } else if (isStateIn(State.PREPARE_TO_REFRESH_FROM_START)) {

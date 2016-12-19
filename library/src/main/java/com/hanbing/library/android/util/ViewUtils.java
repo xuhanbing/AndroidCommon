@@ -231,6 +231,22 @@ public class ViewUtils {
         if (null != textView) textView.setText(resId);
     }
 
+    public static void setText(TextView textView, CharSequence text, CharSequence defaultText) {
+        if (null == textView)
+            return;
+
+        if (TextUtils.isEmpty(text))
+            textView.setText(defaultText);
+    }
+
+    public static void setText(TextView textView,  CharSequence text, int defaultResId) {
+        if (null == textView)
+            return;
+
+        if (TextUtils.isEmpty(text))
+            textView.setText(defaultResId);
+    }
+
     public static CharSequence getText(TextView textView) {
         return null != textView ? textView.getText() : null;
     }
@@ -241,6 +257,22 @@ public class ViewUtils {
 
     public static void setHint(TextView textView, int resId) {
         if (null != textView) textView.setHint(resId);
+    }
+
+    public static void setHint(TextView textView, CharSequence hint, CharSequence defaultHint) {
+        if (null == textView)
+            return;
+
+        if (TextUtils.isEmpty(hint))
+            textView.setHint(defaultHint);
+    }
+
+    public static void setHint(TextView textView,  CharSequence hint, int defaultResId) {
+        if (null == textView)
+            return;
+
+        if (TextUtils.isEmpty(hint))
+            textView.setHint(defaultResId);
     }
 
     public static CharSequence getHint(TextView textView) {
