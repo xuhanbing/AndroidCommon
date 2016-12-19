@@ -1,4 +1,4 @@
-<manifest package="com.hanbing.library.android.view.recycler"
+<manifest package="com.hanbing.library.android.view"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application android:allowBackup="true"

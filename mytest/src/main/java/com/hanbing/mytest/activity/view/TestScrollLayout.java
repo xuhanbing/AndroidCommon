@@ -93,7 +93,7 @@ public class TestScrollLayout extends AppCompatActivity {
         {
             ViewPager viewPager = new ViewPager(this);
 
-            viewPager.setId(R.id.viewPager);
+            viewPager.setId(android.R.id.text1);
             List<Fragment> fragments = new ArrayList<>();
             for (int i = 0; i < 4; i++){
                 fragments.add(NumFragment.newInstance(i));

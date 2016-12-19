@@ -4,7 +4,10 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
+import com.hanbing.library.android.view.recycler.BaseRecyclerView;
+import com.hanbing.library.android.view.recycler.HeaderRecyclerView;
 import com.hanbing.library.android.view.recycler.animator.FadeInItemAnimator;
 
 /**
@@ -75,5 +78,17 @@ public abstract class RecyclerViewHelper<DataView extends RecyclerView, DataAdap
     @Override
     public void notifyDataSetChanged() {
         if (null != getDataAdapter()) getDataAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    public void addLoadMoreIfNeed() {
+        if (null != mLoadMoreContainer && mDataView instanceof HeaderRecyclerView)
+            ((HeaderRecyclerView) mDataView).addFooterView(mLoadMoreContainer);
+    }
+
+    @Override
+    public void setEmptyView(View view) {
+        if (mDataView instanceof BaseRecyclerView)
+            ((BaseRecyclerView) mDataView).setEmptyView(mEmptyView);
     }
 }

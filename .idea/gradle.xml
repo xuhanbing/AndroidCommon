@@ -13,9 +13,10 @@
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/library-http" />
             <option value="$PROJECT_DIR$/library-image" />
+            <option value="$PROJECT_DIR$/library-view-numberpicker" />
             <option value="$PROJECT_DIR$/library-view-ptr" />
-            <option value="$PROJECT_DIR$/library-view-recycler" />
             <option value="$PROJECT_DIR$/library-view-tab" />
+            <option value="$PROJECT_DIR$/library-view-tablayout" />
             <option value="$PROJECT_DIR$/module" />
             <option value="$PROJECT_DIR$/module_sample" />
             <option value="$PROJECT_DIR$/mytest" />

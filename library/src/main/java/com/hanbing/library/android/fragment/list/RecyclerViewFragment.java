@@ -2,7 +2,6 @@ package com.hanbing.library.android.fragment.list;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +22,7 @@ import com.hanbing.library.android.view.recycler.decoration.LineItemDecoration;
  */
 public class RecyclerViewFragment<Bean> extends DataViewFragment<RecyclerView, RecyclerView.Adapter, Bean> implements OnItemClickListener, OnItemLongClickListener {
 
-    HeaderRecyclerView mRecyclerView;
+    RecyclerView mRecyclerView;
 
     @Override
     protected DataViewHelper<RecyclerView, RecyclerView.Adapter> createDataViewHelper() {
@@ -37,7 +36,7 @@ public class RecyclerViewFragment<Bean> extends DataViewFragment<RecyclerView, R
 
     @Override
     protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRecyclerView = new HeaderRecyclerView(getActivity());
+        mRecyclerView = new RecyclerView(getActivity());
         return mRecyclerView;
     }
 

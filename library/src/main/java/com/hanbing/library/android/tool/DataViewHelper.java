@@ -3,15 +3,11 @@ package com.hanbing.library.android.tool;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
-import com.hanbing.library.android.fragment.list.DataViewFragment;
 import com.hanbing.library.android.fragment.list.IDataViewFragment;
 import com.hanbing.library.android.listener.OnLoadListener;
-import com.hanbing.library.android.view.recycler.BaseRecyclerView;
-import com.hanbing.library.android.view.recycler.HeaderRecyclerView;
+
 
 /**
  * Created by hanbing on 2016/11/14
@@ -225,23 +221,14 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
 
 
     public void addLoadMoreIfNeed() {
-        if (null == mLoadMoreContainer)
-            return;
 
-        if (mDataView instanceof ListView)
-            ((ListView) mDataView).addFooterView(mLoadMoreContainer);
-        else if (mDataView instanceof HeaderRecyclerView)
-            ((HeaderRecyclerView) mDataView).addFooterView(mLoadMoreContainer);
     }
 
     public void setEmptyViewIfNeed() {
-        if (null == mEmptyView)
-            return;
-        if (mDataView instanceof AbsListView)
-            ((AbsListView) mDataView).setEmptyView(mEmptyView);
-        else if (mDataView instanceof BaseRecyclerView)
-            ((BaseRecyclerView) mDataView).setEmptyView(mEmptyView);
+
     }
+
+
 
     /**
      * 最后一个item展示（滑动时）

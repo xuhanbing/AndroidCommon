@@ -1,50 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Copy one of these attributes to your own theme (choose either dark or light).
-        <item name="numberPickerStyle">@style/NPWidget.Holo.NumberPicker</item>
-        <item name="numberPickerStyle">@style/NPWidget.Holo.Light.NumberPicker</item>
-    -->
-
-    <!-- Don't touch this -->
-    <attr name="numberPickerStyle" format="reference"/>
-
-    <declare-styleable name="NumberPicker">
-        <!-- @hide Color for the solid color background if such for optimized rendering. -->
-        <attr name="solidColor" format="color|reference"/>
-        <!-- @hide The divider for making the selection area. -->
-        <attr name="selectionDivider" format="reference"/>
-        <!-- @hide The height of the selection divider. -->
-        <attr name="selectionDividerHeight" format="dimension"/>
-        <!-- @hide The distance between the two selection dividers. -->
-        <attr name="selectionDividersDistance" format="dimension"/>
-        <!-- @hide The min height of the NumberPicker. -->
-        <attr name="internalMinHeight" format="dimension"/>
-        <!-- @hide The max height of the NumberPicker. -->
-        <attr name="internalMaxHeight" format="dimension"/>
-        <!-- @hide The min width of the NumberPicker. -->
-        <attr name="internalMinWidth" format="dimension"/>
-        <!-- @hide The max width of the NumberPicker. -->
-        <attr name="internalMaxWidth" format="dimension"/>
-        <!-- @hide The layout of the number picker. -->
-        <attr name="internalLayout" format="reference"/>
-        <!-- @hide The drawable for pressed virtual (increment/decrement) buttons. -->
-        <attr name="virtualButtonPressedDrawable" format="reference"/>
-        <!-- @hide Input text color -->
-        <attr name="textColor" format="color|reference"/>
-        <!-- @hide Selector wheel text color. If not set use input text color -->
-        <attr name="selectorWheelTextColor" format="color|reference"></attr>
-        <!-- @hide If input text enabled -->
-        <attr name="inputTextEnabled" format="boolean"></attr>
-        <!-- @hide If wrap selector wheel is enabled -->
-        <attr name="wrapSelectorWheelEnabled" format="boolean"></attr>
-        <!-- @hide Selector wheel item count. -->
-        <attr name="selectorWheelItemCount" format="integer"></attr>
-        <!-- @hide Selector wheel middle index. -->
-        <attr name="selectorWheelMiddleItemIndex" format="integer"></attr>
-        <attr name="inputTextViewId" format="integer"></attr>
-    </declare-styleable>
-
     <declare-styleable name="RoundImageView">
         <!-- The width of border, or 0 if you do not want -->
         <attr name="borderSize" format="dimension"></attr>

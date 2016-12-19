@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 
 /**
@@ -55,6 +56,22 @@ public abstract class AbsListViewHelper<DataView extends AbsListView, DataAdapte
     @Override
     public View createLoadMoreView() {
         return null;
+    }
+
+
+    @Override
+    public void addLoadMoreIfNeed() {
+        if (null != mLoadMoreContainer) {
+            if (mDataView instanceof ListView) {
+                ((ListView) mDataView).addFooterView(mLoadMoreContainer);
+            }
+        }
+    }
+
+    @Override
+    public void setEmptyView(View view) {
+        if (null != mEmptyView)
+            mDataView.setEmptyView(mEmptyView);
     }
 
     @Override

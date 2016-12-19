@@ -98,34 +98,28 @@ public abstract class ListenerManager<T> {
 
             if (null == mListeners || mListeners.isEmpty())
                 return;
-
-            //cached method
-            Method method = null;
-
             for (T listener : mListeners) {
-                //use district mode first, then
-                if (null == callback(listener, true, args))
+                //use strict mode first, then
+                if (!callback(listener, true, args))
                     callback(listener, false, args);
             }
 
         }
     }
 
-    private void print(Object[] objects) {
 
-    }
 
     /**
      * Callback
      *
      * @param t      listener
-     * @param district if false param such as int.class equals Integer.class if there is no method match
+     * @param strict if false method param such as int.class equals Integer.class if there is no method match
      * @param args   arguments
      * @return
      */
-    private Method callback(T t, boolean district, Object... args) {
+    private boolean callback(T t, boolean strict, Object... args) {
         if (null == t)
-            return null;
+            return false;
 
         if (null == args)
             args = new Object[0];
@@ -135,7 +129,7 @@ public abstract class ListenerManager<T> {
         Method[] methods = aClass.getMethods();
 
         if (null == methods || 0 == methods.length)
-            return null;
+            return false;
 
 
         Method hitMethod = null;
@@ -159,7 +153,7 @@ public abstract class ListenerManager<T> {
                         Object arg = args[i];
 
                         Class<?> aClass1 = arg.getClass();
-                        if (!check(parameterType, aClass1, !district)) {
+                        if (!check(parameterType, aClass1, !strict)) {
                             // deferent type, check next hitMethod
                             hit = false;
                             break;
@@ -188,7 +182,7 @@ public abstract class ListenerManager<T> {
         }
 
         //return hitMethod if hit
-        return hitMethod;
+        return null != hitMethod;
     }
 
 

@@ -1,1 +1,1 @@
-include ':library', ':module', ':module_sample', ':retrofit_rxandroid', ':demo', ':paydemo', ':mytest', ':library-http', ':library-image', ':library-view-tab', ':library-view-ptr', ':library-view-recycler'
+include ':library', ':module', ':module_sample', ':retrofit_rxandroid', ':demo', ':paydemo', ':mytest', ':library-http', ':library-image', ':library-view-tab', ':library-view-ptr', ':library-view-numberpicker', ':library-view-tablayout'

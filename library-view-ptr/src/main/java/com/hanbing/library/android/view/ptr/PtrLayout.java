@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 import com.hanbing.library.android.R;
-import com.hanbing.library.android.util.LogUtils;
 
 import java.util.Arrays;
 import java.util.List;
