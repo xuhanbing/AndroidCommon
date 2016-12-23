@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.hanbing.library.android.R;
 
 /**
+ * A TextView that can expand  if content is more than max lines.
  * Created by hanbing on 2016/9/7
  */
 public class ExpandableTextView extends LinearLayout implements TextWatcher {

@@ -5,7 +5,6 @@
  */
 package com.hanbing.mytest.activity.view;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.view.MapView;
 
 import android.app.Activity;

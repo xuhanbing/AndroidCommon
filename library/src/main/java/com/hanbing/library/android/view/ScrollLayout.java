@@ -13,11 +13,8 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
-import com.hanbing.library.android.util.LogUtils;
-
 /**
- * @author hanbing
- * @date 2015-7-1
+ * Created by hanbing
  */
 
 public class ScrollLayout extends ViewGroup {

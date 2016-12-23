@@ -11,18 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-
-
-
-
-
-
-
-
-
-
-
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.view.TestDraw;
 import com.hanbing.mytest.activity.view.TestGifActivity;
 import com.hanbing.mytest.activity.view.TestGridView2;

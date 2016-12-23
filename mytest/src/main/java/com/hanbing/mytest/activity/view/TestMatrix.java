@@ -12,7 +12,6 @@ import android.widget.SeekBar;
 import android.widget.ImageView.ScaleType;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 
 /**

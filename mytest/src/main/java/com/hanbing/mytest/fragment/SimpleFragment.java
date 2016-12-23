@@ -11,7 +11,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

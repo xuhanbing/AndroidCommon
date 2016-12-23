@@ -16,10 +16,10 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.hanbing.library.android.R;
-import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.view.scroll.CallbackScrollView;
 
 /**
+ * A Layout that used as direct child of ScrollView and will support a pinned view when ScrollView scrolling.
  * Created by hanbing on 2016/7/25.
  */
 public class PinnedLinearLayout extends LinearLayout {

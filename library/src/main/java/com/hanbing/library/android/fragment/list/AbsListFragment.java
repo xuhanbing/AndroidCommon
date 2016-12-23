@@ -4,7 +4,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 
 import com.hanbing.library.android.tool.AbsListViewHelper;
 import com.hanbing.library.android.tool.DataViewHelper;

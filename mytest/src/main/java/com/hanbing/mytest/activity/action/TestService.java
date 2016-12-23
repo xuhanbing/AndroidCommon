@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.hanbing.library.android.util.LogUtils;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.service.SimpleService;
 import com.hanbing.mytest.utils.MyServiceAidl;
 

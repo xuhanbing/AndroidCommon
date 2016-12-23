@@ -15,8 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * @author hanbing
- * @date 2015-06-06
+ * Created by hanbing
  */
 public class IOUtils {
 

@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 
 /**

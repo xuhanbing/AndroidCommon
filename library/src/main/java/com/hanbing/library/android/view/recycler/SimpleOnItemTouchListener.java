@@ -4,9 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ListView;
-
-import java.util.List;
 
 /**
  * Created by hanbing on 2016/6/7.

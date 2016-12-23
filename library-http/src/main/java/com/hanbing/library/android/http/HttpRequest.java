@@ -1,6 +1,5 @@
 package com.hanbing.library.android.http;
 
-import android.content.Context;
 import android.os.Handler;
 
 import com.hanbing.library.android.http.callback.HttpCallback;
@@ -15,8 +14,7 @@ import java.util.Map;
 /**
  * http请求
  * 
- * @author hanbing
- * @date 2016年1月18日
+ * Created by hanbing
  */
 public abstract class HttpRequest {
 

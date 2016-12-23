@@ -12,11 +12,8 @@ import android.widget.TextView;
 
 import com.hanbing.demo.DefaultAdapter;
 import com.hanbing.demo.R;
-import com.hanbing.library.android.adapter.BaseAdapter;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.view.SlideMenuLayout;
-
-import java.util.HashSet;
 
 public class TestSlideMenuActivity extends AppCompatActivity {
 

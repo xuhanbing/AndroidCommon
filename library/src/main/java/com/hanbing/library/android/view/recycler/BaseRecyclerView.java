@@ -7,7 +7,7 @@ import android.view.View;
 
 /**
  *
- * 支持设置EmptyView
+ * A base RecyclerView that support set empty view
  * Created by hanbing on 2016/5/3.
  */
 public class BaseRecyclerView extends RecyclerView {

@@ -5,7 +5,6 @@
  */
 package com.hanbing.mytest.adapter;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.db.DBCommon.TbUserInfo;
 
 import android.content.Context;

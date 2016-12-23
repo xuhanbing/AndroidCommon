@@ -15,9 +15,6 @@ import android.widget.TextView;
 
 import com.hanbing.library.android.fragment.list.ListFragment;
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.library.android.view.recycler.HeaderRecyclerView;
-
-import java.util.List;
 
 /**
  * Created by hanbing on 2016/10/26

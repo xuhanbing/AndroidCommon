@@ -21,61 +21,61 @@ import android.widget.ImageView;
 import com.hanbing.library.android.R;
 
 /**
- * @author hanbing
- * @date 2015-7-1
+ * A round ImageView
+ * Created by hanbing
  */
 public class RoundImageView extends ImageView {
 
     /**
-     * 图片的类型，圆形or圆角
+     * type
      */
     protected int mType = TYPE_CIRCLE;
     protected static final int TYPE_CIRCLE = 0;
     protected static final int TYPE_ROUND = 1;
 
     /**
-     * 圆角大小的默认值
+     * Default radius size
      */
     private static final int BORDER_RADIUS_DEFAULT = 10;
 
     /**
-     * 边界大小
+     * Border size.
      */
     private int mBorderSize = 0;
 
     /**
-     * 边界颜色
+     * Border color.
      */
     private int mBorderColor = Color.TRANSPARENT;
 
     /**
-     * 圆角的大小
+     * Radius size.
      */
     private int mBorderRadius;
 
     /**
-     *
+     * Border paint.
      */
     private Paint mBorderPaint = new Paint();
 
     /**
-     * 绘图的Paint
+     * Bitmap paint.
      */
     private Paint mBitmapPaint;
     /**
-     * 圆的半径
+     * Circle radius
      */
     private int mRadius;
     /**
-     * 3x3 矩阵，主要用于缩小放大
+     * A matrix used for scale
      */
     private Matrix mMatrix;
     /**
-     * 渲染图像，使用图像为绘制图形着色
+     * Bitmap shader
      */
     private BitmapShader mBitmapShader;
     /**
-     * view的宽度
+     * View width.
      */
     private int mWidth;
     private RectF mRoundRect;
@@ -153,7 +153,7 @@ public class RoundImageView extends ImageView {
     }
 
     /**
-     * 初始化BitmapShader
+     * Init BitmapShader
      */
     private void setUpShader() {
         mBitmapShader = null;
@@ -167,7 +167,6 @@ public class RoundImageView extends ImageView {
         if (null == bmp)
             return;
 
-        // 将bmp作为着色器，就是在指定区域内绘制bmp
         mBitmapShader = new BitmapShader(bmp, TileMode.CLAMP, TileMode.CLAMP);
         int width = getWidth();
         int height = getHeight();
@@ -177,7 +176,7 @@ public class RoundImageView extends ImageView {
 
         float scale = 1.0f;
         if (mType == TYPE_CIRCLE) {
-            // 拿到bitmap宽或高的小值
+            // a min size of width and height
             int bSize = Math.min(bmp.getWidth(), bmp.getHeight());
 
             contentWidth = contentHeight  = mWidth -  2 * mBorderSize;
@@ -188,25 +187,24 @@ public class RoundImageView extends ImageView {
             contentWidth = width - mBorderSize * 2;
             contentHeight = height - mBorderSize * 2;
             // 如果图片的宽或者高与view的宽高不匹配，计算出需要缩放的比例；缩放后的图片的宽高，一定要大于我们view的宽高；所以我们这里取大值；
+            //if width or height of bitmap is not match width or height of view, we will scale it just like CenterCrop scale type.
             scale = Math.max(contentWidth * 1.0f / bmp.getWidth(), contentHeight * 1.0f / bmp.getHeight());
 
         }
-        // shader的变换矩阵，我们这里主要用于放大或者缩小
+        // scale
         mMatrix.setScale(scale, scale);
 
-        // 移动
+        // move
         int tx = (width - contentWidth) / 2;
         int ty = (height - contentHeight) / 2;
         mMatrix.postTranslate(tx, ty);
 
-        // 设置变换矩阵
         mBitmapShader.setLocalMatrix(mMatrix);
-        // 设置shader
         mBitmapPaint.setShader(mBitmapShader);
     }
 
     /**
-     * drawable转bitmap
+     * drawable to bitmap
      *
      * @param drawable
      * @return
@@ -231,14 +229,11 @@ public class RoundImageView extends ImageView {
             drawable.draw(canvas);
         }
 
-        //fix bug if bitmap is null
+        //if bitmap is null, return
         if (null == bitmap)
             return null;
 
-        /**
-         * 裁剪图片
-         * 如果是圆形图片，或者需要居中的图片则裁剪，否则不裁剪
-         */
+        //Check whether need crop or not.
         boolean needCrop = TYPE_CIRCLE == mType;
 
         switch (getScaleType())
@@ -269,7 +264,6 @@ public class RoundImageView extends ImageView {
                 float ratio = width * 1.0f / height;
                 float ratioDrawable = w * 1.0f / h;
 
-                //容器的宽高比大于图片的宽高比，如果完全塞进容器，则横向将留出空间
                 if (ratio > ratioDrawable) {
                     bitmapWidth = w;
                     bitmapHeight = (int) (bitmapWidth / ratio);
@@ -332,7 +326,7 @@ public class RoundImageView extends ImageView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        // 圆角图片的范围
+        //Reset rect.
         if (mType == TYPE_ROUND) {
             mBorderRoundRect = new RectF(0, 0, getWidth(), getHeight());
             mRoundRect = new RectF(mBorderRoundRect);

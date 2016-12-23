@@ -36,7 +36,7 @@ public class RecyclerViewFragment<Bean> extends DataViewFragment<RecyclerView, R
 
     @Override
     protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRecyclerView = new RecyclerView(getActivity());
+        mRecyclerView = new HeaderRecyclerView(getActivity());
         return mRecyclerView;
     }
 

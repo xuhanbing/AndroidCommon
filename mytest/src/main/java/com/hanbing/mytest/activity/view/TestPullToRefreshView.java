@@ -4,7 +4,6 @@
 package com.hanbing.mytest.activity.view;
 
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -20,10 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
-import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
 /**
  * @author hanbing

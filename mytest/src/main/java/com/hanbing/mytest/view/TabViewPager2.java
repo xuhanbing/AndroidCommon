@@ -3,8 +3,6 @@
  */
 package com.hanbing.mytest.view;
 
-import com.hanbing.mytest.R;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.view.ViewPager;

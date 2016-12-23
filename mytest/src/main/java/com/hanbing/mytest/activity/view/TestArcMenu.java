@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.hanbing.library.android.image.ImageLoader;
 import com.hanbing.library.android.view.CircleImageView;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 
 import android.content.Context;

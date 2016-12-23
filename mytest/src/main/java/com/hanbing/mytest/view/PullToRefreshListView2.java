@@ -1,8 +1,6 @@
 package com.hanbing.mytest.view;
 
 
-import com.hanbing.mytest.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;

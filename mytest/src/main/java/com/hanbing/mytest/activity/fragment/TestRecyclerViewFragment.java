@@ -11,9 +11,6 @@ import android.widget.TextView;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.recycler.OnItemClickListener;
-import com.hanbing.mytest.R;
-
-import in.srain.cube.views.ptr.PtrFrameLayout;
 
 public class TestRecyclerViewFragment extends AppCompatActivity {
 

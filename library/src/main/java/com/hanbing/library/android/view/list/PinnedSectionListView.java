@@ -16,8 +16,7 @@ import com.hanbing.library.android.view.plugin.PinnedSectionWrapper;
 /**
  * pinned list view
  *
- * @author hanbing
- * @date 2015-8-11
+ * Created by hanbing
  */
 public class PinnedSectionListView extends ListView {
 

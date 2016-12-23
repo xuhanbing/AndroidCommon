@@ -6,7 +6,6 @@ package com.hanbing.mytest.activity.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.fragment.NumFragment;
 
 import android.os.Bundle;

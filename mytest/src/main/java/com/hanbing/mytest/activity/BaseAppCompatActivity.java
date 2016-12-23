@@ -1,7 +1,6 @@
 package com.hanbing.mytest.activity;
 
 import android.os.Bundle;
-import android.view.Window;
 
 import com.hanbing.library.android.bind.ObjectBinder;
 

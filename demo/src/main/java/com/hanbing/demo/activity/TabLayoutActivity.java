@@ -8,8 +8,8 @@ import android.view.View;
 import com.hanbing.demo.BaseActivity;
 import com.hanbing.demo.NumFragment;
 import com.hanbing.demo.R;
-import com.hanbing.library.android.adapter.BaseFragmentPagerAdapter;
 import com.hanbing.library.android.view.TabLayout;
+import com.hanbing.library.android.adapter.BaseFragmentPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

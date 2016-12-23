@@ -4,15 +4,12 @@
 package com.hanbing.library.android.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.hanbing.library.android.tool.SystemBarTintManager;
-
-import org.xutils.x;
 
 /**
  * @author hanbing

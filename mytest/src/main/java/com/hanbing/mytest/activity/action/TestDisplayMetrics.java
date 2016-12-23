@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.hanbing.library.android.util.SystemUtils;
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
 
 public class TestDisplayMetrics extends AppCompatActivity {
 

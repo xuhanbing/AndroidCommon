@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.hanbing.library.android.view.recycler.BaseRecyclerView;
 import com.hanbing.library.android.view.recycler.HeaderRecyclerView;
-import com.hanbing.library.android.view.recycler.animator.FadeInItemAnimator;
 
 /**
  * Created by hanbing on 2016/11/23
@@ -87,7 +86,7 @@ public abstract class RecyclerViewHelper<DataView extends RecyclerView, DataAdap
     }
 
     @Override
-    public void setEmptyView(View view) {
+    public void setEmptyViewIfNeed() {
         if (mDataView instanceof BaseRecyclerView)
             ((BaseRecyclerView) mDataView).setEmptyView(mEmptyView);
     }

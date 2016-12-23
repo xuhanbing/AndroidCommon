@@ -2,7 +2,6 @@ package com.hanbing.mytest.activity.view;
 
 
 import com.hanbing.library.android.image.ImageLoader;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.base.SlideRightFinishActivity;
 import com.hanbing.mytest.view.gif.AnimatedGifDrawable;
 import com.hanbing.mytest.view.gif.AnimatedGifDrawable.UpdateListener;

@@ -5,8 +5,6 @@
  */
 package com.hanbing.mytest.activity.action;
 
-import com.hanbing.mytest.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;

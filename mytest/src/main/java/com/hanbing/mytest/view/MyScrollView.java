@@ -1,5 +1,4 @@
 package com.hanbing.mytest.view;
-import com.hanbing.mytest.R;
 
 import android.content.Context;
 import android.os.Handler;

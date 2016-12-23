@@ -1,11 +1,6 @@
 package com.hanbing.retrofit_rxandroid.bean;
 
-import android.text.TextUtils;
-
-import org.w3c.dom.Text;
-
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by hanbing on 2016/8/30

@@ -1,7 +1,5 @@
 package com.hanbing.mytest.activity.action;
 
-import com.hanbing.mytest.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;

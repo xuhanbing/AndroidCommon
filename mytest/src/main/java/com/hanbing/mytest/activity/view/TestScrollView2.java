@@ -21,7 +21,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 
 /**

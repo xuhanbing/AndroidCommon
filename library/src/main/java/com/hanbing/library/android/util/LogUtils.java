@@ -7,8 +7,7 @@ import android.util.Log;
 
 
 /**
- * @author hanbing
- * @date 2015-7-28
+ * Created by hanbing
  */
 public class LogUtils {
     static  boolean DEBUG = true;

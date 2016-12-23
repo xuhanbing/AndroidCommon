@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ToastUtils;
-import com.hanbing.mytest.R;
 
 public class TestBroadcast extends AppCompatActivity {
 

@@ -43,7 +43,6 @@ import android.widget.TextView;
 
 import com.hanbing.library.android.activity.BaseAppCompatActivity;
 import com.hanbing.library.android.util.ToastUtils;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.action.TestShortcut;
 import com.hanbing.mytest.fragment.NumFragment;
 import com.hanbing.mytest.module.TestJni;

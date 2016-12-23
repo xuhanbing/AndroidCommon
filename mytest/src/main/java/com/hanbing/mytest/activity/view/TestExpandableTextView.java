@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hanbing.library.android.view.ExpandableTextView;
-import com.hanbing.mytest.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

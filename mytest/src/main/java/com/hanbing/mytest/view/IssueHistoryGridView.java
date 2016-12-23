@@ -3,7 +3,6 @@ package com.hanbing.mytest.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.module.IssueItem;
 
 import android.content.Context;

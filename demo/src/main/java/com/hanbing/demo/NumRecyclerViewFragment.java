@@ -3,8 +3,6 @@ package com.hanbing.demo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,8 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hanbing.library.android.fragment.list.RecyclerViewFragment;
-import com.hanbing.library.android.util.LogUtils;
-import com.hanbing.library.android.util.TimeUtils;
 import com.hanbing.library.android.util.ToastUtils;
 import com.hanbing.library.android.view.recycler.HeaderRecyclerView;
 import com.hanbing.library.android.view.recycler.decoration.LineItemDecoration;

@@ -8,7 +8,6 @@ package com.hanbing.mytest.activity.action;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.view.ScrollLayout.OnScreenChangedListener;
 import com.hanbing.mytest.view.UnlockView;
 import com.hanbing.mytest.view.ScrollLayout;

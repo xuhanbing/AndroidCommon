@@ -5,8 +5,6 @@
  */
 package com.hanbing.mytest.view;
 
-import com.hanbing.mytest.R;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;

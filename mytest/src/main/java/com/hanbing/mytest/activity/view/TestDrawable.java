@@ -14,7 +14,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 import com.hanbing.mytest.view.RoundImageView2;
 

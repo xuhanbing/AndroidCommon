@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.listener.OnPageChangedListener;
 import com.hanbing.mytest.view.PageTextView;
 import com.hanbing.mytest.view.PageTextView.OnCalculateFinishListener;

@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.custom.ExtAudioRecorder;
 
 import java.io.File;

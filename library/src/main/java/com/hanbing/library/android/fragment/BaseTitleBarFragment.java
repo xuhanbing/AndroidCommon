@@ -4,7 +4,6 @@
 package com.hanbing.library.android.fragment;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**

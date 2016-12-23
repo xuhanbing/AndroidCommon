@@ -1,7 +1,6 @@
 package com.hanbing.mytest.service;
 
 import com.hanbing.mytest.MyTestApplication;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.receiver.ScreenLockReceiver;
 
 import android.app.Notification;

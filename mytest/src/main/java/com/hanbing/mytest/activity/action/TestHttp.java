@@ -16,7 +16,6 @@ import com.hanbing.library.android.util.FileUtils;
 import com.hanbing.library.android.util.IOUtils;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
 
 import java.io.File;
 import java.io.FileInputStream;

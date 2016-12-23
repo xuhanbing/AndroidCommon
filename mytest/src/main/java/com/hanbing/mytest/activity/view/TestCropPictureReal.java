@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hanbing.library.android.util.ImageUtils;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 import com.hanbing.mytest.view.CropImageView;
 

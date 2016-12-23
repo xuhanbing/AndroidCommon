@@ -2,13 +2,13 @@ package com.hanbing.library.android.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
 /**
+ * A EditText that will resize drawable base on height.
  * Created by hanbing on 2016/7/27
  */
 public class DrawableEditText extends EditText {

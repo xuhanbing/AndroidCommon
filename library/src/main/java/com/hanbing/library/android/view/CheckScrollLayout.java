@@ -5,8 +5,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 
-import com.hanbing.library.android.util.LogUtils;
-
 /**
  * Created by hanbing on 2016/7/26
  */

@@ -11,8 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
-import com.hanbing.mytest.R;
-
 /**
  * An activity representing a single Item detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,

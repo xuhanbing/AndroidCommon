@@ -7,8 +7,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 /**
- * @author hanbing
- * @date 2015-7-1
+ * Created by hanbing
  */
 public class CircleImageView extends RoundImageView {
 

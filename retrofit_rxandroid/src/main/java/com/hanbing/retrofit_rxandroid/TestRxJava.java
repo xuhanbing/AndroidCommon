@@ -1,22 +1,11 @@
 package com.hanbing.retrofit_rxandroid;
 
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-import com.google.gson.stream.JsonWriter;
 import com.hanbing.library.android.util.TimeUtils;
 
-import junit.framework.Test;
-
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -29,14 +18,12 @@ import java.util.concurrent.TimeoutException;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.functions.Func2;
-import rx.math.operators.OperatorAverageInteger;
 import rx.observables.BlockingObservable;
 import rx.observables.ConnectableObservable;
 import rx.observables.MathObservable;

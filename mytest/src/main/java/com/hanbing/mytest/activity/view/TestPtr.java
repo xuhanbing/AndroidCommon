@@ -35,7 +35,6 @@ import com.hanbing.library.android.view.ptr.PtrLayout;
 import com.hanbing.library.android.view.recycler.HeaderRecyclerView;
 import com.hanbing.library.android.view.recycler.decoration.GridItemDecoration;
 import com.hanbing.library.android.view.recycler.decoration.LineItemDecoration;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseAppCompatActivity;
 import com.hanbing.mytest.fragment.NumFragment;
 import com.hanbing.mytest.view.HeaderView;

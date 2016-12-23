@@ -69,7 +69,7 @@ public abstract class AbsListViewHelper<DataView extends AbsListView, DataAdapte
     }
 
     @Override
-    public void setEmptyView(View view) {
+    public void setEmptyViewIfNeed() {
         if (null != mEmptyView)
             mDataView.setEmptyView(mEmptyView);
     }

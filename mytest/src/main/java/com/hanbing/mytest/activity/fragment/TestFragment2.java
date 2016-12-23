@@ -3,13 +3,10 @@ package com.hanbing.mytest.activity.fragment;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 import com.hanbing.mytest.activity.MainActivity;
 import com.hanbing.mytest.fragment.SimpleFragment;

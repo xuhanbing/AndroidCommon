@@ -16,7 +16,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.view.QRCodeImageView;
 
 import android.app.Activity;

@@ -11,17 +11,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.hanbing.mytest.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TestText extends AppCompatActivity {
 

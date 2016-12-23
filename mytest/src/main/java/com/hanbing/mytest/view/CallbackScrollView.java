@@ -1,10 +1,7 @@
 package com.hanbing.mytest.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
-import android.widget.ScrollView;
 
 /**
  * Created by hanbing on 2016/7/25.

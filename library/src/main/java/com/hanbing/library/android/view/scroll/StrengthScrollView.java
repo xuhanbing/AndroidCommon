@@ -5,12 +5,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.Scroller;
 
 /**
- * @author hanbing
- * @Date 2015-7-8
+ * Created by hanbing
  */
 public class StrengthScrollView extends CallbackScrollView {
 

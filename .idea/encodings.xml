@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/library" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/library/src/main/java/com/hanbing/library/android/view/ClearableEditText.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mytest/src/main/jni/MyTest.cpp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mytest/src/main/jni/com_hanbing_mytest_module_TestJni.h" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mytest/src/main/jni/com_hanbing_mytest_module_TestJni_OnResultListener.h" charset="UTF-8" />

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 可以添加header和footer的RecyclerView
+ * A RecyclerView that can add header and footer just like ListView
  * Created by hanbing on 2016/3/11.
  */
 public class HeaderRecyclerView extends BaseRecyclerView {

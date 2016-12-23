@@ -10,7 +10,6 @@ import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.scroll.PullScaleScrollView;
 import com.hanbing.library.android.view.scroll.StrengthScrollView;
-import com.hanbing.mytest.R;
 
 public class TestScrollView3 extends AppCompatActivity {
 

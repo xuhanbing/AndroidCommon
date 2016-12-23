@@ -6,18 +6,16 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hanbing.library.android.util.LogUtils;
-
 /**
+ * A TextView that will resize drawable base on height.
  * Created by hanbing on 2016/7/27
  */
 public class DrawableTextView extends TextView {
 
     public static class DrawableResizeHelper {
-        //强制宽等于高
+        //Force set width equals height, default is flase
         boolean mForceSquare;
         TextView mTextView;
 

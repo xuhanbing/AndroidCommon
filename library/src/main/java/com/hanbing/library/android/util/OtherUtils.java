@@ -20,8 +20,7 @@ import android.view.KeyEvent;
 /**
  * 其他一下常用
  *
- * @author hanbing
- * @date 2015-7-7
+ * Created by hanbing
  */
 public class OtherUtils {
 

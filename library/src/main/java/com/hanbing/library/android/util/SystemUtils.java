@@ -26,8 +26,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 /**
- * @author hanbing
- * @date 2015-7-21
+ * Created by hanbing
  */
 public class SystemUtils extends OtherUtils {
 

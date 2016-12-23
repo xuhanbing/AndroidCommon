@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.hanbing.demo.EmptyActivity;
 import com.hanbing.demo.R;
-import com.hanbing.library.android.fragment.BaseFragment;
 import com.hanbing.library.android.fragment.list.ListFragment;
 
 /**

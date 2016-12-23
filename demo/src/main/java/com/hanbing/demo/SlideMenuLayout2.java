@@ -3,14 +3,11 @@ package com.hanbing.demo;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ScrollerCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.hanbing.library.android.util.LogUtils;

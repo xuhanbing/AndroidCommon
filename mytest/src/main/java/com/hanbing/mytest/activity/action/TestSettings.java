@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 
 import android.content.Intent;

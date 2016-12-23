@@ -1,12 +1,9 @@
 package com.hanbing.mytest.activity.action;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -16,21 +13,12 @@ import com.hanbing.library.android.bind.ObjectBinder;
 import com.hanbing.library.android.bind.annotation.BindView;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.TimeUtils;
-import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.model.Customer;
 import com.hanbing.model.CustomerDao;
 import com.hanbing.model.DaoMaster;
-import com.hanbing.model.DaoSession;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.common.ConstantValues;
 
 import org.xutils.DbManager;
-import org.xutils.common.util.KeyValue;
-import org.xutils.db.Selector;
-import org.xutils.db.sqlite.SqlInfo;
-import org.xutils.db.sqlite.WhereBuilder;
-import org.xutils.db.table.DbModel;
-import org.xutils.db.table.TableEntity;
 import org.xutils.ex.DbException;
 import org.xutils.x;
 

@@ -43,7 +43,7 @@ public class Utils {
         if (null == onItemClickListener && null == onItemLongClickListener)
             return null;
 
-        //多次添加后面的会接收不到事件
+        //you can only add once because first listener will consume touch events.
         SimpleOnItemTouchListener simpleOnItemTouchListener = new SimpleOnItemTouchListener(recyclerView, onItemClickListener, onItemLongClickListener);
         recyclerView.addOnItemTouchListener(simpleOnItemTouchListener);
 

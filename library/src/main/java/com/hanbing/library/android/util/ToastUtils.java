@@ -5,12 +5,10 @@ package com.hanbing.library.android.util;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 import android.widget.Toast;
 
 /**
- * @author hanbing
- * @date 2015-6-17
+ * Created by hanbing
  */
 public class ToastUtils {
     static Toast mToast;

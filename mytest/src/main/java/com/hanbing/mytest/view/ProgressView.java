@@ -2,8 +2,6 @@ package com.hanbing.mytest.view;
 
 import java.util.Random;
 
-import com.hanbing.mytest.R;
-
 import android.content.Context;
 import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;

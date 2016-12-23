@@ -14,7 +14,6 @@ import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.plugin.PinnedSectionWrapper;
 import com.hanbing.library.android.view.recycler.OnItemClickListener;
 import com.hanbing.library.android.view.recycler.PinnedSectionRecyclerView;
-import com.hanbing.mytest.R;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;

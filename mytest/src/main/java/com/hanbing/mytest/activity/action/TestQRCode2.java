@@ -14,7 +14,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.utils.camera.CameraManager;
 import com.hanbing.mytest.view.QRCodeImageView;
 

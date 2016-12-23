@@ -5,20 +5,17 @@ package com.hanbing.mytest.activity.view;
 
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.view.LinearLayout;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 

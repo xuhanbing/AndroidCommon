@@ -10,7 +10,6 @@ import java.util.concurrent.Executors;
 //import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
 //import com.lidroid.xutils.bitmap.callback.BitmapLoadCallBack;
 //import com.lidroid.xutils.bitmap.callback.BitmapLoadFrom;
-import com.hanbing.mytest.R;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;

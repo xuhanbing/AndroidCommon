@@ -21,8 +21,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 
 /**
- * @author hanbing
- * @date 2015年6月16日
+ * Created by hanbing
  */
 public class FileUtils {
 

@@ -19,7 +19,6 @@ import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.plugin.DrawerItemWrapper;
 import com.hanbing.library.android.view.recycler.DrawerRecyclerView;
-import com.hanbing.mytest.R;
 
 public class TestSlideRecyclerView extends AppCompatActivity {
 

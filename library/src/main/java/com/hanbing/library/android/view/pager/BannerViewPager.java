@@ -18,8 +18,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 /**
- * @author hanbing
- * @date 2016年1月15日
+ * Created by hanbing
  */
 public class BannerViewPager extends ViewPager {
 

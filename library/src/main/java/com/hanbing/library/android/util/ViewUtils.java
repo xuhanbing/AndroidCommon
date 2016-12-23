@@ -26,12 +26,9 @@ import android.widget.TextView;
 
 import com.hanbing.library.android.view.recycler.OnItemClickListener;
 import com.hanbing.library.android.view.recycler.OnItemLongClickListener;
-import com.hanbing.library.android.view.recycler.SimpleOnItemTouchListener;
-import com.hanbing.library.android.view.recycler.Utils;
 
 /**
- * @author hanbing
- * @date 2015-12-23
+ * Created by hanbing
  */
 public class ViewUtils {
 
@@ -245,6 +242,20 @@ public class ViewUtils {
 
         if (TextUtils.isEmpty(text))
             textView.setText(defaultResId);
+    }
+
+    public static void setText(TextView textView, int formatResId, Object ... formatArgs) {
+        if (null == textView)
+            return;
+
+        textView.setText(textView.getContext().getString(formatResId, formatArgs));
+    }
+
+    public static void setText(TextView textView, String formatString, Object ... formatArgs) {
+        if (null == textView)
+            return;
+
+        textView.setText(String.format(formatString, formatArgs));
     }
 
     public static CharSequence getText(TextView textView) {

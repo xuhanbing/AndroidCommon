@@ -4,7 +4,6 @@ import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.list.DrawerListView;
 import com.hanbing.library.android.view.plugin.DrawerItemWrapper;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.view.SlideListView;
 import com.hanbing.mytest.view.SlideListView.SlideListAdapter;
 

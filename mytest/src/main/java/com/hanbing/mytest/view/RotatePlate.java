@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
 
 /**
  * Created by hanbing

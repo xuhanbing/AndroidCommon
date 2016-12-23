@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import com.hanbing.library.android.http.callback.HttpCallback;
 import com.hanbing.library.android.http.callback.HttpProgressCallback;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;

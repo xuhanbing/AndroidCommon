@@ -5,7 +5,6 @@
  */
 package com.hanbing.mytest.fragment;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.view.TestCustomEditText;
 
 import android.app.Activity;

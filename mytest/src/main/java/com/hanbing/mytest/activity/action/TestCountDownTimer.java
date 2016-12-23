@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
 
 public class TestCountDownTimer extends AppCompatActivity {
 

@@ -1,12 +1,10 @@
 package com.hanbing.retrofit_rxandroid.view;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,9 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hanbing.library.android.adapter.BaseAdapter;
-import com.hanbing.library.android.adapter.ViewHolder;
 import com.hanbing.library.android.util.SystemUtils;
-import com.hanbing.library.android.view.list.FullHeightGridView;
 import com.hanbing.retrofit_rxandroid.R;
 import com.hanbing.retrofit_rxandroid.bean.Star;
 

@@ -137,22 +137,24 @@ public class SwitchButton extends CompoundButton {
         if (!isEnabled())
             return super.onTouchEvent(event);
 
+        boolean ret = false;
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
                 if (onDownEvent(event))
-                    return  true;
+                    ret =  true;
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (onMoveEvent(event))
-                    return  true;
+                    ret =  true;
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 if (onUpEvent(event))
-                    return  true;
+                    ret =  true;
                 break;
         }
+
         return super.onTouchEvent(event);
     }
 

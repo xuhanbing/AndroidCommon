@@ -1,9 +1,5 @@
 package com.speex;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-
 public class Speex {
 	
 

@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hanbing.mytest.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;

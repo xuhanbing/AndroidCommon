@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-import com.hanbing.library.android.R;
-
 /**
  * Created by hanbing on 2016/7/7
  */

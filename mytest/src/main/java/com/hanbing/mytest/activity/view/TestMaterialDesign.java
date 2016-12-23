@@ -3,7 +3,6 @@
  */
 package com.hanbing.mytest.activity.view;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 import android.annotation.TargetApi;
 import android.os.Build;

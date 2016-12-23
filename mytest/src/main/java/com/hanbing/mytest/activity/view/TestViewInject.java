@@ -5,7 +5,6 @@ import android.widget.TextView;
 
 import com.hanbing.library.android.activity.BaseAppCompatActivity;
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
 
 import org.xutils.view.annotation.ViewInject;
 

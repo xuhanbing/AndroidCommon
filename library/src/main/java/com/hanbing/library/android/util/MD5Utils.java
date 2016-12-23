@@ -6,8 +6,7 @@ package com.hanbing.library.android.util;
 import java.security.MessageDigest;
 
 /**
- * @author hanbing
- * @date 2015-7-6
+ * Created by hanbing
  */
 public class MD5Utils {
 

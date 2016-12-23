@@ -11,7 +11,6 @@ import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.TimeUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.scroll.CallbackScrollView;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.adapter.DefaultAdapter;
 import com.hanbing.mytest.view.PinnedLinearLayout;
 

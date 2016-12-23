@@ -5,8 +5,7 @@ package com.hanbing.library.android.http.callback;
 
 /**
  * 一个普通的请求回调
- * @author hanbing
- * @date 2015-8-24
+ * Created by hanbing
  */
 public abstract class HttpSimpleCallback implements HttpCallback {
 

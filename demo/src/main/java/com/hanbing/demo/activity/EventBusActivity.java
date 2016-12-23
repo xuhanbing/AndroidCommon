@@ -9,7 +9,6 @@ import com.hanbing.demo.R;
 import com.hanbing.library.android.util.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.EventBusBuilder;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 

@@ -3,11 +3,9 @@ package com.hanbing.demo.view;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.view.NestedScrollingParentHelper;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.hanbing.demo.R;

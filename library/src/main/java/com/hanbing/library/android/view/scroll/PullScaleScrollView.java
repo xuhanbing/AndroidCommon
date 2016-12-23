@@ -14,14 +14,14 @@ import android.widget.RelativeLayout;
 
 
 /**
- * @author hanbing
- * @Date 2015-7-8
+ * A ScrollView configure a scale view when it is pulled from start
+ * Created by hanbing
  */
 public class PullScaleScrollView extends StrengthScrollView implements StrengthScrollView.OnPullListener {
 
 
     /**
-     * View的marginTop随着下拉的距离变化
+     * View that will scale according pull distance.
      */
     View mScaleView;
 
@@ -110,19 +110,19 @@ public class PullScaleScrollView extends StrengthScrollView implements StrengthS
 
 
     /**
-     * 是否是第一次动画（第一次动画在ScrollView的layout后）
+     * Whether it is first animation or not that we will save scale view 's measureHeight
      */
     boolean mIsFirstAnimate = true;
     /**
-     * 内部变化的view的原始高度
+     * ScaleView's measureHeight
      */
     int mInnerViewHeight = 0;
 
 
     /**
-     * 移动
+     * animate
      *
-     * @param y   相对于原始位置移动的距离
+     * @param y  move y base on original position.
      * @param max
      */
     protected void animate(float y, float max) {
@@ -182,7 +182,7 @@ public class PullScaleScrollView extends StrengthScrollView implements StrengthS
     @Override
     public void onPull(float dy, float y, float max) {
         /**
-         * 向上移动时不回调
+         * if pull from end, just do nothing
          */
         if (y < 0)
             return;

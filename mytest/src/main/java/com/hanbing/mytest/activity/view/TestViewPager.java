@@ -12,7 +12,6 @@ import java.util.List;
 import com.hanbing.library.android.view.pager.DefaultTabViewPager;
 import com.hanbing.library.android.view.pager.TabViewPager;
 import com.hanbing.library.android.view.tab.UnderlineTabWidget;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.fragment.NumFragment;
 import com.hanbing.mytest.listener.MulitPointTouchListener;
 import com.hanbing.mytest.view.CustomImageView;

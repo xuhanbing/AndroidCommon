@@ -10,8 +10,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
-import com.hanbing.mytest.adapter.DefaultAdapter;
 
 public class TestListView3 extends AppCompatActivity {
 

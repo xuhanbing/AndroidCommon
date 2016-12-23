@@ -12,6 +12,7 @@ import com.hanbing.library.android.R;
 import java.util.ArrayList;
 
 /**
+ * A float layout just like Html.
  * Created by hanbing on 2016/3/30.
  */
 public class FloatLayout extends RelativeLayout {

@@ -10,7 +10,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.hanbing.library.android.tool.PagingManager;
-import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.view.list.FullHeightListView;
 import com.hanbing.library.android.view.scroll.CallbackScrollView;
 

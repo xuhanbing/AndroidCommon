@@ -1,12 +1,8 @@
 package com.hanbing.mytest.activity.view;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
-import android.widget.ListView;
-
-import com.hanbing.mytest.R;
 
 public class TestCustomTitle extends Activity {
 

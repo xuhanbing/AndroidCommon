@@ -1,13 +1,9 @@
 package com.hanbing.retrofit_rxandroid;
 
 import com.hanbing.retrofit_rxandroid.bean.Data;
-import com.hanbing.retrofit_rxandroid.bean.Subject;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;

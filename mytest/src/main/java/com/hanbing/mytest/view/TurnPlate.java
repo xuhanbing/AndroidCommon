@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hanbing.library.android.util.LogUtils;
-import com.hanbing.mytest.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 
 /**
- * 带清空的edit
+ * A EditText with clear icon.
  */
 public class ClearableEditText extends DrawableEditText implements View.OnFocusChangeListener{
 
@@ -22,26 +22,26 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
     public static interface OnClearListener {
 
         /**
-         * 清空内容
-         * @param content
+         * Clear
+         * @param content Current text
          * @deprecated
          */
         public void onClear(String content);
 
         /***
-         * 将要清空
+         * Before clear action.
          */
         public void beforeClear(EditText editText);
 
         /**
-         *
+         * After clear action.
          */
         public void afterClear(EditText editText);
     }
 
     boolean mAlwaysShow = false;
 
-    //当没有内容时是否占位
+    //Should place holder or not when it is empty
     boolean mPlaceHolder = false;
 
     Drawable mClearDrawable;
@@ -179,14 +179,14 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
      */
     protected boolean isTouchClear(MotionEvent event)
     {
-        //如果没有焦点，返回false
+        //No focus, return false
         if (!hasFocus())
             return false;
         
         int x = (int) event.getX();
         int y = (int) event.getY();
 
-        //设置最小值为40像素
+        //Set minimun size as 40px
         int left = this.getWidth() - Math.max(getTotalPaddingRight(), 40);
         int right = this.getWidth();
         if (x >= left
@@ -235,7 +235,7 @@ public class ClearableEditText extends DrawableEditText implements View.OnFocusC
     {
         Drawable right = null;
 
-        //如果enable=false将不在显示clear
+        //If enabled = false, clear icon will not show
         if ((mAlwaysShow || show) && isEnabled()) {
             right = mClearDrawable;
         } else if (mPlaceHolder) {

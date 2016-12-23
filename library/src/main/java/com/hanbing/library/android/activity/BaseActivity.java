@@ -14,7 +14,7 @@ import com.hanbing.library.android.tool.SystemBarTintManager;
 
 /**
  * @author hanbing
- * 
+ *
  */
 @Deprecated
 public abstract class BaseActivity extends FragmentActivity {

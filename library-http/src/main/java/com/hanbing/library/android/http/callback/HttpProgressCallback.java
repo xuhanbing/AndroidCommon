@@ -4,8 +4,7 @@ package com.hanbing.library.android.http.callback;
 
 /**
  * 进度回调
- * @author hanbing
- * @date 2015-8-24
+ * Created by hanbing
  */
 public interface HttpProgressCallback {
     /**

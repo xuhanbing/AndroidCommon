@@ -5,10 +5,8 @@ import android.os.Bundle;
 
 import com.hanbing.library.android.bind.ObjectBinder;
 import com.hanbing.library.android.bind.annotation.BindContentView;
-import com.hanbing.mytest.R;
 
 import org.xutils.view.annotation.ContentView;
-import org.xutils.x;
 
 @ContentView(R.layout.activity_test_bind)
 @BindContentView(R.layout.activity_test_bind)

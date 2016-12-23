@@ -9,8 +9,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 
 /**
- * @author hanbing
- * @date 2016年1月14日
+ * Created by hanbing
  */
 public class FullHeightExpandableListView extends ExpandableListView {
 

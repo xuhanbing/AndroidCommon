@@ -9,11 +9,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.text.TextUtils;
-import android.view.TextureView;
 
 /**
- * @author hanbing
- * @date 2015年6月16日
+ * Created by hanbing
  */
 public class TimeUtils {
 

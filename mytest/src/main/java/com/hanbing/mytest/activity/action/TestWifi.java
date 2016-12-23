@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.hanbing.mytest.R;
-
 public class TestWifi extends AppCompatActivity {
 
     @Override

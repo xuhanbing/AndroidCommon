@@ -13,9 +13,6 @@ import com.hanbing.demo.BaseActivity;
 import com.hanbing.demo.R;
 import com.hanbing.library.android.tool.ListViewHelper;
 import com.hanbing.library.android.tool.PagingManager;
-import com.hanbing.library.android.util.ToastUtils;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;

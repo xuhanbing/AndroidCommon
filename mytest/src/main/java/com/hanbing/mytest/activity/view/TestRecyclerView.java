@@ -54,7 +54,6 @@ import com.hanbing.library.android.view.recycler.decoration.BaseItemDecoration;
 import com.hanbing.library.android.view.recycler.decoration.GridItemDecoration;
 import com.hanbing.library.android.view.recycler.decoration.LineItemDecoration;
 import com.hanbing.library.android.view.recycler.animator.SlideInLeftItemAnimator;
-import com.hanbing.mytest.R;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -62,8 +61,6 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.OnClick;
 
 
 @ContentView(R.layout.activity_recyclerview2)

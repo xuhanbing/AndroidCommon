@@ -1,6 +1,5 @@
 package com.hanbing.mytest.activity.fragment;
 
-import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,25 +10,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import in.srain.cube.views.ptr.PtrClassicDefaultHeader;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.header.MaterialHeader;
-import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
 public class TestListFragment extends AppCompatActivity {
 

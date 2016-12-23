@@ -6,7 +6,6 @@
 package com.hanbing.mytest.activity.view;
 
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 import com.hanbing.mytest.fragment.NumFragment;
 import com.hanbing.mytest.view.RotatePlate;

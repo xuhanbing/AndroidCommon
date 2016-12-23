@@ -4,11 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -18,28 +16,12 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.hanbing.library.android.http.HttpRequest;
-import com.hanbing.library.android.http.HttpResult;
-import com.hanbing.library.android.http.OkHttpRequest;
-import com.hanbing.library.android.http.callback.HttpCallback;
 import com.hanbing.library.android.util.FileUtils;
 import com.hanbing.library.android.util.LogUtils;
-import com.hanbing.library.android.util.SystemUtils;
 import com.hanbing.library.android.util.ViewUtils;
-import com.hanbing.mytest.R;
-
-import org.xutils.cache.DiskCacheEntity;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import okhttp3.OkHttpClient;
 
 public class TestHttpCacheActivity extends AppCompatActivity {
 

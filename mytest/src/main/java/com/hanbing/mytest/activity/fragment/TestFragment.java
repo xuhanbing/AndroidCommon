@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hanbing.library.android.util.LogUtils;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.fragment.BaseFragment;
 import com.hanbing.mytest.fragment.NearGridFragment;
 import com.hanbing.mytest.fragment.NearListFragment;

@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hanbing.library.android.R;
-import com.hanbing.library.android.util.LogUtils;
 
 /**
  * Created by hanbing on 2016/10/14
@@ -22,35 +21,13 @@ public class SlideMenuLayout extends ViewGroup {
         public void onChanged(SlideMenuLayout slideMenuLayout, int state);
     }
 
-    /**
-     * 空闲
-     */
+
     public static final int STATE_IDLE = 0;
-    /**
-     * 左侧菜单打开
-     */
     public static final int STATE_LEFT_OPENED = 1;
-
-    /**
-     * 左侧菜单正在打开
-     */
     public static final int STATE_LEFT_OPENING = 2;
-    /**
-     * 左侧菜单正在关闭
-     */
     public static final int STATE_LEFT_CLOSING = 3;
-
-    /**
-     * 右侧菜单打开
-     */
     public static final int STATE_RIGHT_OPENED = 4;
-    /**
-     * 右侧菜单正在打开
-     */
     public static final int STATE_RIGHT_OPENING = 5;
-    /**
-     * 右侧菜单正在关闭
-     */
     public static final int STATE_RIGHT_CLOSING = 6;
 
     /**

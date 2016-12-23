@@ -1,12 +1,10 @@
 package com.hanbing.mytest.activity.view;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.FloatLayout;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseAppCompatActivity;
 
 public class TestFloatLayout extends BaseAppCompatActivity {

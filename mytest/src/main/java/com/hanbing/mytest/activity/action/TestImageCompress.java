@@ -22,7 +22,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.hanbing.library.android.util.FileUtils;
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.common.ConstantValues;
 
 import java.io.File;

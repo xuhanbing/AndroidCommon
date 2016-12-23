@@ -9,7 +9,6 @@ import android.widget.ListView;
 import android.widget.Scroller;
 import android.widget.SimpleAdapter;
 
-import com.hanbing.mytest.R;
 import com.hanbing.mytest.activity.BaseActivity;
 
 import java.util.ArrayList;

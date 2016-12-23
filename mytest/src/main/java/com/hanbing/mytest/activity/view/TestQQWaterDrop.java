@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ToastUtils;
-import com.hanbing.mytest.R;
 
 import java.util.ArrayList;
 import java.util.List;

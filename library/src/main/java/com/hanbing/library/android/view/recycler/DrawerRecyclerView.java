@@ -9,12 +9,13 @@ import com.hanbing.library.android.view.plugin.DrawerItemWrapper;
 import com.hanbing.library.android.view.plugin.RecyclerViewDrawerItemWrapper;
 
 /**
- * 滑动删除
+ * Slide to delete RecyclerView
  * Created by hanbing
  */
-public class DrawerRecyclerView extends RecyclerView implements DrawerItemWrapper.Actor {
+public class DrawerRecyclerView extends HeaderRecyclerView implements DrawerItemWrapper.Actor {
 
     RecyclerViewDrawerItemWrapper mDrawerItemWrapper;
+
     public DrawerRecyclerView(Context context) {
         super(context);
         init();
