@@ -70,36 +70,50 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
     }
 
     public DataView getDataView() {
-        return mDataViewHelper.getDataView();
+        if (null != mDataViewHelper)
+
+            return mDataViewHelper.getDataView();
+        return null;
     }
 
     public void setDataView(DataView dataView) {
-        mDataViewHelper.setDataView(dataView);
+        if (null != mDataViewHelper)
+            mDataViewHelper.setDataView(dataView);
     }
 
     public DataAdapter getDataAdapter() {
-        return mDataViewHelper.getDataAdapter();
+        if (null != mDataViewHelper)
+            return mDataViewHelper.getDataAdapter();
+        return null;
     }
 
     public void setDataAdapter(DataAdapter dataAdapter) {
-        this.mDataViewHelper.setDataAdapter(dataAdapter);
+        if (null != mDataViewHelper)
+
+            this.mDataViewHelper.setDataAdapter(dataAdapter);
     }
 
 
     public void setPagingManager(PagingManager pagingManager) {
-        mDataViewHelper.setPagingManager(pagingManager);
+        if (null != mDataViewHelper)
+
+            mDataViewHelper.setPagingManager(pagingManager);
     }
 
     public PagingManager getPagingManager() {
-        return mDataViewHelper.getPagingManager();
+        if (null != mDataViewHelper)
+            return mDataViewHelper.getPagingManager();
+        return null;
     }
 
     public void addLoadMoreIfNeed() {
-        mDataViewHelper.addLoadMoreIfNeed();
+        if (null != mDataViewHelper)
+            mDataViewHelper.addLoadMoreIfNeed();
     }
 
     public void setEmptyViewIfNeed() {
-        mDataViewHelper.setEmptyViewIfNeed();
+        if (null != mDataViewHelper)
+            mDataViewHelper.setEmptyViewIfNeed();
     }
 
     @Override
@@ -112,19 +126,21 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
      * 最后一个item展示（滑动时）
      */
     protected void onLastItemVisible() {
-        mDataViewHelper.onLastItemVisible();
-    }
-
-
-    @Override
-    public final void onLoadMore() {
-        mDataViewHelper.onLoadMore();
-    }
-
-    @Override
-    public final void onRefresh() {
         if (null != mDataViewHelper)
-        mDataViewHelper.onRefresh();
+            mDataViewHelper.onLastItemVisible();
+    }
+
+
+    @Override
+    public void onLoadMore() {
+        if (null != mDataViewHelper)
+            mDataViewHelper.onLoadMore();
+    }
+
+    @Override
+    public void onRefresh() {
+        if (null != mDataViewHelper)
+            mDataViewHelper.onRefresh();
     }
 
     public PagingManager createPagingManager() {
@@ -145,48 +161,59 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
 
     @Override
     public void setShowLoadingViewForced(boolean forced) {
-        mDataViewHelper.setShowLoadingViewForced(forced);
+        if (null != mDataViewHelper)
+            mDataViewHelper.setShowLoadingViewForced(forced);
     }
 
     @Override
     public void setLoadMoreAlwaysShow(boolean alwaysShow) {
-        mDataViewHelper.setLoadMoreAlwaysShow(alwaysShow);
+        if (null != mDataViewHelper)
+            mDataViewHelper.setLoadMoreAlwaysShow(alwaysShow);
     }
 
     protected void showLoadMoreView() {
-        mDataViewHelper.showLoadMoreView();
+        if (null != mDataViewHelper)
+            mDataViewHelper.showLoadMoreView();
     }
 
     protected void hideLoadMoreView() {
-        mDataViewHelper.hideLoadMoreView();
+        if (null != mDataViewHelper)
+            mDataViewHelper.hideLoadMoreView();
     }
 
     @Override
     public void setLoadMoreEnabled(boolean enabled) {
-        mDataViewHelper.setLoadMoreEnabled(enabled);
+        if (null != mDataViewHelper) mDataViewHelper.setLoadMoreEnabled(enabled);
     }
 
     public boolean isLoadMoreEnabled() {
-        return mDataViewHelper.isLoadMoreEnabled();
+        if (null != mDataViewHelper)
+            return mDataViewHelper.isLoadMoreEnabled();
+        return false;
     }
 
     @Override
     public void setScrollLoadMoreEnabled(boolean enabled) {
-        mDataViewHelper.setScrollLoadMoreEnabled(enabled);
+        if (null != mDataViewHelper)
+            mDataViewHelper.setScrollLoadMoreEnabled(enabled);
     }
 
     public boolean isScrollLoadMoreEnabled() {
-        return mDataViewHelper.isScrollLoadMoreEnabled();
+        if (null != mDataViewHelper)
+            return mDataViewHelper.isScrollLoadMoreEnabled();
+        return false;
     }
 
     @Override
     public void setClickLoadMoreEnabled(boolean enabled) {
-        mDataViewHelper.setClickLoadMoreEnabled(enabled);
-
+        if (null != mDataViewHelper)
+            mDataViewHelper.setClickLoadMoreEnabled(enabled);
     }
 
     public boolean isClickLoadMoreEnabled() {
-        return mDataViewHelper.isClickLoadMoreEnabled();
+        if (null != mDataViewHelper)
+            return mDataViewHelper.isClickLoadMoreEnabled();
+        return false;
     }
 
     /**
@@ -196,7 +223,8 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
      * @param isRefreshAll
      */
     public void setRefreshAll(boolean isRefreshAll) {
-        mDataViewHelper.setRefreshAll(isRefreshAll);
+        if (null != mDataViewHelper)
+            mDataViewHelper.setRefreshAll(isRefreshAll);
     }
 
     /**
@@ -206,7 +234,8 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
      * @param isSupportCustomPageSize
      */
     public void setSupportCustomPageSize(boolean isSupportCustomPageSize) {
-        mDataViewHelper.setSupportCustomPageSize(isSupportCustomPageSize);
+        if (null != mDataViewHelper)
+            mDataViewHelper.setSupportCustomPageSize(isSupportCustomPageSize);
     }
 
     /**
@@ -216,32 +245,40 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
      * @param isPageIndexStartFromZero
      */
     public void setPageIndexStartFromZero(boolean isPageIndexStartFromZero) {
-        mDataViewHelper.setPageIndexStartFromZero(isPageIndexStartFromZero);
+        if (null != mDataViewHelper)
+            mDataViewHelper.setPageIndexStartFromZero(isPageIndexStartFromZero);
     }
 
     public void setEmptyView(View view) {
-        mDataViewHelper.setEmptyView(view);
+        if (null != mDataViewHelper)
+            mDataViewHelper.setEmptyView(view);
     }
 
 
     protected void showLoadingView() {
-        mDataViewHelper.showLoadingView();
+        if (null != mDataViewHelper)
+            mDataViewHelper.showLoadingView();
     }
 
     protected void hideLoadingView() {
-        mDataViewHelper.hideLoadingView();
+        if (null != mDataViewHelper)
+            mDataViewHelper.hideLoadingView();
     }
 
     protected void showEmptyView() {
-        mDataViewHelper.showEmptyView();
+        if (null != mDataViewHelper)
+            mDataViewHelper.showEmptyView();
     }
 
     protected void hideEmptyView() {
-        mDataViewHelper.hideEmptyView();
+        if (null != mDataViewHelper)
+            mDataViewHelper.hideEmptyView();
     }
 
     public boolean isRefresh() {
-        return mDataViewHelper.isRefresh();
+        if (null != mDataViewHelper)
+            return mDataViewHelper.isRefresh();
+        return false;
     }
 
     @Override
@@ -250,34 +287,40 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
 
     @Override
     public void onLoadFailure(String msg) {
-        mDataViewHelper.onLoadFailure(msg);
+        if (null != mDataViewHelper)
+            mDataViewHelper.onLoadFailure(msg);
         onLoadCompleted();
     }
 
     @Override
     public void onLoadStart() {
-        mDataViewHelper.onLoadStart();
+        if (null != mDataViewHelper)
+            mDataViewHelper.onLoadStart();
     }
 
     @Override
     public void onLoadSuccess() {
-        mDataViewHelper.onLoadSuccess();
+        if (null != mDataViewHelper)
+            mDataViewHelper.onLoadSuccess();
         onLoadCompleted();
     }
 
     @Override
     public void onLoadSuccessNoData() {
-        mDataViewHelper.onLoadSuccessNoData();
+        if (null != mDataViewHelper)
+            mDataViewHelper.onLoadSuccessNoData();
         onLoadCompleted();
     }
 
     protected void onLoadMoreClick() {
-        mDataViewHelper.onLoadMoreClick();
+        if (null != mDataViewHelper)
+            mDataViewHelper.onLoadMoreClick();
     }
 
     @Override
     public void notifyDataSetChanged() {
-        mDataViewHelper.notifyDataSetChanged();
+        if (null != mDataViewHelper)
+            mDataViewHelper.notifyDataSetChanged();
     }
 
     /**
@@ -303,11 +346,10 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
     }
 
     /**
-     *
      * @param rootView
      * @return
      */
-    protected View addViewAtDataViewHierarchy(View rootView, View ... views) {
+    protected View addViewAtDataViewHierarchy(View rootView, View... views) {
 
         if (null == rootView || null == views || 0 == views.length)
             return rootView;
@@ -321,6 +363,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
 
     /**
      * 在dataview的同一层次添加view，如果没有parent或者不是relativelayout或者framelayout，则包裹一层
+     *
      * @param rootView
      * @param child
      * @return
@@ -337,7 +380,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
 
         ViewGroup viewGroup = null;
 
-        if (null == parent ) {
+        if (null == parent) {
             //没有parent
             viewGroup = new RelativeLayout(getContext());
             viewGroup.addView(dataView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -371,4 +414,21 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
         return rootView;
     }
 
+    protected void reset() {
+        mDataViewHelper.reset();
+    }
+
+
+    protected View getEmptyView() {
+        if (null != getDataViewHelper())
+            return getDataViewHelper().getEmptyView();
+
+        return null;
+    }
+
+    protected View getLoadingView() {
+        if (null != getDataViewHelper())
+            return getDataViewHelper().getLoadingView();
+        return null;
+    }
 }

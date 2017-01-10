@@ -534,4 +534,21 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
     public void setOnLoadMoreClick(View.OnClickListener onLoadMoreClick) {
         mOnLoadMoreClick = onLoadMoreClick;
     }
+
+    public View getEmptyView() {
+        return mEmptyView;
+    }
+
+    public View getLoadingView() {
+        return mLoadingView;
+    }
+
+    public View getLoadMoreView() {
+        return mLoadMoreView;
+    }
+
+    public void reset() {
+        if (null != mPagingManager)
+        mPagingManager.forceReset();
+    }
 }

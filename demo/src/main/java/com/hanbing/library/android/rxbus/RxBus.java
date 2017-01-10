@@ -1,5 +1,9 @@
 package com.hanbing.library.android.rxbus;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+
 import com.hanbing.library.android.util.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -9,9 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.subjects.PublishSubject;
+import rx.Subscription;
+import rx.functions.Action1;
+import rx.subjects.PublishSubject;
+
 
 /**
  * Created by hanbing on 2016/12/15
@@ -35,9 +40,24 @@ public class RxBus {
     }
 
 
+    private boolean isAvailableType(Class type) {
+        if (Object.class.equals(type)
+                || FragmentActivity.class.equals(type)
+                || Activity.class.equals(type)
+                || Fragment.class.equals(type)
+                || android.support.v4.app.Fragment.class.equals(type))
+            return false;
+        return true;
+    }
+
+
     public void register(Object subscriber) {
 
         Class<?> type = subscriber.getClass();
+
+        if (!isAvailableType(type))
+            return;
+
 
         List<Class<?>> registerTypes = findTypes(type);
 
@@ -65,7 +85,7 @@ public class RxBus {
                     }
 
                     //添加订阅者
-                    publisher.subscribe( new Subscriber(subscriber, method));
+                    publisher.subscribe(new Subscriber(subscriber, method));
 
                     //添加注册的消息类型
                     if (!registerTypes.contains(parameterType))
@@ -86,7 +106,7 @@ public class RxBus {
     }
 
     private List<Method> findMethods(Class<?> clazz) {
-        Method[] declaredMethods = clazz.getDeclaredMethods();
+        Method[] declaredMethods = clazz.getMethods();
         if (null == declaredMethods || declaredMethods.length == 0)
             return null;
 
@@ -108,6 +128,9 @@ public class RxBus {
     public void unregister(Object subscriber) {
 
         Class<?> type = subscriber.getClass();
+
+        if (!isAvailableType(type))
+            return;
 
         List<Class<?>> registerTypes = findTypes(type);
 
@@ -138,6 +161,7 @@ public class RxBus {
             }
         }
 
+
     }
 
     public void post(final Object event) {
@@ -154,7 +178,7 @@ public class RxBus {
     class Publisher {
 
         final PublishSubject publishSubject;
-        final List<Disposable> observers;
+        final List<Subscription> observers;
 
         public Publisher(PublishSubject publishSubject) {
             this.publishSubject = publishSubject;
@@ -164,14 +188,13 @@ public class RxBus {
 
         public void subscribe(Subscriber observer) {
 
-            if (observers.contains(observer))
-            {
-                Disposable observer1 = CollectionUtils.getExist(observers, observer);
+            if (observers.contains(observer)) {
+                Subscription observer1 = CollectionUtils.getExist(observers, observer);
                 throw new IllegalArgumentException("You can not register method twice. Current is " + observer1);
             }
 
 
-            Disposable subscribe = publishSubject.subscribe(observer);
+            Subscription subscribe = publishSubject.subscribe(observer);
             observer.setDisposable(subscribe);
 
             observers.add(observer);
@@ -182,35 +205,34 @@ public class RxBus {
             if (null == observer)
                 return;
 
-            Disposable observer1 =  CollectionUtils.getExist(observers, observer);
-            if (null == observer1)
-            {
-                observer.dispose();
+            Subscription observer1 = CollectionUtils.getExist(observers, observer);
+            if (null == observer1) {
+                observer.unsubscribe();
                 return;
             }
 
-            observer1.dispose();
+            observer1.unsubscribe();
             observers.remove(observer1);
         }
     }
 
 
-    class Subscriber implements Consumer, Disposable {
+    class Subscriber implements Subscription, Action1 {
         Object target;
         Method method;
 
-        Disposable disposable;
+        Subscription disposable;
 
         public Subscriber(Object target, Method method) {
             this.target = target;
             this.method = method;
         }
 
-        public Disposable getDisposable() {
+        public Subscription getDisposable() {
             return disposable;
         }
 
-        public void setDisposable(Disposable disposable) {
+        public void setDisposable(Subscription disposable) {
             this.disposable = disposable;
         }
 
@@ -263,23 +285,38 @@ public class RxBus {
             return hashCode;
         }
 
+        @Override
+        public void unsubscribe() {
+            if (null != disposable) disposable.unsubscribe();
+        }
 
         @Override
-        public void accept(Object o) throws Exception {
+        public boolean isUnsubscribed() {
+            return null != disposable && disposable.isUnsubscribed();
+        }
+
+        @Override
+        public void call(Object o) {
             invoke(o);
         }
 
 
-        @Override
-        public void dispose() {
-            if (null != disposable) disposable.dispose();
-        }
-
-        @Override
-        public boolean isDisposed() {
-            if (null != disposable) return disposable.isDisposed();
-            return false;
-        }
+//        @Override
+//        public void accept(Object o) throws Exception {
+//            invoke(o);
+//        }
+//
+//
+//        @Override
+//        public void dispose() {
+//            if (null != disposable) disposable.dispose();
+//        }
+//
+//        @Override
+//        public boolean isDisposed() {
+//            if (null != disposable) return disposable.isDisposed();
+//            return false;
+//        }
     }
 
 }

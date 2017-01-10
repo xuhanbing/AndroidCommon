@@ -16,6 +16,8 @@ public abstract class AbsListFragment<DataView extends AbsListView, Bean> extend
 
     @Override
     public int getItemCount() {
+        if (null != getDataAdapter())
+            return getDataAdapter().getCount();
         return 0;
     }
 

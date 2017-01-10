@@ -3,7 +3,11 @@ package com.hanbing.library.android.view.recycler;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
+import android.view.ViewConfiguration;
+
+import com.hanbing.library.android.util.LogUtils;
 
 /**
  * Created by hanbing on 2016/6/7.
@@ -19,12 +23,29 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
     boolean mIsLongPress = false;
     boolean mIsLongPressHandled = true;
 
+    int mMinimumFlingVelocity;
+    int mMaximumFlingVelocity;
+    int mTouchSlop;
+
+    VelocityTracker mVelocityTracker;
+
+    float mLastDownX;
+    float mLastDownY;
+    float mLastMotionX;
+    float mLastMotionY;
 
     public SimpleOnItemTouchListener(RecyclerView recyclerView, OnItemClickListener onItemClickListener, OnItemLongClickListener onItemLongClickListener) {
         this.mRecyclerView = recyclerView;
         this.mOnItemClickListener = onItemClickListener;
         this.mOnItemLongClickListener = onItemLongClickListener;
         this.mGestureDetector = new GestureDetector(recyclerView.getContext(), this);
+
+
+        ViewConfiguration viewConfiguration = ViewConfiguration.get(recyclerView.getContext());
+
+        mMinimumFlingVelocity = viewConfiguration.getScaledMinimumFlingVelocity();
+        mMaximumFlingVelocity = viewConfiguration.getScaledMaximumFlingVelocity();
+        mTouchSlop = viewConfiguration.getScaledTouchSlop();
     }
 
     @Override
@@ -45,21 +66,61 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
                     cancel.setAction(MotionEvent.ACTION_CANCEL);
                     mGestureDetector.onTouchEvent(cancel);
                 }
+
                 return false;
             }
 
+
+            if (null == mVelocityTracker)
+                mVelocityTracker = VelocityTracker.obtain();
+
+            mVelocityTracker.addMovement(e);
+
+            float x = e.getRawX();
+            float y = e.getRawY();
+
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    mLastDownX = mLastMotionX = x;
+                    mLastDownY = mLastMotionY = y;
+
                     mIsMove = mIsLongPress = false;
                     mIsLongPressHandled = true;
+
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    mIsMove = true;
+
+                    mIsMove = checkMove(e);
+
+                    mLastMotionX = x;
+                    mLastMotionY = y;
+
                     break;
                 case MotionEvent.ACTION_UP:
+
+                    mIsMove = checkMove(e);
+
+                    if (null != mVelocityTracker)
+                    {
+                        mVelocityTracker.recycle();
+                        mVelocityTracker = null;
+                    }
+
+//                    if (!mIsMove) {
+//
+//                        if (mIsLongPress) {
+//                            if (child.performLongClick())
+//                                return false;
+//                        } else {
+//                            if (child.performClick())
+//                                return false;
+//                        }
+//                    }
+
                     if (!mIsMove && mIsLongPress && !mIsLongPressHandled) {
                         return onSingleTapUp(e);
                     }
+
                     break;
             }
 
@@ -68,6 +129,28 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
 
         }
 
+
+        return false;
+    }
+
+    private boolean checkMove(MotionEvent e) {
+        float x = e.getRawX();
+        float y = e.getRawY();
+
+        mVelocityTracker.computeCurrentVelocity(1000, mMaximumFlingVelocity);
+        float vx = mVelocityTracker.getXVelocity();
+        float vy = mVelocityTracker.getYVelocity();
+
+        float dx = x - mLastDownX;
+        float dy = y - mLastDownY;
+
+        //calc move distance
+        float delta = (float) Math.sqrt(dx * dx + dy * dy);
+
+        //check if move
+        if (delta > mTouchSlop || Math.sqrt(vx * vx + vy * vy) > mMinimumFlingVelocity) {
+            return  true;
+        }
 
         return false;
     }

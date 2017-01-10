@@ -234,6 +234,8 @@ public class ViewUtils {
 
         if (TextUtils.isEmpty(text))
             textView.setText(defaultText);
+        else
+            textView.setText(text);
     }
 
     public static void setText(TextView textView,  CharSequence text, int defaultResId) {
@@ -242,6 +244,8 @@ public class ViewUtils {
 
         if (TextUtils.isEmpty(text))
             textView.setText(defaultResId);
+        else
+            textView.setText(text);
     }
 
     public static void setText(TextView textView, int formatResId, Object ... formatArgs) {

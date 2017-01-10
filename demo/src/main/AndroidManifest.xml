@@ -57,6 +57,12 @@
         </activity>
         <activity android:name=".activity.RxBusActivity">
         </activity>
+        <activity android:name=".activity.RxBusSubActivity">
+        </activity>
+        <activity android:name=".activity.TestPtrActivity">
+        </activity>
+        <activity android:name=".activity.TestSlidingPaneActivity">
+        </activity>
     </application>
 
 </manifest>
