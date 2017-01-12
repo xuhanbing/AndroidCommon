@@ -24,6 +24,5 @@ public class TestSlidingPaneActivity extends BaseActivity {
 
         mListView.setAdapter(new DefaultAdapter(40));
 
-        ContextCompat.startActivities(this, )
     }
 }

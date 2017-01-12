@@ -6,8 +6,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
-
-import com.hanbing.library.android.util.LogUtils;
+import android.view.ViewGroup;
 
 /**
  * Created by hanbing on 2016/6/7.
@@ -19,6 +18,8 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
     OnItemLongClickListener mOnItemLongClickListener;
     RecyclerView mRecyclerView;
 
+
+    boolean mDisallowIntercept = false;
     boolean mIsMove = false;
     boolean mIsLongPress = false;
     boolean mIsLongPressHandled = true;
@@ -34,6 +35,10 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
     float mLastMotionX;
     float mLastMotionY;
 
+
+    //view receive touch events.
+    View mTargetChild;
+
     public SimpleOnItemTouchListener(RecyclerView recyclerView, OnItemClickListener onItemClickListener, OnItemLongClickListener onItemLongClickListener) {
         this.mRecyclerView = recyclerView;
         this.mOnItemClickListener = onItemClickListener;
@@ -46,28 +51,43 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
         mMinimumFlingVelocity = viewConfiguration.getScaledMinimumFlingVelocity();
         mMaximumFlingVelocity = viewConfiguration.getScaledMaximumFlingVelocity();
         mTouchSlop = viewConfiguration.getScaledTouchSlop();
+
     }
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+        if (mDisallowIntercept)
+            return false;
+
+
+        if (e.getAction() == MotionEvent.ACTION_DOWN)
+        {
+            mTargetChild = null;
+        }
+
 
         int action = e.getAction();
 
         View child = rv.findChildViewUnder(e.getX(), e.getY());
-
         if (null != child) {
+            boolean handled = false;
+            //dispatch to child first.
+            handled = child.dispatchTouchEvent(transformMotionEvent(rv, child, e));
 
-            //子控件消耗了事件
-            if (child.dispatchTouchEvent(e))
+            if (handled)
             {
-                //取消手势
+                //We cancel gesture here because events will never be sent to gesture detector until next touch down.
                 if (MotionEvent.ACTION_DOWN != action) {
                     MotionEvent cancel = MotionEvent.obtain(e);
                     cancel.setAction(MotionEvent.ACTION_CANCEL);
                     mGestureDetector.onTouchEvent(cancel);
                 }
 
-                return false;
+                //save target child who will handle following events.
+                mTargetChild = child;
+
+                //will return true here, and then handle touch event onTouchEvent
+                return true;
             }
 
 
@@ -106,17 +126,7 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
                         mVelocityTracker = null;
                     }
 
-//                    if (!mIsMove) {
-//
-//                        if (mIsLongPress) {
-//                            if (child.performLongClick())
-//                                return false;
-//                        } else {
-//                            if (child.performClick())
-//                                return false;
-//                        }
-//                    }
-
+                    //If no move and a long press occur but never handled, we perform as a single tap.
                     if (!mIsMove && mIsLongPress && !mIsLongPressHandled) {
                         return onSingleTapUp(e);
                     }
@@ -126,7 +136,6 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
 
             if (mGestureDetector.onTouchEvent(e))
                 return true;
-
         }
 
 
@@ -157,13 +166,26 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
 
     @Override
     public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+        if (null != mTargetChild) {
+            //child handle event,
+            mTargetChild.dispatchTouchEvent(transformMotionEvent(rv, mTargetChild, e));
+        }
+    }
 
+    private MotionEvent transformMotionEvent(ViewGroup parent, View child, MotionEvent event) {
+        MotionEvent e = MotionEvent.obtain(event);
 
+        final float offsetX = parent.getScrollX() - child.getLeft();
+        final float offsetY = parent.getScrollY() - child.getTop();
+        e.offsetLocation(offsetX, offsetY);
+
+        return e;
     }
 
     @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        mDisallowIntercept = disallowIntercept;
     }
 
 
@@ -180,6 +202,7 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
     public boolean onSingleTapUp(MotionEvent e) {
         RecyclerView rv = mRecyclerView;
         View child = rv.findChildViewUnder(e.getX(), e.getY());
+
         int position = rv.getChildAdapterPosition(child);
 
         if (position >= 0 && checkClickable(rv, position)) {
