@@ -2,6 +2,7 @@ package com.hanbing.library.android.view.ptr;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.AttributeSet;
@@ -10,10 +11,13 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 import com.hanbing.library.android.R;
+import com.hanbing.library.android.util.LogUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -136,6 +140,7 @@ public class PtrLayout extends ViewGroup {
      */
     boolean mIsBeingDragged = false;
 
+
     /**
      *
      */
@@ -182,7 +187,6 @@ public class PtrLayout extends ViewGroup {
     Handler mHandler = new Handler();
 
 
-
     /**
      * current state
      */
@@ -199,8 +203,8 @@ public class PtrLayout extends ViewGroup {
     int mMaxMoveDelta = 100;
 
     /**
-     *  ratio base on header or footer size
-     *  if move distance reach mRatioToRefresh * (header or footer size), then you can release to refresh
+     * ratio base on header or footer size
+     * if move distance reach mRatioToRefresh * (header or footer size), then you can release to refresh
      */
     float mRatioToRefresh = 1.2f;
 
@@ -208,7 +212,7 @@ public class PtrLayout extends ViewGroup {
     /**
      * scroll duration
      */
-    int mScrollDuration = 750;
+    int mScrollDuration = 500;
 
     /**
      * current move distance x , y
@@ -257,22 +261,36 @@ public class PtrLayout extends ViewGroup {
     int mContentViewId = -1;
 
     /**
+     *
+     */
+    Interpolator mInterpolator ;
+
+    /**
      * animation move scroller
      */
     class MoveScroller implements Runnable {
 
-        Scroller mScroller = new Scroller(getContext());
+        Scroller mScroller;
 
         Handler mHandler = new Handler();
 
         int mDelay = 10;
 
+
+        public MoveScroller() {
+
+            if (null != mInterpolator)
+                mScroller = new Scroller(getContext(), mInterpolator);
+            else
+                mScroller = new Scroller(getContext());
+        }
+
         public void abort() {
             if (!mScroller.isFinished()) {
                 mHandler.removeCallbacks(this);
-                mScroller.forceFinished(true);
-            }
+                mScroller.abortAnimation();
 
+            }
         }
 
         public void scrollTo(int x, int y) {
@@ -283,18 +301,23 @@ public class PtrLayout extends ViewGroup {
         @Override
         public void run() {
 
+
             if (mScroller.computeScrollOffset()) {
+
                 if (mCurMoveX != mScroller.getCurrX()
                         || mCurMoveY != mScroller.getCurrY()) {
+
                     mCurMoveX = mScroller.getCurrX();
                     mCurMoveY = mScroller.getCurrY();
 
+                    layoutChildren();
+                } else {
                     layoutChildren();
                 }
 
                 mHandler.postDelayed(this, mDelay);
             } else {
-
+                layoutChildren();
                 postOnScrollFinished();
 
                 mHandler.removeCallbacks(this);
@@ -349,6 +372,8 @@ public class PtrLayout extends ViewGroup {
         mMinimumFlingVelocity = viewConfiguration.getScaledMinimumFlingVelocity();
 
         mPullChecker = PtrPullChecker.defaultPtrPullChecker();
+
+        mInterpolator = new AccelerateDecelerateInterpolator(getContext(), attrs);
 
         mScroller = new MoveScroller();
 
@@ -416,7 +441,7 @@ public class PtrLayout extends ViewGroup {
                 mContentView = child1;
                 mHeaderView = child2;
                 mFooterView = child3;
-            } else  {
+            } else {
                 mHeaderView = child1;
                 mContentView = child2;
                 mFooterView = child3;
@@ -432,7 +457,7 @@ public class PtrLayout extends ViewGroup {
                     //Both are header or footer
                     mHeaderView = child1;
                     mFooterView = child2;
-                } else if(child1 instanceof IPtrHandler){
+                } else if (child1 instanceof IPtrHandler) {
                     //First is header
                     mHeaderView = child1;
                     mContentView = child2;
@@ -456,7 +481,7 @@ public class PtrLayout extends ViewGroup {
                     if (child1 instanceof IPtrHandler && !(child2 instanceof IPtrHandler)) {
                         mFooterView = child1;
                         mContentView = child2;
-                    } else{
+                    } else {
                         mContentView = child1;
                         mFooterView = child2;
                     }
@@ -500,7 +525,7 @@ public class PtrLayout extends ViewGroup {
 
     }
 
-    View[] findLeftViews(View ... views) {
+    View[] findLeftViews(View... views) {
 
         int childCount = getChildCount();
         if (0 == childCount)
@@ -534,8 +559,17 @@ public class PtrLayout extends ViewGroup {
         }
     }
 
+
+    private String printState() {
+        return  " mState = 0x" + Integer.toHexString(mState) + " ";
+    }
+
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        LogUtils.e("onMeasure" + printState());
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         measureHeaderView(mHeaderView, widthMeasureSpec, heightMeasureSpec);
@@ -544,7 +578,10 @@ public class PtrLayout extends ViewGroup {
         if (null != mContentView && mContentView.getVisibility() != View.GONE) {
             measureChild(mContentView, widthMeasureSpec, heightMeasureSpec);
         }
+
+
     }
+
 
     void measureHeaderView(View view, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
 
@@ -562,6 +599,7 @@ public class PtrLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        LogUtils.e("onLayout child " + printState());
         layoutChildren();
     }
 
@@ -569,14 +607,13 @@ public class PtrLayout extends ViewGroup {
         if (null == mContentView)
             return;
 
-        mContentView.layout(0, 0, getWidth(), getHeight());
+        LogUtils.e("layout child " + printState());
 
         if (isVertical()) {
             layoutChildrenVertical();
         } else {
             layoutChildrenHorizontal();
         }
-
     }
 
 
@@ -633,7 +670,10 @@ public class PtrLayout extends ViewGroup {
                     right = getWidth();
                 }
 
+
                 mContentView.layout(left, top, right, bottom);
+            } else {
+                mContentView.layout(0, 0, getWidth(), getHeight());
             }
 
             if (null != mFooterView) {
@@ -669,6 +709,8 @@ public class PtrLayout extends ViewGroup {
                 }
 
                 mContentView.layout(left, top, right, bottom);
+            } else {
+                mContentView.layout(0, 0, getWidth(), getHeight());
             }
 
         }
@@ -677,7 +719,6 @@ public class PtrLayout extends ViewGroup {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-
         if (null == mVelocityTracker) {
             mVelocityTracker = VelocityTracker.obtain();
         }
@@ -704,11 +745,31 @@ public class PtrLayout extends ViewGroup {
         }
 
         return super.dispatchTouchEvent(ev);
+
+    }
+
+
+    private boolean isTouchIn(View view, MotionEvent ev) {
+        if (null == view)
+            return false;
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+
+
+        int x = (int) ev.getRawX();
+        int y = (int) ev.getRawY();
+
+
+        Rect rect = new Rect(location[0], location[1], location[0] + view.getWidth(), location[1] + view.getHeight());
+
+        if (rect.contains(x, y)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-
         if (null == mContentView)
             return false;
 
@@ -719,7 +780,6 @@ public class PtrLayout extends ViewGroup {
         if (null == mHeaderView
                 && null == mFooterView)
             return false;
-
 
         if (isRefreshing()
                 && !mDispatchTouchEventWhenRefreshing)
@@ -903,8 +963,10 @@ public class PtrLayout extends ViewGroup {
 
         int limit = limitMove(move, delta);
 
-        if (move == limit)
+        if (move == limit) {
+            updateMove(move);
             return;
+        }
 
         move = limit;
 
@@ -1004,7 +1066,33 @@ public class PtrLayout extends ViewGroup {
 
         delta = Math.abs(delta) * Math.min(Math.abs(delta), mMaxMoveDelta) / delta;
 
-        move += delta;
+
+        if (move > 0) {
+            //pull from start.
+            move += delta;
+
+            //must >= 0
+            if (move < 0)
+                move = 0;
+        } else if (move < 0) {
+            //pull from end.
+            move += delta;
+
+            //must <= 0
+            if (move > 0)
+                move = 0;
+        } else {
+            //unknown
+            move += delta;
+        }
+
+
+//        if (isVertical()) {
+//            move = Math.max(0, Math.min(move, getHeight()));
+//        } else {
+//            move = Math.max(0, Math.min(move, getWidth()));
+//        }
+
 
         return move;
     }
@@ -1020,6 +1108,7 @@ public class PtrLayout extends ViewGroup {
 
         layoutChildren();
     }
+
 
     void onTouchUp(MotionEvent event) {
 
@@ -1086,6 +1175,8 @@ public class PtrLayout extends ViewGroup {
             }
             break;
         }
+
+        mIsBeingDragged = false;
     }
 
     private void prepareRefreshFromStart() {
@@ -1153,6 +1244,10 @@ public class PtrLayout extends ViewGroup {
     int getRefreshThresholdSize() {
 
         return isPullFromStart() ? getRefreshHeaderSize() : getRefreshFooterSize();
+    }
+
+    int getCurMove() {
+        return isVertical() ? mCurMoveY : mCurMoveX;
     }
 
     int getContentSize() {
@@ -1330,7 +1425,7 @@ public class PtrLayout extends ViewGroup {
     }
 
 
-     void onPull(PtrLayout ptrLayout, int delta, float percent) {
+    void onPull(PtrLayout ptrLayout, int delta, float percent) {
         if (isPullFromStart() && mHeaderView instanceof IPtrHandler)
             ((IPtrHandler) mHeaderView).onPull(this, delta, percent);
         else if (isPullFromEnd() && mFooterView instanceof IPtrHandler)
@@ -1340,7 +1435,7 @@ public class PtrLayout extends ViewGroup {
     void onReset() {
         if (mHeaderView instanceof IPtrHandler)
             ((IPtrHandler) mHeaderView).onReset();
-         if ( mFooterView instanceof IPtrHandler)
+        if (mFooterView instanceof IPtrHandler)
             ((IPtrHandler) mFooterView).onReset();
     }
 
@@ -1352,7 +1447,7 @@ public class PtrLayout extends ViewGroup {
 
     }
 
-     void onReleaseToRefresh() {
+    void onReleaseToRefresh() {
         if (isPullFromStart() && mHeaderView instanceof IPtrHandler)
             ((IPtrHandler) mHeaderView).onReleaseToRefresh();
         else if (isPullFromEnd() && mFooterView instanceof IPtrHandler)
@@ -1360,7 +1455,7 @@ public class PtrLayout extends ViewGroup {
 
     }
 
-     void onRefreshPrepared() {
+    void onRefreshPrepared() {
         if (isPullFromStart() && mHeaderView instanceof IPtrHandler)
             ((IPtrHandler) mHeaderView).onRefreshPrepared();
         else if (isPullFromEnd() && mFooterView instanceof IPtrHandler)
@@ -1396,8 +1491,37 @@ public class PtrLayout extends ViewGroup {
         else if (isPullFromEnd() && mFooterView instanceof IPtrHandler)
             ((IPtrHandler) mFooterView).onRefreshCompleted();
 
-        smoothScrollTo(0, 0);
-        mState = State.DEFAULT;
+
+        /**
+         *  If  is being dragged set state to proper new state, or just set state to default and scroll to original location.
+         */
+        if (mIsBeingDragged) {
+            //If is refreshing, set to prev state, or just do nothing.
+            if (State.REFRESHING_FROM_START == mState) {
+                if (Math.abs(getCurMove()) >= getRefreshThresholdSize()) {
+                    mState = State.RELEASE_TO_REFRESH_FROM_START;
+                    postOnReleaseToRefresh();
+                } else {
+                    mState = State.PULL_TO_REFRESH_FROM_START;
+                    postOnPullToRefresh();
+                }
+
+            } else if (State.REFRESHING_FROM_END == mState ){
+                if (Math.abs(getCurMove()) >= getRefreshThresholdSize()) {
+                    mState = State.RELEASE_TO_REFRESH_FROM_END;
+                    postOnReleaseToRefresh();
+
+                } else {
+                    mState = State.PULL_TO_REFRESH_FROM_END;
+                    postOnPullToRefresh();
+
+                }
+            }
+
+        } else {
+            mState = State.DEFAULT;
+            smoothScrollTo(0, 0);
+        }
     }
 
     void postOnPull(final PtrLayout ptrLayout, final int delta, final float percent) {
@@ -1429,8 +1553,9 @@ public class PtrLayout extends ViewGroup {
     }
 
     public void postOnRefreshCompleted() {
-        if (State.DEFAULT == mState)
+        if (State.DEFAULT == mState && 0 == mCurMoveX && 0 == mCurMoveY) {
             return;
+        }
 
         long delay = 0;
         if (mInsureMinimumRefreshDuration) {
@@ -1453,6 +1578,7 @@ public class PtrLayout extends ViewGroup {
     public void postPullToRefresh() {
         postPullFromStart();
     }
+
     public void postPullFromStart() {
         mHandler.post(new Runnable() {
             @Override
@@ -1502,8 +1628,7 @@ public class PtrLayout extends ViewGroup {
     protected void onDetachedFromWindow() {
         mScroller.abort();
 
-        if (null != mVelocityTracker)
-        {
+        if (null != mVelocityTracker) {
             mVelocityTracker.recycle();
             mVelocityTracker = null;
         }

@@ -76,21 +76,25 @@ public class TestPtrActivity extends BaseActivity {
         protected View onCreateViewImpl(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = super.onCreateViewImpl(inflater, container, savedInstanceState);
 
+            TextView textView = new TextView(getContext());
+            textView.setText(R.string.large_text);
+            view.setBackgroundColor(Color.RED);
             if (view instanceof ListView) {
                 RelativeLayout relativeLayout = new RelativeLayout(getContext());
-
-                relativeLayout.addView(view);
+                relativeLayout.setBackgroundColor(Color.GREEN);
+                relativeLayout.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
                 view = relativeLayout;
             }
 
             ProgressBar progressBar = new ProgressBar(getContext());
-            progressBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200));
+            progressBar.setBackgroundColor(Color.LTGRAY);
+            progressBar.setMinimumHeight(400);
+            progressBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 400));
 
             mPtrLayout = new PtrLayout(getContext());
             mPtrLayout.setContentView(view);
             mPtrLayout.setHeaderView(progressBar);
-
             mPtrLayout.setPullChecker(new IPtrPullChecker() {
                 @Override
                 public boolean canPullFromStart(PtrLayout ptrLayout) {
@@ -133,6 +137,7 @@ public class TestPtrActivity extends BaseActivity {
             else {
                 params.width = params.height = ViewGroup.LayoutParams.MATCH_PARENT;
             }
+            view.setLayoutParams(params);
             return view;
         }
 
@@ -157,7 +162,8 @@ public class TestPtrActivity extends BaseActivity {
         public void onLoadCompleted() {
             super.onLoadCompleted();
 
-            mPtrLayout.postOnRefreshCompleted();
+            LogUtils.e("Will complete");
+                mPtrLayout.postOnRefreshCompleted();
         }
 
         protected View wrapWithEmptyAndLoading(View rootView) {
@@ -178,7 +184,7 @@ public class TestPtrActivity extends BaseActivity {
         @Override
         public View createEmptyView() {
             View view = new ImageView(getContext());
-            view.setBackgroundColor(Color.LTGRAY);
+            view.setBackgroundColor(Color.YELLOW);
 
             view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             return view;
@@ -188,8 +194,8 @@ public class TestPtrActivity extends BaseActivity {
         protected void initViews(View view) {
             super.initViews(view);
 
-            wrapWithEmptyView(view);
-            hideEmptyView();
+//            wrapWithEmptyView(view);
+//            hideEmptyView();
         }
 
         @Override
@@ -219,10 +225,15 @@ LogUtils.e("load " + isRefresh);
                     }
 
                     onLoadSuccess(list);
+
                 }
             }, 2000);
         }
 
+        @Override
+        protected void onLoadSuccess(List<? extends String> list) {
+            super.onLoadSuccess(list);
+        }
 
         @Override
         public BaseAdapter createAdapter() {
@@ -254,6 +265,7 @@ LogUtils.e("load " + isRefresh);
                     view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 400));
                 }
 
+                view.setBackgroundColor(Color.YELLOW);
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
                 textView.setText(mDataList.get(i));
                 return view;

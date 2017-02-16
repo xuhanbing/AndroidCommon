@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.ptr.IPtrHandler;
-import com.hanbing.library.android.view.ptr.PtrLayout;
 
 /**
  * Created by hanbing

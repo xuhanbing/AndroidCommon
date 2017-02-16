@@ -68,9 +68,9 @@ public class BaseFragmentPagerAdapter extends android.support.v4.app.FragmentPag
      * @param creator         如果未找到，创建
      * @return
      */
-    public static List<Fragment> restoreFragments(FragmentManager fragmentManager, int containerId, int size, FragmentCreator creator) {
+    public static <T extends Fragment> List<T> restoreFragments(FragmentManager fragmentManager, int containerId, int size, FragmentCreator creator) {
 
-        List<Fragment> fragments = new ArrayList<>();
+        List<T> fragments = new ArrayList<>();
 
         Method method = ReflectUtils.getMethod(FragmentPagerAdapter.class, "makeFragmentName", int.class, long.class);
         for (int i = 0; i < size; i++) {
@@ -81,7 +81,7 @@ public class BaseFragmentPagerAdapter extends android.support.v4.app.FragmentPag
                 fragment = creator.onCreate(i);
             }
 
-            fragments.add(fragment);
+            fragments.add((T) fragment);
         }
 
         return fragments;
@@ -95,7 +95,7 @@ public class BaseFragmentPagerAdapter extends android.support.v4.app.FragmentPag
      * @param fragments       默认的fragments
      * @return
      */
-    public static List<Fragment> restoreFragments(FragmentManager fragmentManager, int containerId, List<Fragment> fragments) {
+    public static <T extends Fragment>List<T> restoreFragments(FragmentManager fragmentManager, int containerId, List<T> fragments) {
 
         if (null == fragments || 0 == fragments.size())
             return fragments;
@@ -108,9 +108,8 @@ public class BaseFragmentPagerAdapter extends android.support.v4.app.FragmentPag
             Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
             if (null != fragment) {
-                fragments.set(i, fragment);
+                fragments.set(i, (T) fragment);
             }
-
         }
 
         return fragments;

@@ -31,7 +31,6 @@ import com.hanbing.library.android.view.recycler.OnItemLongClickListener;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ViewUtils;
 import com.hanbing.library.android.view.ptr.IPtrOnRefreshListener;
-import com.hanbing.library.android.view.ptr.PtrLayout;
 import com.hanbing.library.android.view.recycler.HeaderRecyclerView;
 import com.hanbing.library.android.view.recycler.decoration.GridItemDecoration;
 import com.hanbing.library.android.view.recycler.decoration.LineItemDecoration;

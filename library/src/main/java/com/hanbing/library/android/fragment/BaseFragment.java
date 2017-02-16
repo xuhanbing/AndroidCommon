@@ -57,7 +57,7 @@ public abstract class BaseFragment extends Fragment {
 
         initData(savedInstanceState);
         bindViews(view, savedInstanceState);
-        initViews(view);
+        initViews(view, savedInstanceState);
 
         mCacheView = view;
         mViewFirstCreated = true;
@@ -145,11 +145,21 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 初始化views
      *
+     * Use initViews(View, Bundle) instead.
      * @param view
      */
+    @Deprecated
     protected void initViews(View view) {
         // TODO Auto-generated method stub
+    }
 
+    /**
+     *
+     * @param view
+     * @param savedInstanceState
+     */
+    protected void initViews(View view, Bundle savedInstanceState) {
+        initViews(view);
     }
 
 

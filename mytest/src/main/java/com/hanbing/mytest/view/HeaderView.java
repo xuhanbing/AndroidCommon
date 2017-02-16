@@ -8,7 +8,6 @@ import android.widget.*;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.TimeUtils;
 import com.hanbing.library.android.view.ptr.IPtrHandler;
-import com.hanbing.library.android.view.ptr.PtrLayout;
 
 /**
  * Created by hanbing
