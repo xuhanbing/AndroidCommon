@@ -13,4 +13,13 @@
         <item name="colorAccent">@color/colorAccent</item>
 
     </style>
+
+    <style name="ActivityTransitionTheme" parent="AppTheme">
+        <item name="android:windowEnterTransition">@transition/my_transition</item>
+        <item name="android:windowExitTransition">@transition/my_transition</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/move_image</item>
+        <item name="android:windowSharedElementExitTransition">@transition/move_image</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">false</item>
+    </style>
 </resources>
