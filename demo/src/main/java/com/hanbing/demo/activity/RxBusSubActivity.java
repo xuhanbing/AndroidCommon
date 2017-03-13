@@ -1,6 +1,5 @@
 package com.hanbing.demo.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import com.hanbing.library.android.rxbus.Subscribe;

@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
@@ -55,14 +56,14 @@ public class TestImageLoaderActivity extends AppCompatActivity {
     int index = 0;
 
     public static final String[] IMAGE_URLS = {
-//            "drawable://" + R.drawable.a,
-//            "file:///storage/emulated/0/Download/1.png",
+            "drawable://" + R.drawable.a,
+            "file:///storage/emulated/0/Download/1.png",
             "assets://b.jpg",
-//            "http://m2.quanjing.com/2m/fod_liv002/fo-11171537.jpg",
+            "http://m2.quanjing.com/2m/fod_liv002/fo-11171537.jpg",
 //            "http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg",
 //            "http://pic56.nipic.com/file/20141227/19674963_215052431000_2.jpg",
 //            "http://img3.redocn.com/tupian/20150430/mantenghuawenmodianshiliangbeijing_3924704.jpg",
-//            "http://qq.yh31.com/tp/zjbq/201611131154402229.gif",
+            "http://qq.yh31.com/tp/zjbq/201611131154402229.gif",
 
 //            "http://img15.3lian.com/2015/f2/50/d/71.jpg",
 //            "http://img4.imgtn.bdimg.com/it/u=3737218198,1821201454&fm=21&gp=0.jpg",
@@ -124,10 +125,10 @@ public class TestImageLoaderActivity extends AppCompatActivity {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView mImageView;
+        public View mImageView;
         public ViewHolder(View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView;
+            mImageView =  itemView;
         }
     }
 
@@ -141,11 +142,14 @@ public class TestImageLoaderActivity extends AppCompatActivity {
             @Override
             public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-                ImageView imageView = new SimpleDraweeView(getApplicationContext());
-                imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+//                ImageView imageView = new SimpleDraweeView(getApplicationContext());
+//                imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
-                return new ViewHolder(imageView);
+
+                View view = new TextView(getApplicationContext());
+                view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                return new ViewHolder(view);
             }
 
             @Override
@@ -223,7 +227,8 @@ public class TestImageLoaderActivity extends AppCompatActivity {
     int ASSETS = 3;
 
 
-    public void displayImage(String string, ImageView imageView) {
+    public void displayImage(String string, View imageView) {
+
 
 
         String uri = string;
@@ -244,15 +249,29 @@ public class TestImageLoaderActivity extends AppCompatActivity {
 
         switch (index - 1) {
             case 0:
-                if (FILE == tag)
-                    uri = ImageDownloader.Scheme.FILE.wrap(uri);
-                else if (DRAWABLE == tag)
-                    uri = ImageDownloader.Scheme.DRAWABLE.wrap(uri);
+//                if (FILE == tag)
+//                    uri = ImageDownloader.Scheme.FILE.wrap(uri);
+//                else if (DRAWABLE == tag)
+//                    uri = ImageDownloader.Scheme.DRAWABLE.wrap(uri);
+//                else if (ASSETS == tag)
+//                    uri = ImageDownloader.Scheme.ASSETS.wrap(uri);
+
+//                ImageLoader.getInstance().displayImage(uri, imageView);
+
+
+
+
+                if (DRAWABLE == tag)
+                {
+                    com.hanbing.demo.ImageLoader.getInstance().displayImageResSync(Integer.valueOf(uri), imageView);
+                }
                 else if (ASSETS == tag)
-                    uri = ImageDownloader.Scheme.ASSETS.wrap(uri);
-
-                ImageLoader.getInstance().displayImage(uri, imageView);
-
+                {
+                    com.hanbing.demo.ImageLoader.getInstance().displayImageAssetsSync(uri, imageView);
+                }
+                else {
+                    com.hanbing.demo.ImageLoader.getInstance().displayImageSync(uri, imageView);
+                }
 
                 break;
             case 1:
@@ -279,7 +298,7 @@ public class TestImageLoaderActivity extends AppCompatActivity {
                     public String key() {
                         return null;
                     }
-                }).error(R.mipmap.ic_launcher).into(imageView);
+                }).error(R.mipmap.ic_launcher).into((ImageView) imageView);
             }
 
             break;
@@ -355,7 +374,7 @@ public class TestImageLoaderActivity extends AppCompatActivity {
                     requestCreator = with.load(uri);
 
 
-                requestCreator.error(R.mipmap.ic_launcher).into(imageView);
+                requestCreator.error(R.mipmap.ic_launcher).into((ImageView) imageView);
             }
             break;
             case 3:

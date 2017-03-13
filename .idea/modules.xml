@@ -3,16 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidCommon.iml" filepath="$PROJECT_DIR$/AndroidCommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-common/android-common.iml" filepath="$PROJECT_DIR$/android-common/android-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-common-view-numberpicker/android-common-view-numberpicker.iml" filepath="$PROJECT_DIR$/android-common-view-numberpicker/android-common-view-numberpicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-common-view-ptr/android-common-view-ptr.iml" filepath="$PROJECT_DIR$/android-common-view-ptr/android-common-view-ptr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-common-view-tab/android-common-view-tab.iml" filepath="$PROJECT_DIR$/android-common-view-tab/android-common-view-tab.iml" />
       <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library-http/library-http.iml" filepath="$PROJECT_DIR$/library-http/library-http.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library-view-numberpicker/library-view-numberpicker.iml" filepath="$PROJECT_DIR$/library-view-numberpicker/library-view-numberpicker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library-view-ptr/library-view-ptr.iml" filepath="$PROJECT_DIR$/library-view-ptr/library-view-ptr.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library-view-tab/library-view-tab.iml" filepath="$PROJECT_DIR$/library-view-tab/library-view-tab.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mytest/mytest.iml" filepath="$PROJECT_DIR$/mytest/mytest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/paydemo/paydemo.iml" filepath="$PROJECT_DIR$/paydemo/paydemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/retrofit_rxandroid/retrofit_rxandroid.iml" filepath="$PROJECT_DIR$/retrofit_rxandroid/retrofit_rxandroid.iml" />
     </modules>
   </component>
 </project>

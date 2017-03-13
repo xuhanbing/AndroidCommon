@@ -9,16 +9,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/android-common" />
+            <option value="$PROJECT_DIR$/android-common-view-numberpicker" />
+            <option value="$PROJECT_DIR$/android-common-view-ptr" />
+            <option value="$PROJECT_DIR$/android-common-view-tab" />
             <option value="$PROJECT_DIR$/demo" />
-            <option value="$PROJECT_DIR$/lib" />
-            <option value="$PROJECT_DIR$/library" />
-            <option value="$PROJECT_DIR$/library-http" />
-            <option value="$PROJECT_DIR$/library-view-numberpicker" />
-            <option value="$PROJECT_DIR$/library-view-ptr" />
-            <option value="$PROJECT_DIR$/library-view-tab" />
-            <option value="$PROJECT_DIR$/mytest" />
-            <option value="$PROJECT_DIR$/paydemo" />
-            <option value="$PROJECT_DIR$/retrofit_rxandroid" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
