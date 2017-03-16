@@ -819,7 +819,7 @@ public class ImageUtils {
 
 			File photoFile = new File(path);
 
-			FileUtils.createDir(path);
+			FileUtils.createDir(photoFile.getParent());
 
 			FileOutputStream fileOutputStream = null;
 			try {
