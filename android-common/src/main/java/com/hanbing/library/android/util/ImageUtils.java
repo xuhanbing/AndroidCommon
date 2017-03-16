@@ -840,11 +840,7 @@ public class ImageUtils {
 				photoFile.delete();
 				e.printStackTrace();
 			} finally {
-				try {
-					fileOutputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				IOUtils.close(fileOutputStream);
 			}
 		}
 
