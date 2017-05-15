@@ -3,9 +3,10 @@ package com.hanbing.demo.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.hanbing.demo.BaseActivity;
 import com.hanbing.demo.R;
 
-public class TestRestoreActivity extends AppCompatActivity {
+public class TestRestoreActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

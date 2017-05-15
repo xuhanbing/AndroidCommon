@@ -4,10 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.hanbing.demo.BaseActivity;
 import com.hanbing.demo.R;
 import com.hanbing.library.android.util.ToastUtils;
 
-public class TestSlideMenu2Activity extends AppCompatActivity {
+public class TestSlideMenu2Activity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

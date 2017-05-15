@@ -156,11 +156,11 @@ public class ScrollingActivity extends BaseActivity {
         }
     }
 
-    class MyRecyclerFragment extends Fragment {
+     public static class MyRecyclerFragment extends Fragment {
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            RecyclerView recyclerView = new RecyclerView(getApplicationContext());
+            RecyclerView recyclerView = new RecyclerView(inflater.getContext());
 
             final List<Map<String, String>> list = new ArrayList<>();
             for (int i = 0; i < 20; i++) {

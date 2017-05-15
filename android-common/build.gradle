@@ -6,7 +6,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
-        versionName "1.0.0"
+        versionName "1.0.2"
         versionCode 1
     }
     buildTypes {
@@ -50,7 +50,7 @@ ext {
     libraryName = 'A Common Library And Utils For Android'
     artifact = 'android-common'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.0.2'
     libraryDescription = 'A common library and utils for Android development. '
 }
 

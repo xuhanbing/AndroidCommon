@@ -23,8 +23,8 @@ public class TabLayoutActivity extends BaseActivity {
 
 
 
-        View view = findViewById(R.id.include_view);
-        View view2 = findViewById(R.id.scrollView);
+//        View view = findViewById(R.id.include_view);
+//        View view2 = findViewById(R.id.scrollView);
 
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new NumFragment());

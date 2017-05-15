@@ -58,7 +58,7 @@ public class Utils {
      * @param onItemClickListener
      * @param onItemLongClickListener
      */
-    public static RecyclerView.OnItemTouchListener bindOccupiedListener(final RecyclerView recyclerView, final OnItemClickListener onItemClickListener, final OnItemLongClickListener onItemLongClickListener) {
+    public static RecyclerView.OnItemTouchListener bindOrReplaceListener(final RecyclerView recyclerView, final OnItemClickListener onItemClickListener, final OnItemLongClickListener onItemLongClickListener) {
         if (null == recyclerView)
             return null;
 
@@ -67,7 +67,7 @@ public class Utils {
 
 
         //simple use android id
-        int key = android.R.id.text1;
+        int key = recyclerView.getId();
 
 
         RecyclerView.OnItemTouchListener old = (RecyclerView.OnItemTouchListener) recyclerView.getTag(key);

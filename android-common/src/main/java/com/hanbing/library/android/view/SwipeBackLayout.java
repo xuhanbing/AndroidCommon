@@ -7,15 +7,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.*;
-import android.widget.Scroller;
+import android.widget.FrameLayout;
 
 import com.hanbing.library.android.R;
 
@@ -33,13 +32,7 @@ public class SwipeBackLayout extends FrameLayout {
     public static final int DEFAULT_DIM_COLOR = 0x88000000;
     Activity mActivity;
     View mContentView;
-    float mContentLeft;
-    float mContentTop;
 
-    int mMaximumFlingVelocity;
-    int mMinimumFlingVelocity;
-
-    int mScaledEdgeSlop;
 
     /**
      * 临界比例，大于该比例将关闭，否则回到初始状态
@@ -47,43 +40,19 @@ public class SwipeBackLayout extends FrameLayout {
     float mThresholdRatio = 0.5f;
 
     /**
-     * 当打开下一个activity时向左移动的比例
-     */
-    float mNestingScrollRatio = 0.2f;
-
-    /**
-     * 是否支持嵌套滚动，类似微信的效果
-     */
-    boolean mNestingScrollEnabled = false;
-
-    /**
      * 只有从左侧滑入才滑动
      */
-    boolean mOnlyScrollIfTouchEdge = true;
+    boolean mSwipeOnlyIfTouchEdge = true;
 
     /**
-     *
-     */
-    boolean mIsScrollEnabled = true;
-
-    /**
-     * 是否支持结束activity，如果true，在达到条件是马上结束activity，否则只是抛出事件
+     * 是否支持结束activity，如果true，在达到条件是马上结束activity，否则只是回调事件
      */
     boolean mFinishActivityEnabled = true;
 
-    int mLastDownX;
-    int mLastDownY;
-
-    int mLastMotionX;
-    int mLastMotionY;
-
+    /**
+     * 判断是否拖动
+     */
     boolean mIsBeingDragged;
-
-    VelocityTracker mVelocityTracker;
-
-    Scroller mScroller;
-
-    int mScrollDuration = 500;
 
     /**
      * 阴影
@@ -95,9 +64,82 @@ public class SwipeBackLayout extends FrameLayout {
      */
     int mDimColor = 0;
 
-    Handler mHandler = new Handler();
-
     OnScrollChangedListener mOnScrollChangedListener;
+
+    boolean mScrollToFinishActivity = false;
+
+    ViewDragHelper mViewDragHelper;
+    ViewDragHelper.Callback mViewDragHelperCallback = new ViewDragHelper.Callback() {
+
+
+        @Override
+        public boolean tryCaptureView(View child, int pointerId) {
+            return mContentView == child;
+        }
+
+        @Override
+        public int getViewHorizontalDragRange(View child) {
+            return getWidth() - getPaddingLeft() - getPaddingRight();
+        }
+
+        @Override
+        public int getViewVerticalDragRange(View child) {
+            return getPaddingTop();
+        }
+
+        @Override
+        public void onEdgeTouched(int edgeFlags, int pointerId) {
+            mIsBeingDragged = true;
+        }
+
+
+        @Override
+        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+
+            if (null != mOnScrollChangedListener) {
+                mOnScrollChangedListener.onScroll(getContentScrollX(), getContentScrollY());
+            }
+
+            //draw dim
+            invalidate();
+        }
+
+        @Override
+        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            mIsBeingDragged = false;
+
+            int width = getContentWidth();
+            int distance = (int) (width * mThresholdRatio);
+
+            if ((Math.abs(getContentScrollX()) > distance)
+                    || (Math.abs(xvel) > Math.abs(yvel) && xvel > mViewDragHelper.getMinVelocity())) {
+                //水平向右滑动的距离超过threshold，或向右fling，关闭
+                scrollToFinishActivity();
+            } else {
+                scrollToOriginal();
+            }
+        }
+
+        @Override
+        public void onViewDragStateChanged(int state) {
+
+            if (ViewDragHelper.STATE_IDLE == state) {
+                postScrollFinished(mScrollToFinishActivity);
+                mScrollToFinishActivity = false;
+            }
+
+        }
+
+        @Override
+        public int clampViewPositionHorizontal(View child, int left, int dx) {
+            return Math.max(getPaddingLeft(), Math.min(left, getWidth() - getPaddingRight()));
+        }
+
+        @Override
+        public int clampViewPositionVertical(View child, int top, int dy) {
+            return getPaddingTop();
+        }
+    };
 
     public void setOnScrollChangedListener(OnScrollChangedListener onScrollChangedListener) {
         mOnScrollChangedListener = onScrollChangedListener;
@@ -115,207 +157,82 @@ public class SwipeBackLayout extends FrameLayout {
         super(context, attrs, defStyleAttr);
 
 
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwipeBackLayout, R.attr.swipeBackLayoutStyle, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwipeBackLayout, R.attr.swipeBackLayoutStyle, 0);
 
-            mThresholdRatio = a.getFloat(R.styleable.SwipeBackLayout_thresholdRatio, mThresholdRatio);
-            mNestingScrollRatio = a.getFloat(R.styleable.SwipeBackLayout_nestingScrollRatio, mNestingScrollRatio);
-            mNestingScrollEnabled = a.getBoolean(R.styleable.SwipeBackLayout_nestingScrollEnabled, false);
-            mShadowDrawable = a.getDrawable(R.styleable.SwipeBackLayout_shadowDrawable);
-            mDimColor = a.getColor(R.styleable.SwipeBackLayout_dimColor, DEFAULT_DIM_COLOR);
-            mScrollDuration = a.getInt(R.styleable.SwipeBackLayout_swipeScrollDuration, mScrollDuration);
-            mOnlyScrollIfTouchEdge = a.getBoolean(R.styleable.SwipeBackLayout_onlyScrollIfTouchEdge, mOnlyScrollIfTouchEdge);
-            mFinishActivityEnabled = a.getBoolean(R.styleable.SwipeBackLayout_finishActivityEnabled, mFinishActivityEnabled);
+        mThresholdRatio = a.getFloat(R.styleable.SwipeBackLayout_thresholdRatio, mThresholdRatio);
+        mShadowDrawable = a.getDrawable(R.styleable.SwipeBackLayout_shadowDrawable);
+        mDimColor = a.getColor(R.styleable.SwipeBackLayout_dimColor, DEFAULT_DIM_COLOR);
+        mSwipeOnlyIfTouchEdge = a.getBoolean(R.styleable.SwipeBackLayout_swipeOnlyIfTouchEdge, mSwipeOnlyIfTouchEdge);
+        mFinishActivityEnabled = a.getBoolean(R.styleable.SwipeBackLayout_finishActivityEnabled, mFinishActivityEnabled);
 
-            a.recycle();
+        a.recycle();
 
 
         init();
     }
 
 
-
     private void init() {
-        ViewConfiguration configuration = ViewConfiguration.get(getContext());
-
-        mScaledEdgeSlop = configuration.getScaledEdgeSlop();
-        mMaximumFlingVelocity = configuration.getScaledMaximumFlingVelocity();
-        mMinimumFlingVelocity = configuration.getScaledMinimumFlingVelocity();
     }
 
+    /**
+     * 是否可以中断事件
+     */
+    boolean mCanInterceptTouchEvent = false;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            mLastDownX = mLastMotionX = (int) ev.getRawX();
-            mLastDownY = mLastMotionY = (int) ev.getRawY();
-
-
-            mIsScrollEnabled = true;
-            mIsBeingDragged = false;
-            if (null == mVelocityTracker)
-                mVelocityTracker = VelocityTracker.obtain();
-            else
-                mVelocityTracker.clear();
-
-
-            if (mOnlyScrollIfTouchEdge) {
-                //判断是否从左侧滑入
-                if (mLastMotionX < mScaledEdgeSlop)
-                {
-                    mIsScrollEnabled = true;
-                } else {
-                    mIsScrollEnabled = false;
-                }
-            }
-
-
-        } else {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_POINTER_DOWN:
+                mCanInterceptTouchEvent = true;
+                break;
         }
-
-        mVelocityTracker.addMovement(ev);
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (!mIsScrollEnabled)
+        if (!mCanInterceptTouchEvent)
             return false;
 
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_MOVE: {
-                checkBeingDragged();
-                if (mIsBeingDragged) {
-                    return true;
-                }
+        boolean ret = mViewDragHelper.shouldInterceptTouchEvent(ev);
+        if (mSwipeOnlyIfTouchEdge) {
+            if (mIsBeingDragged) {
+                //从边界划入，可以继续中断
+                mCanInterceptTouchEvent = true;
+                return ret;
+            } else {
+                //禁止中断
+                mCanInterceptTouchEvent = false;
+                return false;
             }
-            break;
-        }
-        return super.onInterceptTouchEvent(ev);
-    }
 
-    private void checkBeingDragged() {
-        mVelocityTracker.computeCurrentVelocity(1000, mMaximumFlingVelocity);
-        float xVelocity = mVelocityTracker.getXVelocity();
-        float yVelocity = mVelocityTracker.getYVelocity();
-
-        if (!mIsBeingDragged) {
-            //横向滑动
-            if (Math.abs(xVelocity) > Math.abs(yVelocity) && xVelocity > 0) {
-                mIsBeingDragged = true;
-            }
+        } else {
+            return ret;
         }
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!mIsScrollEnabled)
+        //如果只支持从边界划入，但条件没有成立，返回
+        if (mSwipeOnlyIfTouchEdge && !mIsBeingDragged) {
             return false;
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (onTouchDown(event))
-                    return true;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (onTouchMove(event))
-                    return true;
-                break;
-            case MotionEvent.ACTION_UP:
-                if (onTouchUp(event))
-                    return true;
-                break;
         }
-        return super.onTouchEvent(event);
-    }
 
-    private boolean onTouchDown(MotionEvent event) {
+        mViewDragHelper.processTouchEvent(event);
         return true;
+
     }
-
-    private boolean onTouchMove(MotionEvent event) {
-        int x = (int) event.getRawX();
-        int y = (int) event.getRawY();
-
-        if (!mIsBeingDragged) {
-            checkBeingDragged();
-        }
-
-        if (mIsBeingDragged) {
-
-            //如果没有结束scroll，结束
-            if (null != mScroller && !mScroller.isFinished()) {
-                mScroller.forceFinished(true);
-            }
-
-            int deltaX = x - mLastMotionX;
-
-            //最小为0
-            if (mContentLeft + deltaX < 0)
-                deltaX = (int) -mContentLeft;
-
-            if (null != mOnScrollChangedListener) {
-                mOnScrollChangedListener.onScroll(deltaX, 0);
-            }
-            //滑动
-            scrollContentBy(deltaX, 0);
-        }
-
-
-        mLastMotionX = x;
-        mLastMotionY = y;
-
-        return true;
-    }
-
-    private boolean onTouchUp(MotionEvent event) {
-
-        if (mIsBeingDragged) {
-            if (!flingToFinishActivity()) {
-                //已经拖动，判断拖动的距离是否达到临界值
-                int width = getContentWidth();
-                int distance = (int) (width * mThresholdRatio);
-                if (Math.abs(getContentScrollX()) > distance) {
-                    //
-                    scrollToFinishActivity();
-                } else {
-                    scrollToOriginal();
-                }
-            }
-        } else {
-
-            flingToFinishActivity();
-        }
-
-        return true;
-    }
-
-    private boolean flingToFinishActivity() {
-        //计算速度是否达到关闭速度
-        mVelocityTracker.computeCurrentVelocity(1000, mMaximumFlingVelocity);
-        float xVelocity = mVelocityTracker.getXVelocity();
-        float yVelocity = mVelocityTracker.getYVelocity();
-
-
-        if (Math.abs(xVelocity) > Math.abs(yVelocity)
-                && xVelocity > mMinimumFlingVelocity) {
-            //水平向右滑动，且速度大于最小速度，关闭
-            scrollToFinishActivity();
-
-            return true;
-        }
-        return false;
-    }
-
 
     private int getContentWidth() {
-        return  getContentRealWidth() + getShadowDrawableWidth();
+        return getContentRealWidth() + getShadowDrawableWidth();
     }
 
-    private int getContentRealWidth(){
+    private int getContentRealWidth() {
         return (null != mContentView ? mContentView.getMeasuredWidth() : 0);
     }
-
-
 
     private int getShadowDrawableWidth() {
         if (null != mShadowDrawable) {
@@ -336,146 +253,48 @@ public class SwipeBackLayout extends FrameLayout {
         return null != mContentView ? mContentView.getMeasuredHeight() : 0;
     }
 
-    private float getContentScrollX() {
-        return mContentLeft;
+    private int getContentLeft() {
+        return null == mContentView ? 0 : mContentView.getLeft();
     }
 
-    private float getContentScrollY() {
-        return mContentTop;
+    private int getContentTop() {
+        return null == mContentView ? 0 : mContentView.getTop();
     }
 
-    private  float getContentScrollPercent(){
-        return mContentLeft * 1.0f / getContentWidth();
+    private int getContentScrollX() {
+        if (null == mContentView)
+            return 0;
+        return mContentView.getLeft() - getPaddingLeft();
     }
 
-    public void scrollContentBy(float x, float y) {
-        mContentLeft += x;
-        mContentTop += y;
-
-        invalidate();
-        requestLayout();
+    private int getContentScrollY() {
+        if (null == mContentView)
+            return 0;
+        return mContentView.getTop() - getPaddingTop();
     }
 
-    public void scrollContentTo(float x, float y) {
-        mContentLeft = x;
-        mContentTop = y;
-
-        invalidate();
-        requestLayout();
+    private float getContentScrollPercent() {
+        return getContentScrollX() * 1.0f / getContentWidth();
     }
 
     public void scrollContentToSmooth(int x, int y, final boolean finishActivity) {
-        if (null == mScroller)
-            mScroller = new Scroller(getContext());
-
-        if (!mScroller.isFinished())
-            mScroller.forceFinished(true);
-
-        int startX = (int) getContentScrollX();
-        int startY = (int) getContentScrollY();
-
-        mScroller.startScroll(startX, startY, x - startX, y - startY, mScrollDuration);
-        postInvalidate();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                computeScroll();
-                if (!mScroller.isFinished()) {
-                    mHandler.postDelayed(this, 20);
-                } else {
-                    mHandler.removeCallbacks(this);
-                    postScrollFinished(finishActivity);
-                }
-            }
-        }, 20);
+        mScrollToFinishActivity = finishActivity;
+        mViewDragHelper.settleCapturedViewAt(x, y);
+        invalidate();
     }
 
     /**
      * 滚动到最右侧，然后关闭activity
      */
     public void scrollToFinishActivity() {
-        scrollContentToSmooth(getContentWidth(), 0, true);
+        scrollContentToSmooth(getContentWidth() + getPaddingLeft(), getPaddingTop(), true);
     }
 
     /**
      * 滚动到初始位置
      */
     public void scrollToOriginal() {
-        scrollContentToSmooth(0, 0, false);
-    }
-
-
-    /**
-     * 当嵌套的一个view打开时，向左移动（仿微信）
-     */
-    public void scrollToPositionWhenNesting() {
-        if (mNestingScrollEnabled)
-            scrollContentToSmooth((int) getNestingMinLeft(), 0, false);
-    }
-
-    /**
-     * 当下一个view打开时，会向左移动，可以达到的最小位置
-     *
-     * @return 最小位置
-     */
-    private float getNestingMinLeft() {
-        return -getContentWidth() * mNestingScrollRatio;
-    }
-
-    /**
-     * 当下一个view打开时，会向左移动，可以达到的最大位置
-     *
-     * @return 最大位置
-     */
-    private float getNestingMaxLeft() {
-        return 0;
-    }
-
-    public void followScrollWithNext(int x, int y) {
-        if (!mNestingScrollEnabled)
-            return;
-
-        //如果还没有结束，强制结束
-        if (null != mScroller && !mScroller.isFinished()) {
-            mScroller.forceFinished(true);
-
-            mContentLeft = getNestingMinLeft();
-            mContentTop = 0;
-
-            postInvalidate();
-            requestLayout();
-        }
-
-        float min = getNestingMinLeft();
-        float max = getNestingMaxLeft();
-
-        //计算移动的比例
-        float ratio = x * 1.0f / (getContentWidth());
-
-        //计算当前需要移动的距离
-        float dx = ((max - min) * ratio);
-
-        float contentLeft = mContentLeft;
-        //控制边界
-        if (dx + contentLeft < min) {
-            dx = min - contentLeft;
-        } else if (dx + contentLeft > max) {
-            dx = max - contentLeft;
-        }
-        scrollContentBy(dx, y);
-
-    }
-
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        View child = mContentView;
-
-        if (null != child) {
-            child.layout((int) mContentLeft, (int) mContentTop,
-                    (int) mContentLeft + child.getMeasuredWidth(),
-                    (int) mContentTop + child.getMeasuredHeight());
-        }
+        scrollContentToSmooth(getPaddingLeft(), getPaddingTop(), false);
     }
 
     @Override
@@ -501,7 +320,7 @@ public class SwipeBackLayout extends FrameLayout {
             alpha = (int) (alpha * (1 - percent));
             int color = (alpha << 24) | (mDimColor & 0x00ffffff);
 
-            canvas.clipRect(0, 0, mContentLeft, getContentHeight());
+            canvas.clipRect(getPaddingLeft(), getPaddingTop(), getContentLeft(), getHeight() - getPaddingBottom());
 
             canvas.drawColor(color);
         }
@@ -515,40 +334,33 @@ public class SwipeBackLayout extends FrameLayout {
     private void drawShadow(Canvas canvas) {
         if (null != mShadowDrawable) {
             //阴影从内容左侧开始
-            int right = (int) mContentLeft;
-            int bottom = getContentHeight();
+            int top = getPaddingTop();
+            int right = (int) getContentLeft();
+            int bottom = getHeight() - getPaddingBottom();
+            int left = right - getShadowDrawableWidth();
             float percent = getContentScrollPercent();
             mShadowDrawable.setAlpha((int) ((1 - percent) * 255));
-            mShadowDrawable.setBounds(right - getShadowDrawableWidth(), 0, right, bottom);
+            mShadowDrawable.setBounds(left, top, right, bottom);
             mShadowDrawable.draw(canvas);
         }
     }
 
     @Override
     public void computeScroll() {
-        if (null != mScroller) {
-            if (mScroller.computeScrollOffset()) {
-
-                int x = mScroller.getCurrX();
-                int y = mScroller.getCurrY();
-
-                if (null != mOnScrollChangedListener) {
-                    mOnScrollChangedListener.onScroll(x - (int) mContentLeft, y - (int) mContentTop);
-                }
-                scrollContentTo(x, y);
-            } else {
-
-            }
-        }
+        if (mViewDragHelper.continueSettling(true))
+            invalidate();
     }
 
     protected void postScrollFinished(boolean finishActivity) {
-        if (null != mOnScrollChangedListener) {
-            mOnScrollChangedListener.onFinishActivity();
-        }
 
-        if (finishActivity && mFinishActivityEnabled) {
-            if (null != mActivity)
+
+        if (finishActivity) {
+
+            if (null != mOnScrollChangedListener) {
+                mOnScrollChangedListener.onFinishActivity();
+            }
+
+            if (mFinishActivityEnabled && null != mActivity)
                 mActivity.finish();
         }
     }
@@ -582,10 +394,18 @@ public class SwipeBackLayout extends FrameLayout {
 
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mViewDragHelper = ViewDragHelper.create(this, mViewDragHelperCallback);
+        mViewDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT);
+    }
+
+    @Override
     protected void onDetachedFromWindow() {
-        if (null != mVelocityTracker) {
-            mVelocityTracker.recycle();
-            mVelocityTracker = null;
+
+        if (null != mViewDragHelper) {
+            mViewDragHelper.cancel();
+            mViewDragHelper = null;
         }
 
         super.onDetachedFromWindow();
@@ -597,17 +417,7 @@ public class SwipeBackLayout extends FrameLayout {
         postInvalidate();
     }
 
-    public void setNestingScrollEnabled(boolean nestingScrollEnabled) {
-        mNestingScrollEnabled = nestingScrollEnabled;
-    }
 
-    public void setNestingScrollRatio(float nestingScrollRatio) {
-        mNestingScrollRatio = nestingScrollRatio;
-    }
-
-    public void setScrollDuration(int scrollDuration) {
-        mScrollDuration = scrollDuration;
-    }
 
     public void setShadowDrawable(Drawable shadowDrawable) {
         mShadowDrawable = shadowDrawable;
@@ -622,7 +432,7 @@ public class SwipeBackLayout extends FrameLayout {
         mFinishActivityEnabled = finishActivityEnabled;
     }
 
-    public void setOnlyScrollIfTouchEdge(boolean onlyScrollIfTouchEdge) {
-        mOnlyScrollIfTouchEdge = onlyScrollIfTouchEdge;
+    public void setSwipeOnlyIfTouchEdge(boolean swipeOnlyIfTouchEdge) {
+        mSwipeOnlyIfTouchEdge = swipeOnlyIfTouchEdge;
     }
 }

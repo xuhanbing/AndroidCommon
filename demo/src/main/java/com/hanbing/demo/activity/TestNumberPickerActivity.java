@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.hanbing.demo.BaseActivity;
 import com.hanbing.demo.R;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.view.NumberPicker;
 
-public class TestNumberPickerActivity extends Activity {
+public class TestNumberPickerActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

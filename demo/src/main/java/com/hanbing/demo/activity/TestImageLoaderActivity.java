@@ -27,6 +27,7 @@ import com.bumptech.glide.load.model.ModelLoaderFactory;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.hanbing.demo.BaseActivity;
 import com.hanbing.demo.R;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ValueUtils;
@@ -45,7 +46,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TestImageLoaderActivity extends AppCompatActivity {
+public class TestImageLoaderActivity extends BaseActivity {
 
 
     @BindView(R.id.spinner)

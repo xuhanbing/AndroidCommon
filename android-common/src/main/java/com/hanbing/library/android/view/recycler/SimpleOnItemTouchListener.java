@@ -1,6 +1,7 @@
 package com.hanbing.library.android.view.recycler;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -226,6 +227,11 @@ public class SimpleOnItemTouchListener extends GestureDetector.SimpleOnGestureLi
 
     @Override
     public void onLongPress(MotionEvent e) {
+        //if move is occur, just return and do nothing.
+        if (mIsMove) {
+            return;
+        }
+
         mIsLongPress = true;
         RecyclerView rv = mRecyclerView;
         View child = rv.findChildViewUnder(e.getX(), e.getY());

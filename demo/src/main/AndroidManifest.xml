@@ -65,9 +65,15 @@
         </activity>
         <activity android:name=".activity.TestRecyclerViewActivity">
         </activity>
-        <activity android:name=".activity.TestTransitionActivity" android:theme="@style/ActivityTransitionTheme">
+        <activity
+            android:name=".activity.TestTransitionActivity"
+            android:theme="@style/ActivityTransitionTheme">
         </activity>
-        <activity android:name=".activity.TestTransition2Activity" android:theme="@style/ActivityTransitionTheme">
+        <activity
+            android:name=".activity.TestTransition2Activity"
+            android:theme="@style/ActivityTransitionTheme">
+        </activity>
+        <activity android:name=".activity.TestItemTouchHelperActivity">
         </activity>
     </application>
 

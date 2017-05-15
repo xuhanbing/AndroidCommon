@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.hanbing.demo.BaseActivity;
 import com.hanbing.demo.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -19,7 +20,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TestCropBitmapActivity extends AppCompatActivity {
+public class TestCropBitmapActivity extends BaseActivity {
 
     @BindView(R.id.scaleX_tv)
     TextView mScaleXTv;
