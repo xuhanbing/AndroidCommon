@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.hanbing.library.android.view.recycler.BaseRecyclerView;
@@ -34,23 +35,17 @@ public abstract class RecyclerViewHelper<DataView extends RecyclerView, DataAdap
 
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
 
-            int lastVisibleItemPosition = 0;
-            int itemCount = 0;
+
+            boolean vertical  = false;
+
             if (layoutManager instanceof LinearLayoutManager) {
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-
-                lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
-                itemCount = linearLayoutManager.getItemCount();
-
-            } else if (layoutManager instanceof GridLayoutManager) {
-                GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
-
-                lastVisibleItemPosition = gridLayoutManager.findLastVisibleItemPosition();
-                itemCount = gridLayoutManager.getItemCount();
+                vertical = ((LinearLayoutManager) layoutManager).getOrientation() == LinearLayoutManager.VERTICAL;
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                vertical = ((StaggeredGridLayoutManager) layoutManager).getOrientation() == StaggeredGridLayoutManager.VERTICAL;
             }
 
             if (mIsManScroll
-                    && lastVisibleItemPosition == itemCount - 1) {
+                    && ViewChecker.isLastItemVisible(recyclerView, vertical)) {
                 onLastItemVisible();
             }
 

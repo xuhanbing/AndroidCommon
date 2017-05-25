@@ -14,6 +14,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.hanbing.library.android.util.ImageUtils;
+import com.hanbing.library.android.util.ReflectUtils;
+
+import java.util.ArrayList;
 
 /**
  * Created by hanbing on 2016/3/11.
@@ -173,6 +176,7 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 
     protected Paint mPaint;
 
+    protected ArrayList<RecyclerView.ItemDecoration> mItemDecorations;
 
     public BaseItemDecoration() {
         initPaint();
@@ -240,12 +244,43 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 
     private Bitmap mBitmap;
 
+
     protected void drawDecoration(Canvas c, RecyclerView parent, View child) {
+
 
         int l = child.getLeft();
         int t = child.getTop();
         int r = child.getRight();
         int b = child.getBottom();
+
+        /**
+         * find all decorations use reflection
+         */
+        if (null == mItemDecorations)
+            mItemDecorations =  ReflectUtils.getValue(parent, "mItemDecorations", null);
+
+        /**
+         * offset item decorations before this
+         */
+        if (null != mItemDecorations && mItemDecorations.size() > 0) {
+            Rect tmp = new Rect();
+
+            for (int i = 0; i < mItemDecorations.size(); i++) {
+                RecyclerView.ItemDecoration itemDecoration = mItemDecorations.get(i);
+                if (itemDecoration == this) {
+                    break;
+                } else {
+                    itemDecoration.getItemOffsets(tmp, child, parent, null);
+
+                    l -= tmp.left;
+                    r += tmp.right;
+                    t -= tmp.top;
+                    b += tmp.bottom;
+                }
+
+            }
+        }
+
 
         Rect rect = new Rect(getDecorationRect(parent, child));
 
@@ -255,16 +290,44 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         int mb = rect.bottom;
 
         rect.set(l - ml, t - mt, r, t);
+        adjustRect(parent, rect);
         draw(c, rect);
 
         rect.set(r, t - mt, r + mr, b);
+        adjustRect(parent, rect);
         draw(c, rect);
 
         rect.set(l, b, r + mr, b + mb);
+        adjustRect(parent, rect);
         draw(c, rect);
 
         rect.set(l - ml, t, l, b + mb);
+        adjustRect(parent, rect);
         draw(c, rect);
+    }
+
+    /**
+     * make sure decoration's range is in RecyclerView
+     * @param parent
+     * @param rect
+     */
+    private void adjustRect(RecyclerView parent, Rect rect) {
+        int paddingLeft = parent.getPaddingLeft();
+        int paddingTop = parent.getPaddingTop();
+        int paddingRight = parent.getPaddingRight();
+        int paddingBottom = parent.getPaddingBottom();
+
+
+        int minLeft = paddingLeft;
+        int maxRight = parent.getWidth() - paddingRight;
+        int minTop = paddingTop;
+        int maxBottom = parent.getHeight() - paddingBottom;
+
+
+        rect.left = Math.max(minLeft, Math.min(rect.left, maxRight));
+        rect.right = Math.max(minLeft, Math.min(rect.right, maxRight));
+        rect.top = Math.max(minTop, Math.min(rect.top, maxBottom));
+        rect.bottom = Math.max(minTop, Math.min(rect.bottom, maxBottom));
     }
 
     private void draw(Canvas c, Rect rect)
