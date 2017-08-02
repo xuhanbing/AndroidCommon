@@ -11,9 +11,9 @@ import android.widget.EditText;
  * A EditText that will resize drawable base on height.
  * Created by hanbing on 2016/7/27
  */
-public class DrawableEditText extends EditText {
+public class DrawableEditText extends EditText implements DrawableResizeHelper.Fetcher {
 
-    private DrawableTextView.DrawableResizeHelper mDrawableResizeHelper;
+    private DrawableResizeHelper mDrawableResizeHelper;
 
     public DrawableEditText(Context context) {
         super(context);
@@ -42,7 +42,7 @@ public class DrawableEditText extends EditText {
 
     private void setDrawableSize() {
         if (null == mDrawableResizeHelper)
-            mDrawableResizeHelper = new DrawableTextView.DrawableResizeHelper(this, isDrawableForceSquare());
+            mDrawableResizeHelper = new DrawableResizeHelper(this,this,  isDrawableForceSquare());
 
         mDrawableResizeHelper.resize();
 
@@ -62,5 +62,10 @@ public class DrawableEditText extends EditText {
 
     protected boolean isDrawableForceSquare() {
         return true;
+    }
+
+    @Override
+    public int getDrawableSize(Drawable drawable) {
+        return 0;
     }
 }
