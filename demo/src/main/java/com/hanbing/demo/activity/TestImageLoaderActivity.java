@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,8 +31,6 @@ import com.hanbing.demo.R;
 import com.hanbing.library.android.util.LogUtils;
 import com.hanbing.library.android.util.ValueUtils;
 import com.hanbing.library.android.view.recycler.decoration.GridItemDecoration;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.download.ImageDownloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Transformation;
@@ -283,7 +280,7 @@ public class TestImageLoaderActivity extends BaseActivity {
                 if (FILE == tag)
                     requestCreator = with.load(new File(uri));
                 else if (DRAWABLE == tag)
-                    requestCreator = with.load(ValueUtils.intValueOf(uri));
+                    requestCreator = with.load(ValueUtils.toInt(uri));
                 else if (ASSETS == tag) {
                     requestCreator = with.load(stringToUri(string));
                 } else
@@ -360,7 +357,7 @@ public class TestImageLoaderActivity extends BaseActivity {
                 if (FILE == tag)
                     requestCreator = with.load(new File(uri));
                 else if (DRAWABLE == tag)
-                    requestCreator = with.load(ValueUtils.intValueOf(uri));
+                    requestCreator = with.load(ValueUtils.toInt(uri));
                 else if (ASSETS == tag)
                 {
 //                    requestCreator = with.load(stringToUri(string));
@@ -431,7 +428,7 @@ public class TestImageLoaderActivity extends BaseActivity {
             uri = Uri.fromFile(new File(string));
         } else if (string.startsWith("drawable://")) {
             string = string.replace("drawable://", "");
-            uri = Uri.parse("res://" + getPackageName() + "/" + ValueUtils.intValueOf(string));
+            uri = Uri.parse("res://" + getPackageName() + "/" + ValueUtils.toInt(string));
         } else if (string.startsWith("assets://")) {
             string = string.replace("assets://", "");
             uri = Uri.parse("file:///android_asset/" + string);

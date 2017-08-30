@@ -376,42 +376,7 @@ public abstract class DataViewFragment<DataView extends View, DataAdapter, Bean>
             return rootView;
 
 
-        ViewGroup parent = (ViewGroup) dataView.getParent();
-
-        ViewGroup viewGroup = null;
-
-        if (null == parent) {
-            //没有parent
-            viewGroup = new RelativeLayout(getContext());
-            viewGroup.addView(dataView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-            rootView = viewGroup;
-        } else {
-
-            if (parent instanceof RelativeLayout || parent instanceof FrameLayout) {
-                //直接添加
-                viewGroup = parent;
-            } else {
-                //包裹一层relativelayout
-                ViewGroup.LayoutParams params = dataView.getLayoutParams();
-                int index = parent.indexOfChild(dataView);
-                parent.removeView(dataView);
-
-                viewGroup = new RelativeLayout(getContext());
-                //将listview加入到新的parent
-                viewGroup.addView(dataView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-                //将包裹的layout替换原来listview的位置，且layout属性和listview一致
-                parent.addView(viewGroup, index, params);
-            }
-
-        }
-
-        //添加
-        ViewUtils.removeFromParent(child);
-        viewGroup.addView(child);
-
-        return rootView;
+        return ViewUtils.wrapWithEmptyView(rootView, dataView, child);
     }
 
     protected void reset() {

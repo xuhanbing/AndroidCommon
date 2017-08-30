@@ -83,6 +83,39 @@ public class TimeUtils {
     }
 
     /**
+     * 当前时间添加指定毫秒，默认时间格式
+     * @param srcTime 原始时间
+     * @param timeInMillis 增加的毫秒
+     * @return
+     */
+    public static String addTime(String srcTime, long timeInMillis) {
+        return addTime(srcTime, timeInMillis, FORMAT_FULL);
+    }
+
+    /**
+     * 当前时间添加指定毫秒
+     * @param srcTime 原始时间
+     * @param timeInMillis 增加的毫秒
+     * @param format 时间格式
+     * @return
+     */
+    public static String addTime(String srcTime, long timeInMillis, String format) {
+        return addTime(srcTime, timeInMillis, format, format);
+    }
+
+    /**
+     * 当前时间添加指定毫秒
+     * @param srcTime 原始时间
+     * @param timeInMillis 增加的毫秒
+     * @param srcFormat 原时间格式
+     * @param dstFormat 目标时间格式
+     * @return
+     */
+    public static String addTime(String srcTime, long timeInMillis, String srcFormat, String dstFormat) {
+        return getTime(dstFormat, TimeUtils.getTimeInMillis(srcFormat , srcTime) + timeInMillis);
+    }
+
+    /**
      * @param time
      * @param oldFormat
      * @param newFormat

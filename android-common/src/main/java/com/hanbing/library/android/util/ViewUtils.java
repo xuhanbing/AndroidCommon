@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hanbing.library.android.view.recycler.OnItemClickListener;
@@ -574,4 +576,61 @@ public class ViewUtils {
 
         return maxLength;
     }
+
+    /**
+     * ListView 或者 RecyclerView需要添加EmptyView时，包裹一层
+     * @param rootView
+     * *
+     * @param dataView
+     * *
+     * @param child
+     * *
+     * @param <T>
+     * *
+     * @return
+    */
+     public static <T extends View> View  wrapWithEmptyView(View rootView, T dataView, View child) {
+
+        if (null == dataView || null == child)
+            return rootView;
+
+        Context context = dataView.getContext();
+        ViewGroup parent = (ViewGroup) dataView.getParent();
+
+        ViewGroup viewGroup = null;
+
+        if (null == parent) {
+            //没有parent
+            viewGroup = new RelativeLayout(context);
+            viewGroup.addView(dataView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            rootView = viewGroup;
+        } else {
+
+            if (parent instanceof RelativeLayout || parent instanceof FrameLayout) {
+                //直接添加
+                viewGroup = parent;
+            } else {
+                //包裹一层relativelayout
+                ViewGroup.LayoutParams params = dataView.getLayoutParams();
+                int index = parent.indexOfChild(dataView);
+                parent.removeView(dataView);
+
+                viewGroup = new RelativeLayout(context);
+                //将listview加入到新的parent
+                viewGroup.addView(dataView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+                //将包裹的layout替换原来listview的位置，且layout属性和listview一致
+                parent.addView(viewGroup, index, params);
+            }
+
+        }
+
+        //添加
+        ViewUtils.removeFromParent(child);
+        viewGroup.addView(child);
+
+        return rootView;
+    }
+
 }
