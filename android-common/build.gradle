@@ -28,6 +28,9 @@ android {
     productFlavors {
     }
 
+    lintOptions {
+        abortOnError false
+    }
 
 }
 
@@ -50,7 +53,7 @@ ext {
     libraryName = 'A Common Library And Utils For Android'
     artifact = 'android-common'
 
-    libraryVersion = '1.0.3'
+    libraryVersion = '1.0.4'
     libraryDescription = 'A common library and utils for Android development. '
 }
 
