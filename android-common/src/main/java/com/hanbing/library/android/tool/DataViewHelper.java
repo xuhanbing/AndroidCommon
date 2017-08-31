@@ -264,6 +264,9 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
         if (null == getContext())
             return;
 
+        //重置
+        reset();
+
         if (mPagingManager.lock()) {
             /**
              * 获取当前listview的数据总量
