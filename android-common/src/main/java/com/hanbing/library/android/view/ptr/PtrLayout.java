@@ -13,6 +13,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 
@@ -78,6 +79,7 @@ public class PtrLayout extends ViewGroup {
 
     }
 
+    public static final String TAG = "PtrLayout";
     public static final int VERTICAL = LinearLayout.VERTICAL;
     public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
 
@@ -120,22 +122,22 @@ public class PtrLayout extends ViewGroup {
     boolean mRefreshImmediately = true;
 
     /**
-     * view at top or left of content, you can  invoke {@link #setHeaderView(View)} and pass null to remove this view
+     * View at top or left of content, you can  invoke {@link #setHeaderView(View)} and pass null to remove this view
      */
     View mHeaderView;
 
     /**
-     * view at bottom or right of content, you can  invoke {@link #setFooterView(View)} and pass null to remove this view
+     * View at bottom or right of content, you can  invoke {@link #setFooterView(View)} and pass null to remove this view
      */
     View mFooterView;
 
     /**
-     * content, this ViewGroup  can only host one content
+     * Content view, this ViewGroup  can only host one content
      */
     View mContentView;
 
     /**
-     * if there is being dragged
+     * If there is being dragged
      */
     boolean mIsBeingDragged = false;
 
@@ -199,7 +201,7 @@ public class PtrLayout extends ViewGroup {
     /**
      * each move max distance
      */
-    int mMaxMoveDelta = 100;
+    int mMaxMoveDelta = 50;
 
     /**
      * ratio base on header or footer size
@@ -263,6 +265,8 @@ public class PtrLayout extends ViewGroup {
      *
      */
     Interpolator mInterpolator ;
+
+    Interpolator DEFAULT_INTERPOLATOR = new AccelerateDecelerateInterpolator();
 
     /**
      * animation move scroller
@@ -372,7 +376,7 @@ public class PtrLayout extends ViewGroup {
 
         mPullChecker = PtrPullChecker.defaultPtrPullChecker();
 
-        mInterpolator = new AccelerateDecelerateInterpolator(getContext(), attrs);
+        mInterpolator = DEFAULT_INTERPOLATOR;
 
         mScroller = new MoveScroller();
 
@@ -558,27 +562,88 @@ public class PtrLayout extends ViewGroup {
         }
     }
 
-
-    private String printState() {
-        return  " mState = 0x" + Integer.toHexString(mState) + " ";
-    }
-
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         measureHeaderView(mHeaderView, widthMeasureSpec, heightMeasureSpec);
         measureHeaderView(mFooterView, widthMeasureSpec, heightMeasureSpec);
-
-        if (null != mContentView && mContentView.getVisibility() != View.GONE) {
-            measureChild(mContentView, widthMeasureSpec, heightMeasureSpec);
-        }
-
-
+        measureContentView(widthMeasureSpec, heightMeasureSpec);
     }
 
+    void measureContentView(int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
+        if (null != mContentView && mContentView.getVisibility() != View.GONE) {
+
+            // In AbsListView, when we remove all items and notifyDataChanged and then add items and notifyDataChanged again,
+            // AbsListView will not measure and layout new items(It just looks empty), if you are scrolling PtrLayout at the same time.
+            // So we call AbsListView.requestLayout to re-measure.
+            forceLayoutContentViewIfNeed();
+
+//            measureChild(mContentView, parentWidthMeasureSpec, parentHeightMeasureSpec);
+
+            final LayoutParams lp = mContentView.getLayoutParams();
+
+            int mPaddingLeft = getPaddingLeft();
+            int mPaddingRight = getPaddingRight();
+            int mPaddingTop = getPaddingTop();
+            int mPaddingBottom = getPaddingBottom();
+
+            int marginVertical = 0;
+            int marginHorizontal = 0;
+
+            //measure add margin when refreshing
+            if (mHoldHeaderWhenRefreshing) {
+                if (isVertical()) {
+                    if (mState == State.REFRESHING_FROM_START) {
+                        marginVertical = getHeaderSize();
+                    } else if (mState == State.REFRESHING_FROM_END) {
+                        marginVertical = getFooterSize();
+                    }
+                } else {
+                    if (mState == State.REFRESHING_FROM_START) {
+                        marginHorizontal = getHeaderSize();
+                    } else if (mState == State.REFRESHING_FROM_END) {
+                        marginHorizontal = getFooterSize();
+                    }
+                }
+            }
+
+
+
+            final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+                    mPaddingLeft + mPaddingRight + marginHorizontal, lp.width);
+            final int childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
+                    mPaddingTop + mPaddingBottom + marginVertical, lp.height);
+
+            mContentView.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+
+        }
+    }
+
+    void requestLayoutContentView() {
+        if (null != mContentView) {
+            mContentView.requestLayout();
+        }
+    }
+
+    void forceLayoutContentViewIfNeed() {
+        if (mContentView instanceof ViewGroup)
+            forceLayoutAbsListView((ViewGroup) mContentView);
+    }
+
+    void forceLayoutAbsListView(ViewGroup parent) {
+        if (null != parent) {
+            for (int i = 0; i < parent.getChildCount(); i++) {
+                View child = parent.getChildAt(i);
+
+                if (child instanceof AbsListView) {
+                    child.requestLayout();
+                } else if (child instanceof ViewGroup) {
+                    forceLayoutAbsListView((ViewGroup) child);
+                }
+            }
+        }
+    }
 
     void measureHeaderView(View view, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
 
@@ -599,6 +664,23 @@ public class PtrLayout extends ViewGroup {
         layoutChildren();
     }
 
+    int getContentTop() {
+        return getPaddingTop();
+    }
+
+    int getContentLeft() {
+        return getPaddingLeft();
+    }
+
+    int getContentRight() {
+        return getMeasuredWidth() - getPaddingRight();
+    }
+
+    int getContentBottom() {
+        return getMeasuredHeight() - getPaddingBottom();
+    }
+
+
     void layoutChildren() {
         if (null == mContentView)
             return;
@@ -612,102 +694,88 @@ public class PtrLayout extends ViewGroup {
 
 
     void layoutChildrenVertical() {
-        if (mCurMoveY >= 0 && isStateIn(State.DEFAULT, State.PULL_TO_REFRESH_FROM_START, State.RELEASE_TO_REFRESH_FROM_START, State.REFRESHING_FROM_START, State.PREPARE_TO_REFRESH_FROM_START)) {
-            layoutChildren(true);
-        } else if (mCurMoveY >= 0 && isStateIn(State.REFRESHING_FROM_END)) {
-            layoutChildren(false);
-        } else if (mCurMoveY <= 0 && isStateIn(State.DEFAULT, State.PULL_TO_REFRESH_FROM_END, State.RELEASE_TO_REFRESH_FROM_END, State.REFRESHING_FROM_END, State.PREPARE_TO_REFRESH_FROM_END)) {
-            layoutChildren(false);
-        } else if (mCurMoveY <= 0 && isStateIn(State.REFRESHING_FROM_START)) {
-            layoutChildren(true);
-        }
+        layoutChildrenInner(mCurMoveY);
     }
 
     void layoutChildrenHorizontal() {
-        if (mCurMoveX >= 0 && isStateIn(State.DEFAULT, State.PULL_TO_REFRESH_FROM_START, State.RELEASE_TO_REFRESH_FROM_START, State.REFRESHING_FROM_START, State.PREPARE_TO_REFRESH_FROM_START)) {
-            layoutChildren(true);
-        } else if (mCurMoveX >= 0 && isStateIn(State.REFRESHING_FROM_END)) {
-            layoutChildren(false);
-        } else if (mCurMoveX <= 0 && isStateIn(State.DEFAULT, State.PULL_TO_REFRESH_FROM_END, State.RELEASE_TO_REFRESH_FROM_END, State.REFRESHING_FROM_END, State.PREPARE_TO_REFRESH_FROM_END)) {
-            layoutChildren(false);
-        } else if (mCurMoveX <= 0 && isStateIn(State.REFRESHING_FROM_START)) {
-            layoutChildren(true);
+        layoutChildrenInner(mCurMoveX);
+    }
+
+    /**
+     * If is refreshing, content view's move can reach opposite direction, otherwise  will hold range.
+     * @param totalMove total move distance from original position
+     */
+    void layoutChildrenInner(int totalMove) {
+        if (totalMove >= 0 && (isStateIn(State.DEFAULT)) || isHeaderActive()) {
+            layoutChildrenPullFromStart();
+        } else if (totalMove >= 0 && isStateIn(State.REFRESHING_FROM_END)) {
+            layoutChildrenPullFromEnd();
+        } else if (totalMove <= 0 && (isStateIn(State.DEFAULT) || isFooterActive())) {
+            layoutChildrenPullFromEnd();
+        } else if (totalMove <= 0 && isStateIn(State.REFRESHING_FROM_START)) {
+            layoutChildrenPullFromStart();
         }
     }
 
-    void layoutChildren(boolean fromStart) {
-        int left = 0;
-        int right = getWidth();
-        int top = 0;
-        int bottom = getHeight();
+    void layoutChildrenPullFromStart() {
+        int left = getContentLeft();
+        int right = getContentRight();
+        int top = getContentTop();
+        int bottom = getContentBottom();
 
-        if (fromStart) {
-            if (null != mHeaderView) {
-
-                if (isVertical()) {
-                    bottom = mCurMoveY;
-                    top = bottom - getHeaderSize();
-
-                    mHeaderView.layout(left, top, right, bottom);
-
-                    top = bottom;
-                    bottom = getHeight();
-
-                } else {
-
-                    right = mCurMoveX;
-                    left = right - getHeaderSize();
-
-                    mHeaderView.layout(left, top, right, bottom);
-
-                    left = right;
-                    right = getWidth();
-                }
-
-
-                mContentView.layout(left, top, right, bottom);
+        if (null != mHeaderView) {
+            if (isVertical()) {
+                bottom = top + mCurMoveY;
+                top = bottom - getHeaderSize();
+                mHeaderView.layout(left, top, right, bottom);
+                top = bottom;
+                bottom = top + getContentSize();
             } else {
-                mContentView.layout(0, 0, getWidth(), getHeight());
+                right = left + mCurMoveX;
+                left = right - getHeaderSize();
+                mHeaderView.layout(left, top, right, bottom);
+                left = right;
+                right = left + getContentSize();
             }
+        }
 
-            if (null != mFooterView) {
-                mFooterView.layout(0, 0, 0, 0);
-            }
+        if (null != mFooterView) {
+            mFooterView.layout(0, 0, 0, 0);
+        }
 
-        } else {
-
-            if (null != mHeaderView) {
-                mHeaderView.layout(0, 0, 0, 0);
-            }
+        mContentView.layout(left, top, right, bottom);
+    }
 
 
-            if (null != mFooterView) {
+    void layoutChildrenPullFromEnd() {
+        int left = getContentLeft();
+        int right = getContentRight();
+        int top = getContentTop();
+        int bottom = getContentBottom();
 
-                if (isVertical()) {
-                    top = getHeight() + mCurMoveY;
-                    top = Math.min(getHeight(), top);
-                    bottom = top + getFooterSize();
+        if (null != mHeaderView) {
+            mHeaderView.layout(0, 0, 0, 0);
+        }
 
-                    mFooterView.layout(left, top, right, bottom);
-                    bottom = top;
-                    top = bottom - getContentSize();
-                } else {
-                    left = getWidth() + mCurMoveX;
-                    left = Math.min(getWidth(), left);
-                    right = left + getFooterSize();
-
-                    mFooterView.layout(left, top, right, bottom);
-
-                    right = left;
-                    left = right - getContentSize();
-                }
-
-                mContentView.layout(left, top, right, bottom);
+        if (null != mFooterView) {
+            if (isVertical()) {
+                top = bottom + mCurMoveY;
+                bottom = top + getFooterSize();
+                mFooterView.layout(left, top, right, bottom);
+                bottom = top;
+                top = bottom - getContentSize();
             } else {
-                mContentView.layout(0, 0, getWidth(), getHeight());
+                left = right + mCurMoveX;
+                right = left + getFooterSize();
+                mFooterView.layout(left, top, right, bottom);
+                right = left;
+                left = right - getContentSize();
             }
 
         }
+
+        mContentView.layout(left, top, right, bottom);
+
     }
 
 
@@ -844,7 +912,6 @@ public class PtrLayout extends ViewGroup {
     }
 
     boolean interceptTouchEvent(int move, int delta) {
-
         switch (mState) {
             case State.DEFAULT:
                 if (interceptTouchEventFromStart(move, delta)) {
@@ -853,7 +920,7 @@ public class PtrLayout extends ViewGroup {
                     return true;
                 }
                 break;
-            case State.PULL_TO_REFRESH_FROM_START: {
+                case State.PULL_TO_REFRESH_FROM_START: {
                 if (interceptTouchEventFromStart(move, delta)) {
                     return true;
                 }
@@ -866,11 +933,9 @@ public class PtrLayout extends ViewGroup {
                 break;
             case State.REFRESHING_FROM_START:
                 if (interceptTouchEventFromStart(move, delta)) {
-
                     if (delta < 0 && mHoldHeaderWhenRefreshing) {
                         return false;
                     }
-
                     return true;
                 }
                 break;
@@ -901,11 +966,19 @@ public class PtrLayout extends ViewGroup {
     }
 
     private boolean interceptTouchEventFromStart(int move, int delta) {
-        return mPullFromStartEnabled && move > 0 && (mPullChecker.canPullFromStart(this));
+        return canPullFromStart() && move > 0;
     }
 
     private boolean interceptTouchEventFromEnd(int move, int delta) {
-        return mPullFromEndEnabled && move < 0 && (mPullChecker.canPullFromEnd(this));
+        return canPullFromEnd() && move < 0;
+    }
+
+    boolean canPullFromStart() {
+        return null != mHeaderView && mPullFromStartEnabled && (mPullChecker.canPullFromStart(this));
+    }
+
+    boolean canPullFromEnd() {
+        return null != mFooterView && mPullFromEndEnabled && (mPullChecker.canPullFromEnd(this));
     }
 
 
@@ -967,14 +1040,14 @@ public class PtrLayout extends ViewGroup {
         switch (mState) {
             case State.DEFAULT:
                 if (move > 0) {
-                    if (mPullFromStartEnabled) {
+                    if (canPullFromStart()) {
                         mState = State.PULL_TO_REFRESH_FROM_START;
                         postOnPullToRefresh();
                         updateMove(move);
 
                     }
                 } else if (move < 0) {
-                    if (mPullFromEndEnabled) {
+                    if (canPullFromEnd()) {
                         mState = State.PULL_TO_REFRESH_FROM_END;
                         postOnPullToRefresh();
                         updateMove(move);
@@ -1047,7 +1120,6 @@ public class PtrLayout extends ViewGroup {
             }
         }
 
-
     }
 
     int limitMove(int move, int delta) {
@@ -1091,6 +1163,7 @@ public class PtrLayout extends ViewGroup {
         return move;
     }
 
+
     void updateMove(int move) {
         if (isVertical()) {
             mCurMoveX = 0;
@@ -1103,6 +1176,22 @@ public class PtrLayout extends ViewGroup {
         layoutChildren();
     }
 
+    void updateState(int state) {
+        final int oldState = mState;
+
+        if (oldState != state) {
+            //when state change to refreshing or change from refreshing,  we measure content again so that content view will fit container
+            if (mHoldHeaderWhenRefreshing &&
+                    (State.REFRESHING_FROM_START == state
+                            || State.REFRESHING_FROM_END == state
+                            || State.REFRESHING_FROM_START == oldState
+                            || State.REFRESHING_FROM_END == oldState)) {
+                requestLayoutContentView();
+            }
+        }
+
+        mState = state;
+    }
 
     void onTouchUp(MotionEvent event) {
 
@@ -1174,21 +1263,21 @@ public class PtrLayout extends ViewGroup {
     }
 
     private void prepareRefreshFromStart() {
-        mState = State.PREPARE_TO_REFRESH_FROM_START;
+        updateState(State.PREPARE_TO_REFRESH_FROM_START);
         postOnRefreshPrepared();
 
         if (mRefreshImmediately) {
-            mState = State.REFRESHING_FROM_START;
+            updateState(State.REFRESHING_FROM_START);
             postOnRefreshStarted();
         }
         smoothScrollToHeader();
     }
 
     private void prepareRefreshFromEnd() {
-        mState = State.PREPARE_TO_REFRESH_FROM_END;
+        updateState(State.PREPARE_TO_REFRESH_FROM_END);
         postOnRefreshPrepared();
         if (mRefreshImmediately) {
-            mState = State.REFRESHING_FROM_END;
+            updateState(State.REFRESHING_FROM_END);
             postOnRefreshStarted();
         }
         smoothScrollToFooter();
@@ -1276,25 +1365,22 @@ public class PtrLayout extends ViewGroup {
         return isStateIn(State.PULL_TO_REFRESH_FROM_START, State.RELEASE_TO_REFRESH_FROM_START, State.PREPARE_TO_REFRESH_FROM_START, State.REFRESHING_FROM_START);
     }
 
+    boolean isHeaderActive() {
+        return isStateIn(State.PULL_TO_REFRESH_FROM_START, State.RELEASE_TO_REFRESH_FROM_START, State.REFRESHING_FROM_START, State.PREPARE_TO_REFRESH_FROM_START);
+    }
+
+    boolean isFooterActive() {
+        return isStateIn(State.PULL_TO_REFRESH_FROM_END, State.RELEASE_TO_REFRESH_FROM_END, State.REFRESHING_FROM_END, State.PREPARE_TO_REFRESH_FROM_END);
+    }
+
     public boolean isRefreshing() {
         return State.REFRESHING_FROM_START == mState
                 || State.REFRESHING_FROM_END == mState;
     }
 
-    public void autoRefresh() {
 
-        autoPullFromStart();
-    }
 
-    public void autoPullFromStart() {
-        if (!isRefreshing())
-            prepareRefreshFromStart();
-    }
 
-    public void autoPullFromEnd() {
-        if (!isRefreshing())
-            prepareRefreshFromEnd();
-    }
 
     public int getOrientation() {
         return mOrientation;
@@ -1389,6 +1475,17 @@ public class PtrLayout extends ViewGroup {
         mContentView = content;
     }
 
+    public Interpolator getInterpolator() {
+        return mInterpolator;
+    }
+
+    public void setInterpolator(Interpolator interpolator) {
+        if (null == interpolator) {
+            mInterpolator = DEFAULT_INTERPOLATOR;
+        }
+        mInterpolator = interpolator;
+    }
+
     public boolean isHoldHeaderWhenRefreshing() {
         return mHoldHeaderWhenRefreshing;
     }
@@ -1458,7 +1555,7 @@ public class PtrLayout extends ViewGroup {
 
     void onRefreshStarted() {
 
-        recordRefreshTime();
+        cacheRefreshStartedTime();
 
         if (isPullFromStart() && mHeaderView instanceof IPtrHandler)
             ((IPtrHandler) mHeaderView).onRefreshStarted();
@@ -1493,27 +1590,27 @@ public class PtrLayout extends ViewGroup {
             //If is refreshing, set to prev state, or just do nothing.
             if (State.REFRESHING_FROM_START == mState) {
                 if (Math.abs(getCurMove()) >= getRefreshThresholdSize()) {
-                    mState = State.RELEASE_TO_REFRESH_FROM_START;
+                    updateState(State.RELEASE_TO_REFRESH_FROM_START);
                     postOnReleaseToRefresh();
                 } else {
-                    mState = State.PULL_TO_REFRESH_FROM_START;
+                    updateState(State.PULL_TO_REFRESH_FROM_START);
                     postOnPullToRefresh();
                 }
 
             } else if (State.REFRESHING_FROM_END == mState ){
                 if (Math.abs(getCurMove()) >= getRefreshThresholdSize()) {
-                    mState = State.RELEASE_TO_REFRESH_FROM_END;
+                    updateState(State.RELEASE_TO_REFRESH_FROM_END);
                     postOnReleaseToRefresh();
 
                 } else {
-                    mState = State.PULL_TO_REFRESH_FROM_END;
+                    updateState(State.PULL_TO_REFRESH_FROM_END);
                     postOnPullToRefresh();
 
                 }
             }
 
         } else {
-            mState = State.DEFAULT;
+            updateState(State.DEFAULT);
             smoothScrollTo(0, 0);
         }
     }
@@ -1542,7 +1639,7 @@ public class PtrLayout extends ViewGroup {
         onRefreshStarted();
     }
 
-    void recordRefreshTime() {
+    void cacheRefreshStartedTime() {
         mRefreshStartedTime = SystemClock.elapsedRealtime();
     }
 
@@ -1569,8 +1666,18 @@ public class PtrLayout extends ViewGroup {
     }
 
 
-    public void postPullToRefresh() {
+    public void autoRefresh() {
         postPullFromStart();
+    }
+
+    void autoPullFromStart() {
+        if (!isRefreshing())
+            prepareRefreshFromStart();
+    }
+
+    void autoPullFromEnd() {
+        if (!isRefreshing())
+            prepareRefreshFromEnd();
     }
 
     public void postPullFromStart() {
@@ -1605,14 +1712,14 @@ public class PtrLayout extends ViewGroup {
         if (isRefreshing()) {
 
         } else if (isStateIn(State.PREPARE_TO_REFRESH_FROM_START)) {
-            mState = State.REFRESHING_FROM_START;
+            updateState(State.REFRESHING_FROM_START);
             postOnRefreshStarted();
 
         } else if (isStateIn(State.PREPARE_TO_REFRESH_FROM_END)) {
-            mState = State.REFRESHING_FROM_END;
+            updateState(State.REFRESHING_FROM_END);
             postOnRefreshStarted();
         } else {
-            mState = State.DEFAULT;
+            updateState(State.DEFAULT);
             postOnReset();
         }
     }
@@ -1669,4 +1776,46 @@ public class PtrLayout extends ViewGroup {
     public void setInsureMinimumRefreshDuration(boolean insureMinimumRefreshDuration) {
         mInsureMinimumRefreshDuration = insureMinimumRefreshDuration;
     }
+
+
+
+
+    String stateToName() {
+        String stateName = "Unknown";
+        switch (mState) {
+            case State.DEFAULT:
+                stateName = "DEFAULT";
+                break;
+            case State.PULL_TO_REFRESH_FROM_START:
+                stateName = "PULL_TO_REFRESH_FROM_START";
+                break;
+            case State.PREPARE_TO_REFRESH_FROM_START:
+                stateName = "PREPARE_TO_REFRESH_FROM_START";
+                break;
+            case State.RELEASE_TO_REFRESH_FROM_START:
+                stateName = "RELEASE_TO_REFRESH_FROM_START";
+                break;
+            case State.REFRESHING_FROM_START:
+                stateName = "REFRESHING_FROM_START";
+                break;
+            case State.PULL_TO_REFRESH_FROM_END:
+                stateName = "PULL_TO_REFRESH_FROM_END";
+                break;
+            case State.PREPARE_TO_REFRESH_FROM_END:
+                stateName = "PREPARE_TO_REFRESH_FROM_END";
+                break;
+            case State.RELEASE_TO_REFRESH_FROM_END:
+                stateName = "RELEASE_TO_REFRESH_FROM_END";
+                break;
+            case State.REFRESHING_FROM_END:
+                stateName = "REFRESHING_FROM_END";
+                break;
+        }
+
+        return stateName;
+    }
+
+
+
+
 }
