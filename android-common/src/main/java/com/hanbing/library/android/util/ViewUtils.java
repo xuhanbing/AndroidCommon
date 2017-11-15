@@ -22,12 +22,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hanbing.library.android.view.recycler.OnItemClickListener;
 import com.hanbing.library.android.view.recycler.OnItemLongClickListener;
+
+import java.util.Objects;
 
 /**
  * Created by hanbing
@@ -633,4 +636,13 @@ public class ViewUtils {
         return rootView;
     }
 
+
+    /**
+     * 禁用键盘
+     * @param editText
+     */
+    public static void disableKeyboard(EditText editText) {
+        Object editor = ReflectUtils.getValue(editText, "mEditor", null);
+        ReflectUtils.setValue(editor, "mShowSoftInputOnFocus", false);
+    }
 }
