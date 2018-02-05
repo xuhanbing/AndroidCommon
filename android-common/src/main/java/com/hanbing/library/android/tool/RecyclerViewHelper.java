@@ -1,11 +1,9 @@
 package com.hanbing.library.android.tool;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.View;
 
 import com.hanbing.library.android.view.recycler.BaseRecyclerView;
 import com.hanbing.library.android.view.recycler.HeaderRecyclerView;
@@ -46,7 +44,16 @@ public abstract class RecyclerViewHelper<DataView extends RecyclerView, DataAdap
 
             if (mIsManScroll
                     && ViewChecker.isLastItemVisible(recyclerView, vertical)) {
-                onLastItemVisible();
+
+                if (LOAD_MORE_MODE_LAST_VISIBLE == getLoadMoreMode()) {
+                    if (ViewChecker.arriveEnd(recyclerView, true)) {
+                        mIsManScroll = false;
+                        onLastItemVisible();
+                    }
+                } else {
+                    mIsManScroll = false;
+                    onLastItemVisible();
+                }
             }
 
 

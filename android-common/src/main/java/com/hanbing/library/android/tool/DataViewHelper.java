@@ -94,6 +94,19 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
      */
     boolean mIsPageIndexStartFromZero = false;
 
+    /**
+     * 最后一个item可见即加载，默认
+     */
+    public static final int LOAD_MORE_MODE_LAST_VISIBLE = 0;
+    /**
+     * 最有一个item底部可见才加载
+     */
+    public static final int LOAD_MORE_MODE_LAST_BOTTOM = 1;
+
+    /**
+     * 加载更多模式
+     */
+    int mLoadMoreMode = LOAD_MORE_MODE_LAST_VISIBLE;
 
     /**
      * 请求和分页管理
@@ -536,6 +549,14 @@ public abstract class DataViewHelper<DataView extends View, DataAdapter> impleme
 
     public void setOnLoadMoreClick(View.OnClickListener onLoadMoreClick) {
         mOnLoadMoreClick = onLoadMoreClick;
+    }
+
+    public void setLoadMoreMode(int loadMoreMode) {
+        mLoadMoreMode = loadMoreMode;
+    }
+
+    public int getLoadMoreMode() {
+        return mLoadMoreMode;
     }
 
     public View getEmptyView() {

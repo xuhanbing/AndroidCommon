@@ -103,7 +103,16 @@ public abstract class AbsListViewHelper<DataView extends AbsListView, DataAdapte
         if (mIsManScroll
                 && lastVisibleItem == totalItemCount) {
 
-            onLastItemVisible();
+            if (LOAD_MORE_MODE_LAST_BOTTOM == getLoadMoreMode()) {
+                if (ViewChecker.arriveEnd(view, true)) {
+                    mIsManScroll = false;
+                    onLastItemVisible();
+                }
+            } else {
+                mIsManScroll = false;
+                onLastItemVisible();
+            }
+
         }
     }
 
