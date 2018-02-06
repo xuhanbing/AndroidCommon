@@ -79,6 +79,8 @@
         </activity>
         <activity android:name=".activity.TestListViewActivity">
         </activity>
+        <activity android:name=".activity.TestHierachyRadioGroup">
+        </activity>
     </application>
 
 </manifest>

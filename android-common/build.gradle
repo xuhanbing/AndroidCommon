@@ -1,13 +1,16 @@
 apply plugin: 'com.android.library'
 
+def VERSION_NAME = "1.0.5"
+def VERSION_CODE = 6
+
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
-        versionName "1.0.4"
-        versionCode 5
+        versionName VERSION_NAME
+        versionCode VERSION_CODE
     }
     buildTypes {
         release {
@@ -40,6 +43,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'org.jetbrains:annotations-java5:15.0'
 }
 
 
@@ -53,7 +57,7 @@ ext {
     libraryName = 'A Common Library And Utils For Android'
     artifact = 'android-common'
 
-    libraryVersion = '1.0.4'
+    libraryVersion = VERSION_NAME
     libraryDescription = 'A common library and utils for Android development. '
 }
 
